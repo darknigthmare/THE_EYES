@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SQUAD_STAGED_RESCUE {"end":"(-14.0, 0.000829, 16.62001)","health":35.0,"human_state":"active","path_points":9,"revives":1,"seconds":7.5,"start":"(-14.0, 0.05, 9.0)","task":"rescue","travelled":7.64}
+Squad world integration: 23 cases, 236 assertions, 0 failures

@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SURVIVOR_STAGE relay=true time=20.92 health=100.0
+SURVIVOR_STAGE pickup=1 time=36.15 health=100.0
+SURVIVOR_STAGE delivered=1 time=55.15 health=100.0
+SURVIVOR_STAGE pickup=0 time=60.42 health=100.0
+SURVIVOR_STAGE delivered=2 time=71.93 health=100.0
+SURVIVOR_STAGE pickup=2 time=117.25 health=100.0
+SURVIVOR_HEALTH t=136.35 hp=78.0 from=100.0 position=(7.853543, 0.0, -9.037555) gaze=35.0 eye=0 shadows=0 ability=0.0
+SURVIVOR_STAGE delivered=3 time=196.12 health=78.0
+SURVIVOR_HEALTH t=204.58 hp=56.0 from=78.0 position=(-4.475017, 0.0, -13.65854) gaze=35.0 eye=0 shadows=1 ability=0.0
+SURVIVOR_HEALTH t=204.60 hp=86.0 from=56.0 position=(-4.519691, 0.0, -13.6025) gaze=35.2 eye=0 shadows=1 ability=35.0
+SURVIVOR_STAGE echoes=true time=229.73 health=86.0
+SURVIVOR_ROUTE_RESULT winner=survivors phase=ended elapsed=267.93 vitality=86.0 wounds=2 punishments=0 seals={ "silent": true, "echoes": true, "relay": true } deliveries=3
+SURVIVOR_FINAL_POSITION (-0.006334, 0.0, -20.74381) gaze=28.3999999999999 carrying=-1

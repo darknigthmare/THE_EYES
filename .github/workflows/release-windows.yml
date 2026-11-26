@@ -11,12 +11,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: the-eyes-release-v0.4.0
+  group: the-eyes-release-v0.5.0
   cancel-in-progress: false
 
 env:
-  RELEASE_TAG: v0.4.0
-  PACKAGE: THE_EYES_v0.4.0_Windows_x64
+  RELEASE_TAG: v0.5.0
+  PACKAGE: THE_EYES_v0.5.0_Windows_x64
   GODOT_VERSION: 4.7.2
   GODOT_ARCHIVE_SHA256: cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4
   WINDOWS_TEMPLATE_SHA256: d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562
@@ -96,7 +96,7 @@ jobs:
           unzip -q "$RUNNER_TEMP/eyes-godot.zip" -d "$RUNNER_TEMP/eyes-godot"
           chmod +x "$RUNNER_TEMP/eyes-godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64"
 
-      - name: Import and pass all twelve gameplay suites
+      - name: Import and pass all seventeen gameplay suites
         if: steps.gate.outputs.publish == 'true'
         shell: bash
         run: |
@@ -113,7 +113,9 @@ jobs:
           suites = ['test_director.gd', 'test_world.gd', 'test_survivor_route.gd',
                     'test_trial_set.gd', 'test_second_world.gd', 'test_second_survivor_route.gd',
                     'test_squad_state.gd', 'test_squad_world.gd', 'test_squad_route.gd',
-                    'test_third_trials.gd', 'test_third_world.gd', 'test_third_survivor_route.gd']
+                    'test_third_trials.gd', 'test_third_world.gd', 'test_third_survivor_route.gd',
+                    'test_practice_state.gd', 'test_practice_records.gd', 'test_practice_ui.gd',
+                    'test_practice_world.gd', 'test_practice_routes.gd']
           for suite in suites:
               cases.append((suite, [godot, '--headless', '--path', 'game', '--fixed-fps', '60',
                                     '--audio-driver', 'Dummy', '--script', f'res://tests/{suite}']))
@@ -172,14 +174,14 @@ jobs:
           (assets / 'SHA256SUMS.txt').write_text(f'{digest}  {archive.name}\n', encoding='utf-8')
           with Path(os.environ['GITHUB_OUTPUT']).open('a', encoding='utf-8') as output:
               output.write(f'archive_sha256={digest}\n')
-          notes = Path('docs/releases/V0_4_0.md').read_text(encoding='utf-8')
+          notes = Path('docs/releases/V0_5_0.md').read_text(encoding='utf-8')
           server, repository, sha, run = (os.environ[k] for k in
               ['GITHUB_SERVER_URL', 'GITHUB_REPOSITORY', 'GITHUB_SHA', 'GITHUB_RUN_ID'])
           notes += (f'\n\n## Exact build provenance\n\n'
                     f'Built and tested from [{sha}]({server}/{repository}/commit/{sha}). '
                     f'[Workflow run]({server}/{repository}/actions/runs/{run}).\n\n'
                     f'Godot: `{info["godot_version"]}`. Windows ZIP SHA-256: `{digest}`.\n\n'
-                    'All twelve required Linux gameplay suites passed before this archive was exported. '
+                    'All seventeen required Linux gameplay suites passed before this archive was exported. '
                     'The publish job additionally requires the native Windows headless startup report.\n')
           (assets / 'release-notes.md').write_text(notes, encoding='utf-8')
           PY
@@ -248,39 +250,54 @@ jobs:
           $logDirectory = Join-Path $env:RUNNER_TEMP 'eyes-windows-smoke'
           New-Item -ItemType Directory -Path $logDirectory | Out-Null
           $cases = @()
+          $scenarios = @()
           foreach ($contract in @('first', 'second', 'mix', 'third')) {
             foreach ($role in @('survivor', 'eye', 'squad')) {
-              $label = "$contract-$role"
-              $stdout = Join-Path $logDirectory "$label.stdout.log"
-              $stderr = Join-Path $logDirectory "$label.stderr.log"
-              $engineLog = Join-Path $logDirectory "$label.engine.log"
-              $arguments = @('--headless', '--audio-driver', 'Dummy', '--quit-after', '240',
-                '--log-file', ('"{0}"' -f $engineLog), '--', "--qa-view=$role", "--contract=$contract", '--mute')
-              $process = Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $package `
-                -RedirectStandardOutput $stdout -RedirectStandardError $stderr -Wait -PassThru
-              if ($process.ExitCode -ne 0) { throw "$label exited with code $($process.ExitCode)." }
-              $text = (@($stdout, $stderr, $engineLog) | Where-Object { Test-Path $_ } |
-                ForEach-Object { Get-Content -LiteralPath $_ -Raw }) -join "`n"
-              $clean = $text -replace '\x1b\[[0-?]*[ -/]*[@-~]', ''
-              if ($clean -match '(?im)^\s*(?:SCRIPT\s+)?ERROR\s*:|\bParse Error\s*:|\bFailed to load\b') {
-                Write-Output $clean
-                throw "$label emitted an engine error."
-              }
-              $marker = "THE_EYES_QA_READY role=$role contract=$contract session_mode=$role"
-              if (-not $clean.Contains($marker)) { throw "$label did not confirm the requested playable scene." }
-              $cases += [ordered]@{role=$role; contract=$contract; session_mode=$role; exit_code=$process.ExitCode;
-                frames_requested=240; ready_marker_seen=$true; engine_errors_seen=$false}
-              Write-Output "Native Windows headless startup passed: $label"
+              $scenarios += @{ role=$role; contract=$contract; trial_id='' }
             }
           }
+          foreach ($trial in @('silent', 'echoes', 'relay', 'vault', 'ritual', 'clock', 'light', 'strings', 'chimes')) {
+            $scenarios += @{ role='practice'; contract='practice'; trial_id=$trial }
+          }
+          foreach ($scenario in $scenarios) {
+            $role = $scenario.role
+            $contract = $scenario.contract
+            $trial = $scenario.trial_id
+            $label = "$contract-$role"
+            if ($trial) { $label = "practice-$trial" }
+            $stdout = Join-Path $logDirectory "$label.stdout.log"
+            $stderr = Join-Path $logDirectory "$label.stderr.log"
+            $engineLog = Join-Path $logDirectory "$label.engine.log"
+            $arguments = @('--headless', '--audio-driver', 'Dummy', '--quit-after', '240',
+              '--log-file', ('"{0}"' -f $engineLog), '--', "--qa-view=$role", "--contract=$contract", '--mute')
+            if ($trial) { $arguments += "--trial=$trial" }
+            $process = Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $package `
+              -RedirectStandardOutput $stdout -RedirectStandardError $stderr -Wait -PassThru
+            if ($process.ExitCode -ne 0) { throw "$label exited with code $($process.ExitCode)." }
+            $text = (@($stdout, $stderr, $engineLog) | Where-Object { Test-Path $_ } |
+              ForEach-Object { Get-Content -LiteralPath $_ -Raw }) -join "`n"
+            $clean = $text -replace '\x1b\[[0-?]*[ -/]*[@-~]', ''
+            if ($clean -match '(?im)^\s*(?:SCRIPT\s+)?ERROR\s*:|\bParse Error\s*:|\bFailed to load\b') {
+              Write-Output $clean
+              throw "$label emitted an engine error."
+            }
+            $marker = "THE_EYES_QA_READY role=$role contract=$contract session_mode=$role"
+            if ($trial) { $marker += " trial_id=$trial" }
+            if (-not $clean.Contains($marker)) { throw "$label did not confirm the requested playable scene." }
+            $entry = [ordered]@{role=$role; contract=$contract; session_mode=$role; exit_code=$process.ExitCode;
+              frames_requested=240; ready_marker_seen=$true; engine_errors_seen=$false}
+            if ($trial) { $entry.trial_id = $trial }
+            $cases += $entry
+            Write-Output "Native Windows headless startup passed: $label"
+          }
           $report = [ordered]@{
-            schema_version=2; project_version=$build.project_version; source_commit=$env:GITHUB_SHA;
+            schema_version=3; project_version=$build.project_version; source_commit=$env:GITHUB_SHA;
             archive_sha256=$actualHash; godot_version=$build.godot_version;
             platform='Windows'; operating_system=[Environment]::OSVersion.VersionString;
             mode='headless'; graphical_hardware_playtest=$false; cases=$cases
           }
           $report | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $logDirectory 'WINDOWS_SMOKE.json') -Encoding utf8
-          "All twelve native Windows headless startup checks passed. This is not a graphical hardware playtest." >> $env:GITHUB_STEP_SUMMARY
+          "All twenty-one native Windows headless startup checks passed. This is not a graphical hardware playtest." >> $env:GITHUB_STEP_SUMMARY
 
       - name: Retain native Windows startup evidence
         id: smoke
@@ -325,16 +342,17 @@ jobs:
           assert digest == os.environ['EXPECTED_ARCHIVE_SHA256']
           report_path = temporary / 'eyes-windows-smoke' / 'WINDOWS_SMOKE.json'
           report = json.loads(report_path.read_text(encoding='utf-8-sig'))
-          assert report['schema_version'] == 2
+          assert report['schema_version'] == 3
           assert report['source_commit'] == os.environ['GITHUB_SHA']
           assert report['archive_sha256'] == digest
           assert report['mode'] == 'headless' and report['platform'] == 'Windows'
           assert report['graphical_hardware_playtest'] is False
-          expected = {(role, contract) for role in ['survivor', 'eye', 'squad'] for contract in ['first', 'second', 'mix', 'third']}
-          assert len(report['cases']) == 12
-          assert {(case['role'], case['contract']) for case in report['cases']} == expected
+          expected = {(role, contract, '') for role in ['survivor', 'eye', 'squad'] for contract in ['first', 'second', 'mix', 'third']}
+          expected |= {('practice', 'practice', trial) for trial in ['silent', 'echoes', 'relay', 'vault', 'ritual', 'clock', 'light', 'strings', 'chimes']}
+          assert len(report['cases']) == 21
+          assert {(case['role'], case['contract'], case.get('trial_id', '')) for case in report['cases']} == expected
           assert all(case['session_mode'] == case['role'] and case['exit_code'] == 0 and
-                     case['ready_marker_seen'] is True and
+                     case['frames_requested'] == 240 and case['ready_marker_seen'] is True and
                      case['engine_errors_seen'] is False for case in report['cases'])
           shutil.copy2(report_path, assets / 'WINDOWS_SMOKE.json')
           with (assets / 'WINDOWS_SMOKE.json').open('rb') as stream:
@@ -343,8 +361,8 @@ jobs:
               f'{digest}  {archive.name}\n{report_digest}  WINDOWS_SMOKE.json\n', encoding='utf-8')
           with (assets / 'release-notes.md').open('a', encoding='utf-8') as notes:
               notes.write('\n\n## Native Windows startup result\n\n'
-                  'The exported executable passed all twelve native Windows headless startup checks: '
-                  'Survivor, Eye and Survivor Squad for First, Second, Third and Seeded Mix. Each run reached its requested '
+                  'The exported executable passed all twenty-one native Windows headless startup checks: '
+                  'Survivor, Eye and Survivor Squad for First, Second, Third and Seeded Mix, plus all nine individual Workshop drills. Each run reached its requested '
                   'playable scene with its actual session mode, exited with code zero and emitted no engine error diagnostics. '
                   'See the attached `WINDOWS_SMOKE.json` for the exact archive, source revision and cases. '
                   'This is a startup test without graphical rendering; it does not establish graphical '
@@ -384,6 +402,6 @@ jobs:
             --repo "$GH_REPO" \
             --target "$GITHUB_SHA" \
             --prerelease \
-            --title 'THE EYES 0.4.0 — The Third Observance' \
+            --title 'THE EYES 0.5.0 — The Trial Workshop' \
             --notes-file "$RUNNER_TEMP/eyes-release-assets/release-notes.md"
           gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json url --jq '.url' >> "$GITHUB_STEP_SUMMARY"

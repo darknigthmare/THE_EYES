@@ -28,7 +28,7 @@ jobs:
           printf '%s  %s\n' cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4 "$RUNNER_TEMP/eyes-godot.zip" | sha256sum --check
           unzip -q "$RUNNER_TEMP/eyes-godot.zip" -d "$RUNNER_TEMP/eyes-godot"
           chmod +x "$RUNNER_TEMP/eyes-godot/Godot_v4.7.2-stable_linux.x86_64"
-      - name: Import and verify all twelve gameplay suites
+      - name: Import and verify all seventeen gameplay suites
         shell: bash
         run: |
           python3 - <<'PY'
@@ -46,7 +46,9 @@ jobs:
           suites = ['test_director.gd', 'test_world.gd', 'test_survivor_route.gd',
                     'test_trial_set.gd', 'test_second_world.gd', 'test_second_survivor_route.gd',
                     'test_squad_state.gd', 'test_squad_world.gd', 'test_squad_route.gd',
-                    'test_third_trials.gd', 'test_third_world.gd', 'test_third_survivor_route.gd']
+                    'test_third_trials.gd', 'test_third_world.gd', 'test_third_survivor_route.gd',
+                    'test_practice_state.gd', 'test_practice_records.gd', 'test_practice_ui.gd',
+                    'test_practice_world.gd', 'test_practice_routes.gd']
           for suite in suites:
               cases.append((suite, [godot, '--headless', '--path', 'game', '--fixed-fps', '60',
                                     '--audio-driver', 'Dummy', '--script', f'res://tests/{suite}']))
@@ -58,6 +60,60 @@ jobs:
               finally:
                   (logs_dir / f'{name}.log').write_text('\n'.join(logs), encoding='utf-8')
           PY
+      - name: Render the Workshop presentation fixtures
+        shell: bash
+        env:
+          LIBGL_ALWAYS_SOFTWARE: '1'
+          LP_NUM_THREADS: '2'
+          MESA_GLTHREAD: 'false'
+        run: |
+          set -euo pipefail
+          if ! command -v xvfb-run >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install --yes xvfb xauth libgl1-mesa-dri
+          fi
+          python3 - <<'PY'
+          import hashlib, json, os, runpy
+          from pathlib import Path
+          check = runpy.run_path('tools/build_windows.py')['run_checked']
+          temporary = Path(os.environ['RUNNER_TEMP'])
+          godot = str(temporary / 'eyes-godot' / 'Godot_v4.7.2-stable_linux.x86_64')
+          output = temporary / 'eyes-native-visuals'
+          output.mkdir(exist_ok=True)
+          images = []
+          for view in ['menu', 'workshop', 'practice', 'practice_clear', 'manual', 'result', 'save_error', 'result_save_error']:
+              target = output / f'{view}.png'
+              command = ['xvfb-run', '-a', '-s', '-screen 0 1440x900x24', godot,
+                         '--path', 'game', '--rendering-method', 'gl_compatibility',
+                         '--audio-driver', 'Dummy', '--fixed-fps', '60',
+                         '--script', 'res://tests/capture_workshop.gd', '--',
+                         f'--capture-view={view}', f'--capture-path={target}']
+              logs = []
+              try:
+                  result = check(command, logs, timeout=180)
+                  assert f'THE_EYES_VISUAL_FIXTURE view={view} ' in result
+                  assert f'QA_CAPTURE {target} result=0' in result
+                  assert target.read_bytes().startswith(b'\x89PNG\r\n\x1a\n')
+                  images.append({'view': view, 'path': target.name,
+                      'sha256': hashlib.sha256(target.read_bytes()).hexdigest()})
+              finally:
+                  (output / f'{view}.log').write_text('\n'.join(logs), encoding='utf-8')
+          (output / 'VISUAL_PROVENANCE.json').write_text(json.dumps({
+              'schema_version': 1, 'source_commit': os.environ['GITHUB_SHA'],
+              'workflow_run': os.environ['GITHUB_RUN_ID'], 'engine': '4.7.2',
+              'renderer': 'native OpenGL compatibility, software Mesa, Xvfb',
+              'staged_fixtures': True, 'playthrough_evidence': False,
+              'hardware_performance_evidence': False, 'images': images
+          }, indent=2) + '\n', encoding='utf-8')
+          PY
+      - name: Retain native presentation evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: native-visuals-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/eyes-native-visuals/
+          if-no-files-found: warn
+          retention-days: 14
       - name: Retain verification logs
         if: always()
         uses: actions/upload-artifact@v7

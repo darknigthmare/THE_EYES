@@ -21,6 +21,7 @@ The brief's requirements are: an immobile giant Eye, AI or player control, fixed
 | Cooperation and betrayal | [Match rules](02_MATCH_AND_SURVIVAL.md) | Cooperative default; v0.3 implementation provides local orders and ally rescue, while betrayal/temptation remain optional production designs |
 | Four nightmare realms | [Realms](05_REALMS_AND_LEVEL_DESIGN.md) | All four preserved as detailed production map families |
 | Classic, Endless and Custom | [Modes](09_MODES_AND_PROGRESSION.md) | Full rules specified; local prototype modes honestly scoped |
+| Bible practice proposal from chapter 09 | [Modes](09_MODES_AND_PROGRESSION.md), [The Trial Workshop](15_TRIAL_WORKSHOP.md) | v0.5 implements single-trial practice for the existing nine subsets as a prototype extension; Eye training remains planned |
 | UE5 Blueprint-only English | Unreal foundation and this English bible | Gameplay architecture and implementation guide; no false claim of compiled assets |
 
 ## Challenge mapping
@@ -80,3 +81,11 @@ This bible is a detailed design baseline, not a record of twenty-five completed 
 ## v0.4 source interpretation
 
 [The Third Observance](14_THIRD_OBSERVANCE.md) implements T04/T07/T17 through connected ground-level apparatus. Portable light uses a recoverable charge budget and permanent refuges; rope clues intersect side and shape family to produce a unique explainable answer; bells require physical travel and preserve the first phrase. The full island/chill, suspended traversal, dedicated sound-minion and trial-specific Eye variants remain proposed production work. Mix expands to 27 layouts in version 0.4; a v0.3 seed can select different trials. First and Second retain independent existing puzzle streams.
+
+## v0.5 source interpretation
+
+[The Trial Workshop](15_TRIAL_WORKSHOP.md) develops the practice proposal already described in chapter 09 while continuing the requested playable prototype and detailed bible. It adds no source trial or new trial family. A selected existing trial uses the same physical rules, seed generation and recoverable checkpoints, under a separate session policy without an Eye or deadline.
+
+The source's first-escape victory remains the rule for ordinary matches. Practice completes on its one selected trial and reports that completion explicitly; it does not invent two completed seals, a survivor victory or an escape. First, Second, Third and Seeded Mix remain unchanged contracts. The separate bounded journal records attempts and completions with best times per archetype. It introduces no economy, power unlocks, online ranking or replay claim.
+
+The Field Manual and focus-loss pause address reading and attention during a local session. They do not solve future network pause semantics. Survivor/spectator FOV is named for the cameras it affects; the Eye keeps its authored fixed view. Input rebinding, gamepad support, Eye training and additional diagnostic overlays remain future implementation work. The Unreal practice table and construction guide are handoff material, not compiled Blueprint assets.

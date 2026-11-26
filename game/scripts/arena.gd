@@ -333,12 +333,12 @@ func configure_trials(mapping: Dictionary, names: Dictionary) -> void:
 	var index = 0
 	for slot in STATIONS:
 		var trial: String = mapping[slot]
-		station_titles[slot].text = "%s   /   %s" % [["I","II","III"][index],names[trial]]
-		station_subtitles[slot].text = subtitles[trial]
+		station_titles[slot].text = "%s   /   %s" % [["I","II","III"][index],names.get(trial,"INACTIVE BAY")]
+		station_subtitles[slot].text = subtitles.get(trial,"NO TASK IN THIS PRACTICE SESSION")
 		var title_height: float = {"clock":6.6,"vault":5.5,"ritual":5.5,"light":5.3,"strings":6.2,"chimes":5.5}.get(trial,3.8)
 		station_titles[slot].position.y = title_height
 		station_subtitles[slot].position.y = title_height-0.55
-		beacon_lights[slot].visible = trial not in ["clock","strings","chimes"]
+		beacon_lights[slot].visible = not trial.is_empty() and trial not in ["clock","strings","chimes"]
 		index += 1
 	for mesh in echo_meshes:
 		mesh.visible = mapping.echoes == "echoes"

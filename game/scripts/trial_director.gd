@@ -7,6 +7,7 @@ extends RefCounted
 signal event_raised(kind: String, payload: Dictionary)
 
 const TrialSetRules = preload("res://scripts/trial_set.gd")
+const PracticeRules = preload("res://scripts/practice_state.gd")
 const PREPARATION_SECONDS: float = 8.0
 const MAX_ENERGY: float = 100.0
 const ENERGY_PER_SECOND: float = 4.0
@@ -46,12 +47,33 @@ var eye_socket: int = 0
 var alive_count: int = 1
 var escaped_count: int = 0
 var trial_set: TrialSetRules = TrialSetRules.new()
+var practice: PracticeRules = PracticeRules.new()
 
 var _relay_checkpoint: float = 0.0
 var _escape_duration: float = 65.0
 
 
 func configure(p_mode: String, p_difficulty: String, p_seed: int, survivor_count: int = 1, p_contract: String = "first") -> void:
+	_configure(p_mode, p_difficulty, p_seed, survivor_count, p_contract)
+
+
+func configure_practice(trial_id: String, p_seed: int) -> bool:
+	if TrialSetRules.slot_for_trial(trial_id).is_empty() or not TrialSetRules.valid_practice_seed(p_seed):
+		return false
+	_configure("survivor", "standard", p_seed, 1, "practice", trial_id)
+	return true
+
+
+func is_practice() -> bool:
+	# Keep the session identity after completion so results cannot enter match flow.
+	return not practice.trial_id.is_empty()
+
+
+func is_live() -> bool:
+	return phase == "hunt" or phase == "escape" or phase == "practice"
+
+
+func _configure(p_mode: String, p_difficulty: String, p_seed: int, survivor_count: int, p_contract: String, practice_trial: String = "") -> void:
 	mode = p_mode.to_lower() if p_mode.to_lower() in ["survivor", "eye"] else "survivor"
 	difficulty = p_difficulty.to_lower()
 	if not DIFFICULTY_SPECS.has(difficulty):
@@ -83,7 +105,17 @@ func configure(p_mode: String, p_difficulty: String, p_seed: int, survivor_count
 	if trial_set.trial_completed.is_connected(_on_trial_completed):
 		trial_set.trial_completed.disconnect(_on_trial_completed)
 	trial_set = TrialSetRules.new()
-	trial_set.configure(p_seed, p_contract)
+	practice = PracticeRules.new()
+	if practice_trial.is_empty():
+		trial_set.configure(p_seed, p_contract)
+	else:
+		practice.configure(practice_trial, p_seed)
+		trial_set.configure_practice(practice_trial, p_seed)
+		phase = "practice"
+		grace_left = 0.0
+		time_left = 0.0
+		escape_left = 0.0
+		trial_set.set_live(true)
 	trial_set.event_raised.connect(_on_trial_event)
 	trial_set.trial_completed.connect(_on_trial_completed)
 	rng.seed = p_seed
@@ -99,6 +131,10 @@ func configure(p_mode: String, p_difficulty: String, p_seed: int, survivor_count
 
 func step(delta: float) -> void:
 	if not _valid_delta(delta) or phase == "ended":
+		return
+	if phase == "practice":
+		practice.step(delta)
+		trial_set.step(delta)
 		return
 	var remaining_delta: float = delta
 	if phase == "preparation":
@@ -129,7 +165,7 @@ func step(delta: float) -> void:
 
 
 func can_use(power: String, has_line_of_sight: bool = true) -> bool:
-	if not _is_live() or not POWER_SPECS.has(power):
+	if is_practice() or not _is_live() or not POWER_SPECS.has(power):
 		return false
 	var spec: Dictionary = POWER_SPECS[power]
 	if bool(spec["requires_los"]) and not has_line_of_sight:
@@ -205,7 +241,7 @@ func charge_relay(delta: float, actively_holding: bool) -> void:
 
 
 func register_elimination() -> void:
-	if not _is_live() or alive_count <= 0:
+	if is_practice() or not _is_live() or alive_count <= 0:
 		return
 	alive_count -= 1
 	if alive_count == 0:
@@ -221,11 +257,19 @@ func register_escape() -> void:
 
 
 func _complete_seal(seal_id: String) -> void:
-	if bool(seals[seal_id]):
+	if not seals.has(seal_id) or bool(seals[seal_id]) or trial_for_slot(seal_id).is_empty():
+		return
+	if is_practice() and (phase != "practice" or seal_id != practice.slot_id):
 		return
 	seals[seal_id] = true
 	trial_set.mark_slot_complete(seal_id)
-	event_raised.emit("seal", {"seal": seal_id, "completed": seals.values().count(true), "required": 3})
+	event_raised.emit("seal", {"seal": seal_id, "completed": seals.values().count(true), "required": 1 if is_practice() else 3})
+	if is_practice():
+		var completion: Dictionary = practice.complete(trial_for_slot(seal_id))
+		if not completion.is_empty():
+			_change_phase("ended")
+			event_raised.emit("practice_completed", completion)
+		return
 	if bool(seals["silent"]) and bool(seals["echoes"]) and bool(seals["relay"]):
 		escape_left = _escape_duration
 		_change_phase("escape")
@@ -269,7 +313,7 @@ func _on_trial_completed(slot: String, trial_id: String) -> void:
 
 
 func _finish(result: String, reason: String) -> void:
-	if phase == "ended":
+	if phase == "ended" or is_practice():
 		return
 	winner = result
 	_change_phase("ended")
@@ -277,7 +321,7 @@ func _finish(result: String, reason: String) -> void:
 
 
 func _is_live() -> bool:
-	return phase == "hunt" or phase == "escape"
+	return is_live()
 
 
 func _valid_delta(delta: float) -> bool:

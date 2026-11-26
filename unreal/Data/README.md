@@ -1,6 +1,6 @@
 # UE5 data table handoff
 
-These UTF-8 CSV files contain scalar migration defaults. They are source data, not already imported Unreal assets. The live Godot authority in `trial_director.gd`, `trial_set.gd`, `third_trials.gd`, `squad_state.gd` and their world adapters remains the executable source of truth for the prototype. Reconcile intentional balance changes with these files before each engine migration milestone. The v0.4 update at the end of this document extends the v0.2 slot/contract schema; use the current CSV headers when creating editor structures.
+These ten UTF-8 CSV files contain scalar migration defaults and registries. They are source data, not already imported Unreal assets. The live Godot authority in `trial_director.gd`, `trial_set.gd`, `third_trials.gd`, `squad_state.gd`, `practice_state.gd` and their world adapters remains the executable source of truth for the prototype. Reconcile intentional balance changes with these files before each engine migration milestone. The v0.4 section extends the v0.2 slot/contract schema; the v0.5 section adds a separate practice registry. Use the current CSV headers when creating editor structures.
 
 ## Import without project C++
 
@@ -90,7 +90,7 @@ After import, use `Get Data Table Row` on `prototype_0_3`, inspect every value a
 
 ## v0.4 Third Observance defaults and schema update
 
-The current handoff contains **nine CSV tables**. The new [`DT_ThirdTrialDefaults.csv`](DT_ThirdTrialDefaults.csv) captures the three additional prototype subsets. Create Blueprint Structure `ST_ThirdTrialDefaultsRow` with the exact fields below, then import the row `prototype_0_4`. As elsewhere, `Name` is the row key, not an extra structure member.
+The v0.4 handoff contained **nine CSV tables**. Its [`DT_ThirdTrialDefaults.csv`](DT_ThirdTrialDefaults.csv) captures the three additional prototype subsets. Create Blueprint Structure `ST_ThirdTrialDefaultsRow` with the exact fields below, then import the row `prototype_0_4`. As elsewhere, `Name` is the row key, not an extra structure member.
 
 | Member | Blueprint type | Value |
 | --- | --- | ---: |
@@ -137,3 +137,36 @@ First and Second retain their apparatus and established mechanics. The historica
 Read `prototype_0_4` through `Get Data Table Row` and inspect every numeric field. Verify the three new registry entries resolve to authored classes, the pool has nine entries and the selector can reach all 27 Mix mappings. Then run physical gameplay checks: individual charge and refuge LOS, interrupted two-second holds, unique rope clue solutions, three-second safety catches, first-phrase permanence, global bell/damper cooldowns and noise at the struck bell.
 
 The CSV does not encode the complete logic. The graph must retain cargo uniqueness, active-life admission, physical range/sight, once-per-frame time integration, stale-hold cancellation and once-only seal completion. No table import or Unreal runtime result is established by these source files alone.
+
+## v0.5 Trial Workshop registry
+
+[`DT_PracticeDrills.csv`](DT_PracticeDrills.csv) is the **tenth table**. It exposes the nine existing trials in a fixed teaching order, joined to the same trial registry used by matches. It does not add a trial or a fifth contract. Create `ST_PracticeDrillRow` as a Blueprint Structure, then import the CSV with missing/extra-field warnings enabled. `Name` is the row key and is not an additional structure member.
+
+| Member | Blueprint type | Meaning |
+| --- | --- | --- |
+| `CatalogueId` | Name | Original T-number; must match the existing registry row |
+| `SlotId` | Name | Existing `silent`, `echoes` or `relay` bay; must match the registry |
+| `DisplayOrder` | Integer | Unique 1–9 order for selection and next-trial navigation |
+| `DisplayName` | String | English trial title |
+| `LearningGoal` | String | Short teaching goal for the selection surface |
+| `RulesVersion` | String | `0.5.0`, the Workshop selection contract |
+
+The row names, in `DisplayOrder`, are `silent`, `echoes`, `relay`, `vault`, `ritual`, `clock`, `light`, `strings`, `chimes`. Do not rely on unspecified DataTable iteration order. The order is a navigation convention, not a progression lock; every row is available immediately. Each row joins `DT_TrialRegistry` by its stable key, then resolves to the actual authored trial class. Reject a missing or mismatched class/slot at admission.
+
+The table deliberately contains scalar selection data. The ordered instruction steps, checkpoint explanation and control labels come from the corresponding `PracticeState.catalogue()` entry and must be authored into the selected Unreal text assets. Keep generated puzzle evidence at its physical apparatus. Importing a learning goal does not implement the full lesson or authorize remote answer reveals.
+
+### Session and records policy
+
+Practice activates one actual trial for one human survivor at the normal spawn. Preserve movement, cargo identity, action intervals, holds and checkpoints. Other bays stay inactive with false completion flags. Disable Eye behavior, damage and match deadlines. Complete on one real selected seal with a distinct practice event/result; never open escape or resolve the ordinary competitive winner.
+
+Use a separate bounded practice SaveGame design: schema 1, nine trial records and four archetype profiles each, with attempt/completion counts, latest-attempt time/seed and best completed time/seed. The latest time resets at the start; an abandoned attempt does not erase the prior best. Compare best times within the same archetype. Preserve unknown future schemas and report failed saves. The Godot `user://practice_records.json` is a reference schema, not a binary Unreal SaveGame import.
+
+The Godot writer keeps one `.bak` recovery copy before replacing the primary and does not claim atomic Windows replacement. Loading falls back only when the primary is absent; invalid or unsupported primary/backup data remains protected. Define and test the equivalent Unreal save/recovery behavior separately. The prototype's stable `THE_EYES` user-data folder does not establish a production SaveGame migration path.
+
+### Import and runtime acceptance
+
+1. Read all nine rows and verify the exact stable keys, unique display orders 1–9, catalogue IDs and slot joins.
+2. Check that every registry join resolves to an authored class before enabling its Start action; no fake object path is supplied in the CSV.
+3. Keep all four `DT_Contracts` rows and their three-seal rule unchanged. Those rows retain `RulesVersion=0.4.0`; the Workshop rows describe the new separate v0.5 policy.
+4. Implement the [practice session, manual, persistence and Blueprint recipes](../../docs/technical/PRACTICE_IMPLEMENTATION.md), then run all nine physical completion routes plus inactive-bay and restart checks.
+5. Test the separate journal and ordinary-match regressions. CSV syntax and ID checks do not establish Unreal import success, graph compilation, save durability or playable behavior.

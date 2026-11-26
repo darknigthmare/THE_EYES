@@ -19,7 +19,7 @@ func configure(p_game, p_state, p_apparatus: EyesTrialApparatus) -> void:
 	third.configure(self,apparatus.third)
 
 func _valid(actor: EyesSurvivor) -> bool:
-	return actor in game.actors and not actor.eliminated and not actor.downed and state.live and not (actor == game.player and game.punishment)
+	return actor in game.actors and not actor.eliminated and not actor.downed and state.live and not game.get_tree().paused and not (actor == game.player and game.punishment)
 
 func _within(actor: EyesSurvivor, point: Vector3, radius: float) -> bool:
 	return _valid(actor) and actor.global_position.distance_to(point) <= radius and game.has_sight(actor.target_point(),point+Vector3.UP*1.65)

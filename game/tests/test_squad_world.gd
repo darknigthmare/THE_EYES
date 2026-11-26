@@ -428,7 +428,11 @@ func _test_pause_resets_rescue() -> void:
 	game._resume()
 	game.squad_world.step(DT)
 	_check(not paused and game.squad_world.state.live and subject.downed, "resume reactivates a live match without granting a free recovery")
-	_near(_row(subject).revive_progress, DT, "held E after resume starts a new continuous rescue from zero")
+	_check(not Input.is_action_pressed("interact"), "pause/resume releases the stale held rescue action")
+	_near(_row(subject).revive_progress, 0.0, "resume alone cannot restart the cancelled rescue")
+	Input.action_press("interact")
+	game.squad_world.step(DT)
+	_near(_row(subject).revive_progress, DT, "a fresh E press starts a new continuous rescue from zero")
 
 
 func _test_bot_rescue_reservations() -> void:
