@@ -1,0 +1,156 @@
+name: Recover original Windows report
+
+on:
+  push:
+    branches: [maintenance/v05-evidence-recovery]
+    paths: [.github/workflows/recover-v05-windows-report.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: recover-v05-windows-report
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    if: github.repository == 'darknigthmare/THE_EYES' && github.ref == 'refs/heads/maintenance/v05-evidence-recovery'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Preserve exact original Windows smoke JSON on maintenance only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import base64
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+          
+          REPO = "darknigthmare/THE_EYES"
+          BRANCH = "maintenance/v05-evidence-recovery"
+          REPORT_PATH = ".github/evidence/v05/WINDOWS_SMOKE.json"
+          SOURCE = "95221003c0b002dbdb1c5e9caadb1eef02a40661"
+          ASSET_ID = 797977582
+          SIZE = 5464
+          DIGEST = "7a2c08f1c3940508cc924f0a8f63fc63d93090449996cdd6bbc75c3049ab0491"
+          ARCHIVE = "3e4ed36de7b615805149c35d29bec18051a4a1c3adb9283bf0096bfcf99f82c5"
+          TOKEN = os.environ["GH_TOKEN"]
+          EXPECTED = os.environ["GITHUB_SHA"]
+          
+          def require(ok, message):
+              if not ok:
+                  raise RuntimeError(message)
+          
+          def g(*args, raw=False, env=None):
+              p = subprocess.run(["git", *args], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+              return p.stdout if raw else p.stdout.decode("utf-8").strip()
+          
+          def git_env():
+              env = os.environ.copy()
+              value = base64.b64encode(("x-access-token:" + TOKEN).encode()).decode()
+              env.update({"GIT_CONFIG_COUNT": "1", "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
+                          "GIT_CONFIG_VALUE_0": "AUTHORIZATION: basic " + value, "GIT_TERMINAL_PROMPT": "0"})
+              return env
+          
+          def remote_head():
+              fields = g("ls-remote", "--exit-code", "https://github.com/" + REPO + ".git",
+                         "refs/heads/" + BRANCH, env=git_env()).split()
+              require(len(fields) == 2 and fields[1] == "refs/heads/" + BRANCH, "Unexpected remote ref")
+              return fields[0]
+          
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, request, fp, code, message, headers, newurl):
+                  return None
+          
+          opener = urllib.request.build_opener(NoRedirect())
+          
+          def request(accept):
+              return urllib.request.Request("https://api.github.com/repos/" + REPO + "/releases/assets/" + str(ASSET_ID),
+                  headers={"Authorization": "Bearer " + TOKEN, "Accept": accept,
+                           "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "THE-EYES-Windows-report-recovery"})
+          
+          def main():
+              require(os.environ["GITHUB_REF"] == "refs/heads/" + BRANCH, "Wrong collector branch")
+              require(g("rev-parse", "HEAD") == EXPECTED and remote_head() == EXPECTED, "Initial lease mismatch")
+              require(not g("status", "--porcelain", "--untracked-files=all"), "Dirty checkout")
+              with opener.open(request("application/vnd.github+json"), timeout=60) as response:
+                  meta = json.loads(response.read(65536))
+              require(meta["id"] == ASSET_ID and meta["name"] == "WINDOWS_SMOKE.json"
+                      and meta["size"] == SIZE and meta["digest"] == "sha256:" + DIGEST, "Asset identity mismatch")
+              try:
+                  with opener.open(request("application/octet-stream"), timeout=60) as response:
+                      data = response.read(SIZE + 1)
+              except urllib.error.HTTPError as error:
+                  require(error.code == 302, "Asset API did not return the expected download response")
+                  location = error.headers.get("Location", "")
+                  parsed = urllib.parse.urlsplit(location)
+                  require(parsed.scheme == "https" and parsed.hostname and not parsed.username and not parsed.password,
+                          "Unsafe signed download location")
+                  # No token or Authorization header is attached to this NEW storage request.
+                  unsigned = urllib.request.Request(location, headers={"User-Agent": "THE-EYES-Windows-report-recovery"})
+                  try:
+                      with opener.open(unsigned, timeout=60) as response:
+                          data = response.read(SIZE + 1)
+                  except (urllib.error.URLError, TimeoutError):
+                      raise RuntimeError("Unsigned storage download failed") from None
+              require(len(data) == SIZE and hashlib.sha256(data).hexdigest() == DIGEST, "Original asset bytes do not match pins")
+              report = json.loads(data.decode("utf-8-sig"))
+              require(report["schema_version"] == 3 and report["project_version"] == "0.5.0"
+                      and report["source_commit"] == SOURCE and report["archive_sha256"] == ARCHIVE,
+                      "Report source/schema/archive mismatch")
+              require(report["platform"] == "Windows" and report["mode"] == "headless"
+                      and report["graphical_hardware_playtest"] is False, "Report platform or scope mismatch")
+              expected = {(role, contract, "") for role in ["survivor", "eye", "squad"]
+                          for contract in ["first", "second", "mix", "third"]}
+              expected |= {("practice", "practice", trial) for trial in
+                           ["silent", "echoes", "relay", "vault", "ritual", "clock", "light", "strings", "chimes"]}
+              cases = report["cases"]
+              require(len(cases) == 21 and {(c["role"], c["contract"], c.get("trial_id", "")) for c in cases} == expected,
+                      "Windows matrix differs from the exact 21 cases")
+              require(all(c["session_mode"] == c["role"] and c["exit_code"] == 0 and c["frames_requested"] == 240
+                          and c["ready_marker_seen"] is True and c["engine_errors_seen"] is False for c in cases),
+                      "Windows startup gate did not pass")
+              target = Path(REPORT_PATH)
+              require(not target.is_symlink() and target.resolve().is_relative_to(Path.cwd().resolve()), "Unsafe evidence path")
+              target.parent.mkdir(parents=True, exist_ok=True)
+              target.write_bytes(data)
+              target.chmod(0o644)
+              g("add", "-f", "--", REPORT_PATH)
+              require(g("diff", "--cached", "--name-only") == REPORT_PATH, "Staged paths escape the single-file allowlist")
+              g("-c", "user.name=github-actions[bot]", "-c", "user.email=41898282+github-actions[bot]@users.noreply.github.com",
+                "-c", "commit.gpgsign=false", "-c", "core.hooksPath=/dev/null", "commit",
+                "-m", "ci(qa): retain original Windows report on maintenance only")
+              commit = g("rev-parse", "HEAD")
+              require(g("show", "-s", "--format=%P", commit) == EXPECTED, "Unexpected commit parent")
+              require(g("diff-tree", "--no-commit-id", "--name-only", "-r", commit) == REPORT_PATH,
+                      "Committed paths escape the single-file allowlist")
+              blob = g("show", "HEAD:" + REPORT_PATH, raw=True)
+              require(len(blob) == SIZE and hashlib.sha256(blob).hexdigest() == DIGEST, "Git normalized the original report bytes")
+              require(not g("status", "--porcelain", "--untracked-files=all"), "Unexpected residual changes")
+              require(remote_head() == EXPECTED, "Maintenance branch advanced; no retry or rebase")
+              g("push", "--force-with-lease=refs/heads/" + BRANCH + ":" + EXPECTED,
+                "https://github.com/" + REPO + ".git", "HEAD:refs/heads/" + BRANCH, env=git_env())
+              print("WINDOWS_REPORT_COMMIT " + commit)
+              print("WINDOWS_REPORT_BLOB " + g("rev-parse", "HEAD:" + REPORT_PATH))
+              print("WINDOWS_REPORT_ORIGINAL_BYTES " + str(SIZE) + " sha256=" + DIGEST)
+              print("WINDOWS_REPORT_SOURCE " + SOURCE + " schema=3 cases=21")
+              print("WINDOWS_REPORT_PATH " + REPORT_PATH)
+          
+          try:
+              main()
+          except Exception as error:
+              print("WINDOWS_REPORT_RECOVERY_ERROR: " + type(error).__name__ + ": " + str(error))
+              raise SystemExit(1)
+          
+          PY
