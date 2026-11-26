@@ -1,0 +1,59 @@
+name: Recover v0.5 evidence
+
+on:
+  push:
+    branches: [maintenance/v05-evidence-recovery]
+    paths:
+      - .github/workflows/recover-v05-evidence.yml
+      - .github/scripts/recover_v05_evidence.py
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: recover-v05-evidence
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    if: github.repository == 'darknigthmare/THE_EYES' && github.ref == 'refs/heads/maintenance/v05-evidence-recovery'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_COMMIT: 6392ebf30b0acb909e218bc4c12c36e2d0b3faa0
+      SOURCE_RUN: '45903325362'
+      EXACT_EXPECTED_HEAD: 6392ebf30b0acb909e218bc4c12c36e2d0b3faa0
+    steps:
+      - name: Checkout isolated collector
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          path: collector
+          persist-credentials: false
+      - name: Checkout exact target parent
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.EXACT_EXPECTED_HEAD }}
+          path: proof
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate, preserve and publish evidence only
+        working-directory: proof
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python3 "$GITHUB_WORKSPACE/collector/.github/scripts/recover_v05_evidence.py"
+          --source-commit "$SOURCE_COMMIT"
+          --workflow-run "$SOURCE_RUN"
+          --expected-head "$EXACT_EXPECTED_HEAD"
+          --bundle-dir "$RUNNER_TEMP/eyes-v05-recovery"
+          --publish
+      - name: Preserve recovery bundle
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: v05-evidence-recovery-45903325362-${{ github.run_id }}
+          path: ${{ runner.temp }}/eyes-v05-recovery
+          retention-days: 90
+          if-no-files-found: warn
