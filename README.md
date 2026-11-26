@@ -72,7 +72,7 @@ return to the catalogue. A bounded local notebook stores attempts, completions
 and the best time **per trial and per archetype**, so Tinker’s machinery bonus
 is not compared with another character. It is separate from competitive match
 results and contains no mid-trial save. The stable `THE_EYES` user-data directory
-holds this notebook and future settings.
+holds the notebook and settings.
 
 ![Actual individual practice HUD](docs/qa/v0.5/practice.png)
 

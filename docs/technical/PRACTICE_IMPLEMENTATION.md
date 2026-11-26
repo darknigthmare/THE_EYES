@@ -171,7 +171,9 @@ Loading follows an explicit priority:
 | No primary, invalid/unreadable/unsupported-schema `.bak` | Preserve the surviving backup and block writes |
 | Neither primary nor `.bak` | Start an empty bounded journal |
 
-A leftover `.tmp` is not assumed to be committed data. Loading a valid backup does not rewrite any file. Saving rechecks a surviving `.bak` before writing, so an upgraded or damaged backup is protected even when the primary disappears after startup. This recovery protocol reduces the risk of losing a prior valid notebook during a failed replacement; it is not a guarantee against every power-loss, filesystem or hardware failure. Executed failure fixtures and platform checks determine the actual evidence.
+Loading ignores leftover `.tmp`, `.bak.tmp` and `.restore.tmp` staging files. It reads only the primary, or the single `.bak` when the primary is absent; either candidate is checked against the 131,072-byte limit before parsing. Loading a valid backup does not rewrite any file. `recovered_from_backup` is an in-memory status flag and is not serialized in schema 1.
+
+Saving rechecks a surviving `.bak` before writing, so an upgraded or damaged backup is protected even when the primary disappears after startup. This recovery protocol reduces the risk of losing a prior valid notebook during a failed replacement; it is not a guarantee against every power-loss, filesystem or hardware failure. Executed failure fixtures and platform checks determine the actual evidence.
 
 ## Unreal Blueprint construction recipe
 
