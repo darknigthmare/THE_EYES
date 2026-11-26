@@ -1,11 +1,11 @@
 # 13 — The Survivor Accord: local Squad and rescue
 
-**Version 0.3.0 — locally verified implementation.** The life/rescue domain,
+**Version 0.3.0 — published implementation.** The life/rescue domain,
 physical world fixtures, three complete pressured Squad sessions, existing
 Solo/Eye regression suites, and native-renderer inspection have passed their
-recorded checks. Native Windows startup for the exact v0.3 archive remains a
-release gate. The published v0.2 Windows evidence certifies that earlier build
-and does not automatically certify this one. See the
+recorded checks. The official v0.3 Windows archive has passed all nine native
+headless mode/contract startup cases. Its own report identifies the exact source
+build and archive; no v0.2 result is reused as evidence for this version. See the
 [v0.3 verification record](../qa/V0_3_VERIFICATION.md) for evidence and limits.
 
 ## The playable promise
@@ -175,7 +175,7 @@ emits `squad` as the session mode. `show_game(eye_mode)` remains unchanged.
 rescue text. Its `revive_progress` values are normalized from zero to one; the
 life authority stores seconds and the world converts them for display.
 
-## Local verification and release gates
+## Local verification and published release evidence
 
 The current implementation has passed these separate checks in Godot 4.7.2:
 
@@ -234,16 +234,38 @@ They establish legible states and controls, not a second full-playthrough claim.
 The transient notice now has a dark backplate, and spectator UI identifies the
 observed ally without advertising use of their ability.
 
-### Records and remaining platform work
+### Records, published build and remaining qualification
 
 The post-match `last_observance.json` ledger uses **schema 3**, preserving the
 real `session_mode` and a `squad_summary` alongside seed, selected trials,
 metrics and events. It does not supply a mid-match save or a complete replay.
 
-The release workflow still must execute the exact distributed Windows archive
-under all **nine mode/contract startup combinations**: Solo, Eye and Squad,
-each with First, Second and Mix. `WINDOWS_SMOKE.json` is the release evidence;
-no v0.2 startup result is reused as a v0.3 result. Graphical Windows playthroughs,
-online play, compiled UE5 gameplay, broad balance and hardware performance
-qualification remain separate work. The UE5 handoff contains eight importable
-CSV specifications and construction recipes, not completed playable assets.
+The [official v0.3.0 release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.3.0)
+has passed all **nine native Windows headless startup combinations**: Solo, Eye
+and Squad, each with First, Second and Mix. Its
+[WINDOWS_SMOKE.json](https://github.com/darknigthmare/THE_EYES/releases/download/v0.3.0/WINDOWS_SMOKE.json)
+uses schema 2 and records nine successful cases for the exact distributed
+archive. The source build is `c0b95341f728affe06933be9835d7ac9ff55abf3`.
+
+| Release evidence | Recorded value |
+| --- | --- |
+| [Build and release workflow](https://github.com/darknigthmare/THE_EYES/actions/runs/45874067936) | Run `45874067936`; passed |
+| Linux build job | `140096569556` |
+| Native Windows job | `140099982444` |
+| Publication job | `140105343129` |
+| Windows archive size | 39,079,274 bytes |
+| Windows archive SHA-256 | `adcf90c809a99ab024af09439704437852f93eb70a96f4340014b349fdc1d820` |
+| Smoke report SHA-256 | `eaeae2b794980bd844946cbb260fe9d6a3d916aaeedc8a5f9c3f224967b7dc95` |
+
+[Feature verification](https://github.com/darknigthmare/THE_EYES/actions/runs/45873381917)
+passed for source `cafae25145909f89b56c9c914650973934014105`.
+[Main verification](https://github.com/darknigthmare/THE_EYES/actions/runs/45874067644)
+passed for the published source build above. These identifiers keep the source
+checks, executable and startup evidence traceable when later documentation
+commits change the repository head.
+
+The nine native startup cases do not establish an interactive graphical Windows
+playthrough or hardware performance. Those checks, broad balance, online play
+and compiled UE5 gameplay remain separate work. The UE5 handoff contains eight
+importable CSV specifications and construction recipes; completed playable
+Blueprint assets have not been authored or executed here.

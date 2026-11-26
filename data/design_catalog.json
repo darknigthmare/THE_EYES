@@ -5,7 +5,7 @@
   "language": "en",
   "project": "THE EYES",
   "owner": "Darknigthmare",
-  "status_note": "This catalogue preserves 25 designs and six implemented local Godot trial subsets. Version 0.3 adds a locally verified human-plus-four-AI Squad: life authority, physical fixtures, three complete pressured contract sessions, preserved Solo/Eye regressions and native-renderer inspection have passed. Exact-build v0.3 Windows startup remains a release gate. Online play, remaining 19 trials and playable UE5 assets remain unimplemented.",
+  "status_note": "This catalogue preserves 25 designs and six implemented local Godot trial subsets. Published version 0.3 adds a human-plus-four-AI Squad: life authority, physical fixtures, three complete pressured contract sessions, preserved Solo/Eye regressions and native-renderer inspection have passed. The official v0.3 Windows archive passed all nine native headless mode/contract startup cases. Graphical Windows playthrough, online play, remaining 19 trials and playable UE5 assets remain unverified or unimplemented as specified.",
   "source": {
     "attachment": "Texte collé.txt",
     "original_trial_count": 25,
@@ -257,7 +257,7 @@
     "input_remapping": false,
     "socket_reacquisition_warning_seconds": 0.85,
     "previous_release": "0.2.0",
-    "verification_status": "local_engine_world_routes_and_rendering_passed_native_windows_pending",
+    "verification_status": "published_local_engine_world_routes_rendering_and_native_windows_startup_passed",
     "active_trial_count": 3,
     "required_seals": 3,
     "bays": [
@@ -379,7 +379,7 @@
           }
         ]
       },
-      "native_windows_release_workflow": "pending_for_v0.3",
+      "native_windows_release_workflow": "passed",
       "graphical_windows_playthrough": "not_verified",
       "compiled_playable_unreal_assets": false,
       "document": "docs/qa/V0_3_VERIFICATION.md",
@@ -433,7 +433,51 @@
         "docs/qa/v0.3/spectator.png",
         "docs/qa/v0.3/manual.png"
       ],
-      "required_native_windows_mode_contract_cases": 9
+      "required_native_windows_mode_contract_cases": 9,
+      "general_balance_or_novice_usability_established": false,
+      "native_windows_release_evidence": {
+        "source_commit": "c0b95341f728affe06933be9835d7ac9ff55abf3",
+        "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.3.0",
+        "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45874067936",
+        "workflow_run_id": "45874067936",
+        "jobs": {
+          "linux_build": "140096569556",
+          "native_windows": "140099982444",
+          "publication": "140105343129"
+        },
+        "report": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.3.0/WINDOWS_SMOKE.json",
+        "report_schema_version": 2,
+        "report_sha256": "eaeae2b794980bd844946cbb260fe9d6a3d916aaeedc8a5f9c3f224967b7dc95",
+        "archive": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.3.0/THE_EYES_v0.3.0_Windows_x64.zip",
+        "archive_size_bytes": 39079274,
+        "archive_sha256": "adcf90c809a99ab024af09439704437852f93eb70a96f4340014b349fdc1d820",
+        "cases_passed": 9,
+        "session_modes": [
+          "survivor",
+          "eye",
+          "squad"
+        ],
+        "contracts": [
+          "first",
+          "second",
+          "mix"
+        ],
+        "all_mode_contract_pairs_passed": true,
+        "mode": "headless",
+        "graphical_hardware_playtest": false
+      },
+      "source_ci_evidence": {
+        "feature_verification": {
+          "result": "passed",
+          "source_commit": "cafae25145909f89b56c9c914650973934014105",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45873381917"
+        },
+        "main_verification": {
+          "result": "passed",
+          "source_commit": "c0b95341f728affe06933be9835d7ac9ff55abf3",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45874067644"
+        }
+      }
     },
     "verification_history": {
       "0.2.0": {

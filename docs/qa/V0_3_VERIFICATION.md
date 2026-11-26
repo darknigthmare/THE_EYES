@@ -2,8 +2,9 @@
 
 **The Survivor Accord · 26 November 2026.** This report separates local engine
 tests, native-renderer inspection, executable startup and the unfinished Unreal
-handoff. Candidate evidence below will be updated with the published build IDs
-after the independent Windows release gate finishes.
+handoff. **The v0.3.0 prerelease is published**, after all three release jobs
+succeeded on source commit `c0b95341f728affe06933be9835d7ac9ff55abf3`.
+[Download and official reports](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.3.0).
 
 ## What changed
 
@@ -33,7 +34,7 @@ camera at an actual remaining ally, selected with 1–4/wheel.
 - Linux headless tests with fixed 60 Hz and Dummy audio.
 - Native screenshots: Compatibility/OpenGL renderer through Xvfb and Mesa
   llvmpipe, 1280×800. This is software rendering, not a hardware benchmark.
-- Windows runtime checks: pending the release workflow at this candidate stage.
+- Native Windows runtime: all nine headless startup cases passed for the exact published archive. Interactive graphical Windows playthrough remains unverified.
 
 ## Production-engine gates
 
@@ -145,18 +146,56 @@ and must report its actual `session_mode`, exit zero and contain no engine
 errors. A final independent publication check verifies the archive checksum,
 source revision and all nine distinct successful role/contract pairs.
 
-**Current candidate status:** native Windows runtime and release publication
-are pending. `WINDOWS_SMOKE.json` schema 2 is the eventual authoritative startup
-record; a graphical interactive Windows playthrough remains untested even if
-those startup checks pass.
+**Observed result:** all nine Windows startup cases passed, with zero exits and
+no engine errors. The published `WINDOWS_SMOKE.json` is schema 2 and records the
+actual requested/loaded session modes, exact source revision and archive hash.
+The exporter, Windows runner and publisher all refer to the same archive.
+Interactive graphical Windows playthrough remains unverified.
+
+| Mode | First | Second | Mix |
+| --- | --- | --- | --- |
+| Solo Survivor | Passed | Passed | Passed |
+| Human Eye | Passed | Passed | Passed |
+| Survivor Squad | Passed | Passed | Passed |
+
+### Publication provenance
+
+| Evidence | Exact record |
+| --- | --- |
+| Feature commit | `cafae25145909f89b56c9c914650973934014105` |
+| Feature verification | [45873381917](https://github.com/darknigthmare/THE_EYES/actions/runs/45873381917), all nine suites passed |
+| Merged change | [PR #3](https://github.com/darknigthmare/THE_EYES/pull/3) |
+| Build/source commit | `c0b95341f728affe06933be9835d7ac9ff55abf3` |
+| Source tree | `257845162decc591970960f4506cff701757c4cb` |
+| Main verification | [45874067644](https://github.com/darknigthmare/THE_EYES/actions/runs/45874067644), all nine suites passed |
+| Release workflow | [45874067936](https://github.com/darknigthmare/THE_EYES/actions/runs/45874067936), all three jobs succeeded |
+| Linux / Windows / publish jobs | `140096569556` / `140099982444` / `140105343129` |
+| Release | `459778231`, tag `v0.3.0`, development prerelease |
+| Archive | `THE_EYES_v0.3.0_Windows_x64.zip`, 39,079,274 bytes |
+
+| Published file | SHA-256 |
+| --- | --- |
+| Windows ZIP | `adcf90c809a99ab024af09439704437852f93eb70a96f4340014b349fdc1d820` |
+| `WINDOWS_SMOKE.json` | `eaeae2b794980bd844946cbb260fe9d6a3d916aaeedc8a5f9c3f224967b7dc95` |
+| `SHA256SUMS.txt` | `1e7b058312563a3a510ee89509f4b1bdbaa5b39b0873eda19a44fe9ef42e292b` |
+
+The API asset digests and published reports identify the delivered bytes.
+Later documentation-only commits may record this evidence; the final backup
+manifest distinguishes its source snapshot commit from the executable's build
+commit and checks that `game/` and `tools/` are identical between them.
 
 ## Durable backup and remaining work
 
-The project has its existing GitHub repository and dedicated Drive project
-folder. A separate dated v0.3 folder has been created; final source archive,
-Git bundle, official Windows ZIP/reports, combined bible and restore materials
-will be written only after the exact release and final source revision exist.
-Folder creation alone is not reported as a completed backup.
+The versioned backup destination is
+[THE_EYES / 2026-11-26_v0.3.0_release](https://drive.google.com/drive/folders/1-7jT03PU7PJIyEgonHppSiLQC4dtv1UC).
+A completed snapshot consists of the official Windows ZIP, official checksums
+and Windows report; a clean source ZIP; a full-history Git bundle; the combined
+bible/technical book; restoration instructions; a manifest; and backup checksums.
+The manifest records the source snapshot and executable build commits separately.
+Completion requires source/blob comparison, a fresh bundle restore with Git
+integrity/ref checks, and downloaded-byte verification of the Drive payloads.
+Folder creation alone is not a completed backup. Earlier version folders and
+releases remain independently restorable.
 
 The executable remains a local Godot prototype. Unreal contains a descriptor,
 configuration, eight importable CSV specifications and editor construction
