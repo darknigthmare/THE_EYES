@@ -24,10 +24,12 @@ one Eye; the new five-survivor Squad is local, with one human and four AI allies
 · [Release, checksums and startup report](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.5.0)
 
 Extract the entire ZIP and run **THE_EYES.exe**. Godot is not required for the
-package. Publication requires native Windows headless startup for all
-**21 scenarios: twelve mode × contract combinations and nine individual practice drills**. The release evidence
-is `WINDOWS_SMOKE.json`; graphical Windows playthrough and hardware performance
-remain separate checks. The package is an unsigned development build.
+package. This exact archive passed **21 native Windows headless startup cases**:
+twelve mode × contract combinations and all nine individual Workshop drills.
+[WINDOWS_SMOKE.json](docs/qa/v0.5/WINDOWS_SMOKE.json) and the
+[release provenance](docs/qa/v0.5/WINDOWS_RELEASE.json) identify the executable,
+source revision and checksums. Graphical Windows playthrough and hardware
+performance remain separate checks. The package is an unsigned development build.
 
 | I want to… | Open |
 | --- | --- |
@@ -39,6 +41,7 @@ remain separate checks. The package is an unsigned development build.
 | Inspect the game | [Godot project](game/project.godot) · [Scene controller](game/scripts/main.gd) |
 | Build the Unreal version | [UE5 foundation](unreal/README.md) · [Squad Blueprint recipe](docs/technical/SQUAD_IMPLEMENTATION.md) |
 | Review evidence | [v0.5 verification](docs/qa/V0_5_VERIFICATION.md) · [Test guide](game/tests/README.md) |
+| Restore sources and history | [Complete project backup ZIP](https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/THE_EYES_v0.5.0_COMPLETE_BACKUP.zip) · [Backup SHA-256](https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/THE_EYES_v0.5.0_COMPLETE_BACKUP.zip.sha256) |
 | Compare with the brief | [Original supplied concept](docs/source/ORIGINAL_CONCEPT.txt) |
 
 ## Three local match modes and a workshop
@@ -186,19 +189,24 @@ Blueprint assets.
 
 ## Development and verification
 
-The v0.5 verification report records the exact final test counts, complete
-ordinary-input routes and platform results. Seventeen required suites cover
-the existing competitive game and new practice authority, persistence, UI,
-physical admission and transitions. Nine additional practice routes use the
-same normal movement and interaction drivers as the competitive routes.
+The [v0.5 verification report](docs/qa/V0_5_VERIFICATION.md) records **17 passed
+suites, 257 cases and 6,079 assertions**, with zero failures. Twelve suites check
+domain rules, persistence, interface state and physical admission. Five route
+suites complete **seven pressured sessions and nine individual practice drills**
+through ordinary inputs. The native Windows package passes all 21 startup cases.
+
+The [eight native presentation fixtures](docs/qa/v0.5/VISUAL_REVIEW.md) were
+inspected for layout, keyboard focus, guide visibility and notebook error states.
+The complete project backup contains the source ZIP, full Git bundle, English
+bible, official Windows files, checksums and a French restoration guide.
 
 The competitive routes retain their active Story Eye. Their informed drivers
 use ordinary movement and interaction; they do not inject actor positions,
 health, clock changes or completed progress. These establish scoped completion,
 not novice usability, all-difficulty balance or hardware frame rates. All 27
-Mix mappings must still complete through physical bot routes.
+Mix mappings completed through physical bot routes.
 
-The [v0.5 verification report](docs/qa/V0_5_VERIFICATION.md) distinguishes local
+The [v0.5 verification report](docs/qa/V0_5_VERIFICATION.md) distinguishes CI
 gameplay evidence, staged native screenshots and exact-build Windows startup
 evidence. Earlier release evidence remains in its versioned reports.
 

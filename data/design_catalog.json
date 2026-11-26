@@ -320,7 +320,7 @@
     "input_remapping": false,
     "socket_reacquisition_warning_seconds": 0.85,
     "previous_release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0",
-    "verification_status": "implementation_under_verification",
+    "verification_status": "published_gameplay_native_presentation_and_windows_startup_verified",
     "active_trial_count": 3,
     "required_seals": 3,
     "bays": [
@@ -418,7 +418,123 @@
       "graphical_windows_playthrough": "not_verified",
       "compiled_playable_unreal_assets": false,
       "evidence_date": "2026-11-26",
-      "current_status": "pending_final_integrated_run_and_exact_build_publication"
+      "current_status": "published_native_windows_startup_verified",
+      "gameplay": {
+        "source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+        "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45903325362",
+        "suites": 17,
+        "assertion_suites": 12,
+        "cases": 257,
+        "assertions": 6079,
+        "failures": 0,
+        "complete_pressured_sessions": 7,
+        "individual_practice_sessions": 9,
+        "unopposed_bot_routes": 28,
+        "distinct_mixed_mappings": 27,
+        "results": "docs/qa/v0.5/GAMEPLAY_RESULTS.json",
+        "logs": "docs/qa/v0.5/GAMEPLAY_LOG.txt",
+        "ordinary_input_routes": true,
+        "novice_usability_or_general_balance_established": false
+      },
+      "native_presentation": {
+        "source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+        "fixture_count": 8,
+        "dimensions": [
+          1280,
+          800
+        ],
+        "renderer": "native OpenGL compatibility; software Mesa; Xvfb",
+        "assistant_visual_inspection": "completed",
+        "review": "docs/qa/v0.5/VISUAL_REVIEW.md",
+        "provenance": "docs/qa/v0.5/VISUAL_PROVENANCE.json",
+        "staged_fixtures": true,
+        "human_playtest": false,
+        "hardware_performance_established": false
+      },
+      "native_windows_release_evidence": {
+        "schema_version": 1,
+        "project_version": "0.5.0",
+        "source_commit": "95221003c0b002dbdb1c5e9caadb1eef02a40661",
+        "release_id": 459966310,
+        "release_url": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.5.0",
+        "published_at": "2026-11-26T22:37:01Z",
+        "prerelease": true,
+        "workflow_run_id": 45905597261,
+        "workflow_run_url": "https://github.com/darknigthmare/THE_EYES/actions/runs/45905597261",
+        "jobs": {
+          "linux_build": 140201441015,
+          "native_windows": 140202153129,
+          "publication": 140202444858
+        },
+        "assets": [
+          {
+            "id": 797977580,
+            "name": "SHA256SUMS.txt",
+            "bytes": 183,
+            "sha256": "26a72652ede432ce6bc26e233ee32dc9ee98f7f1e0133a84408df94d711466cf",
+            "url": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/SHA256SUMS.txt"
+          },
+          {
+            "id": 797977578,
+            "name": "THE_EYES_v0.5.0_Windows_x64.zip",
+            "bytes": 39166963,
+            "sha256": "3e4ed36de7b615805149c35d29bec18051a4a1c3adb9283bf0096bfcf99f82c5",
+            "url": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/THE_EYES_v0.5.0_Windows_x64.zip"
+          },
+          {
+            "id": 797977582,
+            "name": "WINDOWS_SMOKE.json",
+            "bytes": 5464,
+            "sha256": "7a2c08f1c3940508cc924f0a8f63fc63d93090449996cdd6bbc75c3049ab0491",
+            "url": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/WINDOWS_SMOKE.json"
+          }
+        ],
+        "qualification": {
+          "gameplay_suites_passed_before_export": 17,
+          "native_windows_schema_version": 3,
+          "native_windows_startup_cases": 21,
+          "ordinary_mode_contract_cases": 12,
+          "individual_practice_cases": 9,
+          "headless": true,
+          "graphical_windows_playthrough": false
+        },
+        "gameplay_evidence_source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+        "gameplay_evidence_run_id": 45903325362,
+        "protected_source_files_identical_to_gameplay_evidence": 117,
+        "local_report": "docs/qa/v0.5/WINDOWS_SMOKE.json",
+        "metadata": "docs/qa/v0.5/WINDOWS_RELEASE.json",
+        "report_schema_version": 3,
+        "cases_passed": 21,
+        "ordinary_mode_contract_cases": 12,
+        "individual_practice_cases": 9,
+        "all_required_case_identities_passed": true,
+        "frames_per_case": 240,
+        "mode": "headless",
+        "graphical_hardware_playtest": false
+      },
+      "source_ci_evidence": {
+        "runtime_verification": {
+          "result": "passed",
+          "source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45903325362"
+        },
+        "exact_build_release": {
+          "result": "passed",
+          "source_commit": "95221003c0b002dbdb1c5e9caadb1eef02a40661",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45905597261",
+          "gameplay_suites_repeated_before_export": 17
+        },
+        "feature_verification": {
+          "result": "passed",
+          "source_commit": "8e5c4014d0e515890120ba24608d8e668054cb5a",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45905544459"
+        },
+        "main_verification": {
+          "result": "passed",
+          "source_commit": "95221003c0b002dbdb1c5e9caadb1eef02a40661",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45905597249"
+        }
+      }
     },
     "verification_history": {
       "0.2.0": {
@@ -673,7 +789,7 @@
             "elapsed": 328.88,
             "failures": [],
             "human_distance": 1087.86,
-            "human_health": 65.0,
+            "human_health": 65,
             "human_inputs": 42,
             "human_trial_events": {
               "chime_strike": 8,
@@ -706,7 +822,7 @@
             "elapsed": 74.13,
             "failures": [],
             "human_distance": 203.14,
-            "human_health": 100.0,
+            "human_health": 100,
             "human_inputs": 20,
             "human_trial_events": {
               "chime_strike": 6,
@@ -827,8 +943,8 @@
       }
     },
     "role_implementation_status": {
-      "human_survivor_vs_ai_eye": "implemented_ordinary_input_first_second_third_routes_passed_v0.4",
-      "human_eye_vs_four_ai_survivors": "implemented_physical_first_second_third_and_all_27_mix_routes_passed_v0.4",
+      "human_survivor_vs_ai_eye": "implemented_ordinary_input_first_second_third_routes_passed_v0.5",
+      "human_eye_vs_four_ai_survivors": "implemented_physical_first_second_third_and_all_27_mix_routes_passed_v0.5",
       "human_survivor_with_four_ai_allies_vs_ai_eye": "implemented_local_domain_world_and_complete_routes_passed"
     },
     "squad": {
@@ -998,7 +1114,8 @@
       "focus_loss_pauses": true,
       "focus_gain_auto_resumes": false,
       "fov_scope": "survivor and spectator; Eye remains 85 degrees"
-    }
+    },
+    "latest_release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.5.0"
   },
   "production": {
     "classic_survivor_counts": [

@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "project_version": "0.5.0",
+  "source_commit": "95221003c0b002dbdb1c5e9caadb1eef02a40661",
+  "release_id": 459966310,
+  "release_url": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.5.0",
+  "published_at": "2026-11-26T22:37:01Z",
+  "prerelease": true,
+  "workflow_run_id": 45905597261,
+  "workflow_run_url": "https://github.com/darknigthmare/THE_EYES/actions/runs/45905597261",
+  "jobs": {
+    "linux_build": 140201441015,
+    "native_windows": 140202153129,
+    "publication": 140202444858
+  },
+  "assets": [
+    {
+      "id": 797977580,
+      "name": "SHA256SUMS.txt",
+      "bytes": 183,
+      "sha256": "26a72652ede432ce6bc26e233ee32dc9ee98f7f1e0133a84408df94d711466cf",
+      "url": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/SHA256SUMS.txt"
+    },
+    {
+      "id": 797977578,
+      "name": "THE_EYES_v0.5.0_Windows_x64.zip",
+      "bytes": 39166963,
+      "sha256": "3e4ed36de7b615805149c35d29bec18051a4a1c3adb9283bf0096bfcf99f82c5",
+      "url": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/THE_EYES_v0.5.0_Windows_x64.zip"
+    },
+    {
+      "id": 797977582,
+      "name": "WINDOWS_SMOKE.json",
+      "bytes": 5464,
+      "sha256": "7a2c08f1c3940508cc924f0a8f63fc63d93090449996cdd6bbc75c3049ab0491",
+      "url": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/WINDOWS_SMOKE.json"
+    }
+  ],
+  "qualification": {
+    "gameplay_suites_passed_before_export": 17,
+    "native_windows_schema_version": 3,
+    "native_windows_startup_cases": 21,
+    "ordinary_mode_contract_cases": 12,
+    "individual_practice_cases": 9,
+    "headless": true,
+    "graphical_windows_playthrough": false
+  },
+  "gameplay_evidence_source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+  "gameplay_evidence_run_id": 45903325362,
+  "protected_source_files_identical_to_gameplay_evidence": 117,
+  "report_retention": {
+    "repository_path": "docs/qa/v0.5/WINDOWS_SMOKE.json",
+    "git_blob_sha": "b11b41ccb4c3b96db3d351ede4e8988dddf5611b",
+    "byte_identical_to_release_asset": true,
+    "collection_commit": "46df58502ef5833f5090a54f9a82f2d13069071c",
+    "collection_workflow_run": 45906453045,
+    "collection_job": 140204231946
+  },
+  "source_verification_runs": [
+    {
+      "source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+      "run_id": 45903325362,
+      "result": "passed"
+    },
+    {
+      "source_commit": "8e5c4014d0e515890120ba24608d8e668054cb5a",
+      "run_id": 45905544459,
+      "result": "passed"
+    },
+    {
+      "source_commit": "95221003c0b002dbdb1c5e9caadb1eef02a40661",
+      "run_id": 45905597249,
+      "result": "passed"
+    }
+  ]
+}

@@ -95,7 +95,30 @@ The recovery verifies artifact digests, the source manifest, every PNG hash/head
 
 ## Exact Windows publication
 
-WINDOWS_PUBLICATION_EVIDENCE_PENDING
+The [official v0.5.0 Windows prerelease](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.5.0) was published on 26 November 2026 at 22:37:01 UTC from [build commit 95221003c0b002dbdb1c5e9caadb1eef02a40661](https://github.com/darknigthmare/THE_EYES/commit/95221003c0b002dbdb1c5e9caadb1eef02a40661).
+
+[Release workflow 45905597261](https://github.com/darknigthmare/THE_EYES/actions/runs/45905597261) completed all three jobs successfully:
+
+| Gate | Job | Result |
+|---|---:|---|
+| Linux import, all 17 gameplay suites, pinned template, export and package checks | 140201441015 | Passed |
+| Exact exported executable on native Windows | 140202153129 | 21 headless startup cases passed |
+| Source, report, case matrix and archive hash checks before publication | 140202444858 | Passed |
+
+The Windows matrix contains Solo Survivor, Eye and Squad under First, Second, Third and Seeded Mix (**12 cases**), plus **all nine Workshop trials**. Every case requests 240 frames, reports its exact role/session mode/contract and practice trial identity where applicable, sees its ready marker, exits zero and reports no engine error.
+
+- Windows ZIP: `THE_EYES_v0.5.0_Windows_x64.zip`, **39,166,963 bytes**.
+- Windows ZIP SHA-256: `3e4ed36de7b615805149c35d29bec18051a4a1c3adb9283bf0096bfcf99f82c5`.
+- Original Windows report: schema **3**, **5,464 bytes**, SHA-256 `7a2c08f1c3940508cc924f0a8f63fc63d93090449996cdd6bbc75c3049ab0491`.
+- Release ID: `459966310`. Original assets: ZIP `797977578`, report `797977582`, checksum file `797977580`.
+
+[Retained Windows report](v0.5/WINDOWS_SMOKE.json), [release metadata](v0.5/WINDOWS_RELEASE.json), [official report](https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/WINDOWS_SMOKE.json), and [official checksums](https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/SHA256SUMS.txt) provide the detailed evidence.
+
+The build uses the same 117 game/tool/workflow blobs and modes as the successful runtime verification source; subsequent changes record documentation and evidence. All seventeen gameplay suites were also executed again at the exact merge/build commit before export.
+
+The [merge-source verification run](https://github.com/darknigthmare/THE_EYES/actions/runs/45905597249) also passed all seventeen suites and all eight native capture fixtures. The retained Windows JSON uses the exact original release bytes; its download and committed blob were independently checked in [collection run 45906453045](https://github.com/darknigthmare/THE_EYES/actions/runs/45906453045).
+
+These native Windows checks establish startup and initial runtime validity without graphical rendering. They do not constitute a full interactive graphical Windows playthrough or a hardware performance qualification.
 
 ## Boundaries
 
