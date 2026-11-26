@@ -1,0 +1,84 @@
+name: Verified v0.5.0 complete backup
+
+on:
+  push:
+    branches: ['backup/v0.5.0-*']
+    paths:
+      - '.github/workflows/backup-v05.yml'
+      - '.github/scripts/backup_v05.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eyes-complete-backup-v0.5.0
+  cancel-in-progress: false
+
+env:
+  FINAL_MAIN: 'bdf77fb4cb7c9c44feaa644a9971a48b5bce76d5'
+  EXPECTED_BUILD_COMMIT: '95221003c0b002dbdb1c5e9caadb1eef02a40661'
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      artifact_id: ${{ steps.archive.outputs.artifact-id }}
+      artifact_digest: ${{ steps.archive.outputs.artifact-digest }}
+      backup_sha256: ${{ steps.prepare.outputs.backup_sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Validate release, create and restore complete backup
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/backup_v05.py prepare
+      - name: Retain the exact complete backup and external checksum
+        id: archive
+        uses: actions/upload-artifact@v7
+        with:
+          name: THE_EYES_v0.5.0_COMPLETE_BACKUP_${{ env.FINAL_MAIN }}
+          path: |
+            ${{ runner.temp }}/eyes-backup-release/THE_EYES_v0.5.0_COMPLETE_BACKUP.zip
+            ${{ runner.temp }}/eyes-backup-release/THE_EYES_v0.5.0_COMPLETE_BACKUP.zip.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+      - name: Record the distinct Actions artifact provenance
+        env:
+          ARTIFACT_ID: ${{ steps.archive.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.archive.outputs.artifact-digest }}
+          ARTIFACT_URL: ${{ steps.archive.outputs.artifact-url }}
+        run: |
+          python3 - <<'PY'
+          import os
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as out:
+              out.write('\n\nActions envelope (distinct from the complete-backup ZIP):\n\n')
+              for key in ['ARTIFACT_ID', 'ARTIFACT_DIGEST', 'ARTIFACT_URL', 'GITHUB_SHA', 'GITHUB_RUN_ID']:
+                  out.write(f"- {key}: {os.environ[key]}\n")
+          PY
+
+  publish:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@v8
+        with:
+          artifact-ids: ${{ needs.prepare.outputs.artifact_id }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/eyes-backup-release
+      - name: Add the two new assets without replacing existing release files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_BACKUP_SHA256: ${{ needs.prepare.outputs.backup_sha256 }}
+        run: python3 .github/scripts/backup_v05.py publish
