@@ -1,9 +1,9 @@
-; THE EYES — The First Observance. Godot 4.7.2.
+; THE EYES — The Survivor Accord. Godot 4.7.2.
 config_version=5
 
 [application]
-config/name="THE EYES · The Observance Collection"
-config/version="0.2.0"
+config/name="THE EYES · The Survivor Accord"
+config/version="0.3.0"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://assets/icon.svg"

@@ -1,5 +1,7 @@
 # 12 — Prototype contracts and v0.2 scope
 
+The v0.3 local Squad builds on these six trial subsets. Its additional orders, rescue rules, and evidence boundaries are in [Squad and rescue](13_SQUAD_AND_RESCUE.md).
+
 **Status: implemented in the local Godot v0.2 prototype.** Domain checks, physical bot routes, and an active Story survivor route have passed for the tested build. Native Windows headless startup has passed for both roles under all three contracts. Graphical Windows playthrough and Unreal gameplay remain unverified. This chapter records implementation boundaries and the evidence available on 26 November 2026.
 
 ## One observatory, three active trials

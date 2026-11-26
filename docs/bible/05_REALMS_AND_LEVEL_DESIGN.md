@@ -20,6 +20,8 @@ The layout should make the active station identifiable from silhouette and sign.
 
 The prototype arena occupies approximately 54 by 48 meters, with north, east, south, and west sockets at eight meters high. When Silent Countdown is active, its original mote placements are around `(−21, 9)`, `(20, 9)`, and `(14, −3)` in the horizontal X/Z plane. These are implementation coordinates for this slice, not universal metrics for the four production realms. The v0.2 scope adds no annex or catch-floor bridge. Bridge of Illusions and The Gauntlet remain planned until their complete physical layouts can be delivered.
 
+The v0.3 Survivor Accord uses this same connected observatory for a local human-and-AI squad. Its scope adds no annex, seventh trial, or complete realm. T20 The Gauntlet and T06 Bridge of Illusions remain planned until their actual physical content is implemented and verified.
+
 ## Realm 01 — Twisted Carnival
 
 **Theme:** performance without celebration. The realm is a derelict fairground enclosed inside a theatre too large to have an exterior. Canvas awnings hang beneath concrete vaults. Ticket booths count people rather than admissions. Attraction music slows when the Eye turns away, suggesting that attention powers the performance.

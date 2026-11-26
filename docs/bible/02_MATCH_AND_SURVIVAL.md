@@ -4,6 +4,8 @@
 
 This chapter defines the production rules. All times are seconds unless stated otherwise; distance is meters. The Godot slice may use a smaller population, shorter durations, and simplified recovery. Its tested constants remain authoritative for that build. The production default is six survivors against one Eye, with supported Classic variants for five and seven survivors.
 
+The v0.3 implementation adds a distinct local Squad recovery model: one human with four AI allies, a 35-second downed window, six continuous seconds of physical rescue, 35 restored health, and five seconds of protection. Interruption fully resets that rescue attempt. Solo retains Second Sight. These scoped prototype rules are specified in [Squad and rescue](13_SQUAD_AND_RESCUE.md); production proposals below do not silently override them.
+
 ## Match state machine
 
 | State | Entry | Available actions | Exit |

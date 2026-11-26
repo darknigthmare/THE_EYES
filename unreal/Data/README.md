@@ -1,6 +1,6 @@
 # UE5 data table handoff
 
-These UTF-8 CSV files contain scalar migration defaults. They are source data, not already imported Unreal assets. The live Godot script `game/scripts/trial_director.gd` remains authoritative for the shipped prototype. Reconcile intentional balance changes with these files before each engine migration milestone.
+These UTF-8 CSV files contain scalar migration defaults. They are source data, not already imported Unreal assets. The live Godot authority in `trial_director.gd`, `trial_set.gd`, `squad_state.gd` and its world adapter remains the executable source of truth for the prototype. Reconcile intentional balance changes with these files before each engine migration milestone.
 
 ## Import without project C++
 
@@ -58,3 +58,32 @@ Two spatial/generation constraints are specified in the construction graphs rath
 5. Author the missing trial classes and run the [graph recipes and acceptance matrix](../../docs/technical/CONTRACT_TRIAL_IMPLEMENTATION.md). CSV syntax checks alone do not establish Unreal import or gameplay correctness.
 
 The readable `DisplayName` string is a migration convenience. When localization is introduced, resolve it through a String Table/Text presentation layer while keeping machine IDs unchanged. Do not localize contract keys, slot IDs, relic IDs or catalogue IDs.
+
+## v0.3 Survivor Squad defaults
+
+Create **Blueprint Structure** `ST_SquadDefaultsRow`, then import [`DT_SquadDefaults.csv`](DT_SquadDefaults.csv) as `DT_SquadDefaults`. As in the other tables, `Name` is the row key and not a structure field. This table applies only to `SessionMode=squad`; do not accidentally apply its rescue policy to solo Second Sight or the human Eye mode.
+
+| Member | Blueprint type | `prototype_0_3` value |
+| --- | --- | ---: |
+| HumanSurvivors | Integer | 1 |
+| BotSurvivors | Integer | 4 |
+| BleedoutSeconds | Float | 35 |
+| RescueSeconds | Float | 6 |
+| RescueHealth | Float | 35 |
+| ProtectionSeconds | Float | 5 |
+| RescueRangeCm | Float | 180 |
+| KeeperRangeCm | Float | 400 |
+| KeeperHealAmount | Float | 30 |
+| KeeperCooldownSeconds | Float | 35 |
+| KeeperIncludesSelf | Boolean | true |
+| KeeperSelfWinsEqualHealth | Boolean | true |
+| RelayCombinedRateMaximum | Float | 1.8 |
+| RecoveriesPerMember | Integer | 1 |
+
+The distance fields are UE centimetres, corresponding to 1.8 m rescue and 4 m Keeper range in Godot. Rescue requires physical line of sight and six uninterrupted stationary seconds; input release, movement, applied damage, range/sight failure or life/phase change resets the reservation and progress. One helper owns one subject, and each subject has at most one helper. The second lethal fall after rescue eliminates the member. A team with no active helper remaining resolves the downed members as a wipe.
+
+Keeper chooses the most injured eligible active team member **including self**. Other candidates require range and clear line of sight. Self wins equal-health ties, then stable registered actor order resolves other ties. Neither Keeper nor ordinary healing replenishes the one rescue allowance. Boolean columns preserve this targeting policy explicitly; the actual graph must implement it.
+
+Create enum assets for the stable life IDs `active/downed/eliminated` and order IDs `work/follow/hold`, with explicit name mapping for records rather than persisted enum ordinals. Orders persist until changed; temporary rescue tasks do not overwrite the stored order, Follow falls back to Work while the leader is inactive, and Escape overrides ordinary orders. Immediate evasion of a nearby visible shadow takes priority even over rescue: cancel its progress, move by a physically clear navigation step, then resume legitimate work/rescue. Pause also clears reservations/progress before freezing all timers. The authority owns this policy rather than the CSV importer. Aggregate all valid squad Relay work once per physics update and cap the combined rate at 1.8 times base; do not apply the same elapsed time independently for each helper. Solo rates stay unchanged.
+
+After import, use `Get Data Table Row` on `prototype_0_3`, inspect every value and verify both Boolean fields. Then execute the [squad graph and acceptance recipes](../../docs/technical/SQUAD_IMPLEMENTATION.md), including wall/range cancellation, one-chance revival, all-down wipe, Keeper self tie, physical bot orders and separate mode admission. A syntactically valid CSV does not establish a successful Unreal import, compiled graph or playable build.

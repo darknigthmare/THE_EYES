@@ -12,13 +12,13 @@ The brief's requirements are: an immobile giant Eye, AI or player control, fixed
 |---|---|---|
 | Immobile Eye that can look | [The Eye](04_THE_EYE.md) | Position changes only through authored sockets; aim controls legal commands |
 | Eye controlled by AI or a player | [Modes](09_MODES_AND_PROGRESSION.md) | Both local role experiences selected for prototype; online control planned |
-| Five-to-seven survivors | [Match rules](02_MATCH_AND_SURVIVAL.md) | Production Classic target; current Eye mode uses four bots |
+| Five-to-seven survivors | [Match rules](02_MATCH_AND_SURVIVAL.md) | Production Classic target; v0.3 local Squad has one human and four AI survivors; Eye seat retains four bots |
 | Traps, marks and summoned creatures | [Eye](04_THE_EYE.md), [Objects](07_OBJECTS_AND_ENEMIES.md) | Shared costs, cooldowns, warnings, visibility and population limits |
 | Terror escalation and rage | [Eye](04_THE_EYE.md) | Production escalation separated from prototype energy and escape rules |
 | Objectives open an exit | [Match rules](02_MATCH_AND_SURVIVAL.md) | Three permanent seals, then a fresh escape deadline |
 | Punishment zones | [Objects](07_OBJECTS_AND_ENEMIES.md) | Short recovery challenges with safe reentry; simplified human prototype recovery |
 | Stealth, engineer, athlete and medic roles | [Survivors](03_SURVIVORS.md) | Veil, Tinker, Runner and Keeper, with eight original identities |
-| Cooperation and betrayal | [Match rules](02_MATCH_AND_SURVIVAL.md) | Cooperative default; explicit optional temptation rules without irreversible griefing |
+| Cooperation and betrayal | [Match rules](02_MATCH_AND_SURVIVAL.md) | Cooperative default; v0.3 implementation provides local orders and ally rescue, while betrayal/temptation remain optional production designs |
 | Four nightmare realms | [Realms](05_REALMS_AND_LEVEL_DESIGN.md) | All four preserved as detailed production map families |
 | Classic, Endless and Custom | [Modes](09_MODES_AND_PROGRESSION.md) | Full rules specified; local prototype modes honestly scoped |
 | UE5 Blueprint-only English | Unreal foundation and this English bible | Gameplay architecture and implementation guide; no false claim of compiled assets |

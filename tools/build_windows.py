@@ -12,6 +12,7 @@ exported executable itself is not claimed to be byte-for-byte reproducible.
 from __future__ import annotations
 
 import argparse
+import configparser
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
@@ -34,14 +35,15 @@ ERROR_LINE = re.compile(
     r"(?im)^\s*(?:SCRIPT\s+)?ERROR\s*:|\bParse Error\s*:|\bFailed to export project\b"
 )
 
-QUICK_START_EN = """THE EYES — THE SECOND OBSERVANCE
+QUICK_START_EN = """THE EYES — THE SURVIVOR ACCORD
 Windows x64 prototype v{version}
 
 START
 Extract the complete ZIP to a folder, then open THE_EYES.exe. Keep any supplied
 data files beside the executable. Godot Editor is not needed to play this build.
 The game is in English. Choose Story for a first visit, then select:
-  ENTER AS A SURVIVOR — survive the AI Eye and escape.
+  PLAY SOLO AS A SURVIVOR — survive the AI Eye and escape.
+  LEAD A LOCAL SQUAD — lead four AI allies against the AI Eye.
   TAKE THE EYE'S SEAT — control the Eye against four AI survivors.
 
 SURVIVOR CONTROLS
@@ -49,6 +51,20 @@ WASD / the corresponding physical ZQSD keys on AZERTY, or arrow keys: move.
 Mouse: look. Shift: sprint. Ctrl or C: crouch. Space: jump.
 E: interact / hold at the Relay. Q: use the chosen archetype's ability.
 Tab: show/hide map. Escape: pause or close a trial panel.
+
+SURVIVOR SQUAD — YOU AND FOUR AI ALLIES
+B: Work on objectives. F: Follow you. V: Hold position.
+The first lethal fall downs a squad member for up to 35 seconds. Hold E near
+a downed ally for six continuous seconds to rescue them with 35 health and
+five seconds of protection. Interrupting a rescue resets its progress.
+Each member has one rescue chance; their next lethal fall eliminates them.
+If nobody remains active to help, the squad is lost. Keep someone standing.
+Rescue requires clear sight within 1.8 metres; moving or taking a hit interrupts
+it. Keeper restores 30 health to the most injured eligible active team member,
+including self. Allies must be visible within four metres; self wins an equal-
+health tie. The cooldown is 35 seconds. After elimination,
+1–4 or the mouse wheel cycles the remaining allies' cameras. Read the roster
+and contextual prompt for the current squad order, life state and rescue.
 
 CONTRACTS — THREE SEALS PER MATCH
 First Observance selects the original three trials below. Second Observance
@@ -87,14 +103,15 @@ See THIRD_PARTY_NOTICES.md and licenses/ for engine and font attributions.
 Source: https://github.com/darknigthmare/THE_EYES
 """
 
-QUICK_START_FR = """THE EYES — THE SECOND OBSERVANCE
+QUICK_START_FR = """THE EYES — THE SURVIVOR ACCORD
 Prototype Windows x64 v{version}
 
 DEMARRER
 Extrais toute l'archive ZIP dans un dossier, puis ouvre THE_EYES.exe. Conserve
 les éventuels fichiers de données à côté de l'exécutable. L'éditeur Godot n'est
 pas nécessaire pour jouer. Le jeu est en anglais. Pour débuter, choisis Story.
-  ENTER AS A SURVIVOR : joue un survivant face à l'Œil contrôlé par l'IA.
+  PLAY SOLO AS A SURVIVOR : joue un survivant face à l'Œil contrôlé par l'IA.
+  LEAD A LOCAL SQUAD : dirige quatre alliés IA face à l'Œil contrôlé par l'IA.
   TAKE THE EYE'S SEAT : incarne l'Œil face à quatre survivants contrôlés par l'IA.
 
 COMMANDES SURVIVANT
@@ -102,6 +119,21 @@ ZQSD sur AZERTY / WASD sur QWERTY, ou flèches : déplacement.
 Souris : regarder. Maj : courir. Ctrl ou C : s'accroupir. Espace : sauter.
 E : interagir / maintenir au mécanisme Relay. Q : capacité de l'archétype choisi.
 Tab : afficher/masquer le plan. Échap : pause ou fermeture du panneau d'épreuve.
+
+ESCOUADE — TOI ET QUATRE ALLIÉS IA
+B : travailler sur les objectifs. F : te suivre. V : tenir la position.
+La première chute mortelle met un membre à terre pour 35 secondes maximum.
+Maintiens E près d'un allié à terre pendant six secondes sans interruption
+pour le relever avec 35 points de vie et cinq secondes de protection.
+Toute interruption remet le secours à zéro. Chaque membre n'a qu'une chance
+de sauvetage ; sa prochaine chute mortelle l'élimine. Si plus personne ne
+reste actif pour aider, l'escouade est perdue. Garde quelqu'un debout.
+Le secours exige une vue dégagée à moins de 1,8 m ; bouger ou subir un coup
+l'interrompt. Keeper rend 30 points de vie au membre actif le plus blessé,
+lui-même compris. Les alliés doivent être visibles à 4 m maximum ; à égalité,
+Keeper se soigne lui-même. La recharge dure 35 s. Après
+élimination, 1 à 4 ou la molette change la caméra de l'allié observé. Le HUD
+affiche l'ordre, l'état de chaque membre et la progression des secours.
 
 CONTRATS — TROIS SCEAUX PAR PARTIE
 First Observance choisit les trois épreuves initiales décrites ci-dessous.
@@ -187,6 +219,45 @@ def read_project_metadata(project_file: Path = GAME / "project.godot") -> dict[s
     if re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?", result["version"]) is None:
         raise RuntimeError("Project version must be a safe semantic version")
     return result
+
+
+def validate_windows_resource_versions(
+    project_version: str, preset_file: Path = GAME / "export_presets.cfg"
+) -> dict[str, str]:
+    """Reject a stale Windows resource version before invoking the editor.
+
+    Project prerelease labels stay in BUILD_INFO and the package name. Windows
+    file/product resource versions use the numeric major.minor.patch.0 form.
+    """
+    presets = configparser.RawConfigParser(strict=True)
+    presets.optionxform = str
+    try:
+        presets.read_string(preset_file.read_text(encoding="utf-8"))
+        matches = [
+            section for section in presets.sections()
+            if re.fullmatch(r"preset\.\d+", section)
+            and json.loads(presets.get(section, "name", fallback='""')) == "Windows Desktop"
+        ]
+        if len(matches) != 1:
+            raise RuntimeError("Expected exactly one Windows Desktop export preset")
+        preset = matches[0]
+        if json.loads(presets.get(preset, "platform")) != "Windows Desktop":
+            raise RuntimeError("Windows Desktop preset has the wrong export platform")
+        components = [int(part) for part in project_version.split("-", 1)[0].split(".")]
+        if len(components) != 3 or any(part < 0 or part > 65535 for part in components):
+            raise RuntimeError("Project version cannot fit a numeric Windows resource version")
+        expected = ".".join(str(part) for part in components) + ".0"
+        result = {}
+        for key in ("file_version", "product_version"):
+            value = json.loads(presets.get(preset + ".options", "application/" + key))
+            if value != expected:
+                raise RuntimeError(
+                    f"Windows {key} is {value!r}; project {project_version} requires {expected!r}"
+                )
+            result[key] = value
+        return result
+    except (configparser.Error, ValueError) as exc:
+        raise RuntimeError(f"Invalid Windows export version metadata: {exc}") from exc
 
 
 def source_provenance() -> dict[str, object]:
@@ -383,6 +454,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     project = read_project_metadata()
+    windows_versions = validate_windows_resource_versions(project["version"])
     package = f"THE_EYES_v{project['version']}_Windows_x64"
     provenance = source_provenance()
     if not args.output.is_absolute():
@@ -428,6 +500,7 @@ def main() -> int:
             build_info = {
                 "project": project["name"],
                 "project_version": project["version"],
+                "windows_resource_versions": windows_versions,
                 **provenance,
                 "godot_version": version,
                 "export_preset": "Windows Desktop",

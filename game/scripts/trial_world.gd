@@ -15,7 +15,7 @@ func configure(p_game, p_state, p_apparatus: EyesTrialApparatus) -> void:
 	clock_operator = 0
 
 func _valid(actor: EyesSurvivor) -> bool:
-	return actor in game.actors and not actor.eliminated and state.live and not (actor == game.player and game.punishment)
+	return actor in game.actors and not actor.eliminated and not actor.downed and state.live and not (actor == game.player and game.punishment)
 
 func _within(actor: EyesSurvivor, point: Vector3, radius: float) -> bool:
 	return _valid(actor) and actor.global_position.distance_to(point) <= radius and game.has_sight(actor.target_point(),point+Vector3.UP*1.65)
@@ -183,7 +183,7 @@ func assign_slot(data: Dictionary, slot: String) -> bool:
 					continue
 				var reserved = false
 				for other in game.bots:
-					if other != data and other.task == "vault_pickup" and other.get("trial_index",-1) == relic and not other.actor.eliminated:
+					if other != data and other.task == "vault_pickup" and other.get("trial_index",-1) == relic and not other.actor.eliminated and not other.actor.downed:
 						reserved = true
 				if reserved:
 					continue
@@ -204,7 +204,7 @@ func assign_slot(data: Dictionary, slot: String) -> bool:
 			if clock_operator != 0 and clock_operator != id:
 				var alive = false
 				for candidate in game.actors:
-					if candidate.get_instance_id() == clock_operator and not candidate.eliminated:
+					if candidate.get_instance_id() == clock_operator and not candidate.eliminated and not candidate.downed:
 						alive = true
 				if alive:
 					return false
