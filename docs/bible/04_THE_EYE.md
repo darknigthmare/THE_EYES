@@ -12,13 +12,13 @@ The visible organ is also an information display. A relaxed iris means observati
 
 Every arena has an authored graph of sockets. A socket stores a unique ID, transform, allowed aim range, associated room, connected sockets, and activation conditions. Designers place sockets to expose meaningful choices rather than provide perfect surveillance. At least one approach to each trial must be protected from the currently occupied socket, or have intermittent cover that permits progress.
 
-The First Observance uses four sockets. The final game can support larger graphs, but socket count is not difficulty by itself. The important measurements are travel time between survivor cover, time lost by the Eye when switching, and the number of objectives that can be threatened from one position. A socket covering all three seals and the exit is presumptively invalid unless its use has a severe, visible limitation.
+The observatory uses four sockets across its prototype contracts. The final game can support larger graphs, but socket count is not difficulty by itself. The important measurements are travel time between survivor cover, time lost by the Eye when switching, and the number of objectives that can be threatened from one position. A socket covering all three seals and the exit is presumptively invalid unless its use has a severe, visible limitation.
 
 A transfer closes the source Eye, plays a traveling mechanical cue, and opens the destination after a short transition. The Eye cannot activate a trap during the closed interval. Previously committed hazards continue according to their announced state, so changing sockets does not cancel damage silently. Survivors can recognize the destination by sound and by a local socket light before the new gaze becomes dangerous.
 
 ## Current prototype tuning
 
-The domain implementation supplied for v0.1 uses the following values. The release report should confirm the renderer and input layer call these rules correctly.
+The v0.1 domain implementation establishes the following values; the v0.2 prototype retains them unless its release notes state a tuning change. The alternate trial rules are specified in [Prototype contracts](12_PROTOTYPE_CONTRACTS.md). Runtime verification must confirm the renderer and input layer call these rules correctly.
 
 | Rule | Prototype value |
 |---|---:|

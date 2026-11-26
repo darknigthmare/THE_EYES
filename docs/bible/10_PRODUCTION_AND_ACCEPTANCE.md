@@ -8,11 +8,11 @@ The repository contains a playable Godot prototype and a production design for a
 |---|---|---|
 | One local 3D arena | Prototype implementation | Recorded complete playthrough and collision review |
 | Survivor and Eye roles | Prototype implementation | Both roles complete fair matches with human testers |
-| Three selected trials | Prototype core | Reset, failure, recovery, completion and interaction tests |
+| Three active trials from six selected families | Six implemented Godot subsets; three active per match | Reset, failure, recovery, completion and physical interaction tests |
 | Four fixed sockets | Prototype core | Correct visual and authoritative sight behavior |
 | Four archetypes | Prototype mechanics | Final animations, readable effects and measured balance |
 | Eight named survivors | Detailed design | Models, animation sets, voices and narrative integration |
-| Twenty-five trials | Three selected for prototype; twenty-two planned | Per-trial content and acceptance sheet |
+| Twenty-five trials | Six implemented prototype subsets; nineteen planned | Per-trial content and acceptance sheet |
 | Four full realms | Detailed design | Complete level graphs, art, navigation and performance |
 | Online multiplayer | Planned architecture | Remote-session and authority tests under delay |
 | UE5 Blueprint gameplay | Implementation specification and foundation | Assets created, compiled, run and tested in Unreal Editor |
@@ -23,6 +23,8 @@ The release report can narrow or update this matrix after actual verification. I
 ## Milestone sequence
 
 **M0 — The First Observance.** Establish the complete local loop: role selection, preparation, three distinct trials, Eye pressure, escape, defeat, restart, and controls. Deliver source, startup instructions, meaningful automated checks, actual runtime captures, and known limitations. Measure whether a new player understands how to break gaze and earn a seal.
+
+**M0.2 — Alternate contracts.** Add the physical Memory Vault, Ritual Circle, and Clock Room subsets inside the existing bays. Preserve First, add Second, and validate all eight Seeded Mix combinations. Test exact relic/cradle identity, pair-bank recovery, continuous ring occupancy, reversible clock moves, physical bot interactions, inactive-prop cleanup, and the unchanged three-seal outcome rule. The Godot implementation and scoped domain, physical bot-route, and active Story survivor-route checks have passed; [Prototype contracts](12_PROTOTYPE_CONTRACTS.md) records their evidence and limits. Native Windows release checks and broader human balance/usability testing remain separate gates.
 
 **M1 — UE5 mechanical port.** Recreate the verified loop in Blueprint actors and components. Import design data, implement authoritative state changes, create one playable level, and match the Godot acceptance scenarios. Use placeholder art where needed, but identify it. Do not port incidental prototype hacks merely to claim parity.
 
@@ -46,7 +48,7 @@ Pure rule checks verify deterministic state transitions and invariants: time can
 
 Engine integration checks run the actual project, create the arena, exercise interactions through the same public path used by players, and inspect results. They catch script parsing, missing resources, invalid node paths, and state-to-presentation mismatches. A headless test is useful for logic; it cannot certify lighting, sound mix, or input comfort.
 
-Visual and human checks inspect the rendered game at supported resolutions, both roles, each difficulty, all three core trials, escape, defeat, and restart. Capture real frames. Human sessions answer whether warnings are understood and whether the Eye has interesting decisions. A screenshot of the title screen alone does not establish that a match can be completed.
+Visual and human checks inspect the rendered game at supported resolutions, both roles, each difficulty, all six selected trial subsets, escape, defeat, and restart. Three trials are active per match; the eight mixed combinations also need integration coverage. Capture real frames. Human sessions answer whether warnings are understood and whether the Eye has interesting decisions. A screenshot of the title screen alone does not establish that a match can be completed.
 
 ## Representative acceptance scenarios
 
@@ -93,4 +95,4 @@ Online bandwidth budgets distinguish state that must replicate from cosmetic eve
 
 Every significant design change records the problem, new rule, affected content, migration need, and verification evidence. Preserve the original source intent in the traceability chapter. If the first playtests show that a source idea is unfair—such as erasing completed progress or randomizing a safe tile under a player—change the implementation transparently and explain the preserved fantasy.
 
-The next useful decision is based on evidence from the playable slice: whether the Eye's fixed observation creates enough agency for both sides. If that succeeds, expand content and port to UE5. If it fails, improve socket topology, sight readability, and intervention timing before producing twenty-two additional trial environments.
+The next useful decision is based on evidence from the playable slice: whether the Eye's fixed observation creates enough agency for both sides. If that succeeds, expand content and port to UE5. If it fails, improve socket topology, sight readability, and intervention timing before producing the nineteen remaining trial environments or fuller realm versions of the six selected subsets.

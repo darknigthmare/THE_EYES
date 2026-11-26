@@ -22,7 +22,7 @@ The survivor HUD presents remaining match time, three seal states, health, stami
 
 The Eye HUD presents current socket, energy, command costs, cooldowns, valid target state, and known observations. A target icon distinguishes visible, blocked, out of range, and cooling down. The same input must not trigger a different expensive command because a hidden selection changed one frame earlier. Commands should be previewable and cancelable before a committed windup where appropriate.
 
-Production menus should separate Play, How to Play, Trial Archive, Settings, and Credits. The current menu provides **Enter as a survivor**, **Take the Eye's seat**, **Field Manual**, and **Settings**, with archetype, difficulty, and seed selection. The trial catalogue is documentation, not an implemented in-game archive or practice selector. Production online modes appear only once the session flow exists.
+Production menus should separate Play, How to Play, Trial Archive, Settings, and Credits. The local menu provides **Enter as a survivor**, **Take the Eye's seat**, **Field Manual**, and **Settings**, with archetype, difficulty, and seed selection. The v0.2 prototype adds First, Second, and Seeded Mix contract selection. The trial catalogue remains documentation, not an in-game archive or standalone practice selector. Production online modes appear only once the session flow exists.
 
 ## Trial instruction format
 

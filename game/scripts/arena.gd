@@ -22,6 +22,11 @@ var portal_material: StandardMaterial3D
 var relay_wheel: Node3D
 var echo_lights: Array[StandardMaterial3D] = []
 var beacon_lights: Dictionary = {}
+var station_titles: Dictionary = {}
+var station_subtitles: Dictionary = {}
+var observance_mark: Label3D
+var echo_meshes: Array[MeshInstance3D] = []
+var slot_trials: Dictionary = {"silent":"silent","echoes":"echoes","relay":"relay"}
 var eye_beam: MeshInstance3D
 var elapsed: float = 0.0
 
@@ -200,7 +205,7 @@ func _architecture() -> void:
 		box(Vector3(x,3.3,0),Vector3(0.07,4.8,3.4),mats.brass)
 	for z in [-2.7,2.7]:
 		box(Vector3(0,3.3,z),Vector3(3.4,4.8,0.07),mats.brass)
-	inscription("THE FIRST\nOBSERVANCE",Vector3(0,4.5,2.78),Color("dfd0ae"),38)
+	observance_mark = inscription("THE FIRST\nOBSERVANCE",Vector3(0,4.5,2.78),Color("dfd0ae"),38)
 	# Four high partitions; side openings maintain one connected circulation ring.
 	for x in [-9,9]:
 		for z in [-6.5,6.5]:
@@ -236,14 +241,14 @@ func _build_stations() -> void:
 		var sigil = ring(Vector3(0,2.5,0),0.65,0.8,colors[key],s)
 		sigil.rotation_degrees.x = 90
 		beacon_lights[key] = sigil
-		inscription(titles[key],Vector3(0,3.8,0),Color("e9e1ce"),32,s)
+		station_titles[key] = inscription(titles[key],Vector3(0,3.8,0),Color("e9e1ce"),32,s)
 		var subtitle = {"silent":"DELIVER THREE WHISPER MOTES","echoes":"OBSERVE. REMEMBER. REPEAT.","relay":"HOLD THE WHEEL. BREAK THE GAZE."}
-		inscription(subtitle[key],Vector3(0,3.25,0),Color("9cbbb8"),18,s)
+		station_subtitles[key] = inscription(subtitle[key],Vector3(0,3.25,0),Color("9cbbb8"),18,s)
 	var e: Node3D = stations.echoes
 	for i in range(4):
 		var em = material(Color("716485"),0.3,0.3,0.2)
 		echo_lights.append(em)
-		box(Vector3(-0.62+i*0.41,1.55,0),Vector3(0.28,0.12,0.8),em,false,e)
+		echo_meshes.append(box(Vector3(-0.62+i*0.41,1.55,0),Vector3(0.28,0.12,0.8),em,false,e))
 	relay_wheel = Node3D.new()
 	relay_wheel.position = Vector3(0,2,0)
 	stations.relay.add_child(relay_wheel)
@@ -321,6 +326,28 @@ func _build_exit() -> void:
 	inscription("THE UNSEEN DOOR",Vector3(0,8.2,-22),Color("d6c5a1"),33)
 	for i in range(3):
 		sphere(Vector3(-0.8+i*0.8,6.2,-22.9),0.17,mats.amber)
+
+func configure_trials(mapping: Dictionary, names: Dictionary) -> void:
+	slot_trials = mapping.duplicate()
+	var subtitles = {"silent":"DELIVER THREE WHISPER MOTES","echoes":"OBSERVE. REMEMBER. REPEAT.","relay":"HOLD THE WHEEL. BREAK THE GAZE.","vault":"FOUR RELICS. FOUR EXACT CRADLES.","ritual":"CARRY THE EMBER. BANK EACH PAIR.","clock":"THREE COUPLED HANDS. ONE CONSTELLATION."}
+	var index = 0
+	for slot in STATIONS:
+		var trial: String = mapping[slot]
+		station_titles[slot].text = "%s   /   %s" % [["I","II","III"][index],names[trial]]
+		station_subtitles[slot].text = subtitles[trial]
+		var title_height: float = 6.6 if trial == "clock" else (5.5 if trial in ["vault","ritual"] else 3.8)
+		station_titles[slot].position.y = title_height
+		station_subtitles[slot].position.y = title_height-0.55
+		beacon_lights[slot].visible = trial != "clock"
+		index += 1
+	for mesh in echo_meshes:
+		mesh.visible = mapping.echoes == "echoes"
+	relay_wheel.visible = mapping.relay == "relay"
+	# The distant monument inscription otherwise sits inside the Clock's face.
+	observance_mark.visible = mapping.relay != "clock"
+	observance_mark.text = "THE FIRST\nOBSERVANCE" if mapping.silent == "silent" and mapping.echoes == "echoes" else "THE\nOBSERVANCE"
+	for mote in motes:
+		mote.get_parent().visible = mapping.silent == "silent"
 
 func set_socket(index: int) -> void:
 	for i in range(eyes.size()):

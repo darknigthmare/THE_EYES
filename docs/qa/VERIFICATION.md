@@ -1,5 +1,7 @@
 # Verification — THE EYES 0.1.0
 
+> Historical v0.1.0 evidence. For the current expansion, read the [v0.2 verification report](V0_2_VERIFICATION.md).
+
 Verified on **26 November 2026** using the real **Godot
 4.7.2.stable.official.ed1daf0bf** engine. This report describes the current
 Godot prototype and explicitly separates production designs from executable

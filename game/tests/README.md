@@ -1,16 +1,44 @@
-# Match authority tests
+# Gameplay verification — all six suites
 
-Run from the repository root with Godot 4.7.2:
+Run from the repository root with **Godot 4.7.2**. Import a fresh checkout before
+running the six suites:
 
 ```bash
-godot --headless --path game --script res://tests/test_director.gd
+godot --headless --path game --editor --import
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_director.gd
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_world.gd
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_survivor_route.gd
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_trial_set.gd
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_second_world.gd
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_second_survivor_route.gd
 ```
 
-The runner exits `0` on success and `1` when any assertion fails. These are real
-GDScript tests running inside Godot, not a second implementation of the rules.
-They exercise the same `TrialDirector` loaded by the playable prototype.
+These are GDScript tests running inside the actual Godot engine and loading the
+production rule modules or main scene. Assertion runners exit `0` on success
+and `1` on failure. The two survivor-route runners likewise return a nonzero
+status if normal inputs cannot complete their route or produce a recorded route
+failure. The verification and release workflows also reject Godot error
+diagnostics even if a process happens to return zero.
 
-## Authority contract
+## Current v0.2 results
+
+| Suite | Purpose | Verified result |
+| --- | --- | --- |
+| [test_director.gd](test_director.gd) | Match phases, Eye transactions, original objectives and outcomes | 27 cases; 125 assertions; zero failures |
+| [test_world.gd](test_world.gd) | Original scene physics, occlusion, interactions and First bot completion | 6 cases; 60 assertions; zero failures |
+| [test_survivor_route.gd](test_survivor_route.gd) | First survivor route against active Story Eye AI | Escape at 267.93 simulated seconds |
+| [test_trial_set.gd](test_trial_set.gd) | Contract selection and alternate-trial authority | 23 cases; 2,098 assertions; zero failures |
+| [test_second_world.gd](test_second_world.gd) | Alternate apparatus, shared physical commands and all mixed bot routes | 16 cases; 137 assertions; zero failures |
+| [test_second_survivor_route.gd](test_second_survivor_route.gd) | Second survivor route against active Story Eye AI | Escape at 324.17 simulated seconds |
+
+The four counted suites total **72 cases and 2,420 assertions**. The two complete
+survivor routes are additional completion scenarios; their results are not
+invented assertion counts. All times below are simulated gameplay time, not
+execution time or a hardware performance benchmark. The [v0.2 verification
+report](../../docs/qa/V0_2_VERIFICATION.md) records exact route outcomes and
+separates source, rendering, Windows, and Unreal evidence.
+
+## Shared authority contract
 
 `TrialDirector` is a rendering-independent `RefCounted` object. It decides match
 phases, objective completion, Eye resource transactions, and victory. The world
@@ -18,6 +46,15 @@ layer must verify the physical interaction before calling a method: proximity,
 carried mote identity, actual gaze occlusion, trigger overlap, and which survivor
 was eliminated are world responsibilities. Calling an API directly is not a
 network security boundary; the prototype has no multiplayer server.
+
+`TrialSet` adds the alternate-trial state behind the same match lifecycle. The
+three contracts are `first`, `second`, and `mix`; each activates exactly one
+trial in each of the three slots. Legacy slot keys `silent`, `echoes`, and
+`relay` remain stable even when their active trials are `vault`, `ritual`, and
+`clock`. The scene's shared `trial_world.gd` path validates actor membership,
+physical reach, line of sight, objective cargo, and real ritual occupancy before
+submitting alternate-trial commands. Neither domain module alone establishes
+physical reach or an online security boundary.
 
 The world must report each survivor elimination only once. The authority clamps
 the aggregate population and stops accepting reports after the match ends, but
@@ -64,7 +101,7 @@ Rejected actions never spend energy or start a cooldown. `switch_socket()`
 accepts only indices 0–3 and rejects the current socket without a cost. The
 physical layer handles the visible blink transition and trap warning period.
 
-### Three immutable seals
+### First contract: three immutable seals
 
 - **Silent Countdown:** three accepted deliveries complete the seal. Later
   delivery calls return `false`; completed progress is never removed.
@@ -98,7 +135,7 @@ input before presenting the final panel. A successful socket change emits the
 `blink` power event before assigning `eye_socket`; world code should update its
 camera after `switch_socket()` returns `true`.
 
-## Coverage and limits
+## Original director coverage and limits
 
 The 27 test cases cover seeded puzzles, phase boundaries, invalid inputs,
 transactional costs, line-of-sight refusal, cooldown boundaries, socket changes,
@@ -134,9 +171,9 @@ include 60 assertions:
 | Shadow collision | A summoned `CharacterBody3D` driven directly toward the central obelisk stops against its real wall. |
 | Full bot run | Four unchanged bots navigate the chamber, complete all three trials, and hold the exit within 200 simulated seconds. |
 
-The full bot run leaves a human-controlled Eye looking outward. It does not
-teleport bots, alter their health or speed, mark objectives complete, or change
-their navigation. The known seed `271126` completed the route in **52.18
+The full First bot run uses Standard and leaves a human-controlled Eye looking
+outward. It does not teleport bots, alter their health or speed, mark objectives complete, or change
+their navigation. The known seed `271126` completed the route in **52.95
 simulated seconds** during verification. The runner prints each bot's task,
 position, target, carrying state, and progress so a future failure is diagnosable.
 
@@ -146,7 +183,7 @@ claimed as a complete human playthrough. The suite disables audio output and
 suppresses writing a last-match result; the application's normal save behavior
 is unchanged.
 
-## Survivor completion against the active Eye AI
+## First survivor completion against the active Eye AI
 
 ```bash
 godot --headless --path game --fixed-fps 60 --audio-driver Dummy \
@@ -192,3 +229,111 @@ cone for physical occlusion. The production fixes preserve audible clues while
 requiring actual gaze for gaze damage, and choose cover using real obstruction.
 Story's tracking/gaze pressure was also tuned in production. Tests exercise
 those ordinary game rules; no test-only gameplay concessions were introduced.
+
+## Alternate-trial domain suite
+
+`test_trial_set.gd` runs 23 cases and 2,098 assertions against the actual
+`TrialSet` and its integration with `TrialDirector`. It covers deterministic
+First/Second/Mix selection, all eight possible mixed configurations, separate
+seed streams, preparation/end rejection, actor command limits, unique cargo
+ownership, configuration reset, retirement of old authority objects, and
+three-seal victory through the normal director.
+
+| Trial | Rules and regression coverage |
+| --- | --- |
+| Memory Vault | Four distinct targets among six relic IDs; four indexed cradles; exact target validation; wrong deposits retain cargo; accepted cradles remain permanent; release recovers ownership. |
+| Ritual Circle | Five seeded vessels; one ember; pair banks at two and four; rollback of only the unbanked prefix; repeated lit-vessel input is harmless; eight continuous occupied seconds; an empty ring resets only the hold. |
+| Clock Room | Three integer hands modulo six; paired A+B/B+C/C+A effects; exact inverse controls; global 0.25-second command limit; reset; current-hand validation at the explicit seal press; solver calls do not mutate the puzzle or award completion. |
+
+Clock generation uses bounded breadth-first distance from the target. There are
+108 reachable configurations for a given target, and 48 have shortest distance
+four. The seeded generator chooses among those 48 starts. The test independently
+enumerates all legal move sequences of zero through three turns and excludes
+their states for **129 generated seeds**: 0–127 plus 271126. It then obtains and
+executes legal solutions before confirming the seal. The graph construction
+sets the four-turn minimum; this seed set is regression coverage for the
+implemented generator, not a claim that every possible seed was sampled.
+
+Domain fixtures deliberately issue commands directly to isolate authority
+behavior. Physical eligibility is covered separately below.
+
+## Alternate apparatus and mixed physical routes
+
+`test_second_world.gd` instantiates the real main scene. Its **16 cases and 137
+assertions** combine seven isolated physical checks with nine complete bot
+routes: Second and one seed for every distinct Seeded Mix configuration.
+
+The isolated checks cover distant and inactive action rejection, nearest-command
+selection, geometry occlusion, unique relic pickup and return, invalid/dead
+actors, exclusion between legacy mote and alternate cargo, true floor-level
+ritual occupancy, hold reset, reversible physical clock controls, and the
+explicit central confirmation. Fixtures place actors deliberately for those
+boundary checks; they are not described as complete movement playthroughs.
+
+The nine complete routes use ordinary bot navigation and physics from
+preparation through three selected seals and the real exit. The human Eye looks
+outward and takes no power actions. Actor position, health, speed, navigation,
+clocks, and trial progress receive no route-driver overrides. Every route below
+escaped with zero wounds:
+
+| Contract | Seed | Simulated completion time |
+| --- | ---: | ---: |
+| Second | 271126 | 81.08 s |
+| Seeded Mix | 0 | 46.03 s |
+| Seeded Mix | 1 | 46.03 s |
+| Seeded Mix | 2 | 88.43 s |
+| Seeded Mix | 5 | 52.95 s |
+| Seeded Mix | 6 | 84.03 s |
+| Seeded Mix | 7 | 52.95 s |
+| Seeded Mix | 8 | 89.02 s |
+| Seeded Mix | 29 | 84.20 s |
+
+The suite discovers distinct mappings from seeds rather than assuming adjacent
+seed values produce different combinations. It checks that every route has all
+three selected seals before escape, records the active mapping and final
+apparatus state, and prints per-bot task/location diagnostics on failure. A
+route that fails to escape within 450 simulated seconds fails the suite. These
+unopposed routes establish physical connectivity and command reachability;
+pressure from an active Eye is exercised by the survivor routes.
+
+## Second survivor completion against the active Eye AI
+
+`test_second_survivor_route.gd` extends the same normal-input driver used by the
+First route. It selects **Keeper, Story, seed 271126, Second**. The active Eye,
+gaze, physical traps, shadows, movement, collisions, ordinary healing,
+cooldowns, health, and match timers remain enabled. The informed driver reads
+the available clues, plans legal Clock actions, and walks to the actual controls,
+relics, cradles, ember, vessels, and exit. It does not replace those actions with
+forced objective state or teleportation.
+
+The verified run escaped at **324.17 simulated seconds** with **80 vitality**,
+**11 wounds**, **one successful Second Sight recovery**, and **four legal Clock
+turns** followed by central confirmation. Recovery used the normal timed input
+challenge and its ordinary health/protection result. During the final ritual
+hold, the driver moved around the central pedestal while remaining inside the
+2.8 m radius; continuous occupancy does not require standing still. Leaving the
+ring would reset only the current eight-second hold, preserving lit vessels.
+
+The runner fails if it cannot escape within 570 simulated seconds or records a
+route failure. This is a reproducible pressured completion check for one
+informed Keeper on Story. It does not establish balance for a new player, every
+archetype, Standard/Ruthless difficulty, or an expert human Eye.
+
+## Rendering and platform gates
+
+`capture_ui.gd` is a separate visual-inspection helper requiring an actual
+display and renderer. Its staged apparatus views position the camera for
+inspection and are clearly separated from the movement routes above. A
+headless suite cannot establish HUD legibility, audible sound, graphical-driver
+compatibility, or usable controls.
+
+Both repository workflows require all six gameplay suites. The release workflow
+then exports the exact source build and requires native Windows **headless
+startup** for Survivor and Eye under each of First, Second, and Seeded Mix.
+Those six executable-startup results, archive SHA-256, source revision, and
+engine version belong in `WINDOWS_SMOKE.json`. At this documentation snapshot,
+that platform gate has not yet been reported as passed. It remains distinct
+from a graphical Windows playthrough, which is untested. See the
+[verification report](../../docs/qa/V0_2_VERIFICATION.md) and
+[release workflow](../../.github/workflows/release-windows.yml) for the exact
+required evidence.

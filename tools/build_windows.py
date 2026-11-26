@@ -29,15 +29,13 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 GAME = ROOT / "game"
-VERSION = "0.1.0"
-PACKAGE = f"THE_EYES_v{VERSION}_Windows_x64"
 ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 ERROR_LINE = re.compile(
     r"(?im)^\s*(?:SCRIPT\s+)?ERROR\s*:|\bParse Error\s*:|\bFailed to export project\b"
 )
 
-QUICK_START_EN = """THE EYES — THE FIRST OBSERVANCE
-Windows x64 prototype v0.1.0
+QUICK_START_EN = """THE EYES — THE SECOND OBSERVANCE
+Windows x64 prototype v{version}
 
 START
 Extract the complete ZIP to a folder, then open THE_EYES.exe. Keep any supplied
@@ -52,12 +50,24 @@ Mouse: look. Shift: sprint. Ctrl or C: crouch. Space: jump.
 E: interact / hold at the Relay. Q: use the chosen archetype's ability.
 Tab: show/hide map. Escape: pause or close a trial panel.
 
-THREE SEALS
+CONTRACTS — THREE SEALS PER MATCH
+First Observance selects the original three trials below. Second Observance
+selects Memory Vault, Ritual Circle and Clock Room. Seeded Mix chooses one trial
+for each chamber bay from these six trials. The displayed seed repeats a layout.
+
+FIRST OBSERVANCE
 Silent Countdown: collect and deliver three motes; use cover and quiet movement.
 Trial of the Echoes: watch the four-symbol sequence, then answer with 1–4.
 R replays the sequence; E leaves the panel. The Eye remains active during it.
 Clockwork Relay: hold E at the machinery; work is protected at checkpoints.
 After all three seals are completed, reach the open exit before time expires.
+
+SECOND OBSERVANCE
+Memory Vault: remember four requested relics and deliver each to its matching cradle.
+Ritual Circle: kindle the five vessels in order, then stay in the ritual circle.
+Clock Room: E turns a lever forward; R reverses it. X resets at the centre.
+Match all hands, then use E on the central press to submit. G returns cargo.
+Read each station's instructions and the in-game manual for its controls.
 
 EYE CONTROLS
 Mouse: aim. 1–4 or mouse wheel: change fixed observation socket.
@@ -67,7 +77,7 @@ Stop every survivor from escaping. Walls and cover interrupt line of sight.
 
 SCOPE
 This is a local playable Godot prototype, not the completed UE5 multiplayer game.
-Three trials are playable; the full 25-trial design and UE5 Blueprint foundation
+Six trials are playable; the full 25-trial design and UE5 Blueprint foundation
 are in the source repository. There is no online matchmaking in this build.
 
 VERIFICATION AND CREDITS
@@ -77,8 +87,8 @@ See THIRD_PARTY_NOTICES.md and licenses/ for engine and font attributions.
 Source: https://github.com/darknigthmare/THE_EYES
 """
 
-QUICK_START_FR = """THE EYES — THE FIRST OBSERVANCE
-Prototype Windows x64 v0.1.0
+QUICK_START_FR = """THE EYES — THE SECOND OBSERVANCE
+Prototype Windows x64 v{version}
 
 DEMARRER
 Extrais toute l'archive ZIP dans un dossier, puis ouvre THE_EYES.exe. Conserve
@@ -93,12 +103,24 @@ Souris : regarder. Maj : courir. Ctrl ou C : s'accroupir. Espace : sauter.
 E : interagir / maintenir au mécanisme Relay. Q : capacité de l'archétype choisi.
 Tab : afficher/masquer le plan. Échap : pause ou fermeture du panneau d'épreuve.
 
-LES TROIS SCEAUX
+CONTRATS — TROIS SCEAUX PAR PARTIE
+First Observance choisit les trois épreuves initiales décrites ci-dessous.
+Second Observance choisit Memory Vault, Ritual Circle et Clock Room. Seeded Mix
+choisit une épreuve par zone parmi ces six épreuves ; la graine reproduit ce choix.
+
+FIRST OBSERVANCE
 Silent Countdown : collecte et rapporte trois orbes, en utilisant les couverts.
 Trial of the Echoes : observe les quatre symboles, puis reproduis avec 1 à 4.
 R rejoue la séquence ; E quitte le panneau. L'Œil reste actif pendant l'épreuve.
 Clockwork Relay : maintiens E au mécanisme ; les paliers protègent ta progression.
 Les trois sceaux terminés, rejoins la sortie ouverte avant la fin du compte à rebours.
+
+SECOND OBSERVANCE
+Memory Vault : retiens les quatre reliques demandées et livre-les aux bons socles.
+Ritual Circle : allume les cinq récipients dans l'ordre, puis reste dans le cercle.
+Clock Room : E avance un levier, R l'inverse ; X réinitialise au centre.
+Aligne les aiguilles, puis valide avec E au centre. G restitue l'objet porté.
+Lis les instructions de chaque poste et le manuel du jeu pour ses commandes.
 
 COMMANDES DE L'ŒIL
 Souris : viser. 1 à 4 ou molette : changer de point d'observation fixe.
@@ -107,7 +129,7 @@ Q : invoquer. Les actions coûtent de l'énergie et ont un temps de recharge.
 Empêche tous les survivants de s'échapper. Les murs et couverts bloquent la vision.
 
 CONTENU DE CETTE VERSION
-Prototype Godot jouable en local. Trois épreuves sont jouables. La bible complète
+Prototype Godot jouable en local. Six épreuves sont jouables. La bible complète
 des 25 épreuves et la préparation UE5 entièrement en Blueprints sont dans le dépôt.
 Le multijoueur en ligne et le jeu UE5 complet ne sont pas inclus dans ce prototype.
 
@@ -148,6 +170,40 @@ def digest(path: Path) -> str:
         for chunk in iter(lambda: source.read(1024 * 1024), b""):
             result.update(chunk)
     return result.hexdigest()
+
+
+def read_project_metadata(project_file: Path = GAME / "project.godot") -> dict[str, str]:
+    """Keep package names and provenance tied to the actual project version."""
+    text = project_file.read_text(encoding="utf-8")
+    section = re.search(r"(?ms)^\[application\]\s*\n(.*?)(?=^\[|\Z)", text)
+    if section is None:
+        raise RuntimeError("Project application section is missing")
+    result: dict[str, str] = {}
+    for key in ("name", "version"):
+        match = re.search(r'^config/' + key + r'\s*=\s*("[^\n]*")\s*$', section[1], re.MULTILINE)
+        if match is None:
+            raise RuntimeError(f"Project config/{key} is missing")
+        result[key] = json.loads(match[1])
+    if re.fullmatch(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?", result["version"]) is None:
+        raise RuntimeError("Project version must be a safe semantic version")
+    return result
+
+
+def source_provenance() -> dict[str, object]:
+    """A source ZIP may have no Git metadata; report that instead of guessing."""
+    if shutil.which("git") is None or not (ROOT / ".git").exists():
+        return {"source_commit": None, "source_worktree_dirty": None}
+    revision = subprocess.run(
+        ["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+        capture_output=True, text=True, check=False,
+    )
+    status = subprocess.run(
+        ["git", "-C", str(ROOT), "status", "--porcelain", "--untracked-files=normal"],
+        capture_output=True, text=True, check=False,
+    )
+    if revision.returncode != 0 or status.returncode != 0:
+        return {"source_commit": None, "source_worktree_dirty": None}
+    return {"source_commit": revision.stdout.strip(), "source_worktree_dirty": bool(status.stdout.strip())}
 
 
 def verify_pe(path: Path) -> dict[str, object]:
@@ -304,7 +360,7 @@ def write_archive(package_dir: Path, archive: Path) -> None:
         for path in sorted(package_dir.rglob("*")):
             if not path.is_file():
                 continue
-            info = zipfile.ZipInfo(f"{PACKAGE}/{path.relative_to(package_dir).as_posix()}", date_time=zip_stamp)
+            info = zipfile.ZipInfo(f"{package_dir.name}/{path.relative_to(package_dir).as_posix()}", date_time=zip_stamp)
             info.compress_type = zipfile.ZIP_DEFLATED
             info.create_system = 3
             info.external_attr = 0o100644 << 16
@@ -326,6 +382,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    project = read_project_metadata()
+    package = f"THE_EYES_v{project['version']}_Windows_x64"
+    provenance = source_provenance()
     if not args.output.is_absolute():
         raise RuntimeError("--output must be an absolute directory")
     output = args.output.resolve()
@@ -347,7 +406,7 @@ def main() -> int:
                 raise RuntimeError(f"Godot/template version mismatch: {version} versus {expected}")
         with tempfile.TemporaryDirectory(prefix=".the-eyes-export-", dir=output) as temporary:
             work = Path(temporary)
-            package_dir = work / PACKAGE
+            package_dir = work / package
             package_dir.mkdir()
             exe = package_dir / "THE_EYES.exe"
             notices = write_runtime_notices(executable, package_dir / "licenses", work / "notice-extraction", logs)
@@ -364,11 +423,12 @@ def main() -> int:
                 shutil.copy2(notice, font_destination / notice.name)
             if not (font_destination / "LICENSE_Apache-2.0.txt").is_file():
                 raise RuntimeError("Required full Apache 2.0 font license is missing")
-            (package_dir / "START_HERE_EN.txt").write_text(QUICK_START_EN, encoding="utf-8")
-            (package_dir / "LIRE_EN_PREMIER_FR.txt").write_text(QUICK_START_FR, encoding="utf-8")
+            (package_dir / "START_HERE_EN.txt").write_text(QUICK_START_EN.format(version=project["version"]), encoding="utf-8")
+            (package_dir / "LIRE_EN_PREMIER_FR.txt").write_text(QUICK_START_FR.format(version=project["version"]), encoding="utf-8")
             build_info = {
-                "project": "THE EYES — The First Observance",
-                "project_version": VERSION,
+                "project": project["name"],
+                "project_version": project["version"],
+                **provenance,
                 "godot_version": version,
                 "export_preset": "Windows Desktop",
                 "template_sha256": digest(template) if template else None,
@@ -383,7 +443,7 @@ def main() -> int:
                 json.dumps(build_info, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8"
             )
             write_hashes(package_dir)
-            archive = work / f"{PACKAGE}.zip"
+            archive = work / f"{package}.zip"
             write_archive(package_dir, archive)
             for source in sorted(package_dir.rglob("*")):
                 if source.is_file():

@@ -2,7 +2,7 @@
 
 ## Catalogue contract
 
-This chapter preserves all twenty-five titles from the supplied concept and expands them into playable specifications. **Only The Silent Countdown, Trial of the Echoes, and Clockwork Relay are selected for the current Godot slice.** The other entries are production designs, not finished levels. Their timings are initial production proposals to be tested with the final controller and supported player counts.
+This chapter preserves all twenty-five titles from the supplied concept and expands them into playable specifications. **The v0.1 prototype implements The Silent Countdown, Trial of the Echoes, and Clockwork Relay. The v0.2 prototype implements physical subsets of The Memory Vault, The Ritual Circle, and The Clock Room.** The remaining nineteen entries are production designs. All entries retain their full production specification; an implemented subset does not imply a finished realm or every listed intervention. See [the prototype contracts](12_PROTOTYPE_CONTRACTS.md) for exact implemented boundaries. Production timings below remain proposals.
 
 Each trial has an instruction phase, an active phase, at least one checkpoint, a failure/recovery rule, and a permanent completion. The Eye's interventions use the shared energy, visibility, warning, cooldown, and concurrency rules. An intervention may complicate a solution; it cannot secretly replace the solution after commitment or erase a banked seal.
 
@@ -154,7 +154,9 @@ A failed cover choice causes bounded damage and pushes the survivor toward a saf
 
 ## T10 — The Ritual Circle
 
-**Status / realm:** planned; Dollhouse. **Skill:** sequencing and defensive movement. **Goal:** light five ritual vessels in the correct relation and hold the final circle.
+**Status / realm:** v0.2 implemented physical subset; full Dollhouse version planned. **Skill:** sequencing and defensive movement. **Goal:** light five ritual vessels in the correct relation and hold the final circle.
+
+**Implemented subset:** five spatial vessels, one shared ember, a seeded order, permanent pair banks at two and four, and an eight-second continuous physical ring hold after all five are lit. A wrong unlit vessel returns the ember and rolls back only unbanked sequence progress; already lit vessels are harmless to revisit. Survivors can move inside the 2.8 m ring to evade gaze. Leaving it resets only the final hold. Bespoke Eye extinguishing and the completion debuff described below remain production proposals.
 
 The vessels sit around a central table, each bearing a shape and a short inscription. The instructions define a sequence through relationships rather than vague trial and error. Players can inspect a complete reference tablet before starting. Each correct pair locks into a stable partial pattern; the Eye cannot erase a locked pair.
 
@@ -250,7 +252,9 @@ Team mode allows complementary actions across two stage lanes; solo uses one lan
 
 ## T16 — The Clock Room
 
-**Status / realm:** planned; Labyrinth of Shadows. **Skill:** linked-system reasoning. **Goal:** align three clock hands to a target constellation.
+**Status / realm:** v0.2 implemented physical subset; full Labyrinth of Shadows version planned. **Skill:** linked-system reasoning. **Goal:** align three clock hands to a target constellation.
+
+**Implemented subset:** three physical reversible levers act on three integer hands modulo six, with paired effects A+B, B+C, and C+A, a seeded reachable start, reset control, and explicit central confirmation. Bounded breadth-first generation selects one of 48 reachable states at shortest distance four from the target; every generated puzzle therefore requires exactly four optimal legal turns. Bots use a solver to choose physical actions. Active Tinker Overclock advises the next lever and direction while leaving all movement and input to the player. Hand clutches, a banked midpoint relationship, and Eye-controlled gear offsets below remain production proposals.
 
 The floor contains a large clock with three hand controls. Turning one hand also moves another through a visible gear ratio. A diagram shows the relationship, and a safe test console lets players preview one step. The target is a symbol constellation rather than an arbitrary real-world time, avoiding ambiguity about twelve-hour notation.
 
@@ -378,7 +382,9 @@ A fall lands on a lower service shelf while it remains above the heat line, then
 
 ## T24 — The Memory Vault
 
-**Status / realm:** planned; Labyrinth of Shadows and Dollhouse. **Skill:** distributed memory and object identification. **Goal:** retrieve four objects matching a displayed ordered set.
+**Status / realm:** v0.2 implemented physical subset; full Labyrinth of Shadows and Dollhouse versions planned. **Skill:** distributed memory and object identification. **Goal:** retrieve four objects matching a displayed ordered set.
+
+**Implemented subset:** four target relics selected from six named shapes, actual pickup/carry movement, and four indexed physical cradles. Each cradle validates its exact target ID; accepted placements are permanent and a wrong deposit retains the carried object. Moving decoys, split-team demonstrations, and realm-specific storage wings below remain production proposals.
 
 The vault briefly displays four relics with shape, symbol, and spoken or written name. Players then enter storage aisles containing real objects and clearly distinguishable near matches. A reference replay is available at the cost of time. The task is not dependent on tiny texture differences or color alone.
 

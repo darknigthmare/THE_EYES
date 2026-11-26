@@ -24,6 +24,13 @@ Epic's pages may show different selected documentation versions, and Godot's `st
 | [Godot — Model export considerations](https://docs.godotengine.org/en/latest/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.html) | Right-handed Y-up; distinction between camera forward and model front | `latest` page: verify behavior against installed build |
 | [Godot — SDFGI](https://docs.godotengine.org/en/stable/tutorials/3d/global_illumination/using_sdfgi.html) | Forward+ requirement and dynamic-scene limitations | Optional future visual branch; not a claimed feature of the Compatibility prototype |
 | [Godot — Command line tutorial](https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html) | Headless/script execution, project path and export command interface | Testing/export mechanism; actual run evidence must come from logs |
+| [Epic — Random Streams](https://dev.epicgames.com/documentation/en-us/unreal-engine/random-streams-in-unreal-engine) | Blueprint stream variables, explicit seeds and stream-specific random nodes | Does not establish identical Godot/UE random sequences |
+| [Epic — Make Random Stream](https://dev.epicgames.com/documentation/en-us/unreal-engine/BlueprintAPI/Math/Random/MakeRandomStream) | Integer initial seed input | Godot's larger XOR salts require an explicit migration strategy |
+| [Epic — Struct Variables in Blueprints](https://dev.epicgames.com/documentation/en-us/unreal-engine/blueprint-struct-variables-in-unreal-engine) | Editor-authored grouped/nested fields and Blueprint struct variables | The proposed snapshot/row schemas still need actual editor validation |
+| [GitHub — Workflow artifacts](https://docs.github.com/en/actions/concepts/workflows-and-actions/workflow-artifacts) | Passing built files and logs between dependent jobs | Release jobs transfer one archive and independently check its SHA-256 |
+| [GitHub — upload-artifact](https://github.com/actions/upload-artifact/blob/main/README.md) | Current v7 upload inputs and archive behavior | Hosted-runner action, distinct from the game's pinned engine/template binaries |
+| [GitHub — download-artifact](https://github.com/actions/download-artifact) | Current v8 download inputs and default digest failure behavior | Downloads exact artifact IDs passed by the producing jobs; attempt-specific names allow safe reruns |
+| [Microsoft — Start-Process](https://learn.microsoft.com/powershell/module/Microsoft.PowerShell.Management/Start-Process) | Process waiting, exit object and redirected stdout/stderr | Used to run the actual exported executable on the Windows runner |
 
 ## Evidence categories used in this delivery
 
@@ -33,6 +40,8 @@ Epic's pages may show different selected documentation versions, and Godot's `st
 | Game source and committed data | Which rules/assets are present in this revision |
 | Executed Godot test logs | The cases actually run in the installed engine |
 | Captured gameplay frames | Visual output of the tested scene/build |
+| Native Windows headless startup logs | The exported executable reached the requested scene and exited without diagnosed errors; no graphical hardware/FPS claim |
+| Drive metadata plus downloaded archive hashes | A dated backup has the expected contents; it does not automatically synchronize future changes |
 | Technical documentation | Planned engine architecture and implementation decisions |
 | UE5 descriptor/CSV/config | A real starting scaffold and source data, not a compiled game |
 | Git commit/remote branch/PR | Publication state of those exact files |

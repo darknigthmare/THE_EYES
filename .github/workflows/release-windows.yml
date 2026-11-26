@@ -11,28 +11,30 @@ permissions:
   contents: read
 
 concurrency:
-  group: the-eyes-release-v0.1.0
+  group: the-eyes-release-v0.2.0
   cancel-in-progress: false
 
+env:
+  RELEASE_TAG: v0.2.0
+  PACKAGE: THE_EYES_v0.2.0_Windows_x64
+  GODOT_VERSION: 4.7.2
+  GODOT_ARCHIVE_SHA256: cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4
+  WINDOWS_TEMPLATE_SHA256: d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562
+
 jobs:
-  windows-release:
+  linux-build:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: write
-    env:
-      RELEASE_TAG: v0.1.0
-      GODOT_VERSION: 4.7.2
-      GODOT_ARCHIVE_SHA256: cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4
-      WINDOWS_TEMPLATE_SHA256: d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562
-      VALIDATED_GAMEPLAY_COMMIT: 6c817877f1e66365655e0245a45570f7484680c8
-      GH_REPO: ${{ github.repository }}
+    timeout-minutes: 25
+    outputs:
+      publish: ${{ steps.gate.outputs.publish }}
+      archive_sha256: ${{ steps.package.outputs.archive_sha256 }}
+      candidate_artifact_id: ${{ steps.candidate.outputs.artifact-id }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 0
+          fetch-depth: 1
           persist-credentials: false
 
       - name: Preserve any existing release or tag
@@ -40,12 +42,13 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
           if gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json url --jq '.url' \
             > "$RUNNER_TEMP/eyes-existing-release.txt" 2> "$RUNNER_TEMP/eyes-release-check.err"; then
             echo 'publish=false' >> "$GITHUB_OUTPUT"
-            echo "Release $RELEASE_TAG already exists; leaving it unchanged. Bump the version for another delivery." >> "$GITHUB_STEP_SUMMARY"
+            echo "Release $RELEASE_TAG already exists; leaving it unchanged. Use a new version for another delivery." >> "$GITHUB_STEP_SUMMARY"
             cat "$RUNNER_TEMP/eyes-existing-release.txt" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
@@ -56,7 +59,7 @@ jobs:
           if gh api "repos/$GH_REPO/git/ref/tags/$RELEASE_TAG" \
             > "$RUNNER_TEMP/eyes-existing-tag.json" 2> "$RUNNER_TEMP/eyes-tag-check.err"; then
             echo 'publish=false' >> "$GITHUB_OUTPUT"
-            echo "Tag $RELEASE_TAG already exists without a readable release; leaving the tag unchanged. Review it and use a new version." >> "$GITHUB_STEP_SUMMARY"
+            echo "Tag $RELEASE_TAG already exists; leaving it unchanged. Review it and use a new version." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           if ! grep -q 'HTTP 404' "$RUNNER_TEMP/eyes-tag-check.err"; then
@@ -65,16 +68,21 @@ jobs:
           fi
           echo 'publish=true' >> "$GITHUB_OUTPUT"
 
-      - name: Require the verified gameplay source
+      - name: Require the exact source revision and package version
         if: steps.gate.outputs.publish == 'true'
         shell: bash
         run: |
           set -euo pipefail
-          git cat-file -e "${VALIDATED_GAMEPLAY_COMMIT}^{commit}"
-          git diff --exit-code "$VALIDATED_GAMEPLAY_COMMIT" "$GITHUB_SHA" -- game tools
-          echo "Gameplay and build tools match verified commit $VALIDATED_GAMEPLAY_COMMIT." >> "$GITHUB_STEP_SUMMARY"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          python3 - <<'PY'
+          import os, runpy
+          module = runpy.run_path('tools/build_windows.py')
+          project = module['read_project_metadata']()
+          assert 'v' + project['version'] == os.environ['RELEASE_TAG'], project
+          assert f"THE_EYES_v{project['version']}_Windows_x64" == os.environ['PACKAGE']
+          PY
 
-      - name: Install the pinned and verified Godot editor
+      - name: Install the pinned Godot editor
         if: steps.gate.outputs.publish == 'true'
         shell: bash
         run: |
@@ -87,8 +95,37 @@ jobs:
           unzip -q "$RUNNER_TEMP/eyes-godot.zip" -d "$RUNNER_TEMP/eyes-godot"
           chmod +x "$RUNNER_TEMP/eyes-godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64"
 
-      - name: Retrieve matching official Windows templates
+      - name: Import and pass all six gameplay suites
         if: steps.gate.outputs.publish == 'true'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import os, runpy
+          from pathlib import Path
+          helper = runpy.run_path('tools/build_windows.py')
+          check = helper['run_checked']
+          temporary = Path(os.environ['RUNNER_TEMP'])
+          godot = str(temporary / 'eyes-godot' / f"Godot_v{os.environ['GODOT_VERSION']}-stable_linux.x86_64")
+          logs_dir = temporary / 'eyes-linux-logs'
+          logs_dir.mkdir(exist_ok=True)
+          cases = [('import', [godot, '--headless', '--editor', '--path', 'game', '--import'])]
+          suites = ['test_director.gd', 'test_world.gd', 'test_survivor_route.gd',
+                    'test_trial_set.gd', 'test_second_world.gd', 'test_second_survivor_route.gd']
+          for suite in suites:
+              cases.append((suite, [godot, '--headless', '--path', 'game', '--fixed-fps', '60',
+                                    '--audio-driver', 'Dummy', '--script', f'res://tests/{suite}']))
+          for name, command in cases:
+              print(f'Running {name}', flush=True)
+              logs = []
+              try:
+                  print(check(command, logs, timeout=600), flush=True)
+              finally:
+                  (logs_dir / f'{name}.log').write_text('\n'.join(logs), encoding='utf-8')
+          PY
+
+      - name: Retrieve and verify the official Windows template
+        if: steps.gate.outputs.publish == 'true'
+        shell: bash
         run: |
           set -euo pipefail
           python3 tools/fetch_export_templates.py \
@@ -97,54 +134,228 @@ jobs:
             --platform windows
           printf '%s  %s\n' "$WINDOWS_TEMPLATE_SHA256" "$RUNNER_TEMP/eyes-templates/windows_release_x86_64.exe" | sha256sum --check
 
-      - name: Export and verify the Windows x64 package
+      - name: Export and structurally verify the Windows package
         if: steps.gate.outputs.publish == 'true'
+        shell: bash
         run: |
           python3 tools/build_windows.py \
             --godot "$RUNNER_TEMP/eyes-godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64" \
             --template "$RUNNER_TEMP/eyes-templates/windows_release_x86_64.exe" \
             --output "$RUNNER_TEMP/eyes-windows-build"
 
-      - name: Prepare release assets and precise build notes
+      - name: Prepare the unchanged candidate archive and provenance
+        id: package
         if: steps.gate.outputs.publish == 'true'
         shell: bash
         run: |
-          set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/eyes-release-assets"
-          cp "$RUNNER_TEMP/eyes-windows-build/THE_EYES_v0.1.0_Windows_x64.zip" "$RUNNER_TEMP/eyes-release-assets/"
-          (
-            cd "$RUNNER_TEMP/eyes-release-assets"
-            sha256sum THE_EYES_v0.1.0_Windows_x64.zip > SHA256SUMS.txt
-            sha256sum --check SHA256SUMS.txt
-          )
           python3 - <<'PY'
-          import os
+          import hashlib, json, os, shutil
           from pathlib import Path
-          notes = Path('docs/releases/V0_1_0.md').read_text(encoding='utf-8')
-          server = os.environ['GITHUB_SERVER_URL']
-          repo = os.environ['GITHUB_REPOSITORY']
-          sha = os.environ['GITHUB_SHA']
-          run = os.environ['GITHUB_RUN_ID']
-          notes += (
-              '\n\n## Automated build provenance\n\n'
-              f'Built from [{sha}]({server}/{repo}/commit/{sha}). '
-              f'[Build run]({server}/{repo}/actions/runs/{run}).\n\n'
-              'The attached SHA256SUMS.txt is authoritative for this release ZIP. '
-              'The archive also contains checksums for its executable and accompanying files.\n'
-          )
-          (Path(os.environ['RUNNER_TEMP']) / 'eyes-release-notes.md').write_text(notes, encoding='utf-8')
+          temporary = Path(os.environ['RUNNER_TEMP'])
+          built = temporary / 'eyes-windows-build'
+          assets = temporary / 'eyes-release-assets'
+          assets.mkdir()
+          archive = built / f"{os.environ['PACKAGE']}.zip"
+          info = json.loads((built / 'BUILD_INFO.json').read_text(encoding='utf-8'))
+          assert info['source_commit'] == os.environ['GITHUB_SHA'], info
+          assert info['source_worktree_dirty'] is False, info
+          assert 'v' + info['project_version'] == os.environ['RELEASE_TAG'], info
+          assert info['template_sha256'] == os.environ['WINDOWS_TEMPLATE_SHA256'], info
+          assert info['godot_version'].startswith(os.environ['GODOT_VERSION'] + '.stable'), info
+          shutil.copy2(archive, assets / archive.name)
+          shutil.copy2(built / 'BUILD_INFO.json', assets / 'BUILD_INFO.json')
+          with archive.open('rb') as stream:
+              digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+          (assets / 'SHA256SUMS.txt').write_text(f'{digest}  {archive.name}\n', encoding='utf-8')
+          with Path(os.environ['GITHUB_OUTPUT']).open('a', encoding='utf-8') as output:
+              output.write(f'archive_sha256={digest}\n')
+          notes = Path('docs/releases/V0_2_0.md').read_text(encoding='utf-8')
+          server, repository, sha, run = (os.environ[k] for k in
+              ['GITHUB_SERVER_URL', 'GITHUB_REPOSITORY', 'GITHUB_SHA', 'GITHUB_RUN_ID'])
+          notes += (f'\n\n## Exact build provenance\n\n'
+                    f'Built and tested from [{sha}]({server}/{repository}/commit/{sha}). '
+                    f'[Workflow run]({server}/{repository}/actions/runs/{run}).\n\n'
+                    f'Godot: `{info["godot_version"]}`. Windows ZIP SHA-256: `{digest}`.\n\n'
+                    'All six required Linux gameplay suites passed before this archive was exported. '
+                    'The publish job additionally requires the native Windows headless startup report.\n')
+          (assets / 'release-notes.md').write_text(notes, encoding='utf-8')
           PY
 
-      - name: Publish the prototype prerelease once
+      - name: Transfer the candidate to Windows and publication jobs
+        id: candidate
         if: steps.gate.outputs.publish == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-candidate-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/eyes-release-assets/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+      - name: Retain Linux verification and export logs
+        if: always() && steps.gate.outputs.publish == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: linux-verification-${{ github.sha }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/eyes-linux-logs/
+            ${{ runner.temp }}/eyes-windows-build/build_windows.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  windows-startup:
+    needs: linux-build
+    if: needs.linux-build.outputs.publish == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 10
+    outputs:
+      smoke_artifact_id: ${{ steps.smoke.outputs.artifact-id }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          artifact-ids: ${{ needs.linux-build.outputs.candidate_artifact_id }}
+          path: ${{ runner.temp }}/eyes-candidate
+
+      - name: Run the exported executable on native Windows in headless mode
+        shell: pwsh
+        env:
+          EXPECTED_ARCHIVE_SHA256: ${{ needs.linux-build.outputs.archive_sha256 }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $candidate = Join-Path $env:RUNNER_TEMP 'eyes-candidate'
+          $archive = Join-Path $candidate "$($env:PACKAGE).zip"
+          $actualHash = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actualHash -ne $env:EXPECTED_ARCHIVE_SHA256) { throw 'Candidate archive SHA-256 differs from Linux build.' }
+          $unpacked = Join-Path $env:RUNNER_TEMP 'eyes-unpacked'
+          Expand-Archive -LiteralPath $archive -DestinationPath $unpacked
+          $package = Join-Path $unpacked $env:PACKAGE
+          $exe = Join-Path $package 'THE_EYES.exe'
+          $build = Get-Content (Join-Path $package 'BUILD_INFO.json') -Raw | ConvertFrom-Json
+          if ($build.source_commit -ne $env:GITHUB_SHA) { throw 'Unexpected source commit in package.' }
+          if ('v' + $build.project_version -ne $env:RELEASE_TAG) { throw 'Unexpected package version.' }
+          if ($build.source_worktree_dirty -ne $false) { throw 'Package was built from a changed worktree.' }
+          foreach ($line in Get-Content (Join-Path $package 'SHA256SUMS.txt')) {
+            if ([string]::IsNullOrWhiteSpace($line)) { continue }
+            $parts = $line -split '\s+', 2
+            $target = Join-Path $package $parts[1]
+            if ((Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash.ToLowerInvariant() -ne $parts[0]) {
+              throw "Package member checksum mismatch: $($parts[1])"
+            }
+          }
+          $logDirectory = Join-Path $env:RUNNER_TEMP 'eyes-windows-smoke'
+          New-Item -ItemType Directory -Path $logDirectory | Out-Null
+          $cases = @()
+          foreach ($contract in @('first', 'second', 'mix')) {
+            foreach ($role in @('survivor', 'eye')) {
+              $label = "$contract-$role"
+              $stdout = Join-Path $logDirectory "$label.stdout.log"
+              $stderr = Join-Path $logDirectory "$label.stderr.log"
+              $engineLog = Join-Path $logDirectory "$label.engine.log"
+              $arguments = @('--headless', '--audio-driver', 'Dummy', '--quit-after', '240',
+                '--log-file', ('"{0}"' -f $engineLog), '--', "--qa-view=$role", "--contract=$contract", '--mute')
+              $process = Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $package `
+                -RedirectStandardOutput $stdout -RedirectStandardError $stderr -Wait -PassThru
+              if ($process.ExitCode -ne 0) { throw "$label exited with code $($process.ExitCode)." }
+              $text = (@($stdout, $stderr, $engineLog) | Where-Object { Test-Path $_ } |
+                ForEach-Object { Get-Content -LiteralPath $_ -Raw }) -join "`n"
+              $clean = $text -replace '\x1b\[[0-?]*[ -/]*[@-~]', ''
+              if ($clean -match '(?im)^\s*(?:SCRIPT\s+)?ERROR\s*:|\bParse Error\s*:|\bFailed to load\b') {
+                Write-Output $clean
+                throw "$label emitted an engine error."
+              }
+              $marker = "THE_EYES_QA_READY role=$role contract=$contract"
+              if (-not $clean.Contains($marker)) { throw "$label did not confirm the requested playable scene." }
+              $cases += [ordered]@{role=$role; contract=$contract; exit_code=$process.ExitCode;
+                frames_requested=240; ready_marker_seen=$true; engine_errors_seen=$false}
+              Write-Output "Native Windows headless startup passed: $label"
+            }
+          }
+          $report = [ordered]@{
+            schema_version=1; project_version=$build.project_version; source_commit=$env:GITHUB_SHA;
+            archive_sha256=$actualHash; godot_version=$build.godot_version;
+            platform='Windows'; operating_system=[Environment]::OSVersion.VersionString;
+            mode='headless'; graphical_hardware_playtest=$false; cases=$cases
+          }
+          $report | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $logDirectory 'WINDOWS_SMOKE.json') -Encoding utf8
+          "All six native Windows headless startup checks passed. This is not a graphical hardware playtest." >> $env:GITHUB_STEP_SUMMARY
+
+      - name: Retain native Windows startup evidence
+        id: smoke
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows-startup-${{ github.sha }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/eyes-windows-smoke/
+          if-no-files-found: error
+          retention-days: 14
+
+  publish:
+    needs: [linux-build, windows-startup]
+    if: needs.linux-build.outputs.publish == 'true' && needs.windows-startup.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          artifact-ids: ${{ needs.linux-build.outputs.candidate_artifact_id }}
+          path: ${{ runner.temp }}/eyes-release-assets
+      - uses: actions/download-artifact@v8
+        with:
+          artifact-ids: ${{ needs.windows-startup.outputs.smoke_artifact_id }}
+          path: ${{ runner.temp }}/eyes-windows-smoke
+
+      - name: Validate exact archive and native Windows evidence
+        shell: bash
+        env:
+          EXPECTED_ARCHIVE_SHA256: ${{ needs.linux-build.outputs.archive_sha256 }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, shutil
+          from pathlib import Path
+          temporary = Path(os.environ['RUNNER_TEMP'])
+          assets = temporary / 'eyes-release-assets'
+          archive = assets / f"{os.environ['PACKAGE']}.zip"
+          with archive.open('rb') as stream:
+              digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+          assert digest == os.environ['EXPECTED_ARCHIVE_SHA256']
+          report_path = temporary / 'eyes-windows-smoke' / 'WINDOWS_SMOKE.json'
+          report = json.loads(report_path.read_text(encoding='utf-8-sig'))
+          assert report['source_commit'] == os.environ['GITHUB_SHA']
+          assert report['archive_sha256'] == digest
+          assert report['mode'] == 'headless' and report['platform'] == 'Windows'
+          assert report['graphical_hardware_playtest'] is False
+          expected = {(role, contract) for role in ['survivor', 'eye'] for contract in ['first', 'second', 'mix']}
+          assert len(report['cases']) == 6
+          assert {(case['role'], case['contract']) for case in report['cases']} == expected
+          assert all(case['exit_code'] == 0 and case['ready_marker_seen'] is True and
+                     case['engine_errors_seen'] is False for case in report['cases'])
+          shutil.copy2(report_path, assets / 'WINDOWS_SMOKE.json')
+          with (assets / 'WINDOWS_SMOKE.json').open('rb') as stream:
+              report_digest = hashlib.file_digest(stream, 'sha256').hexdigest()
+          (assets / 'SHA256SUMS.txt').write_text(
+              f'{digest}  {archive.name}\n{report_digest}  WINDOWS_SMOKE.json\n', encoding='utf-8')
+          with (assets / 'release-notes.md').open('a', encoding='utf-8') as notes:
+              notes.write('\n\n## Native Windows startup result\n\n'
+                  'The exported executable passed all six native Windows headless startup checks: '
+                  'Survivor and Eye for First, Second and Seeded Mix. Each run reached its requested '
+                  'playable scene, exited with code zero and emitted no engine error diagnostics. '
+                  'See the attached `WINDOWS_SMOKE.json` for the exact archive, source revision and cases. '
+                  'This is a startup test without graphical rendering; it does not establish graphical '
+                  'driver compatibility, interactive Windows playthroughs or hardware performance.\n')
+          PY
+
+      - name: Publish the prerelease once after all platform gates
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
           if gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json url --jq '.url' \
             > "$RUNNER_TEMP/eyes-existing-release.txt" 2> "$RUNNER_TEMP/eyes-release-check.err"; then
-            echo "Release $RELEASE_TAG was created during this run; leaving it unchanged." >> "$GITHUB_STEP_SUMMARY"
+            echo "Release $RELEASE_TAG already exists; leaving it unchanged." >> "$GITHUB_STEP_SUMMARY"
             cat "$RUNNER_TEMP/eyes-existing-release.txt" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
@@ -154,7 +365,7 @@ jobs:
           fi
           if gh api "repos/$GH_REPO/git/ref/tags/$RELEASE_TAG" \
             > "$RUNNER_TEMP/eyes-existing-tag.json" 2> "$RUNNER_TEMP/eyes-tag-check.err"; then
-            echo "Tag $RELEASE_TAG was created during this run; leaving it unchanged. Use a new version." >> "$GITHUB_STEP_SUMMARY"
+            echo "Tag $RELEASE_TAG already exists; leaving it unchanged. Use a new version." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           if ! grep -q 'HTTP 404' "$RUNNER_TEMP/eyes-tag-check.err"; then
@@ -162,11 +373,12 @@ jobs:
             exit 1
           fi
           gh release create "$RELEASE_TAG" \
-            "$RUNNER_TEMP/eyes-release-assets/THE_EYES_v0.1.0_Windows_x64.zip" \
+            "$RUNNER_TEMP/eyes-release-assets/$PACKAGE.zip" \
             "$RUNNER_TEMP/eyes-release-assets/SHA256SUMS.txt" \
+            "$RUNNER_TEMP/eyes-release-assets/WINDOWS_SMOKE.json" \
             --repo "$GH_REPO" \
             --target "$GITHUB_SHA" \
             --prerelease \
-            --title 'THE EYES 0.1.0 — The First Observance' \
-            --notes-file "$RUNNER_TEMP/eyes-release-notes.md"
+            --title 'THE EYES 0.2.0 — The Second Observance' \
+            --notes-file "$RUNNER_TEMP/eyes-release-assets/release-notes.md"
           gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json url --jq '.url' >> "$GITHUB_STEP_SUMMARY"

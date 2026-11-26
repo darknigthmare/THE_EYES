@@ -1,6 +1,6 @@
 # THE EYES — Game Bible
 
-**Design version:** 0.1 · **Date:** 26 November 2026 · **Language:** English · **Owner:** Darknigthmare
+**Design version:** 0.2 · **Created:** 26 November 2026 · **Language:** English · **Owner:** Darknigthmare
 
 **A room can hunt you even when its monster cannot move.** THE EYES is an original asymmetric nightmare game about observation, coordinated trials, and escape. A team of survivors breaks the seals of a hostile ritual theatre while an enormous, physically immobile Eye occupies fixed sockets, studies movement, and commands the machinery through its gaze.
 
@@ -21,12 +21,15 @@ This bible turns the supplied concept and all twenty-five proposed games into a 
 | [09 — Modes and progression](09_MODES_AND_PROGRESSION.md) | Classic, Endless, Custom, practice, progression and social systems |
 | [10 — Production and acceptance](10_PRODUCTION_AND_ACCEPTANCE.md) | Delivery phases, content status, test scenarios, budgets, risks and release gates |
 | [11 — Source traceability](11_SOURCE_TRACEABILITY.md) | Mapping from the attached brief to this design, including deliberately clarified rules |
+| [12 — Prototype contracts](12_PROTOTYPE_CONTRACTS.md) | Exact First, Second and Seeded Mix scope; physical v0.2 trial subsets and verification boundaries |
 
 The structured companion is [design_catalog.json](../../data/design_catalog.json). It identifies every trial, realm, character, archetype, and high-level status. Narrative detail remains in these chapters. Actual executable tuning lives in the Godot implementation; proposed production tuning in this bible must not silently override tested code.
 
 ## What this delivery means
 
-The local Godot slice is **The First Observance**: one encounter built around three seals, a giant Eye, four fixed observation sockets, and an exit. Its playable roles are a survivor against an AI Eye, and the Eye against four AI survivors. The three implemented trial families are **The Silent Countdown**, **Trial of the Echoes**, and **Clockwork Relay**. The prototype uses original procedural presentation. Read [the play guide](../PLAY.md) and the repository's verification report for the exact controls, tested features and known limitations.
+The published v0.1 local Godot slice implements **The Silent Countdown**, **Trial of the Echoes**, and **Clockwork Relay** in one observatory. Its roles are a survivor against an AI Eye, and the Eye against four AI survivors. The **v0.2 Godot implementation** adds physical subsets of **The Memory Vault**, **The Ritual Circle**, and **The Clock Room** as alternate apparatus in the same three bays. First, Second, and Seeded Mix contracts always require three seals; six trials are available to the contract selector, not six simultaneous mandatory objectives. See [the exact implemented scope and verification evidence](12_PROTOTYPE_CONTRACTS.md). Domain checks, physical bot routes through all eight mixed combinations, and a complete Second survivor route against the active Story Eye have passed. Native Windows execution and graphical platform checks remain separate release gates.
+
+The prototype uses original procedural presentation. Read [the play guide](../PLAY.md) and the repository's verification report for the exact controls, tested features and known limitations. Production specifications elsewhere in this bible remain broader than the implemented subsets.
 
 The production design targets **five to seven survivors against one Eye**, with human or AI control. Online sessions, the complete twenty-five-trial pool, all four realm campaigns, full character art, progression services, and cross-platform play are future work. Blueprint specifications and project scaffolding are not compiled Unreal gameplay assets.
 

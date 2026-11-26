@@ -1,6 +1,6 @@
 extends SceneTree
 ## Reproducible native-renderer screenshots. Requires an actual display/GPU.
-## -- --capture-path=/absolute/image.png --capture-view=menu|eye|manual|echo
+## -- --capture-path=/absolute/image.png --capture-view=menu|eye|manual|echo|contracts|vault|ritual|clock|eye_second
 
 func _initialize() -> void:
 	_run.call_deferred()
@@ -20,8 +20,23 @@ func _run() -> void:
 	var scene = load("res://scenes/main.tscn").instantiate()
 	root.add_child(scene)
 	await process_frame
-	if view == "manual":
+	if view == "contracts":
+		scene.ui.contract_select.select(1)
+		scene.ui.contract_select.item_selected.emit(1)
+	elif view == "manual":
 		scene.ui.help_panel.show()
+	elif view == "eye_second":
+		scene.start_match("eye","Veil","standard",271126,"second")
+	elif view in ["vault","ritual","clock"]:
+		# Staged presentation only. Full movement completion is tested separately.
+		scene.start_match("survivor","Keeper","story",271126,"second")
+		var positions = {"vault":Vector3(-17,0,-6.5),"ritual":Vector3(17,0,-6.0),"clock":Vector3(0,0,22)}
+		scene.player.global_position = positions[view]
+		scene.player.rotation.y = 0.0
+		scene.player.pitch = 0.16
+		scene.player.head.rotation.x = 0.16
+		if view == "vault":
+			scene.apparatus.show_vault_reference()
 	elif view == "eye":
 		scene.start_match("eye","Veil","standard",271126)
 	elif view == "echo":

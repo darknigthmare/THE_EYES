@@ -38,13 +38,13 @@ All titles appear in [the trial catalogue](06_TRIAL_CATALOGUE.md) and [the struc
 | T07 | Strings of Despair | Planned |
 | T08 | Clockwork Relay | Selected core trial |
 | T09 | Glass Symphony | Planned |
-| T10 | The Ritual Circle | Planned |
+| T10 | The Ritual Circle | v0.2 implemented physical subset |
 | T11 | The Tower of Babel | Planned |
 | T12 | Mirrors of Deceit | Planned |
 | T13 | The Abyss Walk | Planned |
 | T14 | Warden’s Chains | Planned |
 | T15 | The Marionette’s Dance | Planned |
-| T16 | The Clock Room | Planned |
+| T16 | The Clock Room | v0.2 implemented physical subset |
 | T17 | Chimes of Doom | Planned |
 | T18 | The Spiral Stairs | Planned |
 | T19 | Strings of Time | Planned |
@@ -52,7 +52,7 @@ All titles appear in [the trial catalogue](06_TRIAL_CATALOGUE.md) and [the struc
 | T21 | The Infernal Carousel | Planned |
 | T22 | Masks of Fear | Planned |
 | T23 | The Bone Bridge | Planned |
-| T24 | The Memory Vault | Planned |
+| T24 | The Memory Vault | v0.2 implemented physical subset |
 | T25 | Whispers of the Void | Planned |
 
 ## Deliberate clarifications
@@ -75,4 +75,4 @@ All titles appear in [the trial catalogue](06_TRIAL_CATALOGUE.md) and [the struc
 
 ## Document status
 
-This bible is a detailed design baseline, not a record of twenty-five completed games. Implementation truth is maintained in the repository's release notes, test report, and runnable source. The machine-readable catalogue marks the three selected prototype trials separately from the twenty-two planned designs. All expansion characters, realms, items, and minions remain planned until their actual assets and behavior pass the relevant acceptance gates.
+This bible is a detailed design baseline, not a record of twenty-five completed games. Implementation truth is maintained in the repository's release notes, test report, and runnable source. The machine-readable catalogue distinguishes the original v0.1 trio, the three alternate subsets implemented in v0.2, and nineteen remaining planned designs. The [contract chapter](12_PROTOTYPE_CONTRACTS.md) records exactly which production features are included or deferred. Expansion characters, realms, items, and minions remain planned until their actual assets and behavior pass the relevant acceptance gates.

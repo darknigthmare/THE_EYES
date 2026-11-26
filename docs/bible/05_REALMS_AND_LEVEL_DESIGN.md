@@ -12,13 +12,13 @@ Production metrics begin with 2.4-meter clear doorways, 3-meter secondary corrid
 
 Every mandatory interaction has a navigation solution that does not require exploiting physics. Jumps on the critical path use generous landing surfaces and test with the slowest supported movement state. If a mode demands precise platforming, the route includes checkpoints and an accessible alternative rule set. Camera collision is checked around low ceilings, large props, and tether endpoints.
 
-## The First Observance — prototype arena
+## The observatory — prototype arena
 
-The Godot slice is one compact ritual-industrial arena rather than a claim that the four final realms are complete. It contains three seal stations, delivery objects, traversable cover, hazard lanes, four sockets, and a visible exit. The three stations establish different attention costs: a carrier must move through exposed space, a memorizer must concentrate near a terminal, and an operator must commit time to a mechanism.
+The Godot slice is one compact ritual-industrial arena rather than a claim that the four final realms are complete. It contains three apparatus bays, traversable cover, hazard lanes, four sockets, and a visible exit. The First contract assigns delivery, memory, and hold mechanics. The v0.2 prototype's Second contract assigns physical relic retrieval, a spatial ember ritual, and a coupled clock mechanism to those same bays; Seeded Mix selects one of each bay's two apparatus choices.
 
-The layout should make each station identifiable from silhouette and sign: a receiving basin for Silent Countdown, four numbered or shaped glyphs for Echoes, and a large wheel for Clockwork Relay. Navigation lights guide the player back to the central spine. A successful release captures the actual running arena and annotates its implemented routes; concept art is never substituted for gameplay evidence.
+The layout should make the active station identifiable from silhouette and sign. First uses a receiving basin, four glyphs, and a large wheel. Second uses relics and indexed cradles, five spatial vessels and an ember cradle, and three lever-controlled clock hands with a central press. Inactive apparatus must be replaced or fully disabled, including its pickups and prompts. Navigation lights guide the player back to the central spine. A successful release captures the actual running arena; concept art is never substituted for gameplay evidence.
 
-The initial prototype arena occupies approximately 54 by 48 meters, with north, east, south, and west sockets at eight meters high. Its three mote placements are around `(−21, 9)`, `(20, 9)`, and `(14, −3)` in the horizontal X/Z plane. These are implementation coordinates for this slice, not universal metrics for the four production realms. They should be rechecked against the scene when geometry changes.
+The prototype arena occupies approximately 54 by 48 meters, with north, east, south, and west sockets at eight meters high. When Silent Countdown is active, its original mote placements are around `(−21, 9)`, `(20, 9)`, and `(14, −3)` in the horizontal X/Z plane. These are implementation coordinates for this slice, not universal metrics for the four production realms. The v0.2 scope adds no annex or catch-floor bridge. Bridge of Illusions and The Gauntlet remain planned until their complete physical layouts can be delivered.
 
 ## Realm 01 — Twisted Carnival
 

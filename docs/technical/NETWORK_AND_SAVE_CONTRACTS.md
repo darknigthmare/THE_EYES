@@ -1,6 +1,6 @@
 # THE EYES — network and persistence contracts
 
-**Status:** specified for the future UE5 build. The Godot v0.1 game is local, with AI filling the opposing side. It does not provide a lobby server, internet matchmaking, replicated clients, reconnect or cross-platform accounts. This document makes those future features concrete enough to implement and test without implying they already exist.
+**Status:** specified for the future UE5 build. The Godot v0.2 game remains local, with AI filling the opposing side. It does not provide a lobby server, internet matchmaking, replicated clients, reconnect or cross-platform accounts. This document makes those future features concrete enough to implement and test without implying they already exist.
 
 ## 1. Session model
 
@@ -115,6 +115,20 @@ Public custom seeds are a convenience for practice. If a competitive mode expose
 
 Reject a generated layout before admission if it violates mandatory reachability, safe warning zones, objective item availability or required team roles. Record the rejection reason and fallback to a known solvable configuration. Do not run endless random retries while clients wait in a loading screen.
 
+### 5.1 Contract snapshots and save migration for the six-trial pool
+
+The v0.2 local rule contract uses IDs `first`, `second`, and `mix`, with three stable seal slots `silent`, `echoes`, and `relay`. A slot is a position in the match; its active trial may be `vault`, `ritual`, or `clock`. The full class/graph specification and actual scalar CSVs are in [Contract Trial Implementation](CONTRACT_TRIAL_IMPLEMENTATION.md).
+
+A proposed UE public snapshot carries `MatchEpoch`, `ContractId`, `RulesVersion`, `Revision`, and an array of `{SlotId, TrialId, TrialEpoch, Complete}`. The server's resolved private configuration also retains the four distinct vault targets, ritual permutation and bank, clock start/target/hands, cargo ownership and eligible command deadlines. Do not regenerate hidden answers when a participant reconnects. Reconstruct visible accepted progress from a coherent snapshot; events alone are insufficient.
+
+Keep secret clue arrays and bot solver paths out of general replication. A world clue intentionally displayed to a legitimate observer is a presentation decision, not permission to distribute every puzzle solution in the public GameState. Public practice seeds in the local build provide reproducibility rather than secrecy. Godot's 64-bit salted seeds and UE RandomStream do not define an identical cross-engine random algorithm.
+
+The controller interaction request additionally binds `MatchEpoch`, `SlotId`, `TrialId`, `TrialEpoch`, and a bounded action payload. Validate actor registration against the resolved slot before applying the existing request rate, physical range/trace, life and phase checks. Deposit/vessel attempts use a 0.35-second per-actor gate; every clock lever/reset/confirm action shares a 0.25-second global gate. Clients cannot submit elapsed ritual hold time; the server measures eligible occupancy in the 280 cm ring, adding time once even with several occupants. Movement within that ring preserves the eight-second hold. Leaving its valid region resets the hold without erasing the lit sequence.
+
+For a future checkpoint schema that adds contract selection, increment its schema version explicitly. A supported legacy checkpoint with the three original slot flags can map to `ContractId=first` and the corresponding original trial IDs. Preserve its stored resolved Echo configuration if present. A legacy save with insufficient layout data may retain settings and records while declining to resume the match; it must not silently generate a different puzzle and label it an exact continuation. Future schema versions remain protected from accidental overwrite by an older build.
+
+At load/admission, validate three unique slot IDs, registry membership, slot/trial compatibility, known contract ID, a supported rules version, unique vault targets in 0–5, ritual permutation 0–4, bank values in {0,2,4} consistent with the lit prefix, and clock array lengths/ranges/reachability. A new v0.2 clock begins at a shortest-path distance of at least four commands; its generator selects among 48 distance-four candidates in the 108-state connected component. Validate that constraint against the stored **initial** state. A legitimate in-progress saved position can be closer to the target and must not be regenerated to restore the initial difficulty. These are proposed UE persistence checks. The Godot prototype still has no mid-match resume or authenticated reconnect service.
+
 ## 6. Joining, leaving and reconnect
 
 ### 6.1 Lobby admission
@@ -170,7 +184,7 @@ Before a schema migration, retain a previous compatible backup slot. Load the so
 
 Checkpoint only at an announced safe boundary, initially before a match or between fully resolved trials. Persist the resolved layout, participant loadouts, completed seals, elapsed phase budget and rules version. On resume, create a fresh session and rebuild legal world state. Do not persist an active damaging trap mid-frame until exact restart behavior has a test.
 
-The current prototype's actual persistence, if any, is described by its own README/code. This plan is not a claim that a partial-match save exists in v0.1. Online matches use the live server's state and session service, not a local `.sav` as host authority.
+The current prototype's actual persistence, if any, is described by its own README/code. This plan is not a claim that a partial-match save exists in v0.2. Online matches use the live server's state and session service, not a local `.sav` as host authority.
 
 ## 8. Threat and failure register
 
