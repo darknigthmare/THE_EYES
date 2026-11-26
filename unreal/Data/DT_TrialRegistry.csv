@@ -5,3 +5,6 @@ echoes,T05,echoes,BP_TrialEchoes
 ritual,T10,echoes,BP_TrialRitualCircle
 relay,T08,relay,BP_TrialRelay
 clock,T16,relay,BP_TrialClockRoom
+light,T04,silent,BP_TrialLightInDarkness
+strings,T07,echoes,BP_TrialStringsOfDespair
+chimes,T17,relay,BP_TrialChimesOfDoom

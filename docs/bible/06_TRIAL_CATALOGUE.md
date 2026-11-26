@@ -2,7 +2,9 @@
 
 ## Catalogue contract
 
-This chapter preserves all twenty-five titles from the supplied concept and expands them into playable specifications. **The v0.1 prototype implements The Silent Countdown, Trial of the Echoes, and Clockwork Relay. The v0.2 prototype implements physical subsets of The Memory Vault, The Ritual Circle, and The Clock Room.** The remaining nineteen entries are production designs. All entries retain their full production specification; an implemented subset does not imply a finished realm or every listed intervention. See [the prototype contracts](12_PROTOTYPE_CONTRACTS.md) for exact implemented boundaries. Production timings below remain proposals. The v0.3 Squad adds team orders and rescue around the same six subsets; it adds no trial to this implementation count. Its combined Relay contribution is capped at 1.8 times base rate, evaluated once per physics frame, as described in [Squad and rescue](13_SQUAD_AND_RESCUE.md).
+This chapter preserves all twenty-five titles from the supplied concept and expands them into playable specifications. **The v0.4 prototype contains nine implemented observatory subsets; sixteen trial families remain production designs.** The First Observance supplies The Silent Countdown, Trial of the Echoes, and Clockwork Relay. Version 0.2 adds The Memory Vault, The Ritual Circle, and The Clock Room. Version 0.4 adds Light in the Darkness, Strings of Despair, and Chimes of Doom. Each match still selects three trials and requires three seals; Seeded Mix now has 27 possible selections.
+
+All entries retain their full production specification; an implemented subset does not imply a finished realm or every listed intervention. See [the original prototype contracts](12_PROTOTYPE_CONTRACTS.md) and [The Third Observance](14_THIRD_OBSERVANCE.md) for exact implemented boundaries and verification references. Production timings below remain proposals. The v0.3 Squad introduced team orders and rescue around the existing six subsets without adding a trial. Those systems also apply to the v0.4 pool. Its combined Relay contribution remains capped at 1.8 times base rate, evaluated once per physics frame, as described in [Squad and rescue](13_SQUAD_AND_RESCUE.md).
 
 Each trial has an instruction phase, an active phase, at least one checkpoint, a failure/recovery rule, and a permanent completion. The Eye's interventions use the shared energy, visibility, warning, cooldown, and concurrency rules. An intervention may complicate a solution; it cannot secretly replace the solution after commitment or erase a banked seal.
 
@@ -58,7 +60,9 @@ Odd teams assign one person a movable anchor sled. Solo practice uses that sled 
 
 ## T04 — Light in the Darkness
 
-**Status / realm:** planned; Void of Despair. **Skill:** resource management and route discovery. **Goal:** connect three refuge lamps and reach the lit exit.
+**Implementation boundary:** the local Godot v0.4 observatory subset is implemented; see [The Third Observance](14_THIRD_OBSERVANCE.md) and its [verification report](../qa/V0_4_VERIFICATION.md). The complete realm-specific design below remains broader than that subset.
+
+**Status / realm:** prototype subset implemented; production realm Void of Despair remains planned. **Skill:** resource management and route discovery. **Goal:** connect three refuge lamps and reach the lit exit.
 
 The arena is a network of stone islands connected by wide dark causeways. A handheld lamp reveals symbols, hazard edges, and phantom silhouettes. Its charge is finite, but refill stations exist at each permanent refuge. Darkness reduces information; it does not make the floor collision disappear. Critical ledges retain a minimum contrast outline.
 
@@ -106,7 +110,9 @@ Teams assign scouts, probe carriers, and route recorders. Solo practice offers t
 
 ## T07 — Strings of Despair
 
-**Status / realm:** planned; Labyrinth of Shadows. **Skill:** symbolic logic and communication. **Goal:** release three suspended cages by cutting the correct support sequence.
+**Implementation boundary:** the local Godot v0.4 observatory subset is implemented; see [The Third Observance](14_THIRD_OBSERVANCE.md) and its [verification report](../qa/V0_4_VERIFICATION.md). The complete realm-specific design below remains broader than that subset.
+
+**Status / realm:** prototype subset implemented; production realm Labyrinth of Shadows remains planned. **Skill:** symbolic logic and communication. **Goal:** release three suspended cages by cutting the correct support sequence.
 
 Survivors stand on secure platforms inside hanging frames. Each frame displays four ropes with shape tags, not color alone. A nearby panel describes relations such as “the knot beside the open eye supports the empty counterweight.” The solution is generated from a small validated logic template, and the panel contains all required evidence.
 
@@ -270,7 +276,9 @@ Solo practice uses persistent clutches; team mode requires brief overlapping ope
 
 ## T17 — Chimes of Doom
 
-**Status / realm:** planned; Twisted Carnival. **Skill:** sequence learning and sound management. **Goal:** ring four marked bells in the required order while controlling their noise consequences.
+**Implementation boundary:** the local Godot v0.4 observatory subset is implemented; see [The Third Observance](14_THIRD_OBSERVANCE.md) and its [verification report](../qa/V0_4_VERIFICATION.md). The complete realm-specific design below remains broader than that subset.
+
+**Status / realm:** prototype subset implemented; production realm Twisted Carnival remains planned. **Skill:** sequence learning and sound management. **Goal:** ring four marked bells in the required order while controlling their noise consequences.
 
 Each bell has a unique shape, numeral, pitch, and strike animation. A demonstration plays the sequence and displays the corresponding symbols. Ringing the correct bell advances a visible score. Ringing a wrong bell resets only the current phrase and emits a loud noise event that attracts a sound-sensitive minion after its spawn warning.
 

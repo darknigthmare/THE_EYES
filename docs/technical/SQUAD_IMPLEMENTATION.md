@@ -12,7 +12,7 @@ Read the [original framework](UE5_BLUEPRINT_IMPLEMENTATION.md), [six-trial contr
 | Eye / `eye` | Eye in four fixed sockets | Four AI survivors | Human Eye |
 | Survivor Squad / `squad` | One survivor and squad orders | One human plus four AI survivors | AI Eye |
 
-`SessionMode` records the requested mode even if a shared internal controller uses survivor movement for both solo and squad. Do not derive it from the possessed pawn class. All three modes use `first`, `second` and `mix`, three active trial slots, and three seals. Squad is a local simulation with one human input stream. It is not a network party or multiple local human controllers.
+`SessionMode` records the requested mode even if a shared internal controller uses survivor movement for both solo and squad. Do not derive it from the possessed pawn class. In v0.3, all three modes use `first`, `second` and `mix`, three active trial slots, and three seals. Version 0.4 additionally supports `third` and expands Mix to 27 selections; apply the [Third Observance extension](THIRD_TRIAL_IMPLEMENTATION.md) alongside these unchanged life/rescue rules. Squad is a local simulation with one human input stream. It is not a network party or multiple local human controllers.
 
 The squad downed/rescue rules apply only to `squad`. They must not accidentally replace solo Second Sight or the existing Eye-mode survivors' life policy. Keep mode admission explicit in GameMode and test the three-mode matrix.
 

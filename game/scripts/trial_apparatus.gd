@@ -3,6 +3,8 @@ extends Node3D
 ## Physical, spatial presentation for the three Second Observance trials.
 ## Match rules live in TrialSet; this node never awards progress by itself.
 
+const ThirdApparatus = preload("res://scripts/third_apparatus.gd")
+
 const RELIC_NAMES: Array[String] = ["ORB", "SPIRE", "CUBE", "RING", "CROWN", "DIAMOND"]
 const RELIC_POSITIONS: Array[Vector3] = [Vector3(-22,0,10),Vector3(-17,0,14),Vector3(-12,0,11),Vector3(12,0,11),Vector3(17,0,14),Vector3(22,0,10)]
 const CRADLE_POSITIONS: Array[Vector3] = [Vector3(-21.2,0,-12),Vector3(-19.5,0,-9.2),Vector3(-15.5,0,-9.2),Vector3(-13.2,0,-12)]
@@ -12,7 +14,7 @@ const EMBER_POSITION: Vector3 = Vector3(17,0,-9.3)
 const VESSEL_POSITIONS: Array[Vector3] = [Vector3(13.2,0,-11),Vector3(13.5,0,-15.4),Vector3(17,0,-17.3),Vector3(20.5,0,-15.4),Vector3(20.8,0,-11)]
 const CLOCK_CENTER: Vector3 = Vector3(0,0,14)
 const CLOCK_LEVERS: Array[Vector3] = [Vector3(-3.5,0,16),Vector3(0,0,18.2),Vector3(3.5,0,16)]
-const TRIAL_NAMES: Dictionary = {"silent":"SILENT COUNTDOWN","echoes":"TRIAL OF THE ECHOES","relay":"CLOCKWORK RELAY","vault":"THE MEMORY VAULT","ritual":"THE RITUAL CIRCLE","clock":"THE CLOCK ROOM"}
+const TRIAL_NAMES: Dictionary = {"silent":"SILENT COUNTDOWN","echoes":"TRIAL OF THE ECHOES","relay":"CLOCKWORK RELAY","vault":"THE MEMORY VAULT","ritual":"THE RITUAL CIRCLE","clock":"THE CLOCK ROOM","light":"LIGHT IN THE DARKNESS","strings":"STRINGS OF DESPAIR","chimes":"CHIMES OF DOOM"}
 
 var arena: EyesArena
 var state
@@ -30,6 +32,7 @@ var age: float = 0.0
 var _last_vault: String = ""
 var _last_ritual: String = ""
 var _last_clock: String = ""
+var third: ThirdApparatus
 
 func configure(p_arena: EyesArena, p_state) -> void:
 	arena = p_arena
@@ -56,6 +59,9 @@ func configure(p_arena: EyesArena, p_state) -> void:
 		_build_ritual()
 	if state.trial_for_slot("relay") == "clock":
 		_build_clock()
+	third = ThirdApparatus.new()
+	add_child(third)
+	third.configure(arena,state)
 	refresh(0.0)
 
 func _root_at(point: Vector3) -> Node3D:
@@ -161,6 +167,8 @@ func _process(delta: float) -> void:
 
 func refresh(delta: float) -> void:
 	age += delta
+	if third != null:
+		third.refresh(delta)
 	reveal_left = maxf(0.0,reveal_left-delta)
 	if vault_reference != null:
 		var value = "[ E ]  REPLAY THE FOUR RELICS\nG drops a carried relic safely"

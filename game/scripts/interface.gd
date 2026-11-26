@@ -196,10 +196,10 @@ func _build_menu() -> void:
 	label(menu,"D A R K N I G T H M A R E    /    O R I G I N A L S",Vector2(64,38),Vector2(720,30),13,GOLD,mono_font)
 	label(menu,"A S Y M M E T R I C A L   N I G H T M A R E",Vector2(66,144),Vector2(670,30),13,MINT,mono_font)
 	label(menu,"THE EYES",Vector2(59,177),Vector2(780,116),102,PAPER,title_font)
-	label(menu,"THE SURVIVOR ACCORD",Vector2(68,300),Vector2(650,37),19,GOLD,mono_font)
+	label(menu,"THE THIRD OBSERVANCE",Vector2(68,300),Vector2(650,37),19,GOLD,mono_font)
 	var description = label(menu,"It cannot follow you.\nIt only needs to see you.",Vector2(68,359),Vector2(610,84),29,PAPER,title_font)
 	description.add_theme_constant_override("line_spacing",8)
-	label(menu,"Six trials. Three seals. Survive together.",Vector2(68,451),Vector2(620,32),17,MUTED)
+	label(menu,"Nine trials. Three seals. Survive together.",Vector2(68,451),Vector2(620,32),17,MUTED)
 	button(menu,"PLAY SOLO AS A SURVIVOR     →",Vector2(68,488),Vector2(570,50)).pressed.connect(_start.bind("survivor"))
 	button(menu,"LEAD A LOCAL SQUAD  ·  YOU + 4 AI    →",Vector2(68,550),Vector2(570,54),true).pressed.connect(_start.bind("squad"))
 	button(menu,"TAKE THE EYE'S SEAT       →",Vector2(68,616),Vector2(570,50)).pressed.connect(_start.bind("eye"))
@@ -218,14 +218,15 @@ func _build_menu() -> void:
 	menu.add_child(seed_select)
 	button(menu,"FIELD MANUAL",Vector2(68,787),Vector2(270,43)).pressed.connect(func(): help_panel.show())
 	button(menu,"SETTINGS",Vector2(350,787),Vector2(288,43)).pressed.connect(func(): pause_panel.show())
-	label(menu,"PLAYABLE GODOT PROTOTYPE  /  0.3.0  /  ENGLISH",Vector2(68,853),Vector2(760,25),11,MUTED,mono_font)
+	label(menu,"PLAYABLE GODOT PROTOTYPE  /  0.4.0  /  ENGLISH",Vector2(68,853),Vector2(760,25),11,MUTED,mono_font)
 	var contract_panel = panel(menu,Vector2(875,538),Vector2(502,282),Color(0.03,0.07,0.09,0.92),Color("54635c"))
 	label(contract_panel,"CHOOSE YOUR OBSERVANCE",Vector2(24,20),Vector2(454,25),13,GOLD,mono_font)
-	contract_select = _option(contract_panel,Vector2(24,61),454,["First Observance","Second Observance","Seeded Mix"])
+	contract_select = _option(contract_panel,Vector2(24,61),454,["First Observance","Second Observance","Seeded Mix","Third Observance"])
 	var descriptions: Array[String] = [
 		"THE FIRST / Learn the chamber\nCarry whispers, remember the Echoes, and charge the Relay.",
 		"THE SECOND / The Registrar's devices\nIdentify four relics, kindle the Ritual, and solve the coupled Clock.",
-		"SEEDED MIX / Eight combinations\nOne of two trials in each bay. Your seed fixes the selection and its puzzles."
+		"SEEDED MIX / Twenty-seven combinations\nOne of three trials in each bay. Your seed fixes this version's selection and puzzles.",
+		"THE THIRD / Light, strings and chimes\nCarry light to the refuges, interpret the support ropes, and quiet the bells."
 	]
 	var contract_description = label(contract_panel,descriptions[0],Vector2(24,123),Vector2(454,105),17,PAPER)
 	contract_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -236,7 +237,7 @@ func _build_menu() -> void:
 func _start(mode: String) -> void:
 	var archetype = ["Veil","Tinker","Runner","Keeper"][role_select.selected]
 	var difficulty = ["story","standard","ruthless"][difficulty_select.selected]
-	start_requested.emit(mode,archetype,difficulty,int(seed_select.value),["first","second","mix"][contract_select.selected])
+	start_requested.emit(mode,archetype,difficulty,int(seed_select.value),["first","second","mix","third"][contract_select.selected])
 
 func _bar(parent: Control, at: Vector2, size_value: Vector2, color: Color) -> ProgressBar:
 	var b = ProgressBar.new()
@@ -316,7 +317,7 @@ func _build_hud() -> void:
 	hud.visibility_changed.connect(_sync_squad_visibility)
 
 func _build_squad() -> void:
-	squad_panel = panel(hud,Vector2(1066,117),Vector2(338,482),Color(0.025,0.06,0.075,0.93),Color("42595c"))
+	squad_panel = panel(hud,Vector2(1066,117),Vector2(338,548),Color(0.025,0.06,0.075,0.93),Color("42595c"))
 	squad_panel.name = "SquadRoster"
 	squad_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label(squad_panel,"LOCAL SQUAD",Vector2(16,12),Vector2(306,23),13,GOLD,mono_font)
@@ -324,7 +325,7 @@ func _build_squad() -> void:
 	label(squad_panel,"B  Work    F  Follow    V  Hold",Vector2(16,65),Vector2(306,20),10,MINT,mono_font)
 	squad_status_label = label(squad_panel,"YOU + FOUR AI ALLIES",Vector2(16,89),Vector2(306,20),10,MUTED,mono_font)
 	for index in range(5):
-		var row_panel = panel(squad_panel,Vector2(12,118+index*59),Vector2(314,54),Color(0.065,0.115,0.135,0.8))
+		var row_panel = panel(squad_panel,Vector2(12,118+index*72),Vector2(314,67),Color(0.065,0.115,0.135,0.8))
 		row_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var name_text = label(row_panel,"",Vector2(10,3),Vector2(214,22),13,PAPER)
 		name_text.clip_text = true
@@ -333,11 +334,11 @@ func _build_squad() -> void:
 		state_text.clip_text = true
 		var progress = _bar(row_panel,Vector2(10,29),Vector2(294,3),MINT)
 		progress.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var detail = label(row_panel,"",Vector2(10,36),Vector2(294,17),10,MUTED,mono_font)
+		var detail = label(row_panel,"",Vector2(10,35),Vector2(294,29),10,MUTED,mono_font)
 		detail.clip_text = true
 		squad_rows.append({"panel":row_panel,"name":name_text,"state":state_text,"bar":progress,"fill":progress.get_theme_stylebox("fill"),"detail":detail})
 		row_panel.hide()
-	squad_rescue_label = label(squad_panel,"Hold E near a downed ally to rescue.",Vector2(16,423),Vector2(306,44),12,GOLD)
+	squad_rescue_label = label(squad_panel,"Hold E near a downed ally to rescue.",Vector2(16,489),Vector2(306,44),12,GOLD)
 	squad_rescue_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	squad_rescue_label.set_deferred("size",Vector2(306,44))
 	squad_panel.hide()
@@ -381,6 +382,10 @@ func _squad_task_text(task: String) -> String:
 		"vault_deposit":"Banking a relic", "ember_pickup":"Taking the ember", "ritual_pickup":"Taking the ember",
 		"ritual_light":"Lighting a vessel", "ritual_hold":"Holding the ritual", "clock_turn":"Turning the Clock",
 		"clock_confirm":"Sealing the Clock", "trial_wait":"Waiting for a trial", "your_survivor":"Your survivor",
+		"light_pickup":"Collecting a light cell", "light_align":"Aligning a refuge", "light_recharge":"Recharging the lamp",
+		"strings_read":"Inspecting rope clues", "strings_observe":"Inspecting rope clues", "strings_cut":"Releasing a cage",
+		"chimes_read":"Reading the score", "chimes_observe":"Reading the score", "chimes_strike":"Ringing a bell",
+		"chimes_damp":"Damping a bell",
 		"wait":"Waiting", "":"Ready"
 	}
 	var key: String = task.strip_edges().to_lower().replace(" ","_")
@@ -422,7 +427,7 @@ func update_squad(data: Dictionary) -> void:
 			color = GOLD
 			row.state.text = "DOWNED"
 			row.bar.value = progress*100.0
-			row.detail.text = "%s · %ds LEFT · RESCUE %d%%" % [archetype,bleed,roundi(progress*100.0)]
+			row.detail.text = "%s · %ds LEFT\nRESCUE %d%%" % [archetype,bleed,roundi(progress*100.0)]
 		elif state == "eliminated":
 			color = MUTED
 			row.state.text = "OUT"
@@ -436,7 +441,7 @@ func update_squad(data: Dictionary) -> void:
 		else:
 			row.state.text = "ALIVE"
 			row.bar.value = health
-			row.detail.text = "%s · %d HP · %s" % [archetype,roundi(health),_squad_task_text(str(member.get("task","")))]
+			row.detail.text = "%s · %d HP\n%s" % [archetype,roundi(health),_squad_task_text(str(member.get("task","")))]
 		row.state.add_theme_color_override("font_color",color)
 		row.fill.bg_color = color
 	var rescue_text: String = str(data.get("rescue_text",""))
@@ -576,7 +581,24 @@ func _build_help() -> void:
 	columns.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	columns.add_theme_constant_override("separation",56)
 	body.add_child(columns)
-	var left = "THREE ACTIVE TRIALS PER MATCH\nFirst keeps the original trials. Second replaces all three. Seeded Mix chooses one of two in each bay.\n\nFIRST: deliver three motes northwest; repeat the Echoes northeast; hold E at the south Relay.\n\nMEMORY VAULT: read four relic names at the northwest desk. Collect them from the southern shelves and fill their exact numbered cradles. G safely returns cargo.\n\nRITUAL CIRCLE: take the shared ember northeast. Follow the engraved five-vessel order; pairs stay banked. Remain inside the ring for eight seconds. Move within it to avoid hazards.\n\nCLOCK ROOM: walk between the south levers. E turns forward; R reverses. Match the target, then press E at the centre. X resets.\n\nComplete all three seals, then hold E at the north door. Use cover to break gaze. In Solo, your first fall offers Second Sight; the Squad uses ally rescue instead."
+	var left = "THREE ACTIVE TRIALS PER MATCH
+First keeps the original trials. Second and Third each replace all three. Seeded Mix selects one of three in each bay: 27 combinations. Seeds reproduce selection and puzzles within this version; v0.3 Mix selections change in v0.4.
+
+FIRST: deliver three motes northwest; repeat the Echoes northeast; hold E at the south Relay.
+
+MEMORY VAULT: read four relic names at the northwest desk. Collect them from the southern shelves and fill their exact numbered cradles. G safely returns cargo.
+
+RITUAL CIRCLE: take the shared ember northeast. Follow the engraved five-vessel order; pairs stay banked. Remain inside the ring for eight seconds. Move within it to avoid hazards.
+
+CLOCK ROOM: walk between the south levers. E turns forward; R reverses. Match the target, then press E at the centre. X resets.
+
+LIGHT IN THE DARKNESS: carry each numbered cell to its matching refuge lamp. Hold E, stay still and keep clear sight within 1.8 metres for two seconds. Your lamp drains only while carrying a cell outside a lit refuge. Return within three metres of the base or a lit refuge to recharge. An empty lamp prevents alignment but never removes the floor or traps you. G returns the cell.
+
+STRINGS OF DESPAIR: inspect the current clue and the four tagged ropes. The clue names a left/right pair and a curved/angular shape. Circle and Crescent are curved; Triangle and Diamond are angular. Hold E for two stationary seconds at your chosen rope. A mistake engages a three-second safety catch; completed stages remain banked. Release all three stages.
+
+CHIMES OF DOOM: read the visual score, then walk between the four numbered bells and press E in order. Two four-note phrases complete the trial. A wrong bell resets only the current phrase and makes a loud noise. R moves the single shared damper to the nearby bell, or removes it; a damped correct strike is quieter. The first phrase stays banked.
+
+Complete all three seals, then hold E at the north door. Use cover to break gaze. In Solo, your first fall offers Second Sight; the Squad uses ally rescue instead."
 	var right = "LOCAL SQUAD / YOU + FOUR AI
 Lead four allies against the AI Eye. B: Work on trials. F: Follow you. V: Hold each ally at their current position. Immediate danger, rescue and an open exit take priority over orders. Read their task and condition in the right-hand roster; TAB switches to the map.
 
@@ -606,7 +628,7 @@ Four AI survivors collect motes, solve trials and attempt escape. You remain fix
 	controls.add_theme_font_size_override("font_size",13)
 	controls.add_theme_color_override("font_color",MUTED)
 	controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	controls.text = "WASD / ZQSD · move    E · use    Q (AZERTY A) · ability    G · drop    R · reverse clock    X · reset clock"
+	controls.text = "WASD / ZQSD · move    E · use    Q (AZERTY A) · ability    G · drop    R · reverse clock / damp bell    X · reset clock"
 	layout.add_child(controls)
 	var ready = button(layout,"I AM READY",Vector2.ZERO,Vector2.ZERO,true)
 	ready.custom_minimum_size.y = 56
@@ -635,7 +657,7 @@ func show_game(eye_mode: bool) -> void:
 	_sync_squad_visibility()
 
 func set_trial_names(mapping: Dictionary, contract_id: String) -> void:
-	observance_label.text = {"first":"THE FIRST OBSERVANCE","second":"THE SECOND OBSERVANCE","mix":"THE SEEDED OBSERVANCE"}.get(contract_id,"THE OBSERVANCE")
+	observance_label.text = {"first":"THE FIRST OBSERVANCE","second":"THE SECOND OBSERVANCE","mix":"THE SEEDED OBSERVANCE","third":"THE THIRD OBSERVANCE"}.get(contract_id,"THE OBSERVANCE")
 	var index = 0
 	for slot in ["silent","echoes","relay"]:
 		seal_labels[slot].text = "%s  %s" % [["I  ","II ","III"][index],EyesTrialApparatus.TRIAL_NAMES[mapping[slot]]]

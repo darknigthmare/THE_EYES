@@ -6,14 +6,16 @@ extends RefCounted
 signal event_raised(kind: String, payload: Dictionary)
 signal trial_completed(slot: String, trial_id: String)
 
+const ThirdRules = preload("res://scripts/third_trials.gd")
 const RELIC_NAMES: Array[String] = ["Orb", "Spire", "Cube", "Ring", "Crown", "Diamond"]
 const TRIAL_NAMES: Dictionary = {
 	"silent": "Silent Countdown", "vault": "The Memory Vault",
 	"echoes": "Trial of the Echoes", "ritual": "The Ritual Circle",
 	"relay": "Clockwork Relay", "clock": "The Clock Room",
+	"light": "Light in the Darkness", "strings": "Strings of Despair", "chimes": "Chimes of Doom",
 }
 const SLOT_VARIANTS: Dictionary = {
-	"silent": ["silent", "vault"], "echoes": ["echoes", "ritual"], "relay": ["relay", "clock"],
+	"silent": ["silent", "vault", "light"], "echoes": ["echoes", "ritual", "strings"], "relay": ["relay", "clock", "chimes"],
 }
 const RITUAL_HOLD_SECONDS: float = 8.0
 const ACTOR_COMMAND_SECONDS: float = 0.35
@@ -41,6 +43,7 @@ var clock_start: Array[int] = []
 var clock_moves: int = 0
 var clock_cooldown: float = 0.0
 var actor_cooldowns: Dictionary = {}
+var third: ThirdRules = ThirdRules.new()
 
 var _solution_from: Vector3i = Vector3i(-1, -1, -1)
 var _solution_cache: Array[Vector2i] = []
@@ -48,7 +51,7 @@ var _solution_cache: Array[Vector2i] = []
 
 func configure(p_seed: int, p_contract: String = "first") -> void:
 	contract = p_contract.to_lower()
-	if contract not in ["first", "second", "mix"]:
+	if contract not in ["first", "second", "mix", "third"]:
 		contract = "first"
 	live = false
 	completed = {"silent": false, "echoes": false, "relay": false}
@@ -58,8 +61,11 @@ func configure(p_seed: int, p_contract: String = "first") -> void:
 		var variant: int = 0
 		if contract == "second":
 			variant = 1
+		elif contract == "third":
+			variant = 2
 		elif contract == "mix":
-			variant = selection_rng.randi_range(0, 1)
+			# v0.4 explicitly expands the resolved pool to 27 combinations.
+			variant = selection_rng.randi_range(0, 2)
 		slot_trials[slot] = SLOT_VARIANTS[slot][variant]
 	# Separate random streams keep the same trial's puzzle stable across contracts
 	# and prevent any change to the original director's Echo random stream.
@@ -92,15 +98,31 @@ func configure(p_seed: int, p_contract: String = "first") -> void:
 	actor_cooldowns.clear()
 	_solution_from = Vector3i(-1, -1, -1)
 	_solution_cache.clear()
+	# Retire stale world references before constructing the next match's rules.
+	third.set_live(false)
+	if third.event_raised.is_connected(_on_third_event):
+		third.event_raised.disconnect(_on_third_event)
+	if third.trial_completed.is_connected(_on_third_completed):
+		third.trial_completed.disconnect(_on_third_completed)
+	third = ThirdRules.new()
+	third.configure(p_seed, slot_trials)
+	var weak_owner: WeakRef = weakref(self)
+	third.cargo_admission = func(actor_id: int) -> bool:
+		var owner = weak_owner.get_ref()
+		return owner != null and owner.carried_relic(actor_id) < 0 and owner.ember_owner != actor_id
+	third.event_raised.connect(_on_third_event)
+	third.trial_completed.connect(_on_third_completed)
 
 
 func set_live(value: bool) -> void:
 	live = value
+	third.set_live(value)
 
 
 func step(delta: float) -> void:
 	if not live or not _valid_delta(delta):
 		return
+	third.step(delta)
 	clock_cooldown = maxf(0.0, clock_cooldown - delta)
 	for actor_id: int in actor_cooldowns.keys():
 		var left: float = maxf(0.0, float(actor_cooldowns[actor_id]) - delta)
@@ -118,6 +140,7 @@ func mark_slot_complete(slot: String) -> void:
 	# Director calls this for legacy trials so selection progress stays coherent.
 	if completed.has(slot):
 		completed[slot] = true
+		third.completed[slot] = true
 
 
 func progress_for_slot(slot: String) -> float:
@@ -136,6 +159,8 @@ func progress_for_slot(slot: String) -> float:
 				if clock_hands[index] == clock_target[index]:
 					aligned += 1
 			return float(aligned) / 3.0 * 0.9
+		"light", "strings", "chimes":
+			return third.progress_for_slot(slot)
 	return 0.0
 
 
@@ -148,7 +173,7 @@ func carried_relic(actor_id: int) -> int:
 
 
 func pickup_relic(actor_id: int, index: int) -> bool:
-	if not _can_act("silent", "vault") or actor_id <= 0 or carried_relic(actor_id) >= 0 or ember_owner == actor_id:
+	if not _can_act("silent", "vault") or actor_id <= 0 or carried_relic(actor_id) >= 0 or ember_owner == actor_id or third.carried_cell(actor_id) >= 0:
 		return false
 	if not relic_available(index):
 		return false
@@ -178,6 +203,9 @@ func deposit_relic(actor_id: int, cradle: int) -> bool:
 func release_actor(actor_id: int) -> Dictionary:
 	# Lifecycle cleanup is allowed after a result; it never mutates trial progress.
 	var released: Dictionary = {"relic": carried_relic(actor_id), "ember": ember_owner == actor_id and actor_id > 0}
+	var released_third: Dictionary = third.release_actor(actor_id)
+	if int(released_third.cell) >= 0:
+		released.cell = int(released_third.cell)
 	vault_carriers.erase(actor_id)
 	if bool(released["ember"]):
 		ember_owner = 0
@@ -187,7 +215,7 @@ func release_actor(actor_id: int) -> Dictionary:
 
 
 func take_ember(actor_id: int) -> bool:
-	if not _can_act("echoes", "ritual") or actor_id <= 0 or ember_owner != 0 or carried_relic(actor_id) >= 0 or ritual_index >= 5:
+	if not _can_act("echoes", "ritual") or actor_id <= 0 or ember_owner != 0 or carried_relic(actor_id) >= 0 or ritual_index >= 5 or third.carried_cell(actor_id) >= 0:
 		return false
 	ember_owner = actor_id
 	event_raised.emit("ember_taken", {"actor_id": actor_id})
@@ -311,6 +339,15 @@ func clock_solution() -> Array[Vector2i]:
 
 func _can_act(slot: String, trial_id: String) -> bool:
 	return live and trial_for_slot(slot) == trial_id and not bool(completed[slot])
+
+
+func _on_third_event(kind: String, payload: Dictionary) -> void:
+	event_raised.emit(kind, payload)
+
+
+func _on_third_completed(slot: String, trial_id: String) -> void:
+	if _can_act(slot, trial_id) and bool(third.completed[slot]):
+		_complete(slot, trial_id)
 
 
 func _actor_ready(actor_id: int) -> bool:

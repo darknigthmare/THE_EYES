@@ -259,6 +259,8 @@ func _resume() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if mode == "menu" or echo_open else Input.MOUSE_MODE_CAPTURED
 
 func _pause() -> void:
+	if trial_world != null:
+		trial_world.cancel_all()
 	if squad_world != null:
 		squad_world.state.set_live(false)
 		squad_world.player_rescuing = false
@@ -323,7 +325,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if event.is_action_pressed("drop"):
 			trial_world.release(player)
-			ui.toast("Hands free. Dropped relics return safely to their shelves.",3)
+			ui.toast("Hands free. Required cargo returns safely to its source.",3)
 		elif event.is_action_pressed("reverse"):
 			trial_world.interact(player,-1)
 		elif event.is_action_pressed("reset_trial"):
@@ -721,6 +723,8 @@ func _update_shadows(delta: float) -> void:
 func _hurt(actor: EyesSurvivor, amount: float, reason: String) -> void:
 	if actor not in actors or director.phase not in ["hunt","escape"] or not actor.damage(amount):
 		return
+	if trial_world != null:
+		trial_world.cancel_actor(actor)
 	if squad_world != null:
 		squad_world.interrupt_actor(actor)
 	metrics.wounds += 1
@@ -1233,8 +1237,42 @@ func _on_event(kind: String, payload: Dictionary) -> void:
 			if actor.get_instance_id() == int(payload.get("actor_id",0)):
 				last_noise = actor.global_position
 				noise_memory = 6.0
+	elif kind in ["light_pickup","light_deposit","light_depleted","light_released","strings_cut","strings_error","chime_strike","chime_error","damper"]:
+		_third_trial_feedback(kind,payload)
 	elif kind == "result":
 		_end_match(payload)
+
+func _third_trial_feedback(kind: String, payload: Dictionary) -> void:
+	# Bells report their actual world location, never a hidden actor's position.
+	# The duration is perceived sound memory; it does not bypass Eye line of sight.
+	if float(payload.get("noise",0.0)) > 0 and trial_world != null:
+		last_noise = trial_world.third.event_position(payload)
+		noise_memory = maxf(noise_memory,float(payload.noise))
+	match kind:
+		"light_pickup":
+			soundscape.play("pickup",0.9,-15)
+		"light_deposit":
+			soundscape.play("seal",1.1,-16)
+			ui.toast("REFUGE %d LIT / Permanent light and a place to recharge." % [int(payload.get("lamp",0))+1],3.5)
+		"light_depleted":
+			if int(payload.get("actor_id",0)) == player.get_instance_id():
+				ui.toast("LANTERN EMPTY / Return to the starting refuge or a lit lamp. You can still move.",4)
+		"strings_cut":
+			soundscape.play("pickup",0.7,-12)
+			ui.toast("Safety stage %d of 3 locked. Read the next two clues." % int(payload.stage),3.5)
+		"strings_error":
+			soundscape.play("warning",0.8,-14)
+			ui.toast("SAFETY CATCH / Three seconds. Earlier stages remain locked; read both clues.",4)
+		"chime_strike", "chime_error":
+			var bell: int = int(payload.bell)
+			apparatus.third.strike(bell)
+			soundscape.play("echo",[0.75,1.0,1.25,1.5][bell],-24 if kind == "chime_strike" and bool(payload.get("damped",false)) else -10)
+			if kind == "chime_error":
+				ui.toast("WRONG NOTE / This phrase restarts. The first completed phrase stays banked.",4)
+			elif bool(payload.get("banked",false)):
+				ui.toast("PHRASE %d BANKED / Read the next score at the central stand." % [int(payload.phrase)+1],3.5)
+		"damper":
+			soundscape.play("blink",0.8,-20)
 
 func _end_match(payload: Dictionary) -> void:
 	if squad_world != null:
@@ -1252,7 +1290,7 @@ func _end_match(payload: Dictionary) -> void:
 	if qa_capture.is_empty():
 		var file = FileAccess.open("user://last_observance.json",FileAccess.WRITE)
 		if file:
-			file.store_string(JSON.stringify({"schema_version":3,"game_version":"0.3.0","mode":session_mode,"session_mode":session_mode,"contract":contract,"trials":director.trial_set.slot_trials,"seed":seed_value,"difficulty":director.difficulty,"result":payload,"elapsed":elapsed,"metrics":metrics,"squad_summary":squad_world.summary() if squad_world != null else {},"events":event_log},"\t"))
+			file.store_string(JSON.stringify({"schema_version":3,"game_version":"0.4.0","mode":session_mode,"session_mode":session_mode,"contract":contract,"trials":director.trial_set.slot_trials,"seed":seed_value,"difficulty":director.difficulty,"result":payload,"elapsed":elapsed,"metrics":metrics,"squad_summary":squad_world.summary() if squad_world != null else {},"events":event_log},"\t"))
 
 func _update_hud() -> void:
 	var eye_mode = mode == "eye"
@@ -1274,7 +1312,7 @@ func _update_hud() -> void:
 		for ally in actors:
 			if ally != player and not ally.eliminated:
 				bot_positions.append(ally.global_position)
-	var objective = "Three active trials / %s\nUse TAB to read the chamber." % {"first":"FIRST OBSERVANCE","second":"SECOND OBSERVANCE","mix":"SEEDED MIX"}[contract]
+	var objective = "Three active trials / %s\nUse TAB to read the chamber." % {"first":"FIRST OBSERVANCE","second":"SECOND OBSERVANCE","mix":"SEEDED MIX","third":"THIRD OBSERVANCE"}[contract]
 	if player.carrying >= 0:
 		objective = "CARRYING A WHISPER\nCrouch to keep it quiet. Deliver northwest."
 	var carried_relic: int = director.trial_set.carried_relic(player.get_instance_id())
@@ -1282,6 +1320,9 @@ func _update_hud() -> void:
 		objective = "CARRYING %s\nFind its numbered cradle. G returns it safely." % EyesTrialApparatus.RELIC_NAMES[carried_relic]
 	elif director.trial_set.ember_owner == player.get_instance_id():
 		objective = "CARRYING THE SHARED EMBER\nFollow the engraved vessel order in the northeast."
+	var cell: int = director.trial_set.third.carried_cell(player.get_instance_id())
+	if cell >= 0:
+		objective = "CELL %d / LANTERN %d%%\nHold E at refuge %d. Lit refuges recharge; G returns cargo." % [cell+1,ceili(director.trial_set.third.charge_for(player.get_instance_id())),cell+1]
 	if not eye_mode and hud_actor.archetype == "Tinker" and player.ability_left > 0 and director.trial_for_slot("relay") == "clock" and not director.seals.relay:
 		objective += "\nOVERCLOCK / " + trial_world.clock_hint()
 	if director.phase == "escape":

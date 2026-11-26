@@ -28,7 +28,7 @@ jobs:
           printf '%s  %s\n' cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4 "$RUNNER_TEMP/eyes-godot.zip" | sha256sum --check
           unzip -q "$RUNNER_TEMP/eyes-godot.zip" -d "$RUNNER_TEMP/eyes-godot"
           chmod +x "$RUNNER_TEMP/eyes-godot/Godot_v4.7.2-stable_linux.x86_64"
-      - name: Import and verify all nine gameplay suites
+      - name: Import and verify all twelve gameplay suites
         shell: bash
         run: |
           python3 - <<'PY'
@@ -45,7 +45,8 @@ jobs:
           cases = [('import', [godot, '--headless', '--editor', '--path', 'game', '--import'])]
           suites = ['test_director.gd', 'test_world.gd', 'test_survivor_route.gd',
                     'test_trial_set.gd', 'test_second_world.gd', 'test_second_survivor_route.gd',
-                    'test_squad_state.gd', 'test_squad_world.gd', 'test_squad_route.gd']
+                    'test_squad_state.gd', 'test_squad_world.gd', 'test_squad_route.gd',
+                    'test_third_trials.gd', 'test_third_world.gd', 'test_third_survivor_route.gd']
           for suite in suites:
               cases.append((suite, [godot, '--headless', '--path', 'game', '--fixed-fps', '60',
                                     '--audio-driver', 'Dummy', '--script', f'res://tests/{suite}']))

@@ -44,6 +44,8 @@ var pitch: float = 0.0
 var step_accumulator: float = 0.0
 var bob_time: float = 0.0
 var params: Dictionary = ARCHETYPES.Veil
+var wardrobe: Node3D
+var arm_pivots: Array[Node3D] = []
 
 func _ready() -> void:
 	collision_layer = 2
@@ -107,12 +109,108 @@ func _visual_body() -> void:
 	var label = Label3D.new()
 	label.name = "NameTag"
 	label.text = archetype.to_upper()
-	label.font_size = 22
-	label.pixel_size = 0.009
-	label.position.y = 2.17
+	label.font_size = 24
+	label.pixel_size = 0.0025
+	label.outline_size = 4
+	label.position.y = 2.12
+	label.visibility_range_end = 22.0
+	label.visibility_range_end_margin = 3.0
 	label.modulate = params.color
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	body_mesh.add_child(label)
+	_build_wardrobe()
+
+func _wardrobe_box(parent: Node3D, at: Vector3, dimensions: Vector3, material: Material) -> MeshInstance3D:
+	var node = MeshInstance3D.new()
+	var box = BoxMesh.new()
+	box.size = dimensions
+	node.mesh = box
+	node.material_override = material
+	node.position = at
+	parent.add_child(node)
+	return node
+
+func _wardrobe_capsule(parent: Node3D, at: Vector3, radius: float, height: float, material: Material) -> MeshInstance3D:
+	var node = MeshInstance3D.new()
+	var mesh = CapsuleMesh.new()
+	mesh.radius = radius
+	mesh.height = height
+	mesh.radial_segments = 10
+	mesh.rings = 3
+	node.mesh = mesh
+	node.material_override = material
+	node.position = at
+	parent.add_child(node)
+	return node
+
+func _build_wardrobe() -> void:
+	# Cosmetic geometry only: no body, collider, camera or gameplay dimensions
+	# depend on these original prototype silhouettes.
+	if is_instance_valid(wardrobe):
+		body_mesh.remove_child(wardrobe)
+		wardrobe.queue_free()
+	wardrobe = Node3D.new()
+	wardrobe.name = "Wardrobe"
+	body_mesh.add_child(wardrobe)
+	arm_pivots.clear()
+	var cloth = EyesArena.material(params.color.darkened(0.64),0.88)
+	var leather = EyesArena.material(Color("18272e"),0.9)
+	var bone = EyesArena.material(Color("c7c0a8"),0.7)
+	var accent = EyesArena.material(params.color,0.55,0.15,0.15)
+	var brass = EyesArena.material(Color("b2925b"),0.5,0.5)
+	# A readable collar, mask eye slit and coat fastening replace a blank capsule.
+	_wardrobe_box(wardrobe,Vector3(0,1.44,0),Vector3(0.44,0.12,0.38),leather)
+	_wardrobe_box(wardrobe,Vector3(0,1.70,-0.191),Vector3(0.26,0.045,0.02),leather)
+	_wardrobe_box(wardrobe,Vector3(0,0.86,-0.277),Vector3(0.50,0.07,0.055),leather)
+	_wardrobe_box(wardrobe,Vector3(0,0.86,-0.314),Vector3(0.10,0.09,0.025),brass)
+	for y in [1.05,1.19,1.33]:
+		_wardrobe_box(wardrobe,Vector3(0,y,-0.28),Vector3(0.035,0.035,0.025),brass)
+	for side in [-1.0,1.0]:
+		var pivot = Node3D.new()
+		pivot.position = Vector3(side*0.32,1.37,0.0)
+		wardrobe.add_child(pivot)
+		arm_pivots.append(pivot)
+		_wardrobe_capsule(pivot,Vector3(side*0.05,-0.20,0),0.09,0.44,cloth)
+		_wardrobe_capsule(pivot,Vector3(side*0.08,-0.46,-0.015),0.073,0.28,leather)
+		_wardrobe_capsule(pivot,Vector3(side*0.08,-0.61,-0.025),0.065,0.14,bone)
+		_wardrobe_box(pivot,Vector3(side*0.05,-0.15,-0.075),Vector3(0.13,0.065,0.035),accent)
+		_wardrobe_box(wardrobe,Vector3(side*0.16,0.09,-0.06),Vector3(0.22,0.18,0.35),leather)
+	match archetype:
+		"Veil":
+			var hood = _wardrobe_capsule(wardrobe,Vector3(0,1.71,0.075),0.25,0.53,cloth)
+			hood.scale = Vector3(1.05,1.0,0.72)
+			for side in [-1.0,1.0]:
+				var tail = _wardrobe_box(wardrobe,Vector3(side*0.18,0.72,0.20),Vector3(0.25,0.65,0.09),cloth)
+				tail.rotation.z = side*0.08
+		"Tinker":
+			_wardrobe_box(wardrobe,Vector3(0,1.10,0.31),Vector3(0.44,0.53,0.24),leather)
+			_wardrobe_box(wardrobe,Vector3(0,1.10,0.443),Vector3(0.33,0.065,0.025),brass)
+			for x in [-0.12,0.0,0.12]:
+				_wardrobe_box(wardrobe,Vector3(x,1.34,0.445),Vector3(0.065,0.16,0.035),brass)
+			_wardrobe_box(wardrobe,Vector3(-0.25,0.82,-0.20),Vector3(0.18,0.25,0.19),accent)
+		"Runner":
+			for side in [-1.0,1.0]:
+				var strap = _wardrobe_box(wardrobe,Vector3(side*0.11,1.18,-0.26),Vector3(0.06,0.45,0.06),accent)
+				strap.rotation.z = side*0.34
+				_wardrobe_box(wardrobe,Vector3(side*0.16,0.41,-0.10),Vector3(0.15,0.17,0.075),accent)
+			_wardrobe_box(wardrobe,Vector3(-0.22,1.32,0.22),Vector3(0.13,0.42,0.08),accent)
+		"Keeper":
+			_wardrobe_box(wardrobe,Vector3(0.25,0.88,0.16),Vector3(0.26,0.36,0.24),bone)
+			_wardrobe_box(wardrobe,Vector3(0.25,0.88,0.287),Vector3(0.13,0.04,0.02),accent)
+			_wardrobe_box(wardrobe,Vector3(0.25,0.88,0.289),Vector3(0.04,0.14,0.02),accent)
+			_wardrobe_capsule(wardrobe,Vector3(-0.25,0.9,0.16),0.07,0.30,brass)
+
+func _process(delta: float) -> void:
+	if not is_instance_valid(body_mesh) or not body_mesh.visible or eliminated:
+		return
+	var speed = Vector2(velocity.x,velocity.z).length()
+	var stride = sin(bob_time)*minf(speed/7.0,0.6) if active and not downed and speed > 0.2 else 0.0
+	for index in range(2):
+		var sign_value = -1.0 if index == 0 else 1.0
+		var leg = body_mesh.get_child(2+index) as MeshInstance3D
+		leg.rotation.x = lerpf(leg.rotation.x,stride*sign_value,minf(1.0,delta*12.0))
+		if index < arm_pivots.size():
+			arm_pivots[index].rotation.x = lerpf(arm_pivots[index].rotation.x,-stride*sign_value,minf(1.0,delta*12.0))
 
 func reset_body(at: Vector3, role: String, bot: bool) -> void:
 	global_position = at
@@ -141,6 +239,7 @@ func reset_body(at: Vector3, role: String, bot: bool) -> void:
 	(body_mesh.get_node("NameTag") as Label3D).modulate = params.color
 	(body_mesh.get_child(0) as MeshInstance3D).material_override = EyesArena.material(params.color.darkened(0.65),0.8)
 	(body_mesh.get_child(4) as MeshInstance3D).material_override = EyesArena.material(params.color,0.4,0.2,1.2)
+	_build_wardrobe()
 	camera.current = not bot
 	controls_locked = false
 	active = true
@@ -149,7 +248,7 @@ func reset_body(at: Vector3, role: String, bot: bool) -> void:
 
 func set_character_name(value: String) -> void:
 	display_name = value
-	(body_mesh.get_node("NameTag") as Label3D).text = "%s\n%s" % [display_name,archetype.to_upper()]
+	(body_mesh.get_node("NameTag") as Label3D).text = display_name
 
 func set_downed(value: bool) -> void:
 	downed = value
@@ -159,7 +258,7 @@ func set_downed(value: bool) -> void:
 	gaze = 0.0
 	controls_locked = false
 	var tag = body_mesh.get_node("NameTag") as Label3D
-	tag.text = "%s\n%s" % [display_name,"DOWNED" if downed else archetype.to_upper()]
+	tag.text = "%s\nDOWNED" % display_name if downed else display_name
 	tag.modulate = Color("e3a46c") if downed else params.color
 	(body_mesh.get_child(4) as MeshInstance3D).material_override = EyesArena.material(Color("e3a46c") if downed else params.color,0.4,0.2,1.2)
 

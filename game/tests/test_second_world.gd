@@ -38,7 +38,7 @@ func _run() -> void:
 	await _test_physical_clock_controls()
 	await _test_bot_route("second", 271126)
 	var mixed: Dictionary = _mixed_seeds()
-	_check(mixed.size() == 8, "fixture discovers every seeded Mix combination")
+	_check(mixed.size() == 27, "fixture discovers every ternary Seeded Mix combination")
 	for mapping: String in mixed:
 		await _test_bot_route("mix", int(mixed[mapping]))
 	Input.action_release("interact")
@@ -88,13 +88,13 @@ func _mapping(rules: Rules) -> String:
 
 func _mixed_seeds() -> Dictionary:
 	var mappings: Dictionary = {}
-	for seed_value: int in range(256):
+	for seed_value: int in range(1024):
 		var rules: Rules = Rules.new()
 		rules.configure(seed_value, "mix")
 		var key: String = _mapping(rules)
 		if not mappings.has(key):
 			mappings[key] = seed_value
-		if mappings.size() == 8:
+		if mappings.size() == 27:
 			break
 	return mappings
 
@@ -334,12 +334,18 @@ func _test_bot_route(contract: String, seed_value: int) -> void:
 	var state: Rules = game.director.trial_set
 	if state.trial_for_slot("silent") == "vault":
 		_check(state.vault_cradles == state.vault_targets, "route banks four exact physical relics: " + mapping)
-	else:
+	elif state.trial_for_slot("silent") == "silent":
 		_check(game.motes_state == [2, 2, 2], "route delivers three distinct physical motes: " + mapping)
+	else:
+		_check(state.third.light_lit == [true, true, true], "route lights three permanent physical refuges: " + mapping)
 	if state.trial_for_slot("echoes") == "ritual":
 		_check(state.ritual_index == 5 and state.ritual_hold == 8.0, "route completes physical vessels and continuous ring hold: " + mapping)
 	if state.trial_for_slot("relay") == "clock":
 		_check(state.clock_moves > 0 and state.clock_hands == state.clock_target, "route moves real gears into their target before confirmation: " + mapping)
+	if state.trial_for_slot("echoes") == "strings":
+		_check(state.third.strings_stage == 3, "route banks all three physical cage stages: " + mapping)
+	if state.trial_for_slot("relay") == "chimes":
+		_check(state.third.chimes_phrase == 2, "route banks both physical bell phrases: " + mapping)
 	if not won:
 		print("SECOND_ROUTE_AUTHORITY phase=%s ritual=%d bank=%d hold=%.2f ember=%d clock=%s target=%s cooldown=%.3f cradles=%s targets=%s" % [game.director.phase, state.ritual_index, state.ritual_bank, state.ritual_hold, state.ember_owner, str(state.clock_hands), str(state.clock_target), state.clock_cooldown, str(state.vault_cradles), str(state.vault_targets)])
 		for data in game.bots:

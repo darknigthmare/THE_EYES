@@ -1,4 +1,4 @@
-Name,BayId,FirstTrialId,SecondTrialId
-silent,northwest,silent,vault
-echoes,northeast,echoes,ritual
-relay,south,relay,clock
+Name,BayId,FirstTrialId,SecondTrialId,ThirdTrialId
+silent,northwest,silent,vault,light
+echoes,northeast,echoes,ritual,strings
+relay,south,relay,clock,chimes
