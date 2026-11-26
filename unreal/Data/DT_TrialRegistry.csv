@@ -1,0 +1,7 @@
+Name,CatalogueId,SlotId,BlueprintAssetName
+silent,T02,silent,BP_TrialSilent
+vault,T24,silent,BP_TrialMemoryVault
+echoes,T05,echoes,BP_TrialEchoes
+ritual,T10,echoes,BP_TrialRitualCircle
+relay,T08,relay,BP_TrialRelay
+clock,T16,relay,BP_TrialClockRoom

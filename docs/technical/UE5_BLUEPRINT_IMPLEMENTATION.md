@@ -1,8 +1,8 @@
 # THE EYES — UE5 Blueprint implementation specification
 
-**Document status:** implementation plan for the UE5 version. The playable v0.1 application is the Godot project in `game/`; the Unreal directory is a content-only starting point. Every `BP_`, `BPC_`, `BPI_`, `WBP_`, `BT_`, `BB_`, `IA_` and `IMC_` identifier below names an asset to create in Unreal Editor, unless a later delivery supplies the actual asset. This document does not pretend that text is a compiled Blueprint graph.
+**Document status:** implementation plan for the UE5 version. The runnable prototype is the Godot project in `game/`; the Unreal directory is a content-only starting point. Every `BP_`, `BPC_`, `BPI_`, `WBP_`, `BT_`, `BB_`, `IA_` and `IMC_` identifier below names an asset to create in Unreal Editor, unless a later delivery supplies the actual asset. This document does not pretend that text is a compiled Blueprint graph.
 
-**Language and scope:** English UI and data labels; project gameplay authored entirely with Blueprints. First reproduce the local three-trial loop in The First Observance, then add authoritative multiplayer. The final classic format targets 5–7 survivors against one human or AI Eye. The Godot slice's four survivor bots are a local test configuration, not a networking implementation.
+**Language and scope:** English UI and data labels; project gameplay authored entirely with Blueprints. First reproduce the original local three-trial loop in The First Observance, then the [v0.2 six-trial contract extension](CONTRACT_TRIAL_IMPLEMENTATION.md), before adding authoritative multiplayer. The final classic format targets 5–7 survivors against one human or AI Eye. The Godot slice's four survivor bots are a local test configuration, not a networking implementation.
 
 ## 1. Architecture and ownership
 
@@ -66,7 +66,7 @@ Use names such as `trial.silent_countdown` and `socket.first_observance.north` a
 
 Use the engine's real-number pin type consistently for server times. Inspect the selected UE5 version's exposed types rather than silently connecting a lower-precision conversion into long-running deadlines. There is no need to persist absolute server times across separate matches.
 
-`unreal/Data` supplies two actual CSV files and their import schemas. Use separate scalar structures for those imports. Keep nested runtime snapshots out of CSV until their engine-version-specific serialization has an explicit test.
+`unreal/Data` supplies seven actual CSV files and their import schemas: the two original tuning tables plus the v0.2 contract/slot/registry/alternate-default/clock-lever tables. Use separate scalar structures for those imports. Keep nested runtime snapshots out of CSV until their engine-version-specific serialization has an explicit test.
 
 ### 2.2 Core variable table
 
@@ -247,7 +247,7 @@ At full work → set progress to one → complete once → release every hold le
 
 ## 8. Applying the contract to all 25 trials
 
-The full rules for each challenge live in the design bible. This table maps them to reusable implementation families and the key additional technical test. These are **future assets**, including fuller versions of the three implemented prototype families.
+The full rules for each challenge live in the design bible. This table maps them to reusable implementation families and the key additional technical test. These are **future assets**, including fuller versions of the six prototype families.
 
 | Source trial | Core Blueprint family | Required extension/test |
 | --- | --- | --- |
@@ -324,7 +324,7 @@ A trial panel must close on exit, downing, lost range, scene transition or Escap
 
 | Milestone | Concrete exit condition |
 | --- | --- |
-| UE-A: local parity | Import project, complete all three trials, escape, lose by timeout, replay without stale state |
+| UE-A: local parity | Import project; complete First, Second and all eight resolved Mix combinations; escape/timeout/replay without stale state |
 | UE-B: dual roles | Human Eye at all four sockets; visible/occluded action checks; four legal bot participants finish work |
 | UE-C: replicated slice | Listen server plus two clients; owned RPC path; result/deadline agreement; rejected remote invalid actions |
 | UE-D: adverse conditions | Packet lag/loss, duplicate/stale request rejection, disconnect carry/relay recovery, late-join snapshots |

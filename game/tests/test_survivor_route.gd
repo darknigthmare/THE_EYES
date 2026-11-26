@@ -119,6 +119,10 @@ func _heal_if_needed() -> void:
 		await _tap("ability")
 
 
+func _reached_target(target: Vector3) -> bool:
+	return Vector2(game.player.global_position.x-target.x,game.player.global_position.z-target.z).length() < 0.6
+
+
 func _walk_to(target: Vector3, allow_cover: bool = true) -> bool:
 	if not _live() or game.punishment:
 		return false
@@ -133,7 +137,7 @@ func _walk_to(target: Vector3, allow_cover: bool = true) -> bool:
 			_release_movement()
 			return false
 		var flat_distance: float = Vector2(game.player.global_position.x - target.x, game.player.global_position.z - target.z).length()
-		if flat_distance < 0.6:
+		if _reached_target(target):
 			_release_movement()
 			for unused: int in range(5):
 				await _frame()

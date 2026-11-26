@@ -13,11 +13,11 @@ Every gameplay object belongs to a declared family: objective, carried tool, mec
 | IT05 | Field dressing | Restore limited health through a channel | Earned supply station; no random compulsory spawn | Planned |
 | IT06 | Thread cutter | Temporarily open a thread route | Tethered utility rack; returns on loss | Planned |
 | IT07 | Probe weight | Test illusion tiles | Bridge vestibule; recalled if dropped into void | Planned |
-| IT08 | Ritual ember | Light sequence vessels | Carried by one survivor; returns to last banked cradle | Planned |
+| IT08 | Ritual ember | Light sequence vessels | One shared ember; wrong vessel returns it to its cradle and preserves pair banks | v0.2 implemented subset |
 | IT09 | Structural piece | Build tower or bridge | Marked storage slot; support preview; reset outside bounds | Planned |
 | IT10 | Time vessel | Carry a limited charge | Trial-owned checkpoint cradle | Planned |
 | IT11 | Mask | Counter a named phantom behavior | Safe stand before threat; identity remains visible | Planned |
-| IT12 | Memory relic | Match a vault target | Numbered shelf; atomic ownership and deposit | Planned |
+| IT12 | Memory relic | Match a vault target | Six named shapes; four exact-ID indexed cradles; atomic ownership and deposit | v0.2 implemented subset |
 
 Production item inventories are small: one main carried object, one utility tool, and limited consumables. The player should make an obvious carry/drop decision without navigating a large inventory during a chase. Key items cannot be destroyed for score. An Eye cannot consume survivor inventory through an unseen global action.
 

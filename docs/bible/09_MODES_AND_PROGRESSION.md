@@ -2,7 +2,7 @@
 
 ## Current local prototype
 
-The First Observance supports two local role experiences: one human survivor against an AI Eye, and one human Eye against four AI survivors. It uses the same three-seal goal and visible exit. This is not online multiplayer, split-screen, or a finished cooperative campaign. Bots demonstrate pressure and objective behavior; they do not prove production matchmaking, latency tolerance, or social balance.
+The observatory prototype supports two local role experiences: one human survivor against an AI Eye, and one human Eye against four AI survivors. It uses the same three-seal goal and visible exit. The v0.2 prototype offers First, Second, and Seeded Mix contracts, selecting exactly one active trial in each of three bays from a six-trial pool. These are local content configurations, not online lobbies, split-screen, or a finished cooperative campaign. See [Prototype contracts](12_PROTOTYPE_CONTRACTS.md) for the precise subsets and verification status.
 
 Story, Standard, and Ruthless are tuning presets. The current rule module uses Hunt/Escape windows of 600/90, 480/65, and 360/50 seconds respectively, with eight seconds of preparation. The escape window starts fresh after the third seal. These values are for the prototype and should be measured before promotion into the final Classic design.
 

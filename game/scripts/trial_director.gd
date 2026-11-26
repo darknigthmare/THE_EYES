@@ -6,6 +6,7 @@ extends RefCounted
 
 signal event_raised(kind: String, payload: Dictionary)
 
+const TrialSetRules = preload("res://scripts/trial_set.gd")
 const PREPARATION_SECONDS: float = 8.0
 const MAX_ENERGY: float = 100.0
 const ENERGY_PER_SECOND: float = 4.0
@@ -44,12 +45,13 @@ var relay_progress: float = 0.0
 var eye_socket: int = 0
 var alive_count: int = 1
 var escaped_count: int = 0
+var trial_set: TrialSetRules = TrialSetRules.new()
 
 var _relay_checkpoint: float = 0.0
 var _escape_duration: float = 65.0
 
 
-func configure(p_mode: String, p_difficulty: String, p_seed: int, survivor_count: int = 1) -> void:
+func configure(p_mode: String, p_difficulty: String, p_seed: int, survivor_count: int = 1, p_contract: String = "first") -> void:
 	mode = p_mode.to_lower() if p_mode.to_lower() in ["survivor", "eye"] else "survivor"
 	difficulty = p_difficulty.to_lower()
 	if not DIFFICULTY_SPECS.has(difficulty):
@@ -73,6 +75,17 @@ func configure(p_mode: String, p_difficulty: String, p_seed: int, survivor_count
 	eye_socket = 0
 	alive_count = maxi(1, survivor_count)
 	escaped_count = 0
+	# An old world may retain its authority briefly while returning to the menu.
+	# Deactivate and disconnect it before installing the new match's authority.
+	trial_set.set_live(false)
+	if trial_set.event_raised.is_connected(_on_trial_event):
+		trial_set.event_raised.disconnect(_on_trial_event)
+	if trial_set.trial_completed.is_connected(_on_trial_completed):
+		trial_set.trial_completed.disconnect(_on_trial_completed)
+	trial_set = TrialSetRules.new()
+	trial_set.configure(p_seed, p_contract)
+	trial_set.event_raised.connect(_on_trial_event)
+	trial_set.trial_completed.connect(_on_trial_completed)
 	rng.seed = p_seed
 	# A seeded permutation makes every symbol meaningful and avoids ambiguous runs.
 	echo_sequence.assign([0, 1, 2, 3])
@@ -104,6 +117,7 @@ func step(delta: float) -> void:
 	terror = clampf(terror + 0.7 * live_delta, 0.0, 100.0)
 	for power: String in cooldowns:
 		cooldowns[power] = maxf(0.0, float(cooldowns[power]) - live_delta)
+	trial_set.step(live_delta)
 	if phase == "hunt":
 		time_left = maxf(0.0, time_left - live_delta)
 		if time_left <= 0.0:
@@ -146,7 +160,7 @@ func switch_socket(index: int) -> bool:
 
 
 func deliver_mote() -> bool:
-	if not _is_live() or bool(seals["silent"]) or motes_delivered >= 3:
+	if not _is_live() or trial_for_slot("silent") != "silent" or bool(seals["silent"]) or motes_delivered >= 3:
 		return false
 	motes_delivered += 1
 	event_raised.emit("delivery", {"delivered": motes_delivered, "required": 3})
@@ -156,7 +170,7 @@ func deliver_mote() -> bool:
 
 
 func input_echo(symbol: int) -> bool:
-	if not _is_live() or bool(seals["echoes"]) or symbol < 0 or symbol > 3:
+	if not _is_live() or trial_for_slot("echoes") != "echoes" or bool(seals["echoes"]) or symbol < 0 or symbol > 3:
 		return false
 	if echo_sequence.is_empty():
 		return false
@@ -173,7 +187,7 @@ func input_echo(symbol: int) -> bool:
 
 
 func charge_relay(delta: float, actively_holding: bool) -> void:
-	if not _is_live() or not _valid_delta(delta) or bool(seals["relay"]):
+	if not _is_live() or trial_for_slot("relay") != "relay" or not _valid_delta(delta) or bool(seals["relay"]):
 		return
 	if actively_holding:
 		relay_progress = minf(1.0, relay_progress + delta / RELAY_SECONDS)
@@ -210,6 +224,7 @@ func _complete_seal(seal_id: String) -> void:
 	if bool(seals[seal_id]):
 		return
 	seals[seal_id] = true
+	trial_set.mark_slot_complete(seal_id)
 	event_raised.emit("seal", {"seal": seal_id, "completed": seals.values().count(true), "required": 3})
 	if bool(seals["silent"]) and bool(seals["echoes"]) and bool(seals["relay"]):
 		escape_left = _escape_duration
@@ -221,7 +236,36 @@ func _change_phase(next_phase: String) -> void:
 		return
 	var previous: String = phase
 	phase = next_phase
+	trial_set.set_live(_is_live())
 	event_raised.emit("phase", {"phase": phase, "previous": previous})
+
+
+func trial_for_slot(slot: String) -> String:
+	return trial_set.trial_for_slot(slot)
+
+
+func progress_for_slot(slot: String) -> float:
+	if not seals.has(slot):
+		return 0.0
+	if bool(seals[slot]):
+		return 1.0
+	match trial_for_slot(slot):
+		"silent":
+			return float(motes_delivered) / 3.0
+		"echoes":
+			return float(echo_index) / 4.0
+		"relay":
+			return relay_progress
+	return trial_set.progress_for_slot(slot)
+
+
+func _on_trial_event(kind: String, payload: Dictionary) -> void:
+	event_raised.emit(kind, payload)
+
+
+func _on_trial_completed(slot: String, trial_id: String) -> void:
+	if _is_live() and seals.has(slot) and trial_for_slot(slot) == trial_id and bool(trial_set.completed[slot]):
+		_complete_seal(slot)
 
 
 func _finish(result: String, reason: String) -> void:

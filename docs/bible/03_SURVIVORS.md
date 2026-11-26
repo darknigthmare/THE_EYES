@@ -24,11 +24,11 @@ The playable local slice selects four identities from the full roster. Its abili
 | Character / archetype | Prototype ability | Current effect |
 |---|---|---|
 | Mara Vale / Veil | Quiet Step | Movement noise ×0.15 and gaze gain ×0.25 for 5 seconds; 25-second cooldown; passive footstep noise ×0.55 |
-| Nadiya Sayegh / Tinker | Overclock | Additional Relay work multiplier ×1.6 for 8 seconds; 25-second cooldown; base Relay contribution multiplier ×1.4 |
+| Nadiya Sayegh / Tinker | Overclock | For 8 seconds: additional Relay work ×1.6 when Relay is active, or a next-lever/direction HUD hint when Clock is active; 25-second cooldown; passive Relay contribution ×1.4 |
 | June Arlen / Runner | Second Wind | Movement ×1.25 for 5 seconds; 22-second cooldown; larger 135 stamina reserve and 8 m/s sprint |
 | Ada Fen / Keeper | Mend | Restore up to 30 health to self, capped at 100; 35-second cooldown |
 
-The prototype's Keeper action is self-healing, not a completed teammate-targeting medical system. The procedural presentation does not yet constitute final models and animation sets for these named characters. The runtime module and verified release report take precedence if later tuning changes these values.
+The prototype's Keeper action is self-healing, not a completed teammate-targeting medical system. Tinker's v0.2 Clock hint requires physical travel and interaction; it supplies no automatic turns, completion, or passive Clock rate bonus. The procedural presentation does not yet constitute final models and animation sets for these named characters. The runtime module and verified release report take precedence if later tuning changes these values.
 
 ## 01 — Mara Vale, the surveyor
 

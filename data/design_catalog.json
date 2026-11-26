@@ -1,11 +1,11 @@
 {
-  "schema_version": "1.0",
-  "design_version": "0.1",
+  "schema_version": "1.1",
+  "design_version": "0.2",
   "date": "2026-11-26",
   "language": "en",
   "project": "THE EYES",
   "owner": "Darknigthmare",
-  "status_note": "This is a design catalogue. selected_for_prototype identifies scope; actual completion and verification are reported by the executable release. planned entries are not shipped gameplay assets.",
+  "status_note": "This is a design catalogue. selected_for_prototype identifies six implemented local Godot trial subsets; prototype_stage records their implementation milestone. Original subsets shipped in v0.1 and three alternate physical subsets are implemented in v0.2. Nineteen entries and fuller production variants remain planned. Domain checks, physical bot routes and an active Story survivor route have passed for the tested build; native Windows and Unreal gameplay verification remain separate gates. See docs/bible/12_PROTOTYPE_CONTRACTS.md and release verification for the exact evidence.",
   "source": {
     "attachment": "Texte collé.txt",
     "original_trial_count": 25,
@@ -15,8 +15,8 @@
     "source_mapping": "docs/bible/11_SOURCE_TRACEABILITY.md"
   },
   "prototype": {
-    "title": "The First Observance",
-    "version": "0.1",
+    "title": "THE EYES — Observatory prototype",
+    "version": "0.2.0",
     "online_multiplayer": false,
     "roles": [
       "human_survivor_vs_ai_eye",
@@ -37,7 +37,10 @@
     "trial_ids": [
       "T02",
       "T05",
-      "T08"
+      "T08",
+      "T24",
+      "T10",
+      "T16"
     ],
     "preparation_seconds": 8,
     "difficulty_timers": {
@@ -97,6 +100,99 @@
           8
         ],
         "release_decay_normalized_per_second": 0.041666666666666664
+      },
+      "vault": {
+        "relics": [
+          {
+            "id": 0,
+            "name": "Orb"
+          },
+          {
+            "id": 1,
+            "name": "Spire"
+          },
+          {
+            "id": 2,
+            "name": "Cube"
+          },
+          {
+            "id": 3,
+            "name": "Ring"
+          },
+          {
+            "id": 4,
+            "name": "Crown"
+          },
+          {
+            "id": 5,
+            "name": "Diamond"
+          }
+        ],
+        "target_count": 4,
+        "distinct_targets": true,
+        "indexed_cradle_count": 4,
+        "deposit_requires_exact_target_id": true,
+        "wrong_deposit": "retain_carried_relic",
+        "accepted_cradles_permanent": true,
+        "physical_pickup_carry_deposit": true,
+        "reference_display_seconds": 8,
+        "reference_location": "northwest desk",
+        "relic_locations": "southern storage shelves"
+      },
+      "ritual": {
+        "vessel_count": 5,
+        "seeded_permutation": true,
+        "shared_ember": true,
+        "banked_prefix_lengths": [
+          2,
+          4
+        ],
+        "wrong_vessel": "wrong_unlit_vessel_rolls_back_to_last_pair_bank_and_returns_ember_to_cradle",
+        "final_hold_seconds": 8,
+        "hold_requires_actual_actor_occupancy": true,
+        "leaving_ring": "reset_hold_only_preserve_lit_vessels",
+        "already_lit_vessel": "harmless_no_progress_change",
+        "ring_radius_m": 2.8,
+        "maximum_absolute_actor_height_m": 0.5,
+        "movement_inside_ring_allowed": true,
+        "counterplay": "Keep moving inside the ring around the central pedestal; if retreat is necessary, only the final hold resets and lit vessels remain."
+      },
+      "clock": {
+        "hand_count": 3,
+        "positions_per_hand": 6,
+        "forward_lever_transforms": [
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            0,
+            1
+          ]
+        ],
+        "reverse_is_exact_inverse": true,
+        "seeded_start_uses_legal_moves": true,
+        "reset_control": true,
+        "explicit_central_seal_press": true,
+        "confirmation_revalidates_hands": true,
+        "bot_solver": "breadth_first_search",
+        "solver_does_not_award_completion": true,
+        "global_command_cooldown_seconds": 0.25,
+        "production_midpoint_latch_implemented": false,
+        "start_reachability_note": "The paired-hand graph reaches 108 states from a target; bounded breadth-first selection chooses among its 48 states at shortest distance four. Every generated start therefore requires exactly four optimal legal turns, followed by explicit confirmation. Arbitrary unrelated states are not assumed reachable.",
+        "start_generation": "seeded_choice_from_bounded_breadth_first_search_states_at_shortest_distance_four",
+        "minimum_optimal_legal_turns": 4,
+        "maximum_optimal_legal_turns_for_generated_start": 4,
+        "reachable_states_per_target": 108,
+        "eligible_start_states_per_target": 48,
+        "generation_uses_random_retry_loop": false
       }
     },
     "victory": "first_valid_survivor_escape",
@@ -146,7 +242,145 @@
       "field_of_view"
     ],
     "input_remapping": false,
-    "socket_reacquisition_warning_seconds": 0.85
+    "socket_reacquisition_warning_seconds": 0.85,
+    "previous_release": "0.1.0",
+    "verification_status": "local_domain_and_physical_routes_passed_native_windows_pending",
+    "active_trial_count": 3,
+    "required_seals": 3,
+    "bays": [
+      {
+        "slot_id": "silent",
+        "name": "Northwest",
+        "trial_runtime_ids": [
+          "silent",
+          "vault"
+        ],
+        "trial_catalogue_ids": [
+          "T02",
+          "T24"
+        ]
+      },
+      {
+        "slot_id": "echoes",
+        "name": "Northeast",
+        "trial_runtime_ids": [
+          "echoes",
+          "ritual"
+        ],
+        "trial_catalogue_ids": [
+          "T05",
+          "T10"
+        ]
+      },
+      {
+        "slot_id": "relay",
+        "name": "South",
+        "trial_runtime_ids": [
+          "relay",
+          "clock"
+        ],
+        "trial_catalogue_ids": [
+          "T08",
+          "T16"
+        ]
+      }
+    ],
+    "contracts": [
+      {
+        "id": "first",
+        "label": "First",
+        "active_trials_by_slot": {
+          "silent": "silent",
+          "echoes": "echoes",
+          "relay": "relay"
+        }
+      },
+      {
+        "id": "second",
+        "label": "Second",
+        "active_trials_by_slot": {
+          "silent": "vault",
+          "echoes": "ritual",
+          "relay": "clock"
+        }
+      },
+      {
+        "id": "mix",
+        "label": "Seeded Mix",
+        "selection": "one seeded choice per bay",
+        "combination_count": 8
+      }
+    ],
+    "inactive_apparatus_policy": "Replace or fully disable geometry, pickups, prompts and progress actions for the inactive trial in each bay.",
+    "annex_added": false,
+    "new_bespoke_eye_powers": [],
+    "deposit_and_vessel_actor_cooldown_seconds": 0.35,
+    "verification": {
+      "evidence_date": "2026-11-26",
+      "engine": "Godot 4.7.2",
+      "trial_set": {
+        "test": "game/tests/test_trial_set.gd",
+        "cases": 23,
+        "assertions": 2098,
+        "failures": 0
+      },
+      "clock_short_solution_exclusion": {
+        "tested_seeds": 129,
+        "seed_range_inclusive": [
+          0,
+          127
+        ],
+        "additional_seeds": [
+          271126
+        ],
+        "excluded_solution_lengths": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "independent_legal_move_enumeration": true
+      },
+      "physical_world": {
+        "test": "game/tests/test_second_world.gd",
+        "cases": 16,
+        "assertions": 137,
+        "failures": 0
+      },
+      "unopposed_bot_routes": {
+        "passed": 9,
+        "contracts": "Second plus all eight Seeded Mix combinations",
+        "human_eye": "idle",
+        "wounds": 0,
+        "second_simulated_seconds": 81.08,
+        "mix_simulated_seconds_range": [
+          46.03,
+          89.02
+        ],
+        "normal_movement_and_shared_dispatcher": true
+      },
+      "active_story_survivor_route": {
+        "test": "game/tests/test_second_survivor_route.gd",
+        "contract": "second",
+        "archetype": "Keeper",
+        "difficulty": "Story",
+        "seed": 271126,
+        "winner": "survivors",
+        "simulated_seconds": 324.17,
+        "remaining_health": 80,
+        "wounds": 11,
+        "second_sight_recoveries": 1,
+        "clock_turns": 4,
+        "active_ai_eye": true,
+        "driver_position_health_timer_or_progress_overrides": false,
+        "driver": "informed normal-input physics driver"
+      },
+      "native_windows_release_workflow": "pending_at_evidence_snapshot",
+      "graphical_windows_playthrough": "not_verified",
+      "compiled_playable_unreal_assets": false,
+      "general_balance_or_novice_usability_established": false,
+      "document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
+    }
   },
   "production": {
     "classic_survivor_counts": [
@@ -203,7 +437,15 @@
         "name": "Overclock",
         "duration_seconds": 8,
         "cooldown_seconds": 25,
-        "additional_relay_multiplier": 1.6
+        "additional_relay_multiplier": 1.6,
+        "clock_extension": {
+          "effect": "HUD advice for next physical lever and direction",
+          "requires_active_ability": true,
+          "requires_unfinished_clock_trial": true,
+          "automatic_turns": false,
+          "automatic_completion": false,
+          "passive_clock_rate_bonus": false
+        }
       },
       "prototype_relay_multiplier": 1.4,
       "production_active_proposal": "Brace",
@@ -487,7 +729,10 @@
         "permanent_completion",
         "accessible_information",
         "duplicate_action_safety"
-      ]
+      ],
+      "prototype_first_version": "0.1",
+      "prototype_stage": "published_v0.1_subset",
+      "prototype_scope_document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
     },
     {
       "id": "T03",
@@ -583,7 +828,10 @@
         "permanent_completion",
         "accessible_information",
         "duplicate_action_safety"
-      ]
+      ],
+      "prototype_first_version": "0.1",
+      "prototype_stage": "published_v0.1_subset",
+      "prototype_scope_document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
     },
     {
       "id": "T06",
@@ -679,7 +927,10 @@
         "permanent_completion",
         "accessible_information",
         "duplicate_action_safety"
-      ]
+      ],
+      "prototype_first_version": "0.1",
+      "prototype_stage": "published_v0.1_subset",
+      "prototype_scope_document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
     },
     {
       "id": "T09",
@@ -718,8 +969,8 @@
       "title": "The Ritual Circle",
       "source_order": 10,
       "design_status": "detailed",
-      "implementation_status": "planned",
-      "prototype_runtime_id": null,
+      "implementation_status": "selected_for_prototype",
+      "prototype_runtime_id": "ritual",
       "realm_id": "dollhouse",
       "skill_family": "sequence",
       "goal": "Light five vessels by a clue-supported sequence and hold the ring.",
@@ -743,7 +994,10 @@
         "permanent_completion",
         "accessible_information",
         "duplicate_action_safety"
-      ]
+      ],
+      "prototype_first_version": "0.2",
+      "prototype_stage": "implemented_v0.2_subset",
+      "prototype_scope_document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
     },
     {
       "id": "T11",
@@ -910,8 +1164,8 @@
       "title": "The Clock Room",
       "source_order": 16,
       "design_status": "detailed",
-      "implementation_status": "planned",
-      "prototype_runtime_id": null,
+      "implementation_status": "selected_for_prototype",
+      "prototype_runtime_id": "clock",
       "realm_id": "labyrinth",
       "skill_family": "logic",
       "goal": "Align linked clock hands through visible discrete gear relationships.",
@@ -935,7 +1189,10 @@
         "permanent_completion",
         "accessible_information",
         "duplicate_action_safety"
-      ]
+      ],
+      "prototype_first_version": "0.2",
+      "prototype_stage": "implemented_v0.2_subset",
+      "prototype_scope_document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
     },
     {
       "id": "T17",
@@ -1166,8 +1423,8 @@
       "title": "The Memory Vault",
       "source_order": 24,
       "design_status": "detailed",
-      "implementation_status": "planned",
-      "prototype_runtime_id": null,
+      "implementation_status": "selected_for_prototype",
+      "prototype_runtime_id": "vault",
       "realm_id": "labyrinth",
       "skill_family": "memory",
       "goal": "Retrieve four identified objects and place them in ordered cradles.",
@@ -1191,7 +1448,10 @@
         "permanent_completion",
         "accessible_information",
         "duplicate_action_safety"
-      ]
+      ],
+      "prototype_first_version": "0.2",
+      "prototype_stage": "implemented_v0.2_subset",
+      "prototype_scope_document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
     },
     {
       "id": "T25",
@@ -1265,7 +1525,8 @@
     {
       "id": "IT08",
       "title": "Ritual ember",
-      "status": "planned"
+      "status": "implemented_v0.2_subset",
+      "prototype_scope_document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
     },
     {
       "id": "IT09",
@@ -1285,7 +1546,8 @@
     {
       "id": "IT12",
       "title": "Memory relic",
-      "status": "planned"
+      "status": "implemented_v0.2_subset",
+      "prototype_scope_document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
     }
   ],
   "traps": [
@@ -1394,6 +1656,7 @@
     "presentation": "docs/bible/08_PRESENTATION_AND_ACCESSIBILITY.md",
     "modes": "docs/bible/09_MODES_AND_PROGRESSION.md",
     "production": "docs/bible/10_PRODUCTION_AND_ACCEPTANCE.md",
-    "source": "docs/bible/11_SOURCE_TRACEABILITY.md"
+    "source": "docs/bible/11_SOURCE_TRACEABILITY.md",
+    "prototype_contracts": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
   }
 }

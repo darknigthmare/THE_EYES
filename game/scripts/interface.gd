@@ -1,7 +1,7 @@
 class_name EyesInterface
 extends CanvasLayer
 
-signal start_requested(mode: String, archetype: String, difficulty: String, seed_value: int)
+signal start_requested(mode: String, archetype: String, difficulty: String, seed_value: int, contract: String)
 signal resume_requested
 signal menu_requested
 signal echo_pressed(symbol: int)
@@ -29,6 +29,8 @@ var mono_font: Font = preload("res://assets/fonts/Readout.ttf")
 var role_select: OptionButton
 var difficulty_select: OptionButton
 var seed_select: SpinBox
+var contract_select: OptionButton
+var observance_label: Label
 var timer_label: Label
 var phase_label: Label
 var health_bar: ProgressBar
@@ -186,10 +188,10 @@ func _build_menu() -> void:
 	label(menu,"D A R K N I G T H M A R E    /    O R I G I N A L S",Vector2(64,38),Vector2(720,30),13,GOLD,mono_font)
 	label(menu,"A S Y M M E T R I C A L   N I G H T M A R E",Vector2(66,144),Vector2(670,30),13,MINT,mono_font)
 	label(menu,"THE EYES",Vector2(59,177),Vector2(780,116),102,PAPER,title_font)
-	label(menu,"THE FIRST OBSERVANCE",Vector2(68,300),Vector2(650,37),19,GOLD,mono_font)
+	label(menu,"THE OBSERVANCE COLLECTION",Vector2(68,300),Vector2(650,37),19,GOLD,mono_font)
 	var description = label(menu,"It cannot follow you.\nIt only needs to see you.",Vector2(68,359),Vector2(610,84),29,PAPER,title_font)
 	description.add_theme_constant_override("line_spacing",8)
-	label(menu,"Three trials. Four watching sockets. One way out.",Vector2(68,463),Vector2(620,32),17,MUTED)
+	label(menu,"Six trials. Three seals. One way out.",Vector2(68,463),Vector2(620,32),17,MUTED)
 	button(menu,"ENTER AS A SURVIVOR     →",Vector2(68,518),Vector2(570,60),true).pressed.connect(_start.bind("survivor"))
 	button(menu,"TAKE THE EYE'S SEAT       →",Vector2(68,590),Vector2(570,54)).pressed.connect(_start.bind("eye"))
 	label(menu,"SURVIVOR",Vector2(70,670),Vector2(180,24),11,MUTED,mono_font)
@@ -207,16 +209,25 @@ func _build_menu() -> void:
 	menu.add_child(seed_select)
 	button(menu,"FIELD MANUAL",Vector2(68,771),Vector2(270,43)).pressed.connect(func(): help_panel.show())
 	button(menu,"SETTINGS",Vector2(350,771),Vector2(288,43)).pressed.connect(func(): pause_panel.show())
-	label(menu,"PLAYABLE GODOT PROTOTYPE  /  0.1.0  /  ENGLISH",Vector2(68,853),Vector2(760,25),11,MUTED,mono_font)
-	var note = panel(menu,Vector2(1013,650),Vector2(364,170),Color(0.03,0.07,0.09,0.8),Color("54635c"))
-	label(note,"THE OBSERVER",Vector2(23,19),Vector2(315,25),12,GOLD,mono_font)
-	label(note,"Every power has a price.\nEvery shadow is a choice.",Vector2(23,55),Vector2(322,68),23,PAPER,title_font)
-	label(note,"LOCAL SOLO + ADVERSARIAL AI",Vector2(23,134),Vector2(322,20),10,MUTED,mono_font)
+	label(menu,"PLAYABLE GODOT PROTOTYPE  /  0.2.0  /  ENGLISH",Vector2(68,853),Vector2(760,25),11,MUTED,mono_font)
+	var contract_panel = panel(menu,Vector2(875,538),Vector2(502,282),Color(0.03,0.07,0.09,0.92),Color("54635c"))
+	label(contract_panel,"CHOOSE YOUR OBSERVANCE",Vector2(24,20),Vector2(454,25),13,GOLD,mono_font)
+	contract_select = _option(contract_panel,Vector2(24,61),454,["First Observance","Second Observance","Seeded Mix"])
+	var descriptions: Array[String] = [
+		"THE FIRST / Learn the chamber\nCarry whispers, remember the Echoes, and charge the Relay.",
+		"THE SECOND / The Registrar's devices\nIdentify four relics, kindle the Ritual, and solve the coupled Clock.",
+		"SEEDED MIX / Eight combinations\nOne of two trials in each bay. Your seed fixes the selection and its puzzles."
+	]
+	var contract_description = label(contract_panel,descriptions[0],Vector2(24,123),Vector2(454,105),17,PAPER)
+	contract_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	contract_description.set_deferred("size",Vector2(454,105))
+	contract_select.item_selected.connect(func(index: int): contract_description.text = descriptions[index])
+	label(contract_panel,"LOCAL SOLO + ADVERSARIAL AI",Vector2(24,247),Vector2(454,20),10,MUTED,mono_font)
 
 func _start(mode: String) -> void:
 	var archetype = ["Veil","Tinker","Runner","Keeper"][role_select.selected]
 	var difficulty = ["story","standard","ruthless"][difficulty_select.selected]
-	start_requested.emit(mode,archetype,difficulty,int(seed_select.value))
+	start_requested.emit(mode,archetype,difficulty,int(seed_select.value),["first","second","mix"][contract_select.selected])
 
 func _bar(parent: Control, at: Vector2, size_value: Vector2, color: Color) -> ProgressBar:
 	var b = ProgressBar.new()
@@ -241,7 +252,7 @@ func _bar(parent: Control, at: Vector2, size_value: Vector2, color: Color) -> Pr
 func _build_hud() -> void:
 	hud = _full(root)
 	hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label(hud,"THE FIRST OBSERVANCE",Vector2(38,24),Vector2(620,40),26,PAPER,title_font)
+	observance_label = label(hud,"THE FIRST OBSERVANCE",Vector2(38,24),Vector2(620,40),26,PAPER,title_font)
 	phase_label = label(hud,"PREPARATION",Vector2(40,66),Vector2(650,25),12,GOLD,mono_font)
 	timer_label = label(hud,"08:00",Vector2(1175,24),Vector2(222,46),35,PAPER,mono_font)
 	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
@@ -278,7 +289,7 @@ func _build_hud() -> void:
 	notification.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	notification.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	notification.set_deferred("size",Vector2(680,78))
-	controls_label = label(hud,"WASD / ZQSD  Move    SHIFT  Sprint    CTRL  Crouch    E  Interact    Q  Ability    TAB  Map    ESC  Pause",Vector2(382,866),Vector2(1020,24),10,MUTED,mono_font)
+	controls_label = label(hud,"WASD / ZQSD  Move    SHIFT  Sprint    CTRL  Crouch    E  Interact    Q/A  Ability    G  Drop    TAB  Map    ESC  Pause",Vector2(382,866),Vector2(1020,24),10,MUTED,mono_font)
 	flash_label = label(hud,"",Vector2(390,233),Vector2(660,30),14,ROSE,mono_font)
 	flash_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	minimap = Control.new()
@@ -390,19 +401,57 @@ func _build_result() -> void:
 
 func _build_help() -> void:
 	help_panel = _full(root,Color(0.01,0.025,0.035,0.96))
-	label(help_panel,"FIELD MANUAL",Vector2(75,58),Vector2(1250,70),51,PAPER,title_font)
-	label(help_panel,"I / SURVIVOR",Vector2(78,164),Vector2(570,32),16,GOLD,mono_font)
-	var left = "Collect the three floating whisper motes, one at a time. Bring them to the SILENT COUNTDOWN station in the northwest. Crouch to keep a carried mote quiet.\n\nAt TRIAL OF THE ECHOES, watch the four numbered symbols. Repeat them with 1–4. R replays the sequence. The world keeps moving while you solve it.\n\nAt CLOCKWORK RELAY, hold E to charge the wheel. Progress locks at one-third and two-thirds. Release and hide when watched.\n\nComplete all three seals, then reach THE UNSEEN DOOR in the north and hold E to escape. Any escape is a team victory.\n\nWalls block sight. A full gaze meter causes a wound, not instant death. Your first fall sends you to one recovery trial; the next is final."
-	var l = label(help_panel,left,Vector2(78,212),Vector2(580,488),18,PAPER)
-	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	l.set_deferred("size",Vector2(580,488))
-	label(help_panel,"II / THE EYE",Vector2(758,164),Vector2(570,32),16,GOLD,mono_font)
+	# The body gets only the space left between the heading and fixed footer.
+	# Overflow scrolls inside this region instead of growing over the controls.
+	var margins = MarginContainer.new()
+	margins.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	margins.add_theme_constant_override("margin_left",78)
+	margins.add_theme_constant_override("margin_right",78)
+	margins.add_theme_constant_override("margin_top",48)
+	margins.add_theme_constant_override("margin_bottom",42)
+	help_panel.add_child(margins)
+	var layout = VBoxContainer.new()
+	layout.add_theme_constant_override("separation",20)
+	margins.add_child(layout)
+	label(layout,"FIELD MANUAL",Vector2.ZERO,Vector2.ZERO,51,PAPER,title_font)
+	var body = ScrollContainer.new()
+	body.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	body.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.follow_focus = true
+	body.clip_contents = true
+	layout.add_child(body)
+	var columns = HBoxContainer.new()
+	columns.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	columns.add_theme_constant_override("separation",56)
+	body.add_child(columns)
+	var left = "THREE ACTIVE TRIALS PER MATCH\nFirst keeps the original trials. Second replaces all three. Seeded Mix chooses one of two in each bay.\n\nFIRST: deliver three motes northwest; repeat the Echoes northeast; hold E at the south Relay.\n\nMEMORY VAULT: read four relic names at the northwest desk. Collect them from the southern shelves and fill their exact numbered cradles. G safely returns cargo.\n\nRITUAL CIRCLE: take the shared ember northeast. Follow the engraved five-vessel order; pairs stay banked. Remain inside the ring for eight seconds. Move within it to avoid hazards.\n\nCLOCK ROOM: walk between the south levers. E turns forward; R reverses. Match the target, then press E at the centre. X resets.\n\nComplete all three seals, then hold E at the north door. Use cover to break gaze. Your first fall offers Second Sight."
 	var right = "Four AI survivors will collect motes, solve trials and attempt escape. You remain fixed in an Eye socket.\n\n1–4 or mouse wheel: switch sockets. Mouse: look.\nLEFT CLICK: trigger the trap nearest your crosshair. It must be visible; a gold ring warns before the strike.\nRIGHT CLICK: focus a visible survivor. Keep them inside your gaze to wound them.\nQ: call a stalking shadow at a visible floor point. Its arrival is telegraphed.\n\nEnergy, cooldowns, sightlines and a preparation grace limit your powers. Change vantage to find targets; walls block both your sight and your abilities.\n\nTAB reveals the chamber map. ESC pauses. Sound, motion, sensitivity and field of view are adjustable."
-	var r = label(help_panel,right,Vector2(758,212),Vector2(590,490),18,PAPER)
-	r.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	r.set_deferred("size",Vector2(590,490))
-	label(help_panel,"WASD / ZQSD · move    SHIFT · sprint    CTRL / C · crouch    SPACE · jump    E · use    Q · archetype ability",Vector2(78,738),Vector2(1280,32),13,MUTED,mono_font)
-	button(help_panel,"I AM READY",Vector2(78,802),Vector2(1270,56),true).pressed.connect(func(): help_panel.hide())
+	for index in range(2):
+		var column = VBoxContainer.new()
+		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		column.add_theme_constant_override("separation",20)
+		columns.add_child(column)
+		label(column,["I / SURVIVOR","II / THE EYE"][index],Vector2.ZERO,Vector2.ZERO,16,GOLD,mono_font)
+		var paragraph = Label.new()
+		paragraph.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		paragraph.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		paragraph.add_theme_font_size_override("font_size",16)
+		paragraph.add_theme_color_override("font_color",PAPER)
+		paragraph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		paragraph.text = [left,right][index]
+		column.add_child(paragraph)
+	var controls = Label.new()
+	controls.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	controls.add_theme_font_override("font",mono_font)
+	controls.add_theme_font_size_override("font_size",13)
+	controls.add_theme_color_override("font_color",MUTED)
+	controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	controls.text = "WASD / ZQSD · move    E · use    Q (AZERTY A) · ability    G · drop    R · reverse clock    X · reset clock"
+	layout.add_child(controls)
+	var ready = button(layout,"I AM READY",Vector2.ZERO,Vector2.ZERO,true)
+	ready.custom_minimum_size.y = 56
+	ready.pressed.connect(func(): help_panel.hide())
 
 func show_menu() -> void:
 	menu.show()
@@ -419,8 +468,15 @@ func show_game(eye_mode: bool) -> void:
 	result_panel.hide()
 	pause_panel.hide()
 	is_eye_mode = eye_mode
-	controls_label.text = "1–4 / WHEEL  Switch socket    MOUSE  Aim    LMB  Trap    RMB  Mark    Q  Summon    TAB  Map    ESC  Pause" if eye_mode else "WASD / ZQSD  Move    SHIFT  Sprint    CTRL  Crouch    E  Interact    Q  Ability    TAB  Map    ESC  Pause"
+	controls_label.text = "1–4 / WHEEL  Switch socket    MOUSE  Aim    LMB  Trap    RMB  Mark    Q  Summon    TAB  Map    ESC  Pause" if eye_mode else "WASD / ZQSD  Move    SHIFT  Sprint    CTRL  Crouch    E  Interact    Q/A  Ability    G  Drop    TAB  Map    ESC  Pause"
 	minimap.visible = eye_mode
+
+func set_trial_names(mapping: Dictionary, contract_id: String) -> void:
+	observance_label.text = {"first":"THE FIRST OBSERVANCE","second":"THE SECOND OBSERVANCE","mix":"THE SEEDED OBSERVANCE"}.get(contract_id,"THE OBSERVANCE")
+	var index = 0
+	for slot in ["silent","echoes","relay"]:
+		seal_labels[slot].text = "%s  %s" % [["I  ","II ","III"][index],EyesTrialApparatus.TRIAL_NAMES[mapping[slot]]]
+		index += 1
 
 func toast(value: String, duration: float = 4.0) -> void:
 	notification.text = value

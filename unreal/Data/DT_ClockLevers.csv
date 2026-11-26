@@ -1,0 +1,4 @@
+Name,LeverIndex,HandADelta,HandBDelta,HandCDelta
+lever_a,0,1,1,0
+lever_b,1,0,1,1
+lever_c,2,1,0,1

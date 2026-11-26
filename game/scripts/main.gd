@@ -3,6 +3,10 @@ extends Node3D
 ## verifies world interactions, simulates physical actors and presents feedback.
 
 var arena: EyesArena
+var apparatus: EyesTrialApparatus
+var trial_world: EyesTrialWorld
+var contract: String = "first"
+var qa_contract: String = "first"
 var ui: EyesInterface
 var soundscape: EyesSoundscape
 var director: TrialDirector
@@ -58,6 +62,8 @@ func _ready() -> void:
 	_build_navigation()
 	arena = EyesArena.new()
 	add_child(arena)
+	apparatus = EyesTrialApparatus.new()
+	add_child(apparatus)
 	soundscape = EyesSoundscape.new()
 	add_child(soundscape)
 	menu_camera = Camera3D.new()
@@ -91,16 +97,19 @@ func _ready() -> void:
 			qa_capture = arg.get_slice("=",1)
 		elif arg.begins_with("--qa-view="):
 			qa_view = arg.get_slice("=",1)
+		elif arg.begins_with("--contract="):
+			qa_contract = arg.get_slice("=",1)
 		elif arg == "--mute":
 			mute_requested = true
 	if mute_requested:
 		soundscape.set_enabled(false)
 	if qa_view != "menu":
-		start_match(qa_view,"Veil","standard",271126)
+		start_match(qa_view,"Veil","standard",271126,qa_contract)
+		print("THE_EYES_QA_READY role=%s contract=%s" % [mode,contract])
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if mode == "menu" else Input.MOUSE_MODE_CAPTURED
 
 func _register_input() -> void:
-	var keys: Dictionary = {"move_forward":[KEY_W,KEY_UP],"move_back":[KEY_S,KEY_DOWN],"move_left":[KEY_A,KEY_LEFT],"move_right":[KEY_D,KEY_RIGHT],"sprint":[KEY_SHIFT],"crouch":[KEY_CTRL,KEY_C],"jump":[KEY_SPACE],"interact":[KEY_E],"ability":[KEY_Q],"map":[KEY_TAB],"pause":[KEY_ESCAPE]}
+	var keys: Dictionary = {"move_forward":[KEY_W,KEY_UP],"move_back":[KEY_S,KEY_DOWN],"move_left":[KEY_A,KEY_LEFT],"move_right":[KEY_D,KEY_RIGHT],"sprint":[KEY_SHIFT],"crouch":[KEY_CTRL,KEY_C],"jump":[KEY_SPACE],"interact":[KEY_E],"ability":[KEY_Q],"map":[KEY_TAB],"pause":[KEY_ESCAPE],"drop":[KEY_G],"reverse":[KEY_R],"reset_trial":[KEY_X]}
 	for action in keys:
 		if not InputMap.has_action(action):
 			InputMap.add_action(action)
@@ -133,7 +142,7 @@ func _block_rect(center: Vector2, size_value: Vector2) -> void:
 			if navigation.is_in_boundsv(Vector2i(x,z)):
 				navigation.set_point_solid(Vector2i(x,z))
 
-func start_match(requested_mode: String, archetype: String, difficulty: String, match_seed: int) -> void:
+func start_match(requested_mode: String, archetype: String, difficulty: String, match_seed: int, selected_contract: String = "first") -> void:
 	get_tree().paused = false
 	_cleanup_match()
 	mode = requested_mode
@@ -154,7 +163,12 @@ func start_match(requested_mode: String, archetype: String, difficulty: String, 
 		arena.set_trap(i,"idle")
 	director = TrialDirector.new()
 	director.event_raised.connect(_on_event)
-	director.configure(mode,difficulty,match_seed,4 if mode == "eye" else 1)
+	director.configure(mode,difficulty,match_seed,4 if mode == "eye" else 1,selected_contract)
+	contract = director.trial_set.contract
+	arena.configure_trials(director.trial_set.slot_trials,EyesTrialApparatus.TRIAL_NAMES)
+	apparatus.configure(arena,director.trial_set)
+	trial_world = EyesTrialWorld.new()
+	trial_world.configure(self,director.trial_set,apparatus)
 	punishment = false
 	punishment_used = false
 	echo_open = false
@@ -183,6 +197,7 @@ func start_match(requested_mode: String, archetype: String, difficulty: String, 
 	_set_socket(0,true)
 	_apply_settings(ui.settings,false)
 	ui.show_game(mode == "eye")
+	ui.set_trial_names(director.trial_set.slot_trials,contract)
 	ui.toast("Eight seconds of grace. Learn the chamber.",6.0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -266,6 +281,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				elif event.physical_keycode == KEY_E:
 					_close_echo()
 			return
+		if event.is_action_pressed("drop"):
+			trial_world.release(player)
+			ui.toast("Hands free. Dropped relics return safely to their shelves.",3)
+		elif event.is_action_pressed("reverse"):
+			trial_world.interact(player,-1)
+		elif event.is_action_pressed("reset_trial"):
+			trial_world.interact(player,1,true)
 		if event.is_action_pressed("interact"):
 			_interact_player()
 		if event.is_action_pressed("ability") and player.use_ability():
@@ -296,6 +318,7 @@ func _physics_process(delta: float) -> void:
 		_update_player_objectives(delta)
 	else:
 		_update_bots(delta)
+	trial_world.step(delta)
 	if echo_open:
 		_update_echo(delta)
 	if mode == "survivor":
@@ -630,7 +653,7 @@ func _hurt(actor: EyesSurvivor, amount: float, reason: String) -> void:
 	if actor == player:
 		ui.toast(reason,3)
 	if actor.health <= 0:
-		_drop_mote(actor)
+		trial_world.release(actor)
 		if actor == player and not punishment_used:
 			_start_punishment()
 		else:
@@ -645,6 +668,8 @@ func _mote_position(index: int) -> Vector3:
 	return arena.motes[index].get_parent().global_position
 
 func _pickup(actor: EyesSurvivor, index: int) -> bool:
+	if director == null or director.phase not in ["hunt","escape"] or actor.eliminated or index < 0 or index >= 3 or director.trial_for_slot("silent") != "silent" or trial_world.has_cargo(actor):
+		return false
 	if actor.carrying >= 0 or motes_state[index] != 0 or actor.global_position.distance_to(_mote_position(index)) > 2.8:
 		return false
 	actor.carrying = index
@@ -675,13 +700,15 @@ func _interact_player() -> void:
 	if director.phase == "preparation":
 		ui.toast("The trials awaken when the grace ends.",2)
 		return
+	if trial_world.interact(player):
+		return
 	for i in range(3):
 		if _pickup(player,i):
 			ui.toast("Whisper collected. Deliver it to Silent Countdown.",3)
 			return
 	if _deliver(player):
 		return
-	if player.global_position.distance_to(EyesArena.STATIONS.echoes) < 3.0 and not director.seals.echoes:
+	if director.trial_for_slot("echoes") == "echoes" and player.global_position.distance_to(EyesArena.STATIONS.echoes) < 3.0 and not director.seals.echoes:
 		echo_open = true
 		ui.echo_panel.show()
 		player.controls_locked = true
@@ -697,13 +724,13 @@ func _update_player_objectives(delta: float) -> void:
 	var holding_relay = false
 	if not echo_open:
 		for i in range(3):
-			if motes_state[i] == 0 and player.carrying < 0 and player.global_position.distance_to(_mote_position(i)) < 2.8:
+			if director.trial_for_slot("silent") == "silent" and motes_state[i] == 0 and player.carrying < 0 and not trial_world.has_cargo(player) and player.global_position.distance_to(_mote_position(i)) < 2.8:
 				active_hint = "[ E ]  Pick up whisper mote"
-		if player.global_position.distance_to(EyesArena.STATIONS.silent) < 3.0:
+		if director.trial_for_slot("silent") == "silent" and player.global_position.distance_to(EyesArena.STATIONS.silent) < 3.0:
 			active_hint = "[ E ]  Deliver whisper mote" if player.carrying >= 0 else "SILENT COUNTDOWN  /  %d of 3 whispers delivered" % director.motes_delivered
-		if player.global_position.distance_to(EyesArena.STATIONS.echoes) < 3.0:
+		if director.trial_for_slot("echoes") == "echoes" and player.global_position.distance_to(EyesArena.STATIONS.echoes) < 3.0:
 			active_hint = "ECHOES  /  Seal broken" if director.seals.echoes else "[ E ]  Observe and repeat the four symbols"
-		if player.global_position.distance_to(EyesArena.STATIONS.relay) < 3.0:
+		if director.trial_for_slot("relay") == "relay" and player.global_position.distance_to(EyesArena.STATIONS.relay) < 3.0:
 			active_hint = "RELAY  /  Seal broken" if director.seals.relay else "[ HOLD E ]  Charge the wheel  /  %d%%" % int(director.relay_progress*100)
 			holding_relay = Input.is_action_pressed("interact") and not director.seals.relay
 		if player.global_position.distance_to(EyesArena.EXIT_POSITION) < 3.2:
@@ -719,6 +746,9 @@ func _update_player_objectives(delta: float) -> void:
 				active_hint = "THE UNSEEN DOOR  /  Three seals keep it closed."
 		else:
 			escape_hold = 0.0
+	var extended_hint = trial_world.hint(player)
+	if not extended_hint.is_empty() and not echo_open:
+		active_hint = extended_hint
 	var rate: float = 1.4 if player.archetype == "Tinker" else 1.0
 	if player.archetype == "Tinker" and player.ability_left > 0:
 		rate *= 1.6
@@ -802,6 +832,12 @@ func _path_direction(at: Vector3, data: Dictionary) -> Vector3:
 			data[key] += 1
 		else:
 			return direction.normalized()
+	# Grid cells route around walls; the last metre still targets the real device.
+	# Fractional apparatus coordinates must not stall at a rounded cell centre.
+	if data.has("path_index") and data.has("target") and data.target is Vector3:
+		var finish = Vector3(data.target.x,at.y,data.target.z)-at
+		if finish.length() > 0.12 and has_sight(at+Vector3.UP,Vector3(data.target.x,at.y+1.0,data.target.z)):
+			return finish.normalized()
 	return Vector3.ZERO
 
 func _choose_bot_goal(data: Dictionary, number: int) -> void:
@@ -814,37 +850,49 @@ func _choose_bot_goal(data: Dictionary, number: int) -> void:
 		data.task = "deliver"
 		data.target = EyesArena.STATIONS.silent+Vector3(0,0,2.3)
 		return
-	var priority = ["silent","echoes","relay","silent"][number]
-	if director.seals[priority]:
-		for key in ["silent","relay","echoes"]:
-			if not director.seals[key]:
-				priority = key
-				break
-	if priority == "silent":
-		var nearest: float = INF
-		var chosen = -1
-		for i in range(3):
-			if motes_state[i] != 0:
-				continue
-			var reserved = false
-			for other in bots:
-				if other != data and other.mote == i and other.task == "pickup" and not other.actor.eliminated:
-					reserved = true
-			if reserved:
-				continue
-			var distance = a.global_position.distance_to(_mote_position(i))
-			if distance < nearest:
-				nearest = distance
-				chosen = i
-		if chosen >= 0:
-			data.task = "pickup"
-			data.mote = chosen
-			data.target = _mote_position(chosen)+Vector3(0,0,1.7)
+	if trial_world.cargo_goal(data):
+		return
+	var preferred: String = ["silent","echoes","relay","silent"][number]
+	var priorities: Array[String] = [preferred]
+	for slot: String in ["silent","relay","echoes"]:
+		if not priorities.has(slot):
+			priorities.append(slot)
+	for slot: String in priorities:
+		if director.seals[slot]:
+			continue
+		if director.trial_for_slot(slot) != slot:
+			if trial_world.assign_slot(data,slot):
+				return
+			continue
+		if slot == "silent":
+			var nearest: float = INF
+			var chosen = -1
+			for i in range(3):
+				if motes_state[i] != 0:
+					continue
+				var reserved = false
+				for other in bots:
+					if other != data and other.mote == i and other.task == "pickup" and not other.actor.eliminated:
+						reserved = true
+				if reserved:
+					continue
+				var distance = a.global_position.distance_to(_mote_position(i))
+				if distance < nearest:
+					nearest = distance
+					chosen = i
+			if chosen >= 0:
+				data.task = "pickup"
+				data.mote = chosen
+				data.target = _mote_position(chosen)+Vector3(0,0,1.7)
+				return
+		else:
+			data.mote = -1
+			data.task = slot
+			data.target = EyesArena.STATIONS[slot]+Vector3(0,0,2.4)
 			return
-		priority = "relay" if not director.seals.relay else "echoes"
+	data.task = "trial_wait"
 	data.mote = -1
-	data.task = priority
-	data.target = EyesArena.STATIONS[priority]+Vector3(0,0,2.4)
+	data.target = Vector3(-4+number*2,0,20)
 
 func _safe_point(a: EyesSurvivor) -> Vector3:
 	var candidates: Array[Vector3] = [Vector3(-4.2,0,0),Vector3(4.2,0,0),Vector3(0,0,-4.2),Vector3(0,0,4.2),Vector3(-9,0,-8.5),Vector3(-9,0,8.5),Vector3(9,0,-8.5),Vector3(9,0,8.5)]
@@ -888,7 +936,7 @@ func _update_bots(delta: float) -> void:
 		var dir = _path_direction(a.global_position,data)
 		a.move_target = a.global_position+dir*2.0
 		a.bot_sprint = data.task == "escape" or data.task == "hide"
-		a.bot_crouch = a.carrying >= 0 or (a.gaze > 25 and data.task != "hide")
+		a.bot_crouch = a.carrying >= 0 or trial_world.has_cargo(a) or (a.gaze > 25 and data.task != "hide")
 		# Avoid a warned trap by taking a perpendicular step into open navigation.
 		for t in range(traps.size()):
 			if traps[t].state == "warning" and a.global_position.distance_to(EyesArena.TRAP_POSITIONS[t]) < 2.6:
@@ -916,6 +964,8 @@ func _update_bots(delta: float) -> void:
 				relay_rate += 1.4 if a.archetype == "Tinker" else 1.0
 			elif data.task == "escape" and data.action_time >= 1.5:
 				director.register_escape()
+			else:
+				trial_world.bot_arrived(data,delta)
 		if a.archetype == "Keeper" and a.health < 60:
 			a.use_ability()
 		elif a.gaze > 50:
@@ -998,11 +1048,27 @@ func _on_event(kind: String, payload: Dictionary) -> void:
 				data.hiding = 0
 	elif kind == "seal":
 		arena.set_seal(payload.seal,true)
-		ui.toast("%s — seal broken." % {"silent":"Silent Countdown","echoes":"Trial of the Echoes","relay":"Clockwork Relay"}[payload.seal],4)
+		ui.toast("%s — seal broken." % EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot(payload.seal)],4)
 		soundscape.play("seal",1,-10)
 	elif kind == "delivery":
 		ui.toast("Whisper delivered  /  %d of 3" % payload.delivered,3)
 		soundscape.play("pickup",0.85,-12)
+	elif kind in ["vault_pickup","vault_deposit","ember_taken","ritual_vessel"]:
+		soundscape.play("pickup",1.0,-14)
+		if kind == "vault_deposit":
+			ui.toast("Vault cradle locked / %d of 4" % payload.deposited,3)
+		elif kind == "ritual_vessel":
+			ui.toast("Ritual vessel lit / %d of 5 / %d banked" % [payload.progress,payload.bank],3)
+	elif kind == "ritual_ready":
+		ui.toast("All five vessels are lit. Keep moving inside the ring for eight continuous seconds.",5)
+	elif kind in ["vault_error","ritual_error","clock_error"]:
+		soundscape.play("fail",1.0,-17)
+		var messages = {"vault_error":"Wrong relic for this cradle. It remains in your hands; G returns it safely.","ritual_error":"Wrong vessel. Banked pairs remain lit; the ember returns to its cradle.","clock_error":"The constellation is not aligned. Reverse with R, or reset at the centre with X."}
+		ui.toast(messages[kind],4)
+		for actor in actors:
+			if actor.get_instance_id() == int(payload.get("actor_id",0)):
+				last_noise = actor.global_position
+				noise_memory = 6.0
 	elif kind == "result":
 		_end_match(payload)
 
@@ -1020,7 +1086,7 @@ func _end_match(payload: Dictionary) -> void:
 	if qa_capture.is_empty():
 		var file = FileAccess.open("user://last_observance.json",FileAccess.WRITE)
 		if file:
-			file.store_string(JSON.stringify({"schema_version":1,"game_version":"0.1.0","mode":mode,"seed":seed_value,"difficulty":director.difficulty,"result":payload,"elapsed":elapsed,"metrics":metrics,"events":event_log},"\t"))
+			file.store_string(JSON.stringify({"schema_version":2,"game_version":"0.2.0","mode":mode,"contract":contract,"trials":director.trial_set.slot_trials,"seed":seed_value,"difficulty":director.difficulty,"result":payload,"elapsed":elapsed,"metrics":metrics,"events":event_log},"\t"))
 
 func _update_hud() -> void:
 	var eye_mode = mode == "eye"
@@ -1033,9 +1099,16 @@ func _update_hud() -> void:
 		for a in actors:
 			if not a.eliminated and eye_sees(a.target_point()):
 				bot_positions.append(a.global_position)
-	var objective = "Carry whispers to the northwest station.\nUse TAB to read the chamber."
+	var objective = "Three active trials / %s\nUse TAB to read the chamber." % {"first":"FIRST OBSERVANCE","second":"SECOND OBSERVANCE","mix":"SEEDED MIX"}[contract]
 	if player.carrying >= 0:
 		objective = "CARRYING A WHISPER\nCrouch to keep it quiet. Deliver northwest."
+	var carried_relic: int = director.trial_set.carried_relic(player.get_instance_id())
+	if carried_relic >= 0:
+		objective = "CARRYING %s\nFind its numbered cradle. G returns it safely." % EyesTrialApparatus.RELIC_NAMES[carried_relic]
+	elif director.trial_set.ember_owner == player.get_instance_id():
+		objective = "CARRYING THE SHARED EMBER\nFollow the engraved vessel order in the northeast."
+	if not eye_mode and player.archetype == "Tinker" and player.ability_left > 0 and director.trial_for_slot("relay") == "clock" and not director.seals.relay:
+		objective += "\nOVERCLOCK / " + trial_world.clock_hint()
 	if director.phase == "escape":
 		objective = "THE UNSEEN DOOR IS OPEN\nNorth side. Hold E at the doorway."
 	if eye_mode:
@@ -1062,12 +1135,12 @@ func _update_hud() -> void:
 	var direction = "NORTH  /  THE UNSEEN DOOR"
 	if not eye_mode:
 		var angle = fposmod(player.rotation_degrees.y+45,360)
-		direction = ["NORTH  /  THE UNSEEN DOOR","WEST  /  SILENT COUNTDOWN","SOUTH  /  CLOCKWORK RELAY","EAST  /  TRIAL OF THE ECHOES"][int(angle/90)%4]
-	ui.update_hud({"time":display_time,"phase":phase_text,"health_text":"INFLUENCE  %d / 100" % int(director.energy) if eye_mode else "%s  /  VITALITY  %d" % [player.archetype.to_upper(),int(player.health)],"health":director.energy if eye_mode else player.health,"stamina":100 if eye_mode else player.stamina/player.params.stamina*100,"gaze":director.terror if eye_mode else player.gaze,"gaze_text":gaze_text,"ability":ability,"objective":objective,"hint":hint,"socket":director.eye_socket,"compass":direction,"seals":director.seals,"progress":{"silent":director.motes_delivered/3.0,"echoes":director.echo_index/4.0,"relay":director.relay_progress},"position":player.global_position,"bots":bot_positions})
+		direction = ["NORTH  /  THE UNSEEN DOOR","WEST  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("silent")],"SOUTH  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("relay")],"EAST  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("echoes")]][int(angle/90)%4]
+	ui.update_hud({"time":display_time,"phase":phase_text,"health_text":"INFLUENCE  %d / 100" % int(director.energy) if eye_mode else "%s  /  VITALITY  %d" % [player.archetype.to_upper(),int(player.health)],"health":director.energy if eye_mode else player.health,"stamina":100 if eye_mode else player.stamina/player.params.stamina*100,"gaze":director.terror if eye_mode else player.gaze,"gaze_text":gaze_text,"ability":ability,"objective":objective,"hint":hint,"socket":director.eye_socket,"compass":direction,"seals":director.seals,"progress":{"silent":director.progress_for_slot("silent"),"echoes":director.progress_for_slot("echoes"),"relay":director.progress_for_slot("relay")},"position":player.global_position,"bots":bot_positions})
 	ui.flash_label.text = "MARKED" if marked_until.has(player.get_instance_id()) and not eye_mode else ""
 
 func _apply_settings(values: Dictionary, save: bool = true) -> void:
-	soundscape.set_enabled(values.audio)
+	soundscape.set_enabled(values.audio and not mute_requested)
 	player.mouse_sensitivity = 0.0022*values.sensitivity
 	player.invert_y = values.invert_y
 	player.motion_reduced = values.reduced_motion

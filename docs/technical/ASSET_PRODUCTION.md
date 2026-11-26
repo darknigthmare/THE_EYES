@@ -226,3 +226,17 @@ Use status values **Planned → SourceReady → Imported → Integrated → Veri
 - **UI:** text fits target resolutions; readable at scaling; prompts match active role/device; keyboard focus correct; missing target/cooldown feedback clear.
 
 Keep art evidence distinct from gameplay evidence: a turntable proves a model's appearance, a captured playthrough proves its integration, and a rule test proves the state transition. A delivery report should name the actual files and the evidence for their current status.
+
+## v0.2 apparatus handoff: three alternate trials
+
+The six-trial prototype pool reuses the existing three bays. It does not add a finished realm or an annex. The production art handoff must let each bay swap its trial without moving the shared exits, Eye sockets or essential cover. Keep each apparatus under one authored root with explicit interaction, visual, collision and cargo anchors; disabling an inactive apparatus must also disable its query/overlap registration.
+
+| Apparatus | Required original assets | Readability and interaction criteria |
+| --- | --- | --- |
+| Memory Vault | Six relic silhouettes: Orb, Spire, Cube, Ring, Crown, Diamond; six pickup origins; four numbered cradles; four-target clue board; held/released/accepted states | IDs 0–5 remain stable. Distinguish shape, text and cradle number without relying on colour. Accepted objects visibly lock into the correct cradle; wrong attempts keep the held item. |
+| Ritual Circle | Five vessel variants/markers; ember cradle and carry effect; clue display; banked/unbanked flame states; clear ground ring | Two/four checkpoints have distinct retained states. Five lit vessels transition to a separate eight-second ring hold cue. The 2.8 m radius supports movement while the hold continues. A departed ring resets hold feedback while leaving flames visibly complete. |
+| Clock Room | Three discrete six-position hands; three physically distinct levers A/B/C; transform diagram; reset control; central seal press | Show lever coupling before an action. Each hand has an unambiguous zero and six ticks. Correct alignment highlights the central press; it does not falsely announce completion before confirmation. |
+
+These are production requirements derived from the rule contract, not a completed exported art pack. The Godot candidate uses procedural forms. Keep finished asset counts and measured GPU cost in a later import/performance report. Validate text/silhouette readability at gameplay camera distance, in the arena's dark lighting and with low graphical settings. Critical clues and circle boundaries must survive reduced bloom, muted audio and colour-vision differences.
+
+Animation state must follow accepted authority state: a denied pickup does not attach the relic, a vessel error restores only the unbanked flames, and a clock lever may animate after an accepted move while the discrete hand values remain authoritative. The sound design may distinguish pickup, wrong cradle, bank commit, ring occupancy break, clock step, reset and final press, but every required rule cue also has a visible form. No additional copyrighted reference assets are required for this direction.

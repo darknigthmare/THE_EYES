@@ -1,0 +1,2 @@
+Name,RelicPoolCount,VaultTargetCount,RitualVesselCount,RitualHoldSeconds,RitualCheckpointA,RitualCheckpointB,ActorAttemptCooldownSeconds,ClockHandCount,ClockPositions,ClockCommandCooldownSeconds
+prototype_0_2,6,4,5,8.0,2,4,0.35,3,6,0.25
