@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":208.38,"elapsed":81.67,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":false,"silent":true},"seed":271126,"success":true,"trial_id":"silent"}
+SURVIVOR_STAGE echoes=true time=15.37 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":42.35,"elapsed":15.37,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":true,"relay":false,"silent":false},"seed":271126,"success":true,"trial_id":"echoes"}
+SURVIVOR_STAGE relay=true time=12.9 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":3.44,"elapsed":12.9,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":true,"silent":false},"seed":271126,"success":true,"trial_id":"relay"}
+SECOND_STAGE observed four relics at the actual reference desk
+SECOND_STAGE vault=[-1, 0, -1, -1] time=29.47 health=100.0
+SECOND_STAGE vault=[1, 0, -1, -1] time=41.78 health=100.0
+SECOND_STAGE vault=[1, 0, 3, -1] time=64.23 health=100.0
+SECOND_STAGE vault=[1, 0, 3, 4] time=90.12 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":341.1,"elapsed":90.12,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":false,"silent":true},"seed":271126,"success":true,"trial_id":"vault"}
+SECOND_STAGE vessel=1 time=11.73 health=100.0
+SECOND_STAGE vessel=2 time=12.93 health=100.0
+SECOND_STAGE vessel=3 time=15.45 health=100.0
+SECOND_STAGE vessel=4 time=16.75 health=100.0
+SECOND_STAGE vessel=5 time=18.63 health=100.0
+SECOND_STAGE ritual=true time=27.23 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":111.04,"elapsed":27.23,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":true,"relay":false,"silent":false},"seed":271126,"success":true,"trial_id":"ritual"}
+SECOND_STAGE clock=true time=5.42 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":15.79,"elapsed":5.42,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":true,"silent":false},"seed":271126,"success":true,"trial_id":"clock"}
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":96.36,"elapsed":32.98,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":false,"silent":true},"seed":271126,"success":true,"trial_id":"light"}
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":58.64,"elapsed":26.93,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":true,"relay":false,"silent":false},"seed":271126,"success":true,"trial_id":"strings"}
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":69.47,"elapsed":25.73,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":true,"silent":false},"seed":271126,"success":true,"trial_id":"chimes"}
+Practice ordinary-input routes: 9 sessions, 0 failures

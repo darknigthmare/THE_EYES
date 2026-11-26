@@ -1,0 +1,434 @@
+{
+  "allowed_commit_paths": [
+    "docs/qa/V0_5_VERIFICATION.md",
+    "docs/qa/v0.5/GAMEPLAY_LOG.txt",
+    "docs/qa/v0.5/GAMEPLAY_RESULTS.json",
+    "docs/qa/v0.5/RECOVERY_PROVENANCE.json",
+    "docs/qa/v0.5/VISUAL_PROVENANCE.json",
+    "docs/qa/v0.5/logs/gameplay/import.log",
+    "docs/qa/v0.5/logs/gameplay/test_director.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_practice_records.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_practice_routes.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_practice_state.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_practice_ui.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_practice_world.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_second_survivor_route.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_second_world.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_squad_route.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_squad_state.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_squad_world.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_survivor_route.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_third_survivor_route.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_third_trials.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_third_world.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_trial_set.gd.log",
+    "docs/qa/v0.5/logs/gameplay/test_world.gd.log",
+    "docs/qa/v0.5/logs/visual/manual.log",
+    "docs/qa/v0.5/logs/visual/menu.log",
+    "docs/qa/v0.5/logs/visual/practice.log",
+    "docs/qa/v0.5/logs/visual/practice_clear.log",
+    "docs/qa/v0.5/logs/visual/result.log",
+    "docs/qa/v0.5/logs/visual/result_save_error.log",
+    "docs/qa/v0.5/logs/visual/save_error.log",
+    "docs/qa/v0.5/logs/visual/workshop.log",
+    "docs/qa/v0.5/manual.png",
+    "docs/qa/v0.5/menu.png",
+    "docs/qa/v0.5/practice.png",
+    "docs/qa/v0.5/practice_clear.png",
+    "docs/qa/v0.5/result.png",
+    "docs/qa/v0.5/result_save_error.png",
+    "docs/qa/v0.5/save_error.png",
+    "docs/qa/v0.5/workshop.png"
+  ],
+  "artifacts": [
+    {
+      "api_digest": "sha256:490de1523d9b6e8d9281c347b28747dcda205f55c9d9e01043aebe008d0c0157",
+      "download_sha256": "490de1523d9b6e8d9281c347b28747dcda205f55c9d9e01043aebe008d0c0157",
+      "id": 15157730616,
+      "name": "gameplay-verification-6392ebf30b0acb909e218bc4c12c36e2d0b3faa0-1",
+      "size_in_bytes": 9780
+    },
+    {
+      "api_digest": "sha256:f264597193c03d266fe5f872badd84df43a1802a0fc57caab637f6676d01389c",
+      "download_sha256": "f264597193c03d266fe5f872badd84df43a1802a0fc57caab637f6676d01389c",
+      "id": 15157461003,
+      "name": "native-visuals-6392ebf30b0acb909e218bc4c12c36e2d0b3faa0-1",
+      "size_in_bytes": 2159877
+    }
+  ],
+  "collected_utc": "2026-11-26T22:30:39Z",
+  "collector_commit": "e9e24b2001a74cf4135bcd19e1b26df3088c6020",
+  "collector_workflow_run": "45905214108",
+  "expected_target_parent": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+  "file_manifest_scope": "Files exactly as produced by this recovery; excludes this provenance JSON to avoid a self hash",
+  "human_visual_review_completed": false,
+  "native_images": [
+    {
+      "bytes": 271280,
+      "height": 800,
+      "path": "docs/qa/v0.5/menu.png",
+      "sha256": "0f023a57f96fe457d868a82bfa35628777609a5d59567885bcccb6e5ee5e5ad2",
+      "view": "menu",
+      "width": 1280
+    },
+    {
+      "bytes": 253337,
+      "height": 800,
+      "path": "docs/qa/v0.5/workshop.png",
+      "sha256": "5720d4443499628f8cf9ba9a154717a41c45956cfc471aa3d04b89726c1cfc1e",
+      "view": "workshop",
+      "width": 1280
+    },
+    {
+      "bytes": 398159,
+      "height": 800,
+      "path": "docs/qa/v0.5/practice.png",
+      "sha256": "9c9c9af3377005f62f646a6bc58a2424c2e02bf36c399f49dc06d7f757a64c3c",
+      "view": "practice",
+      "width": 1280
+    },
+    {
+      "bytes": 373333,
+      "height": 800,
+      "path": "docs/qa/v0.5/practice_clear.png",
+      "sha256": "6efac79f4bece8a457e14e73dedeae6909646407417ccbda0d6db7d7f970cc0f",
+      "view": "practice_clear",
+      "width": 1280
+    },
+    {
+      "bytes": 436468,
+      "height": 800,
+      "path": "docs/qa/v0.5/manual.png",
+      "sha256": "47a7d2251c4131c756577747d5a323c0ff6a418daafcd2980d5b90d8bf6d42da",
+      "view": "manual",
+      "width": 1280
+    },
+    {
+      "bytes": 86463,
+      "height": 800,
+      "path": "docs/qa/v0.5/result.png",
+      "sha256": "e9c5113246d596cf3dc5eb0ac37e845862ffea5a111923237dd7bf61abf3aee8",
+      "view": "result",
+      "width": 1280
+    },
+    {
+      "bytes": 252996,
+      "height": 800,
+      "path": "docs/qa/v0.5/save_error.png",
+      "sha256": "339d59558444ca3ef28e343e906e86c606e98df2558d8067dd6f6ee5f89a5e0a",
+      "view": "save_error",
+      "width": 1280
+    },
+    {
+      "bytes": 100332,
+      "height": 800,
+      "path": "docs/qa/v0.5/result_save_error.png",
+      "sha256": "e2400a667d9304ab91efb7796807d0ba61b9968f92852b77a477e69b0a8fb7da",
+      "view": "result_save_error",
+      "width": 1280
+    }
+  ],
+  "recovery_output_files": [
+    {
+      "bytes": 5781,
+      "path": "docs/qa/V0_5_VERIFICATION.md",
+      "sha256": "2374e346123e1a23a9f06a3bac3192c00432abbd25cf3bf8092b3536e346af6f"
+    },
+    {
+      "bytes": 34907,
+      "path": "docs/qa/v0.5/GAMEPLAY_LOG.txt",
+      "sha256": "d6222bdf4d024bc64b970215e4986c1590020ba88ebeee20755185125baf371b"
+    },
+    {
+      "bytes": 62048,
+      "path": "docs/qa/v0.5/GAMEPLAY_RESULTS.json",
+      "sha256": "a20b29c489b3c9b3b60e956aa780590f1dc45c5d2d360fa09c615a80c584d799"
+    },
+    {
+      "bytes": 1563,
+      "path": "docs/qa/v0.5/VISUAL_PROVENANCE.json",
+      "sha256": "fdc8c28cf3a50edd6b16b12cb0f9da6a41eb545d58c5d7e7f3e3aa944ec2a33c"
+    },
+    {
+      "bytes": 6802,
+      "path": "docs/qa/v0.5/logs/gameplay/import.log",
+      "sha256": "320d524ed1f9961af2dce80e6e5feded418353bd4a442065e79a1e7dd2e2f860"
+    },
+    {
+      "bytes": 125,
+      "path": "docs/qa/v0.5/logs/gameplay/test_director.gd.log",
+      "sha256": "db3d4aca63d76a678c668fe2590bacd99906ed77d0667486413a2748dc937432"
+    },
+    {
+      "bytes": 127,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_records.gd.log",
+      "sha256": "acaeebb84a413c6685a5dbf326deeb5fd5a72e4b8304db87e3f4d711a6b9ab45"
+    },
+    {
+      "bytes": 3084,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_routes.gd.log",
+      "sha256": "a65364368a689d4eba2af78b49aeb860b6046a8a5bf78f5b8348bbc693108152"
+    },
+    {
+      "bytes": 125,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_state.gd.log",
+      "sha256": "32b86db21a292a42921e7c877bd4bd9922e42fedbaa729178eef3ccf2271be2b"
+    },
+    {
+      "bytes": 129,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_ui.gd.log",
+      "sha256": "d194485fd58649f0edf71745776d0a36cf2cfb894542d3ed238fd731cf4af169"
+    },
+    {
+      "bytes": 138,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_world.gd.log",
+      "sha256": "32d3cfa8638f1ef6799d4132fbb042e8366cfd4b66c041a1a283baa0136c6c0b"
+    },
+    {
+      "bytes": 3015,
+      "path": "docs/qa/v0.5/logs/gameplay/test_second_survivor_route.gd.log",
+      "sha256": "3270c12f434043b80315855d09462e1df6e0ce6d28cda5205b6cab2ec6443a52"
+    },
+    {
+      "bytes": 9586,
+      "path": "docs/qa/v0.5/logs/gameplay/test_second_world.gd.log",
+      "sha256": "cefabdb8c29fe58f48794231aab3368fc17a64e180bdfc484489f39ae8122772"
+    },
+    {
+      "bytes": 2411,
+      "path": "docs/qa/v0.5/logs/gameplay/test_squad_route.gd.log",
+      "sha256": "8c1b9f80d2720ce3831f16ddc6afa4eba9bb7417dd219242679e9ffbf7470d36"
+    },
+    {
+      "bytes": 122,
+      "path": "docs/qa/v0.5/logs/gameplay/test_squad_state.gd.log",
+      "sha256": "41a50ca25ccaef9754cd4325bb6a46cba63d6149781769e03e4ed2892d9268ad"
+    },
+    {
+      "bytes": 334,
+      "path": "docs/qa/v0.5/logs/gameplay/test_squad_world.gd.log",
+      "sha256": "d682d1d810ac03162d2aef99065dc2da04f281cfefdc083ea95357cfe37e27e1"
+    },
+    {
+      "bytes": 1084,
+      "path": "docs/qa/v0.5/logs/gameplay/test_survivor_route.gd.log",
+      "sha256": "ca9e1e0604c97b32722c6662900e9db759d5ec4a349e706d144968de96db75e7"
+    },
+    {
+      "bytes": 3058,
+      "path": "docs/qa/v0.5/logs/gameplay/test_third_survivor_route.gd.log",
+      "sha256": "721617b8475c67dd370204aefe66cde76a07868865ab89a5139759c602708236"
+    },
+    {
+      "bytes": 124,
+      "path": "docs/qa/v0.5/logs/gameplay/test_third_trials.gd.log",
+      "sha256": "8e322f8bcbbb14e2cda26f8ef1d8ea341ef1abf733650b432c6bc3e3e90caf4a"
+    },
+    {
+      "bytes": 431,
+      "path": "docs/qa/v0.5/logs/gameplay/test_third_world.gd.log",
+      "sha256": "a10480393354c95417b4d4a195c697d06f88f386500ae201303a457899ef755e"
+    },
+    {
+      "bytes": 121,
+      "path": "docs/qa/v0.5/logs/gameplay/test_trial_set.gd.log",
+      "sha256": "71427c539b9875d5127b31f92f617a776eb0cb4163f050c0bd6ea4ba69f2b48d"
+    },
+    {
+      "bytes": 790,
+      "path": "docs/qa/v0.5/logs/gameplay/test_world.gd.log",
+      "sha256": "996ad669f83bd00ea60893504df4af9c817f52b6e7310af0bf9b97450469d3df"
+    },
+    {
+      "bytes": 554,
+      "path": "docs/qa/v0.5/logs/visual/manual.log",
+      "sha256": "90215c723da2fdffaedfc9cc4643577984d514eb57a7b8416f3fed732d02afc7"
+    },
+    {
+      "bytes": 550,
+      "path": "docs/qa/v0.5/logs/visual/menu.log",
+      "sha256": "a095d671bd6dc0ccdd03424c2f743506bb79cc5e5dbb2b965da1ecfd30052e54"
+    },
+    {
+      "bytes": 558,
+      "path": "docs/qa/v0.5/logs/visual/practice.log",
+      "sha256": "045f2763b6ce7384075bcbd4beb0c11c7c35f6a5fd240dd4b9474fe092332c35"
+    },
+    {
+      "bytes": 570,
+      "path": "docs/qa/v0.5/logs/visual/practice_clear.log",
+      "sha256": "d016a60441e26951288fcbf396ee33a033e2d1f68f7d2207d1762d89c313dc9b"
+    },
+    {
+      "bytes": 554,
+      "path": "docs/qa/v0.5/logs/visual/result.log",
+      "sha256": "7cbc32e88d84cc14a0d0dcb27b7e748fe098f02498353bdde3adc108804514ee"
+    },
+    {
+      "bytes": 576,
+      "path": "docs/qa/v0.5/logs/visual/result_save_error.log",
+      "sha256": "35df91bcc4a2480982717a824f70ec1a785bd9600423dd6f1dd26193fef6dfdd"
+    },
+    {
+      "bytes": 562,
+      "path": "docs/qa/v0.5/logs/visual/save_error.log",
+      "sha256": "2905124af5e18ba923ef74f06c987598657bf24d9365dc1e4eadb4565777adde"
+    },
+    {
+      "bytes": 558,
+      "path": "docs/qa/v0.5/logs/visual/workshop.log",
+      "sha256": "72692391b6717be3c172c3f40d8a2e2d5e6a6e88e25abd487d12910d4ee33caa"
+    },
+    {
+      "bytes": 436468,
+      "path": "docs/qa/v0.5/manual.png",
+      "sha256": "47a7d2251c4131c756577747d5a323c0ff6a418daafcd2980d5b90d8bf6d42da"
+    },
+    {
+      "bytes": 271280,
+      "path": "docs/qa/v0.5/menu.png",
+      "sha256": "0f023a57f96fe457d868a82bfa35628777609a5d59567885bcccb6e5ee5e5ad2"
+    },
+    {
+      "bytes": 398159,
+      "path": "docs/qa/v0.5/practice.png",
+      "sha256": "9c9c9af3377005f62f646a6bc58a2424c2e02bf36c399f49dc06d7f757a64c3c"
+    },
+    {
+      "bytes": 373333,
+      "path": "docs/qa/v0.5/practice_clear.png",
+      "sha256": "6efac79f4bece8a457e14e73dedeae6909646407417ccbda0d6db7d7f970cc0f"
+    },
+    {
+      "bytes": 86463,
+      "path": "docs/qa/v0.5/result.png",
+      "sha256": "e9c5113246d596cf3dc5eb0ac37e845862ffea5a111923237dd7bf61abf3aee8"
+    },
+    {
+      "bytes": 100332,
+      "path": "docs/qa/v0.5/result_save_error.png",
+      "sha256": "e2400a667d9304ab91efb7796807d0ba61b9968f92852b77a477e69b0a8fb7da"
+    },
+    {
+      "bytes": 252996,
+      "path": "docs/qa/v0.5/save_error.png",
+      "sha256": "339d59558444ca3ef28e343e906e86c606e98df2558d8067dd6f6ee5f89a5e0a"
+    },
+    {
+      "bytes": 253337,
+      "path": "docs/qa/v0.5/workshop.png",
+      "sha256": "5720d4443499628f8cf9ba9a154717a41c45956cfc471aa3d04b89726c1cfc1e"
+    }
+  ],
+  "schema_version": 1,
+  "source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+  "source_job": {
+    "completed_at": "2026-11-26T22:22:36Z",
+    "conclusion": "success",
+    "id": 140194071407,
+    "name": "godot",
+    "started_at": "2026-11-26T22:13:01Z",
+    "status": "completed",
+    "steps": [
+      {
+        "completed_at": "2026-11-26T22:13:03Z",
+        "conclusion": "success",
+        "name": "Set up job",
+        "number": 1,
+        "started_at": "2026-11-26T22:13:02Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-26T22:13:05Z",
+        "conclusion": "success",
+        "name": "Run actions/checkout@v4",
+        "number": 2,
+        "started_at": "2026-11-26T22:13:03Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-26T22:13:07Z",
+        "conclusion": "success",
+        "name": "Install the verified Godot version",
+        "number": 3,
+        "started_at": "2026-11-26T22:13:05Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-26T22:15:27Z",
+        "conclusion": "success",
+        "name": "Import and verify all seventeen gameplay suites",
+        "number": 4,
+        "started_at": "2026-11-26T22:13:07Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-26T22:22:30Z",
+        "conclusion": "success",
+        "name": "Render the Workshop presentation fixtures",
+        "number": 5,
+        "started_at": "2026-11-26T22:15:27Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-26T22:22:32Z",
+        "conclusion": "success",
+        "name": "Retain native presentation evidence",
+        "number": 6,
+        "started_at": "2026-11-26T22:22:30Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-26T22:22:34Z",
+        "conclusion": "success",
+        "name": "Retain verification logs",
+        "number": 7,
+        "started_at": "2026-11-26T22:22:32Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-26T22:22:34Z",
+        "conclusion": "success",
+        "name": "Post Run actions/checkout@v4",
+        "number": 14,
+        "started_at": "2026-11-26T22:22:34Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-26T22:22:34Z",
+        "conclusion": "success",
+        "name": "Complete job",
+        "number": 15,
+        "started_at": "2026-11-26T22:22:34Z",
+        "status": "completed"
+      }
+    ]
+  },
+  "source_tree": "218a1715ed6d11e1d8c4c223acb29e16a4066714",
+  "source_workflow": {
+    "conclusion": "success",
+    "created_at": "2026-11-26T22:12:58Z",
+    "event": "push",
+    "head_branch": "feat/trial-workshop",
+    "head_sha": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+    "html_url": "https://github.com/darknigthmare/THE_EYES/actions/runs/45903325362",
+    "id": 45903325362,
+    "path": ".github/workflows/verify.yml",
+    "run_attempt": 1,
+    "status": "completed",
+    "updated_at": "2026-11-26T22:22:36Z"
+  },
+  "target_branch": "feat/trial-workshop",
+  "totals": {
+    "assertion_suites": 12,
+    "assertions": 6079,
+    "cases": 257,
+    "distinct_mix_mappings": 27,
+    "failures": 0,
+    "practice_sessions": 9,
+    "pressured_sessions": 7,
+    "route_suites": 5,
+    "suites": 17,
+    "unopposed_bot_routes": 28
+  }
+}

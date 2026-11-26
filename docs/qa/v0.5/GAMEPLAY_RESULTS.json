@@ -1,0 +1,2056 @@
+{
+  "artifacts": [
+    {
+      "api_digest": "sha256:490de1523d9b6e8d9281c347b28747dcda205f55c9d9e01043aebe008d0c0157",
+      "download_sha256": "490de1523d9b6e8d9281c347b28747dcda205f55c9d9e01043aebe008d0c0157",
+      "id": 15157730616,
+      "name": "gameplay-verification-6392ebf30b0acb909e218bc4c12c36e2d0b3faa0-1",
+      "size_in_bytes": 9780
+    },
+    {
+      "api_digest": "sha256:f264597193c03d266fe5f872badd84df43a1802a0fc57caab637f6676d01389c",
+      "download_sha256": "f264597193c03d266fe5f872badd84df43a1802a0fc57caab637f6676d01389c",
+      "id": 15157461003,
+      "name": "native-visuals-6392ebf30b0acb909e218bc4c12c36e2d0b3faa0-1",
+      "size_in_bytes": 2159877
+    }
+  ],
+  "distinct_mix_mappings": [
+    "light/echoes/chimes",
+    "light/echoes/clock",
+    "light/echoes/relay",
+    "light/ritual/chimes",
+    "light/ritual/clock",
+    "light/ritual/relay",
+    "light/strings/chimes",
+    "light/strings/clock",
+    "light/strings/relay",
+    "silent/echoes/chimes",
+    "silent/echoes/clock",
+    "silent/echoes/relay",
+    "silent/ritual/chimes",
+    "silent/ritual/clock",
+    "silent/ritual/relay",
+    "silent/strings/chimes",
+    "silent/strings/clock",
+    "silent/strings/relay",
+    "vault/echoes/chimes",
+    "vault/echoes/clock",
+    "vault/echoes/relay",
+    "vault/ritual/chimes",
+    "vault/ritual/clock",
+    "vault/ritual/relay",
+    "vault/strings/chimes",
+    "vault/strings/clock",
+    "vault/strings/relay"
+  ],
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "evidence_kind": "github_actions_ci",
+  "execution": {
+    "audio_driver": "Dummy",
+    "fixed_fps": 60,
+    "headless_gameplay": true,
+    "runner": "ubuntu-latest"
+  },
+  "job_id": 140194071407,
+  "logs": [
+    {
+      "artifact_member": "import.log",
+      "bytes": 6802,
+      "path": "docs/qa/v0.5/logs/gameplay/import.log",
+      "sha256": "320d524ed1f9961af2dce80e6e5feded418353bd4a442065e79a1e7dd2e2f860"
+    },
+    {
+      "artifact_member": "test_director.gd.log",
+      "bytes": 125,
+      "path": "docs/qa/v0.5/logs/gameplay/test_director.gd.log",
+      "sha256": "db3d4aca63d76a678c668fe2590bacd99906ed77d0667486413a2748dc937432"
+    },
+    {
+      "artifact_member": "test_world.gd.log",
+      "bytes": 790,
+      "path": "docs/qa/v0.5/logs/gameplay/test_world.gd.log",
+      "sha256": "996ad669f83bd00ea60893504df4af9c817f52b6e7310af0bf9b97450469d3df"
+    },
+    {
+      "artifact_member": "test_survivor_route.gd.log",
+      "bytes": 1084,
+      "path": "docs/qa/v0.5/logs/gameplay/test_survivor_route.gd.log",
+      "sha256": "ca9e1e0604c97b32722c6662900e9db759d5ec4a349e706d144968de96db75e7"
+    },
+    {
+      "artifact_member": "test_trial_set.gd.log",
+      "bytes": 121,
+      "path": "docs/qa/v0.5/logs/gameplay/test_trial_set.gd.log",
+      "sha256": "71427c539b9875d5127b31f92f617a776eb0cb4163f050c0bd6ea4ba69f2b48d"
+    },
+    {
+      "artifact_member": "test_second_world.gd.log",
+      "bytes": 9586,
+      "path": "docs/qa/v0.5/logs/gameplay/test_second_world.gd.log",
+      "sha256": "cefabdb8c29fe58f48794231aab3368fc17a64e180bdfc484489f39ae8122772"
+    },
+    {
+      "artifact_member": "test_second_survivor_route.gd.log",
+      "bytes": 3015,
+      "path": "docs/qa/v0.5/logs/gameplay/test_second_survivor_route.gd.log",
+      "sha256": "3270c12f434043b80315855d09462e1df6e0ce6d28cda5205b6cab2ec6443a52"
+    },
+    {
+      "artifact_member": "test_squad_state.gd.log",
+      "bytes": 122,
+      "path": "docs/qa/v0.5/logs/gameplay/test_squad_state.gd.log",
+      "sha256": "41a50ca25ccaef9754cd4325bb6a46cba63d6149781769e03e4ed2892d9268ad"
+    },
+    {
+      "artifact_member": "test_squad_world.gd.log",
+      "bytes": 334,
+      "path": "docs/qa/v0.5/logs/gameplay/test_squad_world.gd.log",
+      "sha256": "d682d1d810ac03162d2aef99065dc2da04f281cfefdc083ea95357cfe37e27e1"
+    },
+    {
+      "artifact_member": "test_squad_route.gd.log",
+      "bytes": 2411,
+      "path": "docs/qa/v0.5/logs/gameplay/test_squad_route.gd.log",
+      "sha256": "8c1b9f80d2720ce3831f16ddc6afa4eba9bb7417dd219242679e9ffbf7470d36"
+    },
+    {
+      "artifact_member": "test_third_trials.gd.log",
+      "bytes": 124,
+      "path": "docs/qa/v0.5/logs/gameplay/test_third_trials.gd.log",
+      "sha256": "8e322f8bcbbb14e2cda26f8ef1d8ea341ef1abf733650b432c6bc3e3e90caf4a"
+    },
+    {
+      "artifact_member": "test_third_world.gd.log",
+      "bytes": 431,
+      "path": "docs/qa/v0.5/logs/gameplay/test_third_world.gd.log",
+      "sha256": "a10480393354c95417b4d4a195c697d06f88f386500ae201303a457899ef755e"
+    },
+    {
+      "artifact_member": "test_third_survivor_route.gd.log",
+      "bytes": 3058,
+      "path": "docs/qa/v0.5/logs/gameplay/test_third_survivor_route.gd.log",
+      "sha256": "721617b8475c67dd370204aefe66cde76a07868865ab89a5139759c602708236"
+    },
+    {
+      "artifact_member": "test_practice_state.gd.log",
+      "bytes": 125,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_state.gd.log",
+      "sha256": "32b86db21a292a42921e7c877bd4bd9922e42fedbaa729178eef3ccf2271be2b"
+    },
+    {
+      "artifact_member": "test_practice_records.gd.log",
+      "bytes": 127,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_records.gd.log",
+      "sha256": "acaeebb84a413c6685a5dbf326deeb5fd5a72e4b8304db87e3f4d711a6b9ab45"
+    },
+    {
+      "artifact_member": "test_practice_ui.gd.log",
+      "bytes": 129,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_ui.gd.log",
+      "sha256": "d194485fd58649f0edf71745776d0a36cf2cfb894542d3ed238fd731cf4af169"
+    },
+    {
+      "artifact_member": "test_practice_world.gd.log",
+      "bytes": 138,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_world.gd.log",
+      "sha256": "32d3cfa8638f1ef6799d4132fbb042e8366cfd4b66c041a1a283baa0136c6c0b"
+    },
+    {
+      "artifact_member": "test_practice_routes.gd.log",
+      "bytes": 3084,
+      "path": "docs/qa/v0.5/logs/gameplay/test_practice_routes.gd.log",
+      "sha256": "a65364368a689d4eba2af78b49aeb860b6046a8a5bf78f5b8348bbc693108152"
+    }
+  ],
+  "notes": [
+    "This is an exact GitHub Actions CI execution, not evidence of a successful local import or local test run.",
+    "The 257 named cases and 6079 assertions come from twelve suite summaries. Some cases deliberately stage edge conditions; these are not 257 complete matches.",
+    "Seven pressured sessions and nine practice sessions use ordinary inputs and real physics. Their elapsed values are simulation observations, not wall-clock benchmarks or novice target times.",
+    "The 28 unopposed bot routes are already included in Second world integration cases/assertions: one Second reference and all 27 distinct Mix mappings. They are not additional pressured human sessions.",
+    "The source CI helper checks process exit status and engine errors. Individual artifact logs do not separately record return codes or wall times; none are fabricated here.",
+    "Legacy route configuration is attributed to the pinned GDScript source, separately from the fields printed by the route marker.",
+    "Native images are staged presentation fixtures. Human visual review, Windows graphical playthroughs, hardware performance, novice usability and Unreal execution are separate gates."
+  ],
+  "practice_sessions": [
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 208.38,
+      "elapsed": 81.67,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": false,
+        "relay": false,
+        "silent": true
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "silent"
+    },
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 42.35,
+      "elapsed": 15.37,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": true,
+        "relay": false,
+        "silent": false
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "echoes"
+    },
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 3.44,
+      "elapsed": 12.9,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": false,
+        "relay": true,
+        "silent": false
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "relay"
+    },
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 341.1,
+      "elapsed": 90.12,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": false,
+        "relay": false,
+        "silent": true
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "vault"
+    },
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 111.04,
+      "elapsed": 27.23,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": true,
+        "relay": false,
+        "silent": false
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "ritual"
+    },
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 15.79,
+      "elapsed": 5.42,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": false,
+        "relay": true,
+        "silent": false
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "clock"
+    },
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 96.36,
+      "elapsed": 32.98,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": false,
+        "relay": false,
+        "silent": true
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "light"
+    },
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 58.64,
+      "elapsed": 26.93,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": true,
+        "relay": false,
+        "silent": false
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "strings"
+    },
+    {
+      "archetype": "Keeper",
+      "completion_events": 1,
+      "distance": 69.47,
+      "elapsed": 25.73,
+      "failures": [],
+      "health": 100.0,
+      "match_results": 0,
+      "seals": {
+        "echoes": false,
+        "relay": true,
+        "silent": false
+      },
+      "seed": 271126,
+      "success": true,
+      "trial_id": "chimes"
+    }
+  ],
+  "pressured_sessions": [
+    {
+      "configuration_from_source": {
+        "archetype": "Keeper",
+        "contract": "first",
+        "difficulty": "story",
+        "role": "survivor",
+        "seed": 271126
+      },
+      "observed": {
+        "deliveries": 3,
+        "elapsed": 267.93,
+        "phase": "ended",
+        "punishments": 0,
+        "seals": {
+          "echoes": true,
+          "relay": true,
+          "silent": true
+        },
+        "vitality": 86.0,
+        "winner": "survivors",
+        "wounds": 2
+      },
+      "suite": "test_survivor_route.gd"
+    },
+    {
+      "configuration_from_source": {
+        "archetype": "Keeper",
+        "contract": "second",
+        "difficulty": "story",
+        "role": "survivor",
+        "seed": 271126
+      },
+      "observed": {
+        "clock_moves": 4,
+        "cradles": [
+          1,
+          0,
+          3,
+          4
+        ],
+        "elapsed": 324.17,
+        "phase": "ended",
+        "punishments": 1,
+        "seals": {
+          "echoes": true,
+          "relay": true,
+          "silent": true
+        },
+        "vitality": 80.0,
+        "winner": "survivors",
+        "wounds": 11
+      },
+      "suite": "test_second_survivor_route.gd"
+    },
+    {
+      "configuration_from_source": {
+        "role": "squad"
+      },
+      "observed": {
+        "contract": "first",
+        "difficulty": "story",
+        "elapsed": 46.88,
+        "failures": [],
+        "human_actions": 4,
+        "human_distance": 102.76,
+        "human_health": 33.0,
+        "seals": {
+          "echoes": true,
+          "relay": true,
+          "silent": true
+        },
+        "seed": 271126,
+        "squad": {
+          "downs": 0,
+          "eliminations": 0,
+          "heals": 1,
+          "members": [
+            {
+              "archetype": "Keeper",
+              "name": "Ada Fen",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Veil",
+              "name": "Mara Vale",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Tinker",
+              "name": "Nadiya Sayegh",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Runner",
+              "name": "June Arlen",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Keeper",
+              "name": "Soren Bell",
+              "recoveries": 0,
+              "state": "active"
+            }
+          ],
+          "order": "work",
+          "orders": 3,
+          "revives": 0
+        },
+        "winner": "survivors",
+        "wounds": 4
+      },
+      "suite": "test_squad_route.gd"
+    },
+    {
+      "configuration_from_source": {
+        "role": "squad"
+      },
+      "observed": {
+        "contract": "second",
+        "difficulty": "story",
+        "elapsed": 86.8,
+        "failures": [],
+        "human_actions": 11,
+        "human_distance": 93.87,
+        "human_health": 20.0,
+        "seals": {
+          "echoes": true,
+          "relay": true,
+          "silent": true
+        },
+        "seed": 271126,
+        "squad": {
+          "downs": 0,
+          "eliminations": 0,
+          "heals": 2,
+          "members": [
+            {
+              "archetype": "Keeper",
+              "name": "Ada Fen",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Veil",
+              "name": "Mara Vale",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Tinker",
+              "name": "Nadiya Sayegh",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Runner",
+              "name": "June Arlen",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Keeper",
+              "name": "Soren Bell",
+              "recoveries": 0,
+              "state": "active"
+            }
+          ],
+          "order": "work",
+          "orders": 3,
+          "revives": 0
+        },
+        "winner": "survivors",
+        "wounds": 6
+      },
+      "suite": "test_squad_route.gd"
+    },
+    {
+      "configuration_from_source": {
+        "role": "squad"
+      },
+      "observed": {
+        "contract": "mix",
+        "difficulty": "story",
+        "elapsed": 46.88,
+        "failures": [],
+        "human_actions": 3,
+        "human_distance": 94.38,
+        "human_health": 75.0,
+        "seals": {
+          "echoes": true,
+          "relay": true,
+          "silent": true
+        },
+        "seed": 271126,
+        "squad": {
+          "downs": 0,
+          "eliminations": 0,
+          "heals": 0,
+          "members": [
+            {
+              "archetype": "Keeper",
+              "name": "Ada Fen",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Veil",
+              "name": "Mara Vale",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Tinker",
+              "name": "Nadiya Sayegh",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Runner",
+              "name": "June Arlen",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Keeper",
+              "name": "Soren Bell",
+              "recoveries": 0,
+              "state": "active"
+            }
+          ],
+          "order": "work",
+          "orders": 3,
+          "revives": 0
+        },
+        "winner": "survivors",
+        "wounds": 1
+      },
+      "suite": "test_squad_route.gd"
+    },
+    {
+      "observed": {
+        "bell_phrases": 2,
+        "cage_stages": 3,
+        "contract": "third",
+        "difficulty": "story",
+        "elapsed": 328.88,
+        "failures": [],
+        "human_distance": 1087.86,
+        "human_health": 65.0,
+        "human_inputs": 42,
+        "human_trial_events": {
+          "chime_strike": 8,
+          "light_deposit": 3,
+          "strings_cut": 3
+        },
+        "lamps": [
+          true,
+          true,
+          true
+        ],
+        "observation_epoch_restarts": 0,
+        "punishments": 0,
+        "role": "survivor",
+        "seals": {
+          "echoes": true,
+          "relay": true,
+          "silent": true
+        },
+        "seed": 271126,
+        "visible_threat_retreats": 7,
+        "winner": "survivors",
+        "wounds": 8
+      },
+      "suite": "test_third_survivor_route.gd"
+    },
+    {
+      "observed": {
+        "bell_phrases": 2,
+        "cage_stages": 3,
+        "contract": "third",
+        "difficulty": "story",
+        "elapsed": 74.13,
+        "failures": [],
+        "human_distance": 203.14,
+        "human_health": 100.0,
+        "human_inputs": 20,
+        "human_trial_events": {
+          "chime_strike": 6,
+          "light_deposit": 0,
+          "strings_cut": 2
+        },
+        "lamps": [
+          true,
+          true,
+          true
+        ],
+        "observation_epoch_restarts": 0,
+        "punishments": 0,
+        "role": "squad",
+        "seals": {
+          "echoes": true,
+          "relay": true,
+          "silent": true
+        },
+        "seed": 271126,
+        "squad": {
+          "downs": 0,
+          "eliminations": 0,
+          "heals": 0,
+          "members": [
+            {
+              "archetype": "Keeper",
+              "name": "Ada Fen",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Veil",
+              "name": "Mara Vale",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Tinker",
+              "name": "Nadiya Sayegh",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Runner",
+              "name": "June Arlen",
+              "recoveries": 0,
+              "state": "active"
+            },
+            {
+              "archetype": "Keeper",
+              "name": "Soren Bell",
+              "recoveries": 0,
+              "state": "active"
+            }
+          ],
+          "order": "work",
+          "orders": 3,
+          "revives": 0
+        },
+        "visible_threat_retreats": 1,
+        "winner": "survivors",
+        "wounds": 0
+      },
+      "suite": "test_third_survivor_route.gd"
+    }
+  ],
+  "release": "0.5.0",
+  "schema_version": 2,
+  "source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+  "source_file_count": 204,
+  "source_manifest": [
+    {
+      "bytes": 21270,
+      "git_blob_sha": "4d1848ba483a38f1561cad5f92d16a4adee015ae",
+      "git_mode": "100644",
+      "path": ".github/workflows/release-windows.yml",
+      "sha256": "f0410f88285515758220f286ca50588d32691ce1bd6066287417f8c2d7a6d0aa"
+    },
+    {
+      "bytes": 5955,
+      "git_blob_sha": "adfa38395b75d92c23bf0314806e0596a4906e5d",
+      "git_mode": "100644",
+      "path": ".github/workflows/verify.yml",
+      "sha256": "37d591b0f197025cd5b68b00be33313f57384bc46c7f76b05b9604feca174137"
+    },
+    {
+      "bytes": 1058444,
+      "git_blob_sha": "deb58e9e14c471103474b44b2a443b66f2c9f380",
+      "git_mode": "100644",
+      "path": "game/assets/audio/ambience.wav",
+      "sha256": "430d3cf554b95b9f660ca10c1e8ef1e96a79ebeb82ed8ba0d2efb4433a8b6ff5"
+    },
+    {
+      "bytes": 494,
+      "git_blob_sha": "72710267f01f2f158a871f26598111c11512c3a1",
+      "git_mode": "100644",
+      "path": "game/assets/audio/ambience.wav.import",
+      "sha256": "4b4473fa737045bf2f2f8b3530c710d71df94a4957d0aad57959a97a484282ce"
+    },
+    {
+      "bytes": 75014,
+      "git_blob_sha": "368bcc28cedccf2ee4433f00c5915019cb7685cf",
+      "git_mode": "100644",
+      "path": "game/assets/audio/blink.wav",
+      "sha256": "ac6b7146139e5648ea89e39f802fc78a4dbbcd22a349614d68495e2e8afaaa12"
+    },
+    {
+      "bytes": 486,
+      "git_blob_sha": "723091c8c883b6684f0f8ecab6dcd4e349aa322e",
+      "git_mode": "100644",
+      "path": "game/assets/audio/blink.wav.import",
+      "sha256": "0105403b2f23c2a03680396651aadff025bbcee74bbf47957a4721670f08d650"
+    },
+    {
+      "bytes": 48554,
+      "git_blob_sha": "6570c837ffaed156746bb7e0468fa46bedc2092b",
+      "git_mode": "100644",
+      "path": "game/assets/audio/echo.wav",
+      "sha256": "e1d1e07496d456fe74fd9357a33722a87bde50a4ed49a1f5332f648bf399b0c6"
+    },
+    {
+      "bytes": 483,
+      "git_blob_sha": "0a73ecf86b2c6a9072fc42278098097cde10ed33",
+      "git_mode": "100644",
+      "path": "game/assets/audio/echo.wav.import",
+      "sha256": "da0efd9759ea981e3a813301d0e7c26b6b294cdd839d7994ba78dc4c5d55eb54"
+    },
+    {
+      "bytes": 44144,
+      "git_blob_sha": "0e77a36b83f6c560ec1e514771694c36c02d8e30",
+      "git_mode": "100644",
+      "path": "game/assets/audio/fail.wav",
+      "sha256": "0551ebb2f917dddbd0a642ea22d0287ee31505ae64ab19dbd2a4709eced08d8c"
+    },
+    {
+      "bytes": 483,
+      "git_blob_sha": "a722185fea542805a5204d718f6c4c4f3923e4fa",
+      "git_mode": "100644",
+      "path": "game/assets/audio/fail.wav.import",
+      "sha256": "5b2abe41dc45cf4e9013bafc786317d5c38aec82ec02efb60f04b82be0f0898e"
+    },
+    {
+      "bytes": 39734,
+      "git_blob_sha": "4f3ddd3a24c8d4ffb0bd501116869132978d91bf",
+      "git_mode": "100644",
+      "path": "game/assets/audio/heartbeat.wav",
+      "sha256": "ae72cc53b8b7a99727eb6d24fcd862ee199ebaa5cdb85277e374c6f244675b5c"
+    },
+    {
+      "bytes": 498,
+      "git_blob_sha": "476e7ae736927660d507d3eacdc15f86d85f6ea1",
+      "git_mode": "100644",
+      "path": "game/assets/audio/heartbeat.wav.import",
+      "sha256": "b80c17bfc5dcc76694ddcb0cf8b4e87ea85cf506a9ebcc7cc9044849ecfbda41"
+    },
+    {
+      "bytes": 66194,
+      "git_blob_sha": "f41d76c364e8427fe1273000c79541e9353ac8fe",
+      "git_mode": "100644",
+      "path": "game/assets/audio/pickup.wav",
+      "sha256": "4a95a6c3947dc17b1e65ef48df4b59d0ccd623bb67c926712f5e39bf83b59eda"
+    },
+    {
+      "bytes": 489,
+      "git_blob_sha": "e67a731f4185aabf828b4234b975053bdf3a5db1",
+      "git_mode": "100644",
+      "path": "game/assets/audio/pickup.wav.import",
+      "sha256": "f9093c94d0f54605232897a688e4110f5777395d20bab50c99d72d2036691f8b"
+    },
+    {
+      "bytes": 202902,
+      "git_blob_sha": "383f82d0521613f7e9112c07e2787d397ddc058c",
+      "git_mode": "100644",
+      "path": "game/assets/audio/seal.wav",
+      "sha256": "8cb06d0b819dbfe1175f6f9470497c9d696d1d36d917431db7d79e7a156aae97"
+    },
+    {
+      "bytes": 483,
+      "git_blob_sha": "f5c52ff16f17c372267ac7c5ee6418122615fcd4",
+      "git_mode": "100644",
+      "path": "game/assets/audio/seal.wav.import",
+      "sha256": "61da21fcf04bd44fef2c30887722fd78478c20dcfd17dac765e491076a4f1b33"
+    },
+    {
+      "bytes": 14156,
+      "git_blob_sha": "c20e5c78337d532c5d76edd237dbf44398dd47fb",
+      "git_mode": "100644",
+      "path": "game/assets/audio/step.wav",
+      "sha256": "112555b0a440ec4c899aa65ace730cd9ae0e18d5842160612e81abe972325e3e"
+    },
+    {
+      "bytes": 483,
+      "git_blob_sha": "993224a2097eb99ec47159d5b6aca21917890173",
+      "git_mode": "100644",
+      "path": "game/assets/audio/step.wav.import",
+      "sha256": "9eb7c79ca950d59692e18a786629231f12b71f9a43901fc35c628aaae51e6363"
+    },
+    {
+      "bytes": 105884,
+      "git_blob_sha": "9f00f717f61695bd17e7a73420eec2b0590c9c44",
+      "git_mode": "100644",
+      "path": "game/assets/audio/warning.wav",
+      "sha256": "b88a4531d171b936addaedf31fe6871e94bb4cf8477a275cac71287d74699347"
+    },
+    {
+      "bytes": 491,
+      "git_blob_sha": "ed143dd478268cbcb76e39af5f7c2f82b958c1bf",
+      "git_mode": "100644",
+      "path": "game/assets/audio/warning.wav.import",
+      "sha256": "3bb199b41c3d667c0f9c3c11d6583c38e974dcd59db20994cba434afcaae6f1f"
+    },
+    {
+      "bytes": 217360,
+      "git_blob_sha": "db433349b7047f72f40072630c1bc110620bf09e",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/Interface.ttf",
+      "sha256": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee"
+    },
+    {
+      "bytes": 764,
+      "git_blob_sha": "335e6966bc7cd8ccb63ecd0290eda48dc8bb2391",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/Interface.ttf.import",
+      "sha256": "a143f3650c76a7ffa0ff318a91ad266543868600ce35307db590833a440ebd14"
+    },
+    {
+      "bytes": 11358,
+      "git_blob_sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/LICENSE_Apache-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "bytes": 3859,
+      "git_blob_sha": "b3d93a1235a82213fbc451853317c40e62ed9272",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/LICENSE_DejaVu.txt",
+      "sha256": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9"
+    },
+    {
+      "bytes": 5756,
+      "git_blob_sha": "18ec71bce5102e32d01c71f1d2dd41706081a13e",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/LICENSE_Liberation.txt",
+      "sha256": "f32df582a2aab128c07b2f7e36e7b928dc5f6bd82657b905c04f91459f9e5cf9"
+    },
+    {
+      "bytes": 1031,
+      "git_blob_sha": "244e102f07eaa2388b83ac9ce7fe2f91c7b16069",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/LICENSE_OpenSans.txt",
+      "sha256": "94d4b78643f99d7cfa872145b38da578299f401405ca5cba66a5c95bf13933b0"
+    },
+    {
+      "bytes": 393692,
+      "git_blob_sha": "d7622a3b2d73171121f5a7d5bcc873d29f0062ce",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/ObservanceSerif.ttf",
+      "sha256": "9caef765d2e891c10dd73658894f01e660fe0c1c83e0bda7d6edf561d8f623d4"
+    },
+    {
+      "bytes": 783,
+      "git_blob_sha": "a4f998c62843fb26d94dbd35ffb4c824a46e0476",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/ObservanceSerif.ttf.import",
+      "sha256": "014166f2615de0650b47ca4893f4827b4ac9373805606c5c88f185e14b75ae34"
+    },
+    {
+      "bytes": 343140,
+      "git_blob_sha": "5a6544ad61eb0edaadb49a662e82727ff9214369",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/Readout.ttf",
+      "sha256": "54bf827eb99404e8f430c330ad30f063334f637eba0109b6a18d4f566a8e9dd8"
+    },
+    {
+      "bytes": 759,
+      "git_blob_sha": "6c12531227c9d5929a8252ec2f56a6f9a318b74b",
+      "git_mode": "100644",
+      "path": "game/assets/fonts/Readout.ttf.import",
+      "sha256": "8ae4db6d686ba7e1d0af3722bdea7ba6d7b600f1cbeead760a479f07c06b646b"
+    },
+    {
+      "bytes": 440,
+      "git_blob_sha": "ca3f69a586f0438816391413e29e70d83eea59ae",
+      "git_mode": "100644",
+      "path": "game/assets/icon.svg",
+      "sha256": "40b0d91b9a900929b336c2c206e0c99c83a2d5db8719dee95051aef8cfead9a0"
+    },
+    {
+      "bytes": 1020,
+      "git_blob_sha": "4208e11a077d8f54f9a4100a2884748d6849d94b",
+      "git_mode": "100644",
+      "path": "game/assets/icon.svg.import",
+      "sha256": "656e56fb9f8a53b617cb3ef2460b020c218fe6c613950b7de623dcb71bee0d4e"
+    },
+    {
+      "bytes": 385,
+      "git_blob_sha": "50c9919fb9da14ba6c9e39b487e48d11c3974c19",
+      "git_mode": "100644",
+      "path": "game/assets/materials/screen.gdshader",
+      "sha256": "be201dfdef753e7a6f1d9fcc70850b5747a0121049d93c2fb3b99b4cc19c4c27"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "4ac45240d3a99493d78f67504ff0ccd2dd3f9365",
+      "git_mode": "100644",
+      "path": "game/assets/materials/screen.gdshader.uid",
+      "sha256": "bbaa0d15fa6a79bb0367abf2aee220a1df259c881975534cc3b6178781088a0f"
+    },
+    {
+      "bytes": 847,
+      "git_blob_sha": "bc57ea516a7a040a6ed52391ddbde58991405c81",
+      "git_mode": "100644",
+      "path": "game/export_presets.cfg",
+      "sha256": "aa319650a0f63c0cefb50264630afdbc2638bc118ca856dd677a4fe90c6adf10"
+    },
+    {
+      "bytes": 1041,
+      "git_blob_sha": "7c3252293a3a2fe98464a2e8fa67ea42d51988d3",
+      "git_mode": "100644",
+      "path": "game/project.godot",
+      "sha256": "b5f6f5648c2f75d396b1a40d9f25fbd7e7bf1d834549f234f9274dbb168e8f8a"
+    },
+    {
+      "bytes": 163,
+      "git_blob_sha": "30d7799f0b23848710ade18154ad04392c1191c1",
+      "git_mode": "100644",
+      "path": "game/scenes/main.tscn",
+      "sha256": "e73418addeb504de3ff3d40bdd611bf8d505cda3f7ed927e67adf39e32b1d979"
+    },
+    {
+      "bytes": 15946,
+      "git_blob_sha": "e8b0d852f6147d7279ec46c4665389103498eeb3",
+      "git_mode": "100644",
+      "path": "game/scripts/arena.gd",
+      "sha256": "730a2488a8a12f2dd9ed500765cf385e42226603ae24f8d4af528565e90befdd"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "f6487736662b6d0d4eec899b14a9e77b1ac0e339",
+      "git_mode": "100644",
+      "path": "game/scripts/arena.gd.uid",
+      "sha256": "49f616cc42800059ada59cf44346acb2a3dc9c9b518824695c1438e3eba0d38f"
+    },
+    {
+      "bytes": 46524,
+      "git_blob_sha": "7e4fdf5674c01b277125e0429eababa47a6a61a6",
+      "git_mode": "100644",
+      "path": "game/scripts/interface.gd",
+      "sha256": "cfc82d140c0cbf790cbbd89b44e728dbf2a95e74d7afdf8adf4f92c13d306fc2"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "f69d64454be1f2af575a16bcbefccbdba14a34cd",
+      "git_mode": "100644",
+      "path": "game/scripts/interface.gd.uid",
+      "sha256": "d7d3855fb48013ed0a5099c9ef51719c80d6ef9e9eae3b4963db47b62e54b2d4"
+    },
+    {
+      "bytes": 63648,
+      "git_blob_sha": "75befcc1fc097ef07c5e7f1eae1d43458ca1d0e7",
+      "git_mode": "100644",
+      "path": "game/scripts/main.gd",
+      "sha256": "3d1eca6669357214af3f0b11c8f7552c6325611731ed5ab3e8e69c6ac35b6587"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "0f72abc95a0db945dd8df7e73b65c236610d4002",
+      "git_mode": "100644",
+      "path": "game/scripts/main.gd.uid",
+      "sha256": "99c67e6e06b354b3403c2096ad39d2de2916e7ce32b362a55ab69a979325569d"
+    },
+    {
+      "bytes": 5474,
+      "git_blob_sha": "ec542b808a617db2dfc66c56e44622df835251fe",
+      "git_mode": "100644",
+      "path": "game/scripts/practice_guide.gd",
+      "sha256": "1680f3023d011973326984e346cb36def077c6a670216c4dd96c0ce9fcd6e831"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "4627a46cb929290a4e46bcf1471a617069be2767",
+      "git_mode": "100644",
+      "path": "game/scripts/practice_guide.gd.uid",
+      "sha256": "c3d9a205dc4ceaaefdc85a4c8730eddd133bb95cc62454c90418da37669604be"
+    },
+    {
+      "bytes": 13461,
+      "git_blob_sha": "fe11d08635dff1389116c78cd05698663284809c",
+      "git_mode": "100644",
+      "path": "game/scripts/practice_records.gd",
+      "sha256": "7a657eda65f44836a5302879f38661e8ec97e36eba6052a15b93cc17eda55ec3"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "4744363d50193fb4cecb47d977b3956ae9a31286",
+      "git_mode": "100644",
+      "path": "game/scripts/practice_records.gd.uid",
+      "sha256": "659e1bdf2fd096c7583a4c28657181a814536c65a799e1b1e26d6582ade2e6fc"
+    },
+    {
+      "bytes": 8578,
+      "git_blob_sha": "3f909067b718bcea1354e5f14cd872c3d9ecb574",
+      "git_mode": "100644",
+      "path": "game/scripts/practice_state.gd",
+      "sha256": "13e3d56c6d0096c67f8dae225c2a01f74b056a4e9afec164425a3a8acc76aa53"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "709ce70f276a3293e710855ce68d280210f4f425",
+      "git_mode": "100644",
+      "path": "game/scripts/practice_state.gd.uid",
+      "sha256": "3d8ad234942e480bb97007f113ea1ef388dee3d8282899c90df5053fe90ec0bf"
+    },
+    {
+      "bytes": 18308,
+      "git_blob_sha": "9b0a08f24c58ee901e3177164a2a1243b5edf687",
+      "git_mode": "100644",
+      "path": "game/scripts/practice_ui.gd",
+      "sha256": "ce844721e1e1fc4c94f72cd3f83f13cdcaf69c98662ceba8f64e7fefbe1fa1eb"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "edc27313010bbc485ac34a0b747f94268c2f71fb",
+      "git_mode": "100644",
+      "path": "game/scripts/practice_ui.gd.uid",
+      "sha256": "d6ee66c4a74b0c613c16be7cb0e4c82c50271f3c707e94ee05935551205ff9c7"
+    },
+    {
+      "bytes": 1276,
+      "git_blob_sha": "b6dc0c73a68c4466eddacf39272126796f5842c1",
+      "git_mode": "100644",
+      "path": "game/scripts/soundscape.gd",
+      "sha256": "e06068ac650069cdedddeccbb5cbc130fec21cc95c969f4d75a44a17c87fd22f"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "93817e92c3a54ff46392b5238a8fc1bfb6202bd2",
+      "git_mode": "100644",
+      "path": "game/scripts/soundscape.gd.uid",
+      "sha256": "255d4c15afc1961b55637c73ef38b41d87f718bd11e2d949b5a29504f1af0867"
+    },
+    {
+      "bytes": 6561,
+      "git_blob_sha": "bf07c272af0baf2489bccbd7f2b6b957c33e5f97",
+      "git_mode": "100644",
+      "path": "game/scripts/squad_state.gd",
+      "sha256": "5086ed5776cdb24dea0c2f0ceb74858fbca819e466cc55d5d18e81a8e2674072"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "5a75c8f76e49ded174a5b2188ce38ad678654907",
+      "git_mode": "100644",
+      "path": "game/scripts/squad_state.gd.uid",
+      "sha256": "07921fae56d01190806ff5285f7dd510f3c84119344b0cef585705daae6ec487"
+    },
+    {
+      "bytes": 15594,
+      "git_blob_sha": "dde22d2ddcd844d04a229bc75d6025e11361dd7d",
+      "git_mode": "100644",
+      "path": "game/scripts/squad_world.gd",
+      "sha256": "014598b369669b6ac5a89aebb5bdb6ee45e6a40ba14395a7c84841cc895484ee"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "015f07ca832b687d33cf6088444eb65bd81346ed",
+      "git_mode": "100644",
+      "path": "game/scripts/squad_world.gd.uid",
+      "sha256": "d49a412ae235dffbf6c11febfa5ea402050fd20ab95aec2837ccc34e0618e49f"
+    },
+    {
+      "bytes": 14275,
+      "git_blob_sha": "18c0d8175cf974e38d580749a40e74ccd261f585",
+      "git_mode": "100644",
+      "path": "game/scripts/survivor.gd",
+      "sha256": "6d7c833b45c712192fda59224ff0e1e0dcf1f39ed53c425f118b68c3fbdee171"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "a79214b05cfa6cea0433bd3d9ed0eb7e728dcead",
+      "git_mode": "100644",
+      "path": "game/scripts/survivor.gd.uid",
+      "sha256": "1ee10ddca3d2fe56281a3409c9b9a452d8b07f44e394ef889be8e6e1906fe3cd"
+    },
+    {
+      "bytes": 13010,
+      "git_blob_sha": "e71dff294629ecf575db66f04a00ec672566dd58",
+      "git_mode": "100644",
+      "path": "game/scripts/third_apparatus.gd",
+      "sha256": "6a783ae34cd8704ac1152b3528f9a48b30de1ab4c932d2fe41effdccf47f8af8"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "c9a9aeda3173183555f12bffd05e8c1d93a598f5",
+      "git_mode": "100644",
+      "path": "game/scripts/third_apparatus.gd.uid",
+      "sha256": "a79fd8a1c472c5a011dbcc751f2d0d913ac42eedc52bf37af03088583f1dd530"
+    },
+    {
+      "bytes": 11024,
+      "git_blob_sha": "85dbf98453b61f8e698dfd2a0dc6e93a6aea1cf6",
+      "git_mode": "100644",
+      "path": "game/scripts/third_trials.gd",
+      "sha256": "60ade868e834bdbbebba2f944b311513dbccddce23b6550401e885a6c70dac2d"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "5b9d2f2b9d41af2e1432e6c17d05f2a59b6ae36c",
+      "git_mode": "100644",
+      "path": "game/scripts/third_trials.gd.uid",
+      "sha256": "4c5b1ae6475550f118a70bc8ff5781e262304291c4def09e40032547b4c43c20"
+    },
+    {
+      "bytes": 15084,
+      "git_blob_sha": "959a6fa51ab09be3d92f823bccb4694ca8b6a195",
+      "git_mode": "100644",
+      "path": "game/scripts/third_world.gd",
+      "sha256": "1b86a9f40b81b771b39ecf03599dbad45156ccd3f60643cd59c7506203f6938d"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "77f18006449b6531fe3a80a0306544dec8871927",
+      "git_mode": "100644",
+      "path": "game/scripts/third_world.gd.uid",
+      "sha256": "77012fd41d0d45870e9823c086cd6e7b10d5889618c0eb3b5897867bb8d974e5"
+    },
+    {
+      "bytes": 8718,
+      "git_blob_sha": "0638bf7240530eb376f0f004416830d99c46720d",
+      "git_mode": "100644",
+      "path": "game/scripts/trial_apparatus.gd",
+      "sha256": "7cdc7287a76120f219e923eafeeaf53694e44f6a9f69126e5e25244b73f4334c"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "c6080456304bbfbe4b1ea927505c0f822d266778",
+      "git_mode": "100644",
+      "path": "game/scripts/trial_apparatus.gd.uid",
+      "sha256": "37c1c8238f2c7550817171753093af67e979962c729004c0fac6b798bce43e6a"
+    },
+    {
+      "bytes": 11314,
+      "git_blob_sha": "ed14cd8ee030ba36e6cf75f315206805935cd0aa",
+      "git_mode": "100644",
+      "path": "game/scripts/trial_director.gd",
+      "sha256": "c40d6cfdb47b7fdf8a1dd7cd9e073d8b5a5bd7a260d2f3c27392bae9d7a17688"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "2158742cb3e15c3c048a303cbdb61051ae2bc1f3",
+      "git_mode": "100644",
+      "path": "game/scripts/trial_director.gd.uid",
+      "sha256": "4ab02add7ab9100a6503ce2c3ed7d912971a2f54b170fc2d64a5d36e0bb248ad"
+    },
+    {
+      "bytes": 15931,
+      "git_blob_sha": "977b97415edb6652dba9b9bd549a38354597d08e",
+      "git_mode": "100644",
+      "path": "game/scripts/trial_set.gd",
+      "sha256": "f3c346f69a13cddd6135941e8f8453abfa4c155e376c534f1b25782d1c5e4c2c"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "05287bb42941e09210f5d1e0dcf3a674e22594c7",
+      "git_mode": "100644",
+      "path": "game/scripts/trial_set.gd.uid",
+      "sha256": "16c3cb708af820cb41941d29c19027c4acc2e0b126c69d10bbfa5ab9eed4cf5c"
+    },
+    {
+      "bytes": 11326,
+      "git_blob_sha": "a0c0c3d48728aa117f116e9c13767ea8f8adb04c",
+      "git_mode": "100644",
+      "path": "game/scripts/trial_world.gd",
+      "sha256": "12c72e4fc0c88b945ccc1160d1cc970e6f7ab4dd65968f9b9b7ac4683c8d8e6c"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "6a15af1b9c2ece22159cd16459347ee513cc8976",
+      "git_mode": "100644",
+      "path": "game/scripts/trial_world.gd.uid",
+      "sha256": "e03265f42a9c407f5eb86a3a3cb6249edf403ab9ac6626ef416bd372f1953c37"
+    },
+    {
+      "bytes": 6609,
+      "git_blob_sha": "a469d927c84c3496a06c1dad6f61528249c99575",
+      "git_mode": "100644",
+      "path": "game/tests/README.md",
+      "sha256": "e996a59faad4836a3a712db2b598f5b6bac9ee4ed6d8730866b5474c6a74c400"
+    },
+    {
+      "bytes": 4736,
+      "git_blob_sha": "dc4680a3c8aaaf3b4d512f2a44be350fd6a4825d",
+      "git_mode": "100644",
+      "path": "game/tests/capture_third.gd",
+      "sha256": "9826d9c5d609c993dcaeae8b08b453cef6a86000575dc19516c746c4b3721df1"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "4ef102a10f920386c09de63f253802a32d77650f",
+      "git_mode": "100644",
+      "path": "game/tests/capture_third.gd.uid",
+      "sha256": "347acada970baaca6f022fb53f1880d84452497745f2f9ca6333c6459ba8a1d8"
+    },
+    {
+      "bytes": 3218,
+      "git_blob_sha": "8d3e078ee3b09409ec0f84645b0f34d035b2333d",
+      "git_mode": "100644",
+      "path": "game/tests/capture_ui.gd",
+      "sha256": "96ada3aee8cd44940407c30f32d9aa4d9600a412d8eb17feb2a420a56f1269f0"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "322748d35a6b6b60fdcaedcdcd611f227391fde9",
+      "git_mode": "100644",
+      "path": "game/tests/capture_ui.gd.uid",
+      "sha256": "0bbbed3f9ecee59ac8220fe1e74bed7884d35cf2c043aca28d419ca88937ab79"
+    },
+    {
+      "bytes": 3799,
+      "git_blob_sha": "7da0f4136af842a6d6694819ef63c093dc26601b",
+      "git_mode": "100644",
+      "path": "game/tests/capture_workshop.gd",
+      "sha256": "8fa22e545e0d70daf2b7aa02056ff642f5358906a7d1809cd89d75c175549566"
+    },
+    {
+      "bytes": 18,
+      "git_blob_sha": "056c3ed6b668a6681937f205fbfff780e0030f0d",
+      "git_mode": "100644",
+      "path": "game/tests/capture_workshop.gd.uid",
+      "sha256": "d7de4684a5c34036e3f226ce9597e2b010a93b471ed9fa36aaeb05bc76eaef29"
+    },
+    {
+      "bytes": 15705,
+      "git_blob_sha": "07f04652697e9cd0597f4f612ac4d4a2ab083424",
+      "git_mode": "100644",
+      "path": "game/tests/test_director.gd",
+      "sha256": "da14232025f079377af1310a21679880d4b2dd028003575a505e19830b555f61"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "7e7587945a57433881895680bce6b115dd9add25",
+      "git_mode": "100644",
+      "path": "game/tests/test_director.gd.uid",
+      "sha256": "c05e835b856c1f4a9c61a6c78efb6609959c139493b95cb5aa726ed985bb63a5"
+    },
+    {
+      "bytes": 25477,
+      "git_blob_sha": "e298f34c10acfe6685a183188e2452f0b0335812",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_records.gd",
+      "sha256": "bba8f526c98af2a488f6a0ec221f796968f7530062841e09613268dc6c9b5196"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "ab9869c6facedb877b18d1ea13e5c4899aaac1e6",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_records.gd.uid",
+      "sha256": "2af9e63d75b9c55f52706c1ec5e0629ebcd123599336e6cef7317bacdb492f36"
+    },
+    {
+      "bytes": 3558,
+      "git_blob_sha": "e1aba6a2438b61410ad046635b3da4fd63e6cd99",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_routes.gd",
+      "sha256": "ce054ace74651c0b4f9e50ee65759ac7bb1ec5ab709dd6f186030b6bdd83e022"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "9f19f6143ebf0b0d334771c1c5acdebb59c526b4",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_routes.gd.uid",
+      "sha256": "ccc7e0aa8c5ba22da620f6bca7a3f1d0e5394cf4bbe2a3360077bb27c4480a48"
+    },
+    {
+      "bytes": 19207,
+      "git_blob_sha": "7c44855319de41d4c65cfda762137a59198868fd",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_state.gd",
+      "sha256": "6dca8a3fd372793f4a833c9088d86e44e4758e32d4d43eb12b180f20604938d7"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "67aed03d890526b124f4f846da59411dfcf8eb6e",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_state.gd.uid",
+      "sha256": "7282d6f0f44694a6ef1c6493bc2575e0081f9705266480c6a8d60601eb6d3ece"
+    },
+    {
+      "bytes": 21197,
+      "git_blob_sha": "034c9d1f3530317e8522e67ec412b36ff3006bb4",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_ui.gd",
+      "sha256": "211d72068b3f0e5364cc2a9b0be1f26ea06c7976c88506291e1fd64675836b57"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "fe91fbe88fa37992d4851bd4366d4331592edee4",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_ui.gd.uid",
+      "sha256": "56d528b311348621de90d1f56cd6e81fe548c30e36d1cd6ef5cfa7b0727108c5"
+    },
+    {
+      "bytes": 11883,
+      "git_blob_sha": "a378ab654d471358e88aae994e58ad10fd346b7c",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_world.gd",
+      "sha256": "b41dad3fea6aa0e4c5585140b3d30d489e0755b0c2d344acb4d048d5dc70a4bf"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "1930f18da773dea405789c51fc4017a5fcc5cea7",
+      "git_mode": "100644",
+      "path": "game/tests/test_practice_world.gd.uid",
+      "sha256": "1da71a96d193670053d038b88d51bd3d36a77f1482a7953ca2991c4cbb8ae498"
+    },
+    {
+      "bytes": 6200,
+      "git_blob_sha": "1a660563bf863c2b2bd0ce63ec9c3868df847e35",
+      "git_mode": "100644",
+      "path": "game/tests/test_second_survivor_route.gd",
+      "sha256": "48601dfb7781d2173c2d938d1ca9f339abfb4e52d448bd5ebe87a906677ca8df"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "0176f7578279c70d5cc30a3506fe1665895aa26f",
+      "git_mode": "100644",
+      "path": "game/tests/test_second_survivor_route.gd.uid",
+      "sha256": "e02015cf72da1ddfc92731b8c973b2094c40d3a158531c198115d895229efcdd"
+    },
+    {
+      "bytes": 19363,
+      "git_blob_sha": "d0e70b9c0d84e42fe25827d4da0bf62730a7641e",
+      "git_mode": "100644",
+      "path": "game/tests/test_second_world.gd",
+      "sha256": "2f2ed04d37bc574ab7ac2ba5bdd943d96a10c5897ed8c215051f74fe09432589"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "091b6bb76b74f7742437e7ca0aa9ae07607f55e5",
+      "git_mode": "100644",
+      "path": "game/tests/test_second_world.gd.uid",
+      "sha256": "a6f57b4d4451e7fb3a48ae7d8f6660f19fd675eebf0e0687d46a942f81c393ea"
+    },
+    {
+      "bytes": 4291,
+      "git_blob_sha": "7d53d4172aef008492cd223ca327b952269fcba9",
+      "git_mode": "100644",
+      "path": "game/tests/test_squad_route.gd",
+      "sha256": "0df7d01b72d6490594a45071039b326d67804de2a196090c2eabbfacb4ece82b"
+    },
+    {
+      "bytes": 19,
+      "git_blob_sha": "48eb6fb087a211f27808104ff94f4eea2890d13d",
+      "git_mode": "100644",
+      "path": "game/tests/test_squad_route.gd.uid",
+      "sha256": "ed1f1d303dda5749a989747629e354cf13074993db84502d95c91c66ef2b342c"
+    },
+    {
+      "bytes": 20398,
+      "git_blob_sha": "b0b944782464806cde1792bebc79b69aea880960",
+      "git_mode": "100644",
+      "path": "game/tests/test_squad_state.gd",
+      "sha256": "9904d62279b70c309b1cc478583d9fcbcb126986afdb38b4068b46505926234d"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "f862dc262a36aca4ce2bebbfb56e4ef9acf5a540",
+      "git_mode": "100644",
+      "path": "game/tests/test_squad_state.gd.uid",
+      "sha256": "7b07097d186b95f0cf7eb9327d077b3e7327f3374962bf15f46385386b2dfbc9"
+    },
+    {
+      "bytes": 41177,
+      "git_blob_sha": "b6afa594c34088f77c7f6290987284c30dfd2e95",
+      "git_mode": "100644",
+      "path": "game/tests/test_squad_world.gd",
+      "sha256": "e522d1c59909bacab4181dde22e7e26a1d23f42c8a86f20abf86b6e4b8ee5420"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "c742f10bbffe2eaad5ae0cd5fa4a7214f3c12d79",
+      "git_mode": "100644",
+      "path": "game/tests/test_squad_world.gd.uid",
+      "sha256": "b6d1626d3e032d2db592c893a7507467f1ac779e99bd6a30d83e5b5730ae7ef2"
+    },
+    {
+      "bytes": 12137,
+      "git_blob_sha": "e4f9556f81964ce62f77f4cfce928b5af4e14045",
+      "git_mode": "100644",
+      "path": "game/tests/test_survivor_route.gd",
+      "sha256": "ed6fb122259eb7a2da6799c3f4e5e993b514a87eec3df6ec53f20db263279991"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "970d7724fa0e84e3b3b1000f9ad1393400255083",
+      "git_mode": "100644",
+      "path": "game/tests/test_survivor_route.gd.uid",
+      "sha256": "bc24173017178e6e9bedba86487cd8ce30a1f424ed77dac5fa037015f9389209"
+    },
+    {
+      "bytes": 16369,
+      "git_blob_sha": "ef2f76eb48ac3279715f13f0e83e1023f702270b",
+      "git_mode": "100644",
+      "path": "game/tests/test_third_survivor_route.gd",
+      "sha256": "ba7ddd1e17b7ecb1aecc284eb057ec3cffe97b258882fbfb8c2a9824ad499773"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "2fd4b939fd96ce525337d8e99517df57f8120e96",
+      "git_mode": "100644",
+      "path": "game/tests/test_third_survivor_route.gd.uid",
+      "sha256": "5b4940e47687bfabd036c824f03c594060c09f17fd9f84e690dcc4e2e0787756"
+    },
+    {
+      "bytes": 24416,
+      "git_blob_sha": "16f5859bb873f77a0e598710c39f670c8d5d2a86",
+      "git_mode": "100644",
+      "path": "game/tests/test_third_trials.gd",
+      "sha256": "30384ff7646ab839057d396045de511d18372ba6d6c3f8367dfeb8f2423a5ed2"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "3b8653dcd383ee8a9f2a0331f524bd7fab9e597b",
+      "git_mode": "100644",
+      "path": "game/tests/test_third_trials.gd.uid",
+      "sha256": "4582e1b073195395332d987a98e2f9ffaab44ae6a3b8204c5046538799909712"
+    },
+    {
+      "bytes": 34472,
+      "git_blob_sha": "e95bf7cb36c20f1ab3941c676015730dde8ee6f3",
+      "git_mode": "100644",
+      "path": "game/tests/test_third_world.gd",
+      "sha256": "b5eb124e1e4b7aa7616b19f3e8932eed7f625790684e65bdd643194d491dc71c"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "fa7c5dcdbd224ff222e4df28e6bb04559e1fc11a",
+      "git_mode": "100644",
+      "path": "game/tests/test_third_world.gd.uid",
+      "sha256": "bc63a2ead5727776cd8bb5e0410d97cb4061fcedfab45c371f7e1958be4af366"
+    },
+    {
+      "bytes": 22878,
+      "git_blob_sha": "989242db06cd695e8d4b4635c041dc383941395f",
+      "git_mode": "100644",
+      "path": "game/tests/test_trial_set.gd",
+      "sha256": "e23045a6bd12ea7fdebff4b791f3b1eb6889a47e1c079a75f68a01857594dc2b"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "8e3bbe35a112ea722e8a60fb6f419bf2950d0961",
+      "git_mode": "100644",
+      "path": "game/tests/test_trial_set.gd.uid",
+      "sha256": "cbeb9ff98eb7bc4bc78a3eaa74a1da8c11bc23b088a32b89cd7f583c0d3e9c6a"
+    },
+    {
+      "bytes": 10905,
+      "git_blob_sha": "9fa619c9acf31887f3f0e41601a68b406cc5a2b1",
+      "git_mode": "100644",
+      "path": "game/tests/test_world.gd",
+      "sha256": "f6e82cd6c7549d51c5441df8f8e44adfc4c71cb19143ef75f4d71affc59e7d01"
+    },
+    {
+      "bytes": 20,
+      "git_blob_sha": "492289efc90eea64a71012efd63067cd9c008eca",
+      "git_mode": "100644",
+      "path": "game/tests/test_world.gd.uid",
+      "sha256": "50411b5e9636be6e9063e0362f39eb4f774a68390cdc867182b5b54efe6594ba"
+    },
+    {
+      "bytes": 35307,
+      "git_blob_sha": "8f919a2806e831a5aa9d181a61b1f91b7976b895",
+      "git_mode": "100644",
+      "path": "tools/build_windows.py",
+      "sha256": "58b40506eebf5d9e4931044e63588ecc0508185228496afaf26c12d0ba2a7d66"
+    },
+    {
+      "bytes": 8617,
+      "git_blob_sha": "7cb84bb2443d52e53980a1df6ba39d2c6e0edf36",
+      "git_mode": "100644",
+      "path": "tools/fetch_export_templates.py",
+      "sha256": "264746f346d905c84b5e356ad1a6532aa55ad7bbe73ffbbaf26f3b34185fc128"
+    },
+    {
+      "bytes": 2010,
+      "git_blob_sha": "a7223b6b0f797c330d2188f985359ec9d22f14fa",
+      "git_mode": "100644",
+      "path": "tools/generate_audio.py",
+      "sha256": "0a3633c2f2ac95a27b0a51b02df5e9b8ac02ed0831c61c69e04b35920de88f10"
+    }
+  ],
+  "source_manifest_count": 117,
+  "source_manifest_scope": [
+    "game/",
+    "tools/",
+    ".github/workflows/"
+  ],
+  "source_tree": "218a1715ed6d11e1d8c4c223acb29e16a4066714",
+  "suites": [
+    {
+      "assertions": 125,
+      "cases": 27,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_director.gd.log",
+      "sessions": null,
+      "suite": "test_director.gd"
+    },
+    {
+      "assertions": 60,
+      "cases": 6,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_world.gd.log",
+      "sessions": null,
+      "suite": "test_world.gd"
+    },
+    {
+      "assertions": null,
+      "cases": null,
+      "category": "legacy",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_survivor_route.gd.log",
+      "sessions": 1,
+      "suite": "test_survivor_route.gd",
+      "summary_basis": "Single validated success marker and successful source CI gate; no standalone case/assertion summary"
+    },
+    {
+      "assertions": 2118,
+      "cases": 23,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_trial_set.gd.log",
+      "sessions": null,
+      "suite": "test_trial_set.gd"
+    },
+    {
+      "assertions": 279,
+      "cases": 35,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_second_world.gd.log",
+      "sessions": null,
+      "suite": "test_second_world.gd"
+    },
+    {
+      "assertions": null,
+      "cases": null,
+      "category": "legacy",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_second_survivor_route.gd.log",
+      "sessions": 1,
+      "suite": "test_second_survivor_route.gd",
+      "summary_basis": "Single validated success marker and successful source CI gate; no standalone case/assertion summary"
+    },
+    {
+      "assertions": 120,
+      "cases": 26,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_squad_state.gd.log",
+      "sessions": null,
+      "suite": "test_squad_state.gd"
+    },
+    {
+      "assertions": 236,
+      "cases": 23,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_squad_world.gd.log",
+      "sessions": null,
+      "suite": "test_squad_world.gd"
+    },
+    {
+      "assertions": null,
+      "cases": null,
+      "category": "sessions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_squad_route.gd.log",
+      "sessions": 3,
+      "suite": "test_squad_route.gd"
+    },
+    {
+      "assertions": 1780,
+      "cases": 31,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_third_trials.gd.log",
+      "sessions": null,
+      "suite": "test_third_trials.gd"
+    },
+    {
+      "assertions": 162,
+      "cases": 23,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_third_world.gd.log",
+      "sessions": null,
+      "suite": "test_third_world.gd"
+    },
+    {
+      "assertions": null,
+      "cases": null,
+      "category": "sessions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_third_survivor_route.gd.log",
+      "sessions": 2,
+      "suite": "test_third_survivor_route.gd"
+    },
+    {
+      "assertions": 595,
+      "cases": 14,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_practice_state.gd.log",
+      "sessions": null,
+      "suite": "test_practice_state.gd"
+    },
+    {
+      "assertions": 294,
+      "cases": 21,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_practice_records.gd.log",
+      "sessions": null,
+      "suite": "test_practice_records.gd"
+    },
+    {
+      "assertions": 95,
+      "cases": 12,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_practice_ui.gd.log",
+      "sessions": null,
+      "suite": "test_practice_ui.gd"
+    },
+    {
+      "assertions": 215,
+      "cases": 16,
+      "category": "assertions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_practice_world.gd.log",
+      "sessions": null,
+      "suite": "test_practice_world.gd"
+    },
+    {
+      "assertions": null,
+      "cases": null,
+      "category": "sessions",
+      "failures": 0,
+      "log": "docs/qa/v0.5/logs/gameplay/test_practice_routes.gd.log",
+      "sessions": 9,
+      "suite": "test_practice_routes.gd"
+    }
+  ],
+  "totals": {
+    "assertion_suites": 12,
+    "assertions": 6079,
+    "cases": 257,
+    "distinct_mix_mappings": 27,
+    "failures": 0,
+    "practice_sessions": 9,
+    "pressured_sessions": 7,
+    "route_suites": 5,
+    "suites": 17,
+    "unopposed_bot_routes": 28
+  },
+  "unopposed_bot_routes": [
+    {
+      "contract": "second",
+      "elapsed": 81.08,
+      "mapping": "vault/ritual/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 271126,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 46.03,
+      "mapping": "silent/ritual/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 0,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 38.45,
+      "mapping": "light/strings/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 1,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 88.43,
+      "mapping": "vault/echoes/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 2,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 86.53,
+      "mapping": "vault/strings/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 3,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 58.63,
+      "mapping": "silent/strings/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 4,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 52.95,
+      "mapping": "silent/strings/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 5,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 58.63,
+      "mapping": "silent/ritual/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 6,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 97.65,
+      "mapping": "vault/ritual/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 8,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 43.97,
+      "mapping": "light/ritual/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 9,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 48.48,
+      "mapping": "light/ritual/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 10,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 43.35,
+      "mapping": "light/strings/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 11,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 46.03,
+      "mapping": "silent/echoes/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 12,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 46.03,
+      "mapping": "silent/strings/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 13,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 35.03,
+      "mapping": "light/echoes/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 14,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 86.28,
+      "mapping": "vault/echoes/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 15,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 58.63,
+      "mapping": "silent/echoes/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 17,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 52.95,
+      "mapping": "silent/ritual/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 21,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 39.05,
+      "mapping": "light/strings/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 22,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 84.58,
+      "mapping": "vault/strings/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 23,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 31.52,
+      "mapping": "light/echoes/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 26,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 85.5,
+      "mapping": "vault/ritual/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 27,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 52.95,
+      "mapping": "silent/echoes/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 36,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 81.82,
+      "mapping": "vault/strings/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 37,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 81.88,
+      "mapping": "vault/ritual/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 38,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 43.02,
+      "mapping": "light/ritual/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 39,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 84.2,
+      "mapping": "vault/echoes/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 46,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 42.53,
+      "mapping": "light/echoes/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 165,
+      "winner": "survivors",
+      "wounds": 0
+    }
+  ],
+  "workflow_run": 45903325362,
+  "workflow_run_url": "https://github.com/darknigthmare/THE_EYES/actions/runs/45903325362"
+}

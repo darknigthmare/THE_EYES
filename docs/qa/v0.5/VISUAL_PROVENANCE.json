@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "source_commit": "6392ebf30b0acb909e218bc4c12c36e2d0b3faa0",
+  "workflow_run": "45903325362",
+  "engine": "4.7.2",
+  "renderer": "native OpenGL compatibility, software Mesa, Xvfb",
+  "staged_fixtures": true,
+  "playthrough_evidence": false,
+  "hardware_performance_evidence": false,
+  "images": [
+    {
+      "view": "menu",
+      "path": "menu.png",
+      "sha256": "0f023a57f96fe457d868a82bfa35628777609a5d59567885bcccb6e5ee5e5ad2"
+    },
+    {
+      "view": "workshop",
+      "path": "workshop.png",
+      "sha256": "5720d4443499628f8cf9ba9a154717a41c45956cfc471aa3d04b89726c1cfc1e"
+    },
+    {
+      "view": "practice",
+      "path": "practice.png",
+      "sha256": "9c9c9af3377005f62f646a6bc58a2424c2e02bf36c399f49dc06d7f757a64c3c"
+    },
+    {
+      "view": "practice_clear",
+      "path": "practice_clear.png",
+      "sha256": "6efac79f4bece8a457e14e73dedeae6909646407417ccbda0d6db7d7f970cc0f"
+    },
+    {
+      "view": "manual",
+      "path": "manual.png",
+      "sha256": "47a7d2251c4131c756577747d5a323c0ff6a418daafcd2980d5b90d8bf6d42da"
+    },
+    {
+      "view": "result",
+      "path": "result.png",
+      "sha256": "e9c5113246d596cf3dc5eb0ac37e845862ffea5a111923237dd7bf61abf3aee8"
+    },
+    {
+      "view": "save_error",
+      "path": "save_error.png",
+      "sha256": "339d59558444ca3ef28e343e906e86c606e98df2558d8067dd6f6ee5f89a5e0a"
+    },
+    {
+      "view": "result_save_error",
+      "path": "result_save_error.png",
+      "sha256": "e2400a667d9304ab91efb7796807d0ba61b9968f92852b77a477e69b0a8fb7da"
+    }
+  ]
+}

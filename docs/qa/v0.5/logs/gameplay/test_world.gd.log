@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT_ROUTE_RESULT phase=ended winner=survivors time=52.95 seals={ "silent": true, "echoes": true, "relay": true } deliveries=3
+BOT_STATE role=Veil task=escape position=(-15.0, 0.000195, 0.239397) target=(0.0, 0.0, -21.0) path_index=8 carrying=-1 action=0.00
+BOT_STATE role=Tinker task=escape position=(-15.0, 0.000195, -2.386315) target=(0.0, 0.0, -21.0) path_index=7 carrying=-1 action=0.00
+BOT_STATE role=Runner task=escape position=(0.001967, 0.000195, -21.387) target=(0.0, 0.0, -21.0) path_index=1 carrying=-1 action=1.52
+BOT_STATE role=Keeper task=escape position=(-9.751464, 0.000195, -12.0242) target=(0.0, 0.0, -21.0) path_index=6 carrying=-1 action=0.00
+World integration: 6 cases, 60 assertions, 0 failures

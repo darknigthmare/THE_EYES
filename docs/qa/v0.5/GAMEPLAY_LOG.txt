@@ -1,0 +1,358 @@
+THE EYES v0.5.0 - exact GitHub Actions gameplay evidence
+Source: 6392ebf30b0acb909e218bc4c12c36e2d0b3faa0
+Run: https://github.com/darknigthmare/THE_EYES/actions/runs/45903325362
+Original artifact member bytes follow between boundaries; individual originals are also retained.
+
+===== BEGIN import.log sha256=320d524ed1f9961af2dce80e6e5feded418353bd4a442065e79a1e7dd2e2f860 bytes=6802 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (38 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | EyesArena[39m[0m
+[   2% ] [90m[1mupdate_scripts_classes[22m | EyesInterface[39m[0m
+[   5% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | EyesPracticeGuide[39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | PracticeRecords[39m[0m
+[  12% ] [90m[1mupdate_scripts_classes[22m | PracticeState[39m[0m
+[  15% ] [90m[1mupdate_scripts_classes[22m | EyesPracticeInterface[39m[0m
+[  17% ] [90m[1mupdate_scripts_classes[22m | EyesSoundscape[39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | EyesSquadState[39m[0m
+[  23% ] [90m[1mupdate_scripts_classes[22m | EyesSquadWorld[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | EyesSurvivor[39m[0m
+[  28% ] [90m[1mupdate_scripts_classes[22m | EyesThirdApparatus[39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | ThirdTrials[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | EyesThirdWorld[39m[0m
+[  35% ] [90m[1mupdate_scripts_classes[22m | EyesTrialApparatus[39m[0m
+[  38% ] [90m[1mupdate_scripts_classes[22m | TrialDirector[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | TrialSet[39m[0m
+[  43% ] [90m[1mupdate_scripts_classes[22m | EyesTrialWorld[39m[0m
+[  46% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  53% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  56% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  61% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  64% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  69% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  71% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  76% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  79% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  82% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  84% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  87% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  89% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  94% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (13 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | ambience.wav[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | blink.wav[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | echo.wav[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | fail.wav[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | heartbeat.wav[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | pickup.wav[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | seal.wav[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | step.wav[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | warning.wav[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | Interface.ttf[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | ObservanceSerif.ttf[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | Readout.ttf[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | icon.svg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (13 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | Interface.ttf[39m[0m
+[   7% ] [90m[1mreimport[22m | ObservanceSerif.ttf[39m[0m
+[  14% ] [90m[1mreimport[22m | Readout.ttf[39m[0m
+[  21% ] [90m[1mreimport[22m | icon.svg[39m[0m
+[  28% ] [90m[1mreimport[22m | Interface.ttf[39m[0m
+[  35% ] [90m[1mreimport[22m | ObservanceSerif.ttf[39m[0m
+[  42% ] [90m[1mreimport[22m | Readout.ttf[39m[0m
+[  50% ] [90m[1mreimport[22m | icon.svg[39m[0m
+[  57% ] [90m[1mreimport[22m | ambience.wav[39m[0m
+[  64% ] [90m[1mreimport[22m | blink.wav[39m[0m
+[  71% ] [90m[1mreimport[22m | echo.wav[39m[0m
+[  78% ] [90m[1mreimport[22m | fail.wav[39m[0m
+[  85% ] [90m[1mreimport[22m | heartbeat.wav[39m[0m
+[  92% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (13 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m
+
+===== END import.log =====
+
+===== BEGIN test_director.gd.log sha256=db3d4aca63d76a678c668fe2590bacd99906ed77d0667486413a2748dc937432 bytes=125 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+TrialDirector: 27 cases, 125 assertions, 0 failures
+
+===== END test_director.gd.log =====
+
+===== BEGIN test_world.gd.log sha256=996ad669f83bd00ea60893504df4af9c817f52b6e7310af0bf9b97450469d3df bytes=790 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+BOT_ROUTE_RESULT phase=ended winner=survivors time=52.95 seals={ "silent": true, "echoes": true, "relay": true } deliveries=3
+BOT_STATE role=Veil task=escape position=(-15.0, 0.000195, 0.239397) target=(0.0, 0.0, -21.0) path_index=8 carrying=-1 action=0.00
+BOT_STATE role=Tinker task=escape position=(-15.0, 0.000195, -2.386315) target=(0.0, 0.0, -21.0) path_index=7 carrying=-1 action=0.00
+BOT_STATE role=Runner task=escape position=(0.001967, 0.000195, -21.387) target=(0.0, 0.0, -21.0) path_index=1 carrying=-1 action=1.52
+BOT_STATE role=Keeper task=escape position=(-9.751464, 0.000195, -12.0242) target=(0.0, 0.0, -21.0) path_index=6 carrying=-1 action=0.00
+World integration: 6 cases, 60 assertions, 0 failures
+
+===== END test_world.gd.log =====
+
+===== BEGIN test_survivor_route.gd.log sha256=ca9e1e0604c97b32722c6662900e9db759d5ec4a349e706d144968de96db75e7 bytes=1084 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SURVIVOR_STAGE relay=true time=20.92 health=100.0
+SURVIVOR_STAGE pickup=1 time=36.15 health=100.0
+SURVIVOR_STAGE delivered=1 time=55.15 health=100.0
+SURVIVOR_STAGE pickup=0 time=60.42 health=100.0
+SURVIVOR_STAGE delivered=2 time=71.93 health=100.0
+SURVIVOR_STAGE pickup=2 time=117.25 health=100.0
+SURVIVOR_HEALTH t=136.35 hp=78.0 from=100.0 position=(7.853543, 0.0, -9.037555) gaze=35.0 eye=0 shadows=0 ability=0.0
+SURVIVOR_STAGE delivered=3 time=196.12 health=78.0
+SURVIVOR_HEALTH t=204.58 hp=56.0 from=78.0 position=(-4.475017, 0.0, -13.65854) gaze=35.0 eye=0 shadows=1 ability=0.0
+SURVIVOR_HEALTH t=204.60 hp=86.0 from=56.0 position=(-4.519691, 0.0, -13.6025) gaze=35.2 eye=0 shadows=1 ability=35.0
+SURVIVOR_STAGE echoes=true time=229.73 health=86.0
+SURVIVOR_ROUTE_RESULT winner=survivors phase=ended elapsed=267.93 vitality=86.0 wounds=2 punishments=0 seals={ "silent": true, "echoes": true, "relay": true } deliveries=3
+SURVIVOR_FINAL_POSITION (-0.006334, 0.0, -20.74381) gaze=28.3999999999999 carrying=-1
+
+===== END test_survivor_route.gd.log =====
+
+===== BEGIN test_trial_set.gd.log sha256=71427c539b9875d5127b31f92f617a776eb0cb4163f050c0bd6ea4ba69f2b48d bytes=121 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+TrialSet: 23 cases, 2118 assertions, 0 failures
+
+===== END test_trial_set.gd.log =====
+
+===== BEGIN test_second_world.gd.log sha256=cefabdb8c29fe58f48794231aab3368fc17a64e180bdfc484489f39ae8122772 bytes=9586 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SECOND_BOT_ROUTE {"contract":"second","elapsed":81.08,"mapping":"vault/ritual/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":271126,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":46.03,"mapping":"silent/ritual/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":0,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":38.45,"mapping":"light/strings/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":1,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":88.43,"mapping":"vault/echoes/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":2,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":86.53,"mapping":"vault/strings/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":3,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":58.63,"mapping":"silent/strings/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":4,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":52.95,"mapping":"silent/strings/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":5,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":58.63,"mapping":"silent/ritual/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":6,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":97.65,"mapping":"vault/ritual/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":8,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":43.97,"mapping":"light/ritual/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":9,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":48.48,"mapping":"light/ritual/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":10,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":43.35,"mapping":"light/strings/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":11,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":46.03,"mapping":"silent/echoes/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":12,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":46.03,"mapping":"silent/strings/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":13,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":35.03,"mapping":"light/echoes/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":14,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":86.28,"mapping":"vault/echoes/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":15,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":58.63,"mapping":"silent/echoes/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":17,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":52.95,"mapping":"silent/ritual/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":21,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":39.05,"mapping":"light/strings/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":22,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":84.58,"mapping":"vault/strings/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":23,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":31.52,"mapping":"light/echoes/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":26,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":85.5,"mapping":"vault/ritual/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":27,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":52.95,"mapping":"silent/echoes/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":36,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":81.82,"mapping":"vault/strings/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":37,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":81.88,"mapping":"vault/ritual/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":38,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":43.02,"mapping":"light/ritual/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":39,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":84.2,"mapping":"vault/echoes/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":46,"winner":"survivors","wounds":0}
+SECOND_BOT_ROUTE {"contract":"mix","elapsed":42.53,"mapping":"light/echoes/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":165,"winner":"survivors","wounds":0}
+SECOND_WORLD_ROUTES [{"contract":"second","elapsed":81.08,"mapping":"vault/ritual/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":271126,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":46.03,"mapping":"silent/ritual/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":0,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":38.45,"mapping":"light/strings/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":1,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":88.43,"mapping":"vault/echoes/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":2,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":86.53,"mapping":"vault/strings/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":3,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":58.63,"mapping":"silent/strings/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":4,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":52.95,"mapping":"silent/strings/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":5,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":58.63,"mapping":"silent/ritual/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":6,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":97.65,"mapping":"vault/ritual/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":8,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":43.97,"mapping":"light/ritual/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":9,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":48.48,"mapping":"light/ritual/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":10,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":43.35,"mapping":"light/strings/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":11,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":46.03,"mapping":"silent/echoes/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":12,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":46.03,"mapping":"silent/strings/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":13,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":35.03,"mapping":"light/echoes/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":14,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":86.28,"mapping":"vault/echoes/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":15,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":58.63,"mapping":"silent/echoes/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":17,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":52.95,"mapping":"silent/ritual/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":21,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":39.05,"mapping":"light/strings/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":22,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":84.58,"mapping":"vault/strings/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":23,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":31.52,"mapping":"light/echoes/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":26,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":85.5,"mapping":"vault/ritual/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":27,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":52.95,"mapping":"silent/echoes/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":36,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":81.82,"mapping":"vault/strings/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":37,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":81.88,"mapping":"vault/ritual/clock","seals":{"echoes":true,"relay":true,"silent":true},"seed":38,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":43.02,"mapping":"light/ritual/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":39,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":84.2,"mapping":"vault/echoes/relay","seals":{"echoes":true,"relay":true,"silent":true},"seed":46,"winner":"survivors","wounds":0},{"contract":"mix","elapsed":42.53,"mapping":"light/echoes/chimes","seals":{"echoes":true,"relay":true,"silent":true},"seed":165,"winner":"survivors","wounds":0}]
+Second world integration: 35 cases, 279 assertions, 0 failures
+
+===== END test_second_world.gd.log =====
+
+===== BEGIN test_second_survivor_route.gd.log sha256=3270c12f434043b80315855d09462e1df6e0ce6d28cda5205b6cab2ec6443a52 bytes=3015 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SECOND_STAGE clock=true time=13.45 health=100.0
+SURVIVOR_HEALTH t=39.92 hp=75.0 from=100.0 position=(-16.75711, 0.0, -10.9998) gaze=79.2 eye=0 shadows=1 ability=0.0
+SECOND_STAGE observed four relics at the actual reference desk
+SURVIVOR_HEALTH t=74.52 hp=53.0 from=75.0 position=(-23.66779, 0.0, 0.068319) gaze=35.0 eye=2 shadows=1 ability=0.0
+SURVIVOR_HEALTH t=74.53 hp=83.0 from=53.0 position=(-23.61017, 0.0, 0.010699) gaze=35.2 eye=2 shadows=1 ability=35.0
+SECOND_STAGE vault=[-1, 0, -1, -1] time=92.22 health=83.0
+SECOND_STAGE vault=[1, 0, -1, -1] time=104.53 health=83.0
+SECOND_STAGE vault=[1, 0, 3, -1] time=140.48 health=83.0
+SURVIVOR_HEALTH t=162.82 hp=61.0 from=83.0 position=(5.746098, 0.0, -1.267465) gaze=35.0 eye=1 shadows=1 ability=0.0
+SURVIVOR_HEALTH t=162.83 hp=91.0 from=61.0 position=(5.773524, 0.0, -1.333677) gaze=35.2 eye=1 shadows=1 ability=35.0
+SURVIVOR_HEALTH t=192.22 hp=66.0 from=91.0 position=(2.048225, 0.0, -6.161108) gaze=12.5 eye=3 shadows=1 ability=5.6
+SECOND_STAGE vault=[1, 0, 3, 4] time=196.95 health=66.0
+SURVIVOR_HEALTH t=197.87 hp=96.0 from=66.0 position=(-15.2243, 0.0, -9.000978) gaze=42.2 eye=0 shadows=1 ability=35.0
+SURVIVOR_HEALTH t=207.58 hp=74.0 from=96.0 position=(-15.42697, 0.0, 9.340364) gaze=35.0 eye=3 shadows=1 ability=25.3
+SURVIVOR_HEALTH t=224.40 hp=52.0 from=74.0 position=(-15.0, 0.0, -0.293385) gaze=35.0 eye=3 shadows=0 ability=8.5
+SURVIVOR_HEALTH t=232.90 hp=82.0 from=52.0 position=(5.710901, 0.0, -8.999997) gaze=1.6 eye=3 shadows=0 ability=35.0
+SECOND_STAGE vessel=1 time=237.48 health=82.0
+SURVIVOR_HEALTH t=246.32 hp=60.0 from=82.0 position=(15.0, 0.0, 6.722764) gaze=35.0 eye=1 shadows=0 ability=21.6
+SECOND_STAGE vessel=2 time=255.38 health=60.0
+SECOND_STAGE vessel=3 time=257.9 health=60.0
+SECOND_STAGE vessel=4 time=259.17 health=60.0
+SURVIVOR_HEALTH t=267.93 hp=90.0 from=60.0 position=(10.00653, 0.0, -17.4351) gaze=69.7 eye=1 shadows=1 ability=35.0
+SECOND_STAGE vessel=5 time=275.78 health=90.0
+SURVIVOR_HEALTH t=280.93 hp=65.0 from=90.0 position=(15.81177, 0.0, -11.90038) gaze=67.3 eye=0 shadows=1 ability=22.0
+SURVIVOR_HEALTH t=283.63 hp=40.0 from=65.0 position=(15.7709, 0.0, -11.95237) gaze=85.7 eye=1 shadows=1 ability=19.3
+SECOND_STAGE ritual=true time=284.37 health=40.0
+SURVIVOR_HEALTH t=285.28 hp=18.0 from=40.0 position=(20.17703, 0.0, -14.33516) gaze=35.0 eye=1 shadows=1 ability=17.7
+SURVIVOR_HEALTH t=299.97 hp=1.0 from=18.0 position=(72.0, 0.0, 2.993056) gaze=0.0 eye=0 shadows=0 ability=3.0
+SURVIVOR_HEALTH t=304.05 hp=50.0 from=1.0 position=(0.0, 0.0, 20.0) gaze=0.0 eye=0 shadows=0 ability=0.0
+SURVIVOR_STAGE second_sight=1 time=304.07 health=50.0
+SURVIVOR_HEALTH t=304.08 hp=80.0 from=50.0 position=(0.0, 0.0, 20.0) gaze=0.0 eye=0 shadows=0 ability=35.0
+SECOND_SURVIVOR_RESULT winner=survivors phase=ended elapsed=324.17 vitality=80.0 wounds=11 punishments=1 seals={ "silent": true, "echoes": true, "relay": true } cradles=[1, 0, 3, 4] clock_moves=4
+
+===== END test_second_survivor_route.gd.log =====
+
+===== BEGIN test_squad_state.gd.log sha256=41a50ca25ccaef9754cd4325bb6a46cba63d6149781769e03e4ed2892d9268ad bytes=122 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SquadState: 26 cases, 120 assertions, 0 failures
+
+===== END test_squad_state.gd.log =====
+
+===== BEGIN test_squad_world.gd.log sha256=d682d1d810ac03162d2aef99065dc2da04f281cfefdc083ea95357cfe37e27e1 bytes=334 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SQUAD_STAGED_RESCUE {"end":"(-14.0, 0.000829, 16.62001)","health":35.0,"human_state":"active","path_points":9,"revives":1,"seconds":7.5,"start":"(-14.0, 0.05, 9.0)","task":"rescue","travelled":7.64}
+Squad world integration: 23 cases, 236 assertions, 0 failures
+
+===== END test_squad_world.gd.log =====
+
+===== BEGIN test_squad_route.gd.log sha256=8c1b9f80d2720ce3831f16ddc6afa4eba9bb7417dd219242679e9ffbf7470d36 bytes=2411 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SURVIVOR_STAGE relay=true time=15.53 health=100.0
+SQUAD_ROUTE_RESULT {"contract":"first","difficulty":"story","elapsed":46.88,"failures":[],"human_actions":4,"human_distance":102.76,"human_health":33.0,"seals":{"echoes":true,"relay":true,"silent":true},"seed":271126,"squad":{"downs":0,"eliminations":0,"heals":1,"members":[{"archetype":"Keeper","name":"Ada Fen","recoveries":0,"state":"active"},{"archetype":"Veil","name":"Mara Vale","recoveries":0,"state":"active"},{"archetype":"Tinker","name":"Nadiya Sayegh","recoveries":0,"state":"active"},{"archetype":"Runner","name":"June Arlen","recoveries":0,"state":"active"},{"archetype":"Keeper","name":"Soren Bell","recoveries":0,"state":"active"}],"order":"work","orders":3,"revives":0},"winner":"survivors","wounds":4}
+SECOND_STAGE clock=true time=15.7 health=100.0
+SQUAD_ROUTE_RESULT {"contract":"second","difficulty":"story","elapsed":86.8,"failures":[],"human_actions":11,"human_distance":93.87,"human_health":20.0,"seals":{"echoes":true,"relay":true,"silent":true},"seed":271126,"squad":{"downs":0,"eliminations":0,"heals":2,"members":[{"archetype":"Keeper","name":"Ada Fen","recoveries":0,"state":"active"},{"archetype":"Veil","name":"Mara Vale","recoveries":0,"state":"active"},{"archetype":"Tinker","name":"Nadiya Sayegh","recoveries":0,"state":"active"},{"archetype":"Runner","name":"June Arlen","recoveries":0,"state":"active"},{"archetype":"Keeper","name":"Soren Bell","recoveries":0,"state":"active"}],"order":"work","orders":3,"revives":0},"winner":"survivors","wounds":6}
+SURVIVOR_STAGE relay=true time=15.53 health=100.0
+SQUAD_ROUTE_RESULT {"contract":"mix","difficulty":"story","elapsed":46.88,"failures":[],"human_actions":3,"human_distance":94.38,"human_health":75.0,"seals":{"echoes":true,"relay":true,"silent":true},"seed":271126,"squad":{"downs":0,"eliminations":0,"heals":0,"members":[{"archetype":"Keeper","name":"Ada Fen","recoveries":0,"state":"active"},{"archetype":"Veil","name":"Mara Vale","recoveries":0,"state":"active"},{"archetype":"Tinker","name":"Nadiya Sayegh","recoveries":0,"state":"active"},{"archetype":"Runner","name":"June Arlen","recoveries":0,"state":"active"},{"archetype":"Keeper","name":"Soren Bell","recoveries":0,"state":"active"}],"order":"work","orders":3,"revives":0},"winner":"survivors","wounds":1}
+Squad routes: 3 sessions, 0 failures
+
+===== END test_squad_route.gd.log =====
+
+===== BEGIN test_third_trials.gd.log sha256=8e322f8bcbbb14e2cda26f8ef1d8ea341ef1abf733650b432c6bc3e3e90caf4a bytes=124 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ThirdTrials: 31 cases, 1780 assertions, 0 failures
+
+===== END test_third_trials.gd.log =====
+
+===== BEGIN test_third_world.gd.log sha256=a10480393354c95417b4d4a195c697d06f88f386500ae201303a457899ef755e bytes=431 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+THIRD_WORLD_ROUTE {"all_seals":{"echoes":true,"relay":true,"silent":true},"contract":"third","distances":[123.344111608807,92.5446739788167,119.143131859601,91.0995046889875],"opposition":"human Eye idle; unopposed integration route","seed":271126,"simulated_seconds":41.82,"winner":"survivors"}
+Third world integration: 23 cases, 162 assertions, 0 failures
+
+===== END test_third_world.gd.log =====
+
+===== BEGIN test_third_survivor_route.gd.log sha256=721617b8475c67dd370204aefe66cde76a07868865ab89a5139759c602708236 bytes=3058 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SURVIVOR_HEALTH t=61.43 hp=75.0 from=100.0 position=(24.72983, 0.0, 20.17642) gaze=36.7 eye=2 shadows=1 ability=0.0
+SURVIVOR_HEALTH t=86.53 hp=53.0 from=75.0 position=(15.0, 0.0, -0.356203) gaze=35.0 eye=1 shadows=1 ability=0.0
+SURVIVOR_HEALTH t=86.55 hp=83.0 from=53.0 position=(15.0, 0.0, -0.431009) gaze=35.2 eye=1 shadows=1 ability=35.0
+SURVIVOR_HEALTH t=155.30 hp=61.0 from=83.0 position=(-14.97017, 0.0, -7.799367) gaze=35.0 eye=3 shadows=0 ability=0.0
+SURVIVOR_HEALTH t=155.32 hp=91.0 from=61.0 position=(-14.97285, 0.0, -7.727751) gaze=35.2 eye=3 shadows=0 ability=35.0
+SURVIVOR_HEALTH t=202.28 hp=66.0 from=91.0 position=(12.20375, 0.0, -21.81026) gaze=77.8 eye=1 shadows=1 ability=0.0
+SURVIVOR_HEALTH t=202.30 hp=96.0 from=66.0 position=(12.16007, 0.0, -21.81026) gaze=78.0 eye=1 shadows=1 ability=35.0
+SURVIVOR_HEALTH t=204.52 hp=74.0 from=96.0 position=(11.84529, 0.0, -13.85999) gaze=35.0 eye=1 shadows=1 ability=32.8
+SURVIVOR_HEALTH t=227.85 hp=49.0 from=74.0 position=(9.075171, 0.0, -9.15197) gaze=12.8 eye=1 shadows=1 ability=9.5
+SURVIVOR_HEALTH t=237.33 hp=79.0 from=49.0 position=(15.04796, 0.0, 8.44619) gaze=1.3 eye=0 shadows=1 ability=35.0
+SURVIVOR_HEALTH t=300.00 hp=57.0 from=79.0 position=(5.229959, 0.0, -13.00618) gaze=35.0 eye=0 shadows=0 ability=0.0
+SURVIVOR_HEALTH t=300.02 hp=87.0 from=57.0 position=(5.301624, 0.0, -13.0056) gaze=35.2 eye=0 shadows=0 ability=35.0
+SURVIVOR_HEALTH t=307.37 hp=65.0 from=87.0 position=(14.61326, 0.0, 7.314505) gaze=35.0 eye=1 shadows=0 ability=27.7
+THIRD_SURVIVOR_RESULT {"bell_phrases":2,"cage_stages":3,"contract":"third","difficulty":"story","elapsed":328.88,"failures":[],"human_distance":1087.86,"human_health":65.0,"human_inputs":42,"human_trial_events":{"chime_strike":8,"light_deposit":3,"strings_cut":3},"lamps":[true,true,true],"observation_epoch_restarts":0,"punishments":0,"role":"survivor","seals":{"echoes":true,"relay":true,"silent":true},"seed":271126,"visible_threat_retreats":7,"winner":"survivors","wounds":8}
+THIRD_SURVIVOR_RESULT {"bell_phrases":2,"cage_stages":3,"contract":"third","difficulty":"story","elapsed":74.13,"failures":[],"human_distance":203.14,"human_health":100.0,"human_inputs":20,"human_trial_events":{"chime_strike":6,"light_deposit":0,"strings_cut":2},"lamps":[true,true,true],"observation_epoch_restarts":0,"punishments":0,"role":"squad","seals":{"echoes":true,"relay":true,"silent":true},"seed":271126,"squad":{"downs":0,"eliminations":0,"heals":0,"members":[{"archetype":"Keeper","name":"Ada Fen","recoveries":0,"state":"active"},{"archetype":"Veil","name":"Mara Vale","recoveries":0,"state":"active"},{"archetype":"Tinker","name":"Nadiya Sayegh","recoveries":0,"state":"active"},{"archetype":"Runner","name":"June Arlen","recoveries":0,"state":"active"},{"archetype":"Keeper","name":"Soren Bell","recoveries":0,"state":"active"}],"order":"work","orders":3,"revives":0},"visible_threat_retreats":1,"winner":"survivors","wounds":0}
+Third pressured routes: 2 sessions, 0 failures
+
+===== END test_third_survivor_route.gd.log =====
+
+===== BEGIN test_practice_state.gd.log sha256=32b86db21a292a42921e7c877bd4bd9922e42fedbaa729178eef3ccf2271be2b bytes=125 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PracticeState: 14 cases, 595 assertions, 0 failures
+
+===== END test_practice_state.gd.log =====
+
+===== BEGIN test_practice_records.gd.log sha256=acaeebb84a413c6685a5dbf326deeb5fd5a72e4b8304db87e3f4d711a6b9ab45 bytes=127 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PracticeRecords: 21 cases, 294 assertions, 0 failures
+
+===== END test_practice_records.gd.log =====
+
+===== BEGIN test_practice_ui.gd.log sha256=d194485fd58649f0edf71745776d0a36cf2cfb894542d3ed238fd731cf4af169 bytes=129 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Practice interface: 12 cases, 95 assertions, 0 failures
+
+===== END test_practice_ui.gd.log =====
+
+===== BEGIN test_practice_world.gd.log sha256=32d3cfa8638f1ef6799d4132fbb042e8366cfd4b66c041a1a283baa0136c6c0b bytes=138 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Practice world integration: 16 cases, 215 assertions, 0 failures
+
+===== END test_practice_world.gd.log =====
+
+===== BEGIN test_practice_routes.gd.log sha256=a65364368a689d4eba2af78b49aeb860b6046a8a5bf78f5b8348bbc693108152 bytes=3084 =====
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":208.38,"elapsed":81.67,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":false,"silent":true},"seed":271126,"success":true,"trial_id":"silent"}
+SURVIVOR_STAGE echoes=true time=15.37 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":42.35,"elapsed":15.37,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":true,"relay":false,"silent":false},"seed":271126,"success":true,"trial_id":"echoes"}
+SURVIVOR_STAGE relay=true time=12.9 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":3.44,"elapsed":12.9,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":true,"silent":false},"seed":271126,"success":true,"trial_id":"relay"}
+SECOND_STAGE observed four relics at the actual reference desk
+SECOND_STAGE vault=[-1, 0, -1, -1] time=29.47 health=100.0
+SECOND_STAGE vault=[1, 0, -1, -1] time=41.78 health=100.0
+SECOND_STAGE vault=[1, 0, 3, -1] time=64.23 health=100.0
+SECOND_STAGE vault=[1, 0, 3, 4] time=90.12 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":341.1,"elapsed":90.12,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":false,"silent":true},"seed":271126,"success":true,"trial_id":"vault"}
+SECOND_STAGE vessel=1 time=11.73 health=100.0
+SECOND_STAGE vessel=2 time=12.93 health=100.0
+SECOND_STAGE vessel=3 time=15.45 health=100.0
+SECOND_STAGE vessel=4 time=16.75 health=100.0
+SECOND_STAGE vessel=5 time=18.63 health=100.0
+SECOND_STAGE ritual=true time=27.23 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":111.04,"elapsed":27.23,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":true,"relay":false,"silent":false},"seed":271126,"success":true,"trial_id":"ritual"}
+SECOND_STAGE clock=true time=5.42 health=100.0
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":15.79,"elapsed":5.42,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":true,"silent":false},"seed":271126,"success":true,"trial_id":"clock"}
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":96.36,"elapsed":32.98,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":false,"silent":true},"seed":271126,"success":true,"trial_id":"light"}
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":58.64,"elapsed":26.93,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":true,"relay":false,"silent":false},"seed":271126,"success":true,"trial_id":"strings"}
+PRACTICE_ROUTE_RESULT {"archetype":"Keeper","completion_events":1,"distance":69.47,"elapsed":25.73,"failures":[],"health":100.0,"match_results":0,"seals":{"echoes":false,"relay":true,"silent":false},"seed":271126,"success":true,"trial_id":"chimes"}
+Practice ordinary-input routes: 9 sessions, 0 failures
+
+===== END test_practice_routes.gd.log =====
