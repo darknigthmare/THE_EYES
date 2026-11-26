@@ -236,8 +236,12 @@
         "continuous_cut_seconds": 2,
         "wrong_cut_catch_seconds": 3,
         "completed_stages_permanent": true,
-        "new_stage_requires_release": true,
-        "wrong_cut_noise_memory_seconds": 10
+        "wrong_cut_noise_memory_seconds": 10,
+        "new_stage_requires_fresh_hold": true,
+        "fresh_hold_after": [
+          "input_release",
+          "physical_or_lifecycle_interruption"
+        ]
       },
       "chimes": {
         "bells": 4,
@@ -310,7 +314,7 @@
     "input_remapping": false,
     "socket_reacquisition_warning_seconds": 0.85,
     "previous_release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.3.0",
-    "verification_status": "local_twelve_suites_passed_pending_exact_build_windows_publication",
+    "verification_status": "published_exact_build_native_windows_headless_startups_passed",
     "active_trial_count": 3,
     "required_seals": 3,
     "bays": [
@@ -524,7 +528,55 @@
       "local_results": "docs/qa/v0.4/GAMEPLAY_RESULTS.json",
       "local_logs": "docs/qa/v0.4/GAMEPLAY_LOG.txt",
       "native_visual_review": "docs/qa/v0.4/VISUAL_REVIEW.md",
-      "general_balance_or_novice_usability_established": false
+      "general_balance_or_novice_usability_established": false,
+      "native_windows_release_workflow": "passed",
+      "native_windows_release_evidence": {
+        "source_commit": "54937979ba9c34d1ab41738daa64a1982020e1dd",
+        "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0",
+        "release_id": 459860259,
+        "published_at": "2026-11-26T20:12:21Z",
+        "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888895728",
+        "workflow_run_id": "45888895728",
+        "jobs": {
+          "linux_build": "140146378655",
+          "native_windows": "140147438124",
+          "publication": "140147685765"
+        },
+        "report": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/WINDOWS_SMOKE.json",
+        "local_report": "docs/qa/v0.4/WINDOWS_SMOKE.json",
+        "report_schema_version": 2,
+        "report_sha256": "cee9c2155418a2cd33b745a17af9f91654f4ac3f928c47f3f9ceae0ef2dd833e",
+        "archive": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/THE_EYES_v0.4.0_Windows_x64.zip",
+        "archive_size_bytes": 39119006,
+        "archive_sha256": "0b7bdb2ac5c3378b1404b25f60b7bfed6a111941dae787c88dbf664e3055b2b1",
+        "cases_passed": 12,
+        "session_modes": [
+          "survivor",
+          "eye",
+          "squad"
+        ],
+        "contracts": [
+          "first",
+          "second",
+          "third",
+          "mix"
+        ],
+        "all_mode_contract_pairs_passed": true,
+        "mode": "headless",
+        "graphical_hardware_playtest": false
+      },
+      "source_ci_evidence": {
+        "feature_verification": {
+          "result": "passed",
+          "source_commit": "14679626e5aa340c32f26944c438c6195e7c5a9e",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888531783"
+        },
+        "main_verification": {
+          "result": "passed",
+          "source_commit": "54937979ba9c34d1ab41738daa64a1982020e1dd",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888895748"
+        }
+      }
     },
     "verification_history": {
       "0.2.0": {
@@ -874,7 +926,8 @@
         "cancels_partial_rescue": true,
         "resume_requires_fresh_hold": true
       }
-    }
+    },
+    "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0"
   },
   "production": {
     "classic_survivor_counts": [

@@ -150,7 +150,7 @@ The release QA report owns counts, logs and observed timings. The following are 
 | Selection | All 27 Mix mappings, same-version seed stability, three-seal completion, inactive apparatus absent |
 | Light | Duplicate pickup denial, legacy cargo exclusion, matching IDs, depletion/recharge, single-rate overlap, bank permanence, zero-charge recovery |
 | Continuous holds | Exact boundary, release/motion/hit/pause interruption, LOS/range rejection, no downed action, no double integration |
-| Strings | Unique public-clue solution across seeds, wrong catch and noise, prior bank retention, stage revision and required release |
+| Strings | Unique public-clue solution across seeds, wrong catch and noise, prior bank retention, stage revision and a fresh hold after release or interruption |
 | Chimes | Distinct valid phrases, wrong first/second note behavior, global strike/damper cooldowns, noise6/1/10, one completion |
 | Physical AI | Observation at desk, actual navigation, legal commands, operator loss/reassignment, no cargo or rescue softlock |
 | Regression | Existing Solo/Second/Squad rules and routes retained; expected Mix pool expansion accounted for |

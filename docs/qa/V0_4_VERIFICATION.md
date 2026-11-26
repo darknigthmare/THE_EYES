@@ -2,11 +2,11 @@
 
 ## Evidence status
 
-This report belongs to the v0.4 source candidate. Final local gameplay results
-are recorded below. Native Windows publication is a separate pending gate.
-The release workflow requires all twelve gameplay suites and twelve native
-Windows executable startups before publication. Existing v0.3 release evidence
-is preserved separately and does not certify changed v0.4 code.
+[The v0.4.0 development release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0) was published on 26 November 2026
+from [54937979ba9c](https://github.com/darknigthmare/THE_EYES/commit/54937979ba9c34d1ab41738daa64a1982020e1dd). All twelve gameplay suites and all twelve
+native Windows startup cases passed in the [exact-build workflow](https://github.com/darknigthmare/THE_EYES/actions/runs/45888895728).
+The final local measurements below are also reproduced by the feature and main
+CI runs. Earlier release evidence remains separate from this v0.4 report.
 
 ## Scope under verification
 
@@ -119,12 +119,44 @@ is covered by the world regression, not by the Light screenshot.
 
 ## Windows publication evidence
 
-Pending the exact-source release workflow. The candidate's archive must match
-its recorded SHA-256 and embedded build commit. A native Windows runner checks
-all three modes under four contracts, with 240 frames requested per case, zero
-exit status, the exact readiness marker and no engine error diagnostics.
-`WINDOWS_SMOKE.json` preserves the twelve results and explicitly reports
-headless mode with graphical hardware playtesting false.
+The [release workflow](https://github.com/darknigthmare/THE_EYES/actions/runs/45888895728) completed successfully from commit
+`54937979ba9c34d1ab41738daa64a1982020e1dd`. Linux build job `140146378655`, native Windows job
+`140147438124` and publication job `140147685765` all passed.
+
+The unchanged exported executable passed the complete matrix:
+
+| Session mode | First | Second | Third | Mix |
+| --- | --- | --- | --- | --- |
+| Human survivor | Passed | Passed | Passed | Passed |
+| Human Eye | Passed | Passed | Passed | Passed |
+| Local human + four-AI Squad | Passed | Passed | Passed | Passed |
+
+Each case requested 240 frames, exited with code 0, emitted the exact requested
+mode/contract readiness marker and contained no engine error diagnostic. The
+[original Windows report](https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/WINDOWS_SMOKE.json) is also retained
+[byte-for-byte in the repository](v0.4/WINDOWS_SMOKE.json).
+
+The [official Windows archive](https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/THE_EYES_v0.4.0_Windows_x64.zip) contains **39,119,006 bytes**.
+Its SHA-256 is:
+
+`0b7bdb2ac5c3378b1404b25f60b7bfed6a111941dae787c88dbf664e3055b2b1`
+
+The Windows report SHA-256 is:
+
+`cee9c2155418a2cd33b745a17af9f91654f4ac3f928c47f3f9ceae0ef2dd833e`
+
+A fresh download matched the GitHub asset hashes and official checksum file.
+ZIP CRC, all 12 internal file hashes, the PE32+ AMD64 executable, the clean build
+commit, Godot 4.7.2, the pinned export template and Windows resource versions
+0.4.0.0 were verified. The report explicitly records **headless** execution and
+`graphical_hardware_playtest: false`; startup is separate from interactive
+Windows graphical qualification.
+
+The [feature CI](https://github.com/darknigthmare/THE_EYES/actions/runs/45888531783) and
+[build-commit main CI](https://github.com/darknigthmare/THE_EYES/actions/runs/45888895748)
+also completed all twelve gameplay suites. Subsequent publication evidence edits
+change documentation and catalogue metadata only; the shipped `game/` and
+`tools/` bytes are retained for the final backup comparison.
 
 ## Remaining qualification
 

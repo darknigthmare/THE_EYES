@@ -23,8 +23,8 @@ one Eye; the new five-survivor Squad is local, with one human and four AI allies
 · [Release, checksums and startup report](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0)
 
 Extract the entire ZIP and run **THE_EYES.exe**. Godot is not required for the
-package. Publication requires the exact exported archive to pass native Windows
-headless startup for all **twelve mode × contract combinations**. Its evidence
+package. The published archive passed native Windows headless startup for all
+**twelve mode × contract combinations**. Its evidence
 is `WINDOWS_SMOKE.json`; graphical Windows playthrough and hardware performance
 remain separate checks. The package is an unsigned development build.
 

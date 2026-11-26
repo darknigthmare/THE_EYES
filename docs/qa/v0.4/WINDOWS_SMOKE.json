@@ -1,0 +1,121 @@
+{
+  "schema_version": 2,
+  "project_version": "0.4.0",
+  "source_commit": "54937979ba9c34d1ab41738daa64a1982020e1dd",
+  "archive_sha256": "0b7bdb2ac5c3378b1404b25f60b7bfed6a111941dae787c88dbf664e3055b2b1",
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "Windows",
+  "operating_system": "Microsoft Windows NT 10.0.26100.0",
+  "mode": "headless",
+  "graphical_hardware_playtest": false,
+  "cases": [
+    {
+      "role": "survivor",
+      "contract": "first",
+      "session_mode": "survivor",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "eye",
+      "contract": "first",
+      "session_mode": "eye",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "squad",
+      "contract": "first",
+      "session_mode": "squad",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "survivor",
+      "contract": "second",
+      "session_mode": "survivor",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "eye",
+      "contract": "second",
+      "session_mode": "eye",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "squad",
+      "contract": "second",
+      "session_mode": "squad",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "survivor",
+      "contract": "mix",
+      "session_mode": "survivor",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "eye",
+      "contract": "mix",
+      "session_mode": "eye",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "squad",
+      "contract": "mix",
+      "session_mode": "squad",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "survivor",
+      "contract": "third",
+      "session_mode": "survivor",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "eye",
+      "contract": "third",
+      "session_mode": "eye",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "squad",
+      "contract": "third",
+      "session_mode": "squad",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    }
+  ]
+}

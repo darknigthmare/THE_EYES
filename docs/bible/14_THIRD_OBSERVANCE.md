@@ -86,7 +86,7 @@ The evidence stays visible. Reading and observing it is an ordinary physical act
 
 A correct two-second cut releases one stage and banks it. The next clue describes the next stage. The third correct release completes the bay's seal exactly once.
 
-A wrong deliberate cut engages a **three-second safety catch** and emits a loud noise event that leaves **10 seconds of Eye noise memory** at the apparatus. The apparatus shows its locked state and then becomes available again. The current stage is retried; earlier completed stages remain banked. The prototype does not drop the actor into a pit or inflict an unavoidable damage chain. The ordinary Eye can investigate the sound while the player spends time recovering.
+A wrong deliberate cut engages a **three-second safety catch** and emits a loud noise event that leaves **10 seconds of Eye noise memory** at the cutting survivor's actual nearby position. The apparatus shows its locked state and then becomes available again. The current stage is retried; earlier completed stages remain banked. The prototype does not drop the actor into a pit or inflict an unavoidable damage chain. The ordinary Eye can investigate the sound while the player spends time recovering.
 
 The hold requires 1.8 m reach, a clear sightline, stationary grounded movement and an eligible actor. Release, movement, applied damage, pause or sight/range failure cancels incomplete work. Simultaneous actors cannot double the timer or release several stages with one hold. A new stage requires its own valid cut.
 
