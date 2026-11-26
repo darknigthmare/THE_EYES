@@ -20,6 +20,13 @@ physical AI survivors. Online multiplayer is a later milestone.
 
 ## Start here
 
+**[Download the Windows x64 prototype](https://github.com/darknigthmare/THE_EYES/releases/download/v0.1.0/THE_EYES_v0.1.0_Windows_x64.zip)**
+· [Release notes and checksums](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.1.0)
+
+Extract the complete ZIP and run `THE_EYES.exe`; Godot is not required.
+The package is an unsigned development build. Its export and archive are
+verified; execution on native Windows hardware remains to be checked.
+
 | I want to… | Open |
 | --- | --- |
 | Play | [Quick start](docs/PLAY.md) · [Guide français](docs/DEMARRAGE_FR.md) |

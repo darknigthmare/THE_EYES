@@ -5,7 +5,9 @@ Le jeu et sa bible sont en anglais, conformément au concept fourni.
 
 ## Lancer le jeu
 
-**Windows :** décompresse entièrement `THE_EYES_v0.1.0_Windows_x64.zip`, puis
+**Windows :** télécharge le [ZIP Windows x64](https://github.com/darknigthmare/THE_EYES/releases/download/v0.1.0/THE_EYES_v0.1.0_Windows_x64.zip)
+depuis la [version 0.1.0](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.1.0).
+Décompresse entièrement `THE_EYES_v0.1.0_Windows_x64.zip`, puis
 ouvre `THE_EYES.exe`. Godot n'est pas nécessaire. C'est un exécutable de
 développement non signé. L'export et sa structure ont été contrôlés ; la
 validation sur un véritable PC Windows reste à faire.

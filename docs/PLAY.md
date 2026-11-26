@@ -5,9 +5,12 @@ complete match arena. The 25-trial bible describes the larger target game.
 
 ## Windows package
 
+Download the [Windows x64 ZIP](https://github.com/darknigthmare/THE_EYES/releases/download/v0.1.0/THE_EYES_v0.1.0_Windows_x64.zip)
+from the [v0.1.0 release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.1.0).
+
 Extract `THE_EYES_v0.1.0_Windows_x64.zip` completely, then launch `THE_EYES.exe`.
 Game data is embedded in the executable; Godot need not be installed. Use the
-package and SHA-256 provided with this delivery. This is an unsigned development
+package and SHA-256 provided on that release. This is an unsigned development
 build, not an installer.
 
 The executable was exported and structurally checked. The prototype was
