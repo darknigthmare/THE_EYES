@@ -1,0 +1,2 @@
+Name,CellCount,RefugeCount,LampChargeMaximum,LampDrainPerSecond,LampRechargePerSecond,RefugeRadiusCm,ActionRangeCm,AlignmentSeconds,StringStageCount,RopesPerStage,StringCutSeconds,SafetyCatchSeconds,BellCount,PhraseCount,NotesPerPhrase,BellCooldownSeconds,DamperCooldownSeconds,NormalNoise,DampedNoise,WrongNoise,BotObservationSeconds
+prototype_0_4,3,3,100,4,12,300,180,2,3,4,2,3,4,2,4,0.45,0.5,6,1,10,2

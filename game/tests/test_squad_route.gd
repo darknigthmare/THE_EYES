@@ -1,4 +1,4 @@
-extends "res://tests/test_second_survivor_route.gd"
+extends "res://tests/test_third_survivor_route.gd"
 ## Full local Squad sessions through ordinary inputs and real physics. The Eye
 ## stays active. No damage, health, speed, clock, positions, or seals are injected.
 ## The informed human works on the south mechanism while four allies do real work.
@@ -23,6 +23,7 @@ func _run() -> void:
 		human_actions = 0
 		previous_health = 100.0
 		observed_targets.clear()
+		_reset_third_observations()
 		route_failures.clear()
 		game.start_match("squad","Keeper","story",271126,selected_contract)
 		game.soundscape.set_enabled(false)
@@ -41,6 +42,8 @@ func _run() -> void:
 			elif not game.director.seals.relay:
 				if game.director.trial_for_slot("relay") == "clock":
 					await _clock_step()
+				elif game.director.trial_for_slot("relay") == "chimes":
+					await _chimes_step()
 				else:
 					await _complete_relay()
 			elif game.director.phase == "escape":

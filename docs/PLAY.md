@@ -1,20 +1,20 @@
-# Play THE EYES — The Survivor Accord
+# Play THE EYES — The Third Observance
 
-Version **0.3.0** is a local 3D Godot prototype with **Solo Survivor, a human-plus-four-AI
-Squad, and human Eye** modes. Six trial subsets are available, with exactly three
+Version **0.4.0** is a local 3D Godot prototype with **Solo Survivor, a human-plus-four-AI
+Squad, and human Eye** modes. Nine trial subsets are available, with exactly three
 active in a match. The complete 25-trial bible describes the larger game.
 
 ## Start the game
 
-**Windows:** download [THE_EYES_v0.3.0_Windows_x64.zip](https://github.com/darknigthmare/THE_EYES/releases/download/v0.3.0/THE_EYES_v0.3.0_Windows_x64.zip)
-from the [v0.3.0 release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.3.0),
+**Windows:** download [THE_EYES_v0.4.0_Windows_x64.zip](https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/THE_EYES_v0.4.0_Windows_x64.zip)
+from the [v0.4.0 release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0),
 extract the complete archive, and open **THE_EYES.exe**. Godot is not needed for
 the package. It is an unsigned development build with embedded game data.
 
 Publication requires the exact exported archive to pass native Windows
-headless startup in all nine mode/contract combinations. `WINDOWS_SMOKE.json`
+headless startup in all twelve mode/contract combinations. `WINDOWS_SMOKE.json`
 on the release records the actual checks. A graphical Windows playthrough is
-a separate remaining qualification; consult [v0.3 verification](qa/V0_3_VERIFICATION.md).
+a separate remaining qualification; consult [v0.4 verification](qa/V0_4_VERIFICATION.md).
 
 **Source:** import `game/project.godot` into standard **Godot 4.7.2**, wait for
 resource import, and press **F5**. The project uses GDScript and the Compatibility
@@ -37,9 +37,11 @@ The first valid survivor escape wins for the team in every session.
 | --- | --- | --- | --- |
 | First Observance | Silent Countdown | Trial of the Echoes | Clockwork Relay |
 | Second Observance | The Memory Vault | The Ritual Circle | The Clock Room |
-| Seeded Mix | Countdown or Vault | Echoes or Ritual | Relay or Clock |
+| Third Observance | Light in the Darkness | Strings of Despair | Chimes of Doom |
+| Seeded Mix | Countdown, Vault or Light | Echoes, Ritual or Strings | Relay, Clock or Chimes |
 
-Seeded Mix chooses one of two trials per bay, giving eight sets. All three
+Seeded Mix chooses one of three trials per bay, giving **27 sets**. Its selection
+changed in v0.4; a v0.3 Mix seed can therefore resolve to a different set. All three
 session types support all contracts. The seed fixes selection and puzzle setup
 within a game version; it does not freeze AI or physics timing. Each match
 begins with eight protected seconds. Three seals open the north door and start
@@ -77,6 +79,30 @@ a fresh escape timer. **Hold E at the door for 1.5 seconds** to leave.
    Match all hands and press E at the centre to seal. X at the centre resets
    the start. Every generated puzzle is four optimal turns from its target.
    Tinker's Overclock can advise a turn; travel and input remain necessary.
+
+### Third Observance
+
+1. **Light in the Darkness:** carry each numbered cell to its matching lamp
+   along the western route. Hold E while still within 1.8 m and clear sight for
+   two seconds. Charge starts at 100; carrying outside refuge drains 4/s. The
+   starting refuge and permanently lit lamps recharge 12/s within 3 m and clear
+   sight. Empty charge blocks alignment, never movement or the return route.
+   G returns a cell safely. All three lit refuges bank the northwest seal.
+2. **Strings of Despair:** inspect the northeast board. Intersect its two clues:
+   left/right pair, and curved (Circle/Crescent) or angular (Triangle/Diamond).
+   Exactly one of four ropes satisfies both. Hold E still for two seconds to
+   cut. Three stages bank independently. A wrong cut engages a three-second
+   catch and emits noise; earlier stages remain locked. Release between cuts.
+3. **Chimes of Doom:** read the south score, then physically visit the four
+   numbered bells. E strikes; R toggles the one shared damper at the nearby bell.
+   Two four-note phrases earn the seal. A wrong note restarts only its phrase;
+   phrase one stays banked. A damped correct note is quieter, while a wrong
+   note remains loud. Bells retain their identity and also show shapes/text.
+
+Moving, jumping, losing range/sight, taking a hit, releasing E or pausing resets
+partial lamp alignment or rope cutting. Completed checkpoints stay permanent.
+The full dark-island, suspended traversal and dedicated sound-minion versions
+remain production designs; these are connected observatory subsets.
 
 Trials may be completed in any order. Seeded Mix uses the same rules for its
 selected apparatus. Inactive trials cannot award extra progress.
@@ -151,12 +177,13 @@ combined Squad Relay work is subject to the 1.8× team cap; Solo rates are uncha
 | B / F / V in Squad | Work / Follow / Hold |
 | 1–4; R in Echoes | Enter symbols; replay |
 | E / R at a Clock lever; X at centre | Forward / reverse; reset |
+| E / R at a bell | Strike / toggle the shared damper |
 | 1–4 / wheel after Squad elimination | Spectate an ally |
 | Tab; Escape | Map; pause/settings |
 
 Bindings use physical QWERTY positions: the Q-labelled ability is **A on
 AZERTY**, and the top-row 1–4 positions work without Shift. Dropping a mote
-leaves it in the world; a relic returns to its shelf and the ember to its cradle.
+leaves it in the world; a relic returns to its shelf and the ember or a power cell to its cradle.
 
 Walls and the central monument block the Eye's real sight. Leave a gold trap
 warning before its strike. Shadows have a visible arrival warning and use
@@ -197,7 +224,7 @@ normal inputs and physical teammates against the active Eye; the final runs
 contained no downs. Separate domain and physical fixtures verify rescue,
 including an AI traveling 7.64 m and finishing its hold in 7.50 s total. The
 six counted suites total **121 cases / 2,774 assertions**, with zero failures.
-See [verification](qa/V0_3_VERIFICATION.md) for rescue checks,
+See [verification](qa/V0_4_VERIFICATION.md) for rescue checks,
 preserved Solo/Eye regressions, rendering, and pending platform gates.
 
 For an export from source:
@@ -209,5 +236,5 @@ python3 tools/build_windows.py --output /absolute/path/to/build
 Use a matching installed template or pass
 `--template /absolute/path/to/windows_release_x86_64.exe`. The helper restores
 the export preset even on an error. The [UE5 foundation](../unreal/README.md)
-contains eight CSV tables and Blueprint recipes; a compiled Unreal game is
+contains nine CSV tables and Blueprint recipes; a compiled Unreal game is
 still a separate implementation milestone.

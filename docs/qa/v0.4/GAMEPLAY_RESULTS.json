@@ -1,0 +1,918 @@
+{
+  "engine": "4.7.2.stable.official.ed1daf0bf",
+  "fixed_fps": 60,
+  "cpu_affinity": [
+    0,
+    1
+  ],
+  "suites": {
+    "test_director.gd": {
+      "exit_code": 0,
+      "wall_seconds": 0.32,
+      "success": true,
+      "summary": [
+        "TrialDirector: 27 cases, 125 assertions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_director.gd.log",
+      "cases": 27,
+      "assertions": 125,
+      "failures": 0
+    },
+    "test_world.gd": {
+      "exit_code": 0,
+      "wall_seconds": 3.247,
+      "success": true,
+      "summary": [
+        "BOT_ROUTE_RESULT phase=ended winner=survivors time=52.95 seals={ \"silent\": true, \"echoes\": true, \"relay\": true } deliveries=3",
+        "World integration: 6 cases, 60 assertions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_world.gd.log",
+      "cases": 6,
+      "assertions": 60,
+      "failures": 0
+    },
+    "test_survivor_route.gd": {
+      "exit_code": 0,
+      "wall_seconds": 13.383,
+      "success": true,
+      "summary": [
+        "SURVIVOR_ROUTE_RESULT winner=survivors phase=ended elapsed=267.93 vitality=86.0 wounds=2 punishments=0 seals={ \"silent\": true, \"echoes\": true, \"relay\": true } deliveries=3"
+      ],
+      "errors": [],
+      "log": "test_survivor_route.gd.log",
+      "full_pressured_sessions": 1
+    },
+    "test_trial_set.gd": {
+      "exit_code": 0,
+      "wall_seconds": 0.359,
+      "success": true,
+      "summary": [
+        "TrialSet: 23 cases, 2118 assertions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_trial_set.gd.log",
+      "cases": 23,
+      "assertions": 2118,
+      "failures": 0
+    },
+    "test_second_world.gd": {
+      "exit_code": 0,
+      "wall_seconds": 91.756,
+      "success": true,
+      "summary": [
+        "Second world integration: 35 cases, 279 assertions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_second_world.gd.log",
+      "cases": 35,
+      "assertions": 279,
+      "failures": 0
+    },
+    "test_second_survivor_route.gd": {
+      "exit_code": 0,
+      "wall_seconds": 20.034,
+      "success": true,
+      "summary": [
+        "SECOND_SURVIVOR_RESULT winner=survivors phase=ended elapsed=324.17 vitality=80.0 wounds=11 punishments=1 seals={ \"silent\": true, \"echoes\": true, \"relay\": true } cradles=[1, 0, 3, 4] clock_moves=4"
+      ],
+      "errors": [],
+      "log": "test_second_survivor_route.gd.log",
+      "full_pressured_sessions": 1
+    },
+    "test_squad_state.gd": {
+      "exit_code": 0,
+      "wall_seconds": 0.272,
+      "success": true,
+      "summary": [
+        "SquadState: 26 cases, 120 assertions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_squad_state.gd.log",
+      "cases": 26,
+      "assertions": 120,
+      "failures": 0
+    },
+    "test_squad_world.gd": {
+      "exit_code": 0,
+      "wall_seconds": 2.234,
+      "success": true,
+      "summary": [
+        "Squad world integration: 23 cases, 234 assertions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_squad_world.gd.log",
+      "cases": 23,
+      "assertions": 234,
+      "failures": 0
+    },
+    "test_squad_route.gd": {
+      "exit_code": 0,
+      "wall_seconds": 17.07,
+      "success": true,
+      "summary": [
+        "SQUAD_ROUTE_RESULT {\"contract\":\"first\",\"difficulty\":\"story\",\"elapsed\":46.88,\"failures\":[],\"human_actions\":4,\"human_distance\":102.76,\"human_health\":33.0,\"seals\":{\"echoes\":true,\"relay\":true,\"silent\":true},\"seed\":271126,\"squad\":{\"downs\":0,\"eliminations\":0,\"heals\":1,\"members\":[{\"archetype\":\"Keeper\",\"name\":\"Ada Fen\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Veil\",\"name\":\"Mara Vale\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Tinker\",\"name\":\"Nadiya Sayegh\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Runner\",\"name\":\"June Arlen\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Keeper\",\"name\":\"Soren Bell\",\"recoveries\":0,\"state\":\"active\"}],\"order\":\"work\",\"orders\":3,\"revives\":0},\"winner\":\"survivors\",\"wounds\":4}",
+        "SQUAD_ROUTE_RESULT {\"contract\":\"second\",\"difficulty\":\"story\",\"elapsed\":86.8,\"failures\":[],\"human_actions\":11,\"human_distance\":93.87,\"human_health\":20.0,\"seals\":{\"echoes\":true,\"relay\":true,\"silent\":true},\"seed\":271126,\"squad\":{\"downs\":0,\"eliminations\":0,\"heals\":2,\"members\":[{\"archetype\":\"Keeper\",\"name\":\"Ada Fen\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Veil\",\"name\":\"Mara Vale\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Tinker\",\"name\":\"Nadiya Sayegh\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Runner\",\"name\":\"June Arlen\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Keeper\",\"name\":\"Soren Bell\",\"recoveries\":0,\"state\":\"active\"}],\"order\":\"work\",\"orders\":3,\"revives\":0},\"winner\":\"survivors\",\"wounds\":6}",
+        "SQUAD_ROUTE_RESULT {\"contract\":\"mix\",\"difficulty\":\"story\",\"elapsed\":46.88,\"failures\":[],\"human_actions\":3,\"human_distance\":94.38,\"human_health\":75.0,\"seals\":{\"echoes\":true,\"relay\":true,\"silent\":true},\"seed\":271126,\"squad\":{\"downs\":0,\"eliminations\":0,\"heals\":0,\"members\":[{\"archetype\":\"Keeper\",\"name\":\"Ada Fen\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Veil\",\"name\":\"Mara Vale\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Tinker\",\"name\":\"Nadiya Sayegh\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Runner\",\"name\":\"June Arlen\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Keeper\",\"name\":\"Soren Bell\",\"recoveries\":0,\"state\":\"active\"}],\"order\":\"work\",\"orders\":3,\"revives\":0},\"winner\":\"survivors\",\"wounds\":1}",
+        "Squad routes: 3 sessions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_squad_route.gd.log",
+      "full_pressured_sessions": 3
+    },
+    "test_third_trials.gd": {
+      "exit_code": 0,
+      "wall_seconds": 0.267,
+      "success": true,
+      "summary": [
+        "ThirdTrials: 31 cases, 1780 assertions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_third_trials.gd.log",
+      "cases": 31,
+      "assertions": 1780,
+      "failures": 0
+    },
+    "test_third_world.gd": {
+      "exit_code": 0,
+      "wall_seconds": 3.985,
+      "success": true,
+      "summary": [
+        "Third world integration: 23 cases, 162 assertions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_third_world.gd.log",
+      "cases": 23,
+      "assertions": 162,
+      "failures": 0
+    },
+    "test_third_survivor_route.gd": {
+      "exit_code": 0,
+      "wall_seconds": 29.346,
+      "success": true,
+      "summary": [
+        "THIRD_SURVIVOR_RESULT {\"bell_phrases\":2,\"cage_stages\":3,\"contract\":\"third\",\"difficulty\":\"story\",\"elapsed\":328.88,\"failures\":[],\"human_distance\":1087.86,\"human_health\":65.0,\"human_inputs\":42,\"human_trial_events\":{\"chime_strike\":8,\"light_deposit\":3,\"strings_cut\":3},\"lamps\":[true,true,true],\"observation_epoch_restarts\":0,\"punishments\":0,\"role\":\"survivor\",\"seals\":{\"echoes\":true,\"relay\":true,\"silent\":true},\"seed\":271126,\"visible_threat_retreats\":7,\"winner\":\"survivors\",\"wounds\":8}",
+        "THIRD_SURVIVOR_RESULT {\"bell_phrases\":2,\"cage_stages\":3,\"contract\":\"third\",\"difficulty\":\"story\",\"elapsed\":74.13,\"failures\":[],\"human_distance\":203.14,\"human_health\":100.0,\"human_inputs\":20,\"human_trial_events\":{\"chime_strike\":6,\"light_deposit\":0,\"strings_cut\":2},\"lamps\":[true,true,true],\"observation_epoch_restarts\":0,\"punishments\":0,\"role\":\"squad\",\"seals\":{\"echoes\":true,\"relay\":true,\"silent\":true},\"seed\":271126,\"squad\":{\"downs\":0,\"eliminations\":0,\"heals\":0,\"members\":[{\"archetype\":\"Keeper\",\"name\":\"Ada Fen\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Veil\",\"name\":\"Mara Vale\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Tinker\",\"name\":\"Nadiya Sayegh\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Runner\",\"name\":\"June Arlen\",\"recoveries\":0,\"state\":\"active\"},{\"archetype\":\"Keeper\",\"name\":\"Soren Bell\",\"recoveries\":0,\"state\":\"active\"}],\"order\":\"work\",\"orders\":3,\"revives\":0},\"visible_threat_retreats\":1,\"winner\":\"survivors\",\"wounds\":0}",
+        "Third pressured routes: 2 sessions, 0 failures"
+      ],
+      "errors": [],
+      "log": "test_third_survivor_route.gd.log",
+      "full_pressured_sessions": 2
+    }
+  },
+  "evidence_date": "2026-11-26",
+  "game_version": "0.4.0",
+  "assertion_suite_count": 8,
+  "case_count": 194,
+  "assertion_count": 4878,
+  "full_pressured_session_count": 7,
+  "mixed_bot_routes": [
+    {
+      "contract": "second",
+      "elapsed": 81.08,
+      "mapping": "vault/ritual/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 271126,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 46.03,
+      "mapping": "silent/ritual/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 0,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 38.45,
+      "mapping": "light/strings/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 1,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 88.43,
+      "mapping": "vault/echoes/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 2,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 86.53,
+      "mapping": "vault/strings/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 3,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 58.63,
+      "mapping": "silent/strings/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 4,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 52.95,
+      "mapping": "silent/strings/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 5,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 58.63,
+      "mapping": "silent/ritual/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 6,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 97.65,
+      "mapping": "vault/ritual/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 8,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 43.97,
+      "mapping": "light/ritual/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 9,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 48.48,
+      "mapping": "light/ritual/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 10,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 43.35,
+      "mapping": "light/strings/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 11,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 46.03,
+      "mapping": "silent/echoes/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 12,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 46.03,
+      "mapping": "silent/strings/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 13,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 35.03,
+      "mapping": "light/echoes/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 14,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 86.28,
+      "mapping": "vault/echoes/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 15,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 58.63,
+      "mapping": "silent/echoes/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 17,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 52.95,
+      "mapping": "silent/ritual/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 21,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 39.05,
+      "mapping": "light/strings/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 22,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 84.58,
+      "mapping": "vault/strings/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 23,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 31.52,
+      "mapping": "light/echoes/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 26,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 85.5,
+      "mapping": "vault/ritual/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 27,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 52.95,
+      "mapping": "silent/echoes/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 36,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 81.82,
+      "mapping": "vault/strings/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 37,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 81.88,
+      "mapping": "vault/ritual/clock",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 38,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 43.02,
+      "mapping": "light/ritual/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 39,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 84.2,
+      "mapping": "vault/echoes/relay",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 46,
+      "winner": "survivors",
+      "wounds": 0
+    },
+    {
+      "contract": "mix",
+      "elapsed": 42.53,
+      "mapping": "light/echoes/chimes",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 165,
+      "winner": "survivors",
+      "wounds": 0
+    }
+  ],
+  "third_pressured_routes": [
+    {
+      "bell_phrases": 2,
+      "cage_stages": 3,
+      "contract": "third",
+      "difficulty": "story",
+      "elapsed": 328.88,
+      "failures": [],
+      "human_distance": 1087.86,
+      "human_health": 65.0,
+      "human_inputs": 42,
+      "human_trial_events": {
+        "chime_strike": 8,
+        "light_deposit": 3,
+        "strings_cut": 3
+      },
+      "lamps": [
+        true,
+        true,
+        true
+      ],
+      "observation_epoch_restarts": 0,
+      "punishments": 0,
+      "role": "survivor",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 271126,
+      "visible_threat_retreats": 7,
+      "winner": "survivors",
+      "wounds": 8
+    },
+    {
+      "bell_phrases": 2,
+      "cage_stages": 3,
+      "contract": "third",
+      "difficulty": "story",
+      "elapsed": 74.13,
+      "failures": [],
+      "human_distance": 203.14,
+      "human_health": 100.0,
+      "human_inputs": 20,
+      "human_trial_events": {
+        "chime_strike": 6,
+        "light_deposit": 0,
+        "strings_cut": 2
+      },
+      "lamps": [
+        true,
+        true,
+        true
+      ],
+      "observation_epoch_restarts": 0,
+      "punishments": 0,
+      "role": "squad",
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 271126,
+      "squad": {
+        "downs": 0,
+        "eliminations": 0,
+        "heals": 0,
+        "members": [
+          {
+            "archetype": "Keeper",
+            "name": "Ada Fen",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Veil",
+            "name": "Mara Vale",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Tinker",
+            "name": "Nadiya Sayegh",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Runner",
+            "name": "June Arlen",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Keeper",
+            "name": "Soren Bell",
+            "recoveries": 0,
+            "state": "active"
+          }
+        ],
+        "order": "work",
+        "orders": 3,
+        "revives": 0
+      },
+      "visible_threat_retreats": 1,
+      "winner": "survivors",
+      "wounds": 0
+    }
+  ],
+  "squad_pressured_routes": [
+    {
+      "contract": "first",
+      "difficulty": "story",
+      "elapsed": 46.88,
+      "failures": [],
+      "human_actions": 4,
+      "human_distance": 102.76,
+      "human_health": 33.0,
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 271126,
+      "squad": {
+        "downs": 0,
+        "eliminations": 0,
+        "heals": 1,
+        "members": [
+          {
+            "archetype": "Keeper",
+            "name": "Ada Fen",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Veil",
+            "name": "Mara Vale",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Tinker",
+            "name": "Nadiya Sayegh",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Runner",
+            "name": "June Arlen",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Keeper",
+            "name": "Soren Bell",
+            "recoveries": 0,
+            "state": "active"
+          }
+        ],
+        "order": "work",
+        "orders": 3,
+        "revives": 0
+      },
+      "winner": "survivors",
+      "wounds": 4
+    },
+    {
+      "contract": "second",
+      "difficulty": "story",
+      "elapsed": 86.8,
+      "failures": [],
+      "human_actions": 11,
+      "human_distance": 93.87,
+      "human_health": 20.0,
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 271126,
+      "squad": {
+        "downs": 0,
+        "eliminations": 0,
+        "heals": 2,
+        "members": [
+          {
+            "archetype": "Keeper",
+            "name": "Ada Fen",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Veil",
+            "name": "Mara Vale",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Tinker",
+            "name": "Nadiya Sayegh",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Runner",
+            "name": "June Arlen",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Keeper",
+            "name": "Soren Bell",
+            "recoveries": 0,
+            "state": "active"
+          }
+        ],
+        "order": "work",
+        "orders": 3,
+        "revives": 0
+      },
+      "winner": "survivors",
+      "wounds": 6
+    },
+    {
+      "contract": "mix",
+      "difficulty": "story",
+      "elapsed": 46.88,
+      "failures": [],
+      "human_actions": 3,
+      "human_distance": 94.38,
+      "human_health": 75.0,
+      "seals": {
+        "echoes": true,
+        "relay": true,
+        "silent": true
+      },
+      "seed": 271126,
+      "squad": {
+        "downs": 0,
+        "eliminations": 0,
+        "heals": 0,
+        "members": [
+          {
+            "archetype": "Keeper",
+            "name": "Ada Fen",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Veil",
+            "name": "Mara Vale",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Tinker",
+            "name": "Nadiya Sayegh",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Runner",
+            "name": "June Arlen",
+            "recoveries": 0,
+            "state": "active"
+          },
+          {
+            "archetype": "Keeper",
+            "name": "Soren Bell",
+            "recoveries": 0,
+            "state": "active"
+          }
+        ],
+        "order": "work",
+        "orders": 3,
+        "revives": 0
+      },
+      "winner": "survivors",
+      "wounds": 1
+    }
+  ],
+  "tested_source_sha256_by_path": {
+    ".github/workflows/release-windows.yml": "406474be5fb8fda0a26f5f0e3520ee75ebde29c20b63875239e31c17c2c837bb",
+    ".github/workflows/verify.yml": "0cb85a4bb4be4b58d7603e89ac3e6dc43ab808db91589400821092dd546a2681",
+    "game/assets/audio/ambience.wav": "430d3cf554b95b9f660ca10c1e8ef1e96a79ebeb82ed8ba0d2efb4433a8b6ff5",
+    "game/assets/audio/ambience.wav.import": "4b4473fa737045bf2f2f8b3530c710d71df94a4957d0aad57959a97a484282ce",
+    "game/assets/audio/blink.wav": "ac6b7146139e5648ea89e39f802fc78a4dbbcd22a349614d68495e2e8afaaa12",
+    "game/assets/audio/blink.wav.import": "0105403b2f23c2a03680396651aadff025bbcee74bbf47957a4721670f08d650",
+    "game/assets/audio/echo.wav": "e1d1e07496d456fe74fd9357a33722a87bde50a4ed49a1f5332f648bf399b0c6",
+    "game/assets/audio/echo.wav.import": "da0efd9759ea981e3a813301d0e7c26b6b294cdd839d7994ba78dc4c5d55eb54",
+    "game/assets/audio/fail.wav": "0551ebb2f917dddbd0a642ea22d0287ee31505ae64ab19dbd2a4709eced08d8c",
+    "game/assets/audio/fail.wav.import": "5b2abe41dc45cf4e9013bafc786317d5c38aec82ec02efb60f04b82be0f0898e",
+    "game/assets/audio/heartbeat.wav": "ae72cc53b8b7a99727eb6d24fcd862ee199ebaa5cdb85277e374c6f244675b5c",
+    "game/assets/audio/heartbeat.wav.import": "b80c17bfc5dcc76694ddcb0cf8b4e87ea85cf506a9ebcc7cc9044849ecfbda41",
+    "game/assets/audio/pickup.wav": "4a95a6c3947dc17b1e65ef48df4b59d0ccd623bb67c926712f5e39bf83b59eda",
+    "game/assets/audio/pickup.wav.import": "f9093c94d0f54605232897a688e4110f5777395d20bab50c99d72d2036691f8b",
+    "game/assets/audio/seal.wav": "8cb06d0b819dbfe1175f6f9470497c9d696d1d36d917431db7d79e7a156aae97",
+    "game/assets/audio/seal.wav.import": "61da21fcf04bd44fef2c30887722fd78478c20dcfd17dac765e491076a4f1b33",
+    "game/assets/audio/step.wav": "112555b0a440ec4c899aa65ace730cd9ae0e18d5842160612e81abe972325e3e",
+    "game/assets/audio/step.wav.import": "9eb7c79ca950d59692e18a786629231f12b71f9a43901fc35c628aaae51e6363",
+    "game/assets/audio/warning.wav": "b88a4531d171b936addaedf31fe6871e94bb4cf8477a275cac71287d74699347",
+    "game/assets/audio/warning.wav.import": "3bb199b41c3d667c0f9c3c11d6583c38e974dcd59db20994cba434afcaae6f1f",
+    "game/assets/fonts/Interface.ttf": "e64e508b2aa2880f907e470c4550980ec4c0694d103a43f36150ac3f93189bee",
+    "game/assets/fonts/Interface.ttf.import": "a143f3650c76a7ffa0ff318a91ad266543868600ce35307db590833a440ebd14",
+    "game/assets/fonts/LICENSE_Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "game/assets/fonts/LICENSE_DejaVu.txt": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9",
+    "game/assets/fonts/LICENSE_Liberation.txt": "f32df582a2aab128c07b2f7e36e7b928dc5f6bd82657b905c04f91459f9e5cf9",
+    "game/assets/fonts/LICENSE_OpenSans.txt": "94d4b78643f99d7cfa872145b38da578299f401405ca5cba66a5c95bf13933b0",
+    "game/assets/fonts/ObservanceSerif.ttf": "9caef765d2e891c10dd73658894f01e660fe0c1c83e0bda7d6edf561d8f623d4",
+    "game/assets/fonts/ObservanceSerif.ttf.import": "014166f2615de0650b47ca4893f4827b4ac9373805606c5c88f185e14b75ae34",
+    "game/assets/fonts/Readout.ttf": "54bf827eb99404e8f430c330ad30f063334f637eba0109b6a18d4f566a8e9dd8",
+    "game/assets/fonts/Readout.ttf.import": "8ae4db6d686ba7e1d0af3722bdea7ba6d7b600f1cbeead760a479f07c06b646b",
+    "game/assets/icon.svg": "40b0d91b9a900929b336c2c206e0c99c83a2d5db8719dee95051aef8cfead9a0",
+    "game/assets/icon.svg.import": "656e56fb9f8a53b617cb3ef2460b020c218fe6c613950b7de623dcb71bee0d4e",
+    "game/assets/materials/screen.gdshader": "be201dfdef753e7a6f1d9fcc70850b5747a0121049d93c2fb3b99b4cc19c4c27",
+    "game/assets/materials/screen.gdshader.uid": "bbaa0d15fa6a79bb0367abf2aee220a1df259c881975534cc3b6178781088a0f",
+    "game/export_presets.cfg": "b472dfefd4cf19f103d93b920a3f8a421428393a68d25ece085edd5a24dccbab",
+    "game/project.godot": "cc44c7b56a969a8c018d684f68d624a9fd0c06d66af9237e91ba88614c0da9fb",
+    "game/scenes/main.tscn": "e73418addeb504de3ff3d40bdd611bf8d505cda3f7ed927e67adf39e32b1d979",
+    "game/scripts/arena.gd": "e723b25d59c4fb7d7d88fb3b767aa9e46011fa3f5a01a91259354fa927aea6ad",
+    "game/scripts/arena.gd.uid": "49f616cc42800059ada59cf44346acb2a3dc9c9b518824695c1438e3eba0d38f",
+    "game/scripts/interface.gd": "50802f92636da3f3254317619410a0b331fbeffb56dc00f74d0362926cb6a6a8",
+    "game/scripts/interface.gd.uid": "d7d3855fb48013ed0a5099c9ef51719c80d6ef9e9eae3b4963db47b62e54b2d4",
+    "game/scripts/main.gd": "3f4d8100d03536038c59488a6e0c0088df46c203693317f2f9afb4533b6db275",
+    "game/scripts/main.gd.uid": "99c67e6e06b354b3403c2096ad39d2de2916e7ce32b362a55ab69a979325569d",
+    "game/scripts/soundscape.gd": "e06068ac650069cdedddeccbb5cbc130fec21cc95c969f4d75a44a17c87fd22f",
+    "game/scripts/soundscape.gd.uid": "255d4c15afc1961b55637c73ef38b41d87f718bd11e2d949b5a29504f1af0867",
+    "game/scripts/squad_state.gd": "5086ed5776cdb24dea0c2f0ceb74858fbca819e466cc55d5d18e81a8e2674072",
+    "game/scripts/squad_state.gd.uid": "07921fae56d01190806ff5285f7dd510f3c84119344b0cef585705daae6ec487",
+    "game/scripts/squad_world.gd": "014598b369669b6ac5a89aebb5bdb6ee45e6a40ba14395a7c84841cc895484ee",
+    "game/scripts/squad_world.gd.uid": "d49a412ae235dffbf6c11febfa5ea402050fd20ab95aec2837ccc34e0618e49f",
+    "game/scripts/survivor.gd": "6d7c833b45c712192fda59224ff0e1e0dcf1f39ed53c425f118b68c3fbdee171",
+    "game/scripts/survivor.gd.uid": "1ee10ddca3d2fe56281a3409c9b9a452d8b07f44e394ef889be8e6e1906fe3cd",
+    "game/scripts/third_apparatus.gd": "6a783ae34cd8704ac1152b3528f9a48b30de1ab4c932d2fe41effdccf47f8af8",
+    "game/scripts/third_apparatus.gd.uid": "a79fd8a1c472c5a011dbcc751f2d0d913ac42eedc52bf37af03088583f1dd530",
+    "game/scripts/third_trials.gd": "60ade868e834bdbbebba2f944b311513dbccddce23b6550401e885a6c70dac2d",
+    "game/scripts/third_trials.gd.uid": "4c5b1ae6475550f118a70bc8ff5781e262304291c4def09e40032547b4c43c20",
+    "game/scripts/third_world.gd": "1b86a9f40b81b771b39ecf03599dbad45156ccd3f60643cd59c7506203f6938d",
+    "game/scripts/third_world.gd.uid": "77012fd41d0d45870e9823c086cd6e7b10d5889618c0eb3b5897867bb8d974e5",
+    "game/scripts/trial_apparatus.gd": "7cdc7287a76120f219e923eafeeaf53694e44f6a9f69126e5e25244b73f4334c",
+    "game/scripts/trial_apparatus.gd.uid": "37c1c8238f2c7550817171753093af67e979962c729004c0fac6b798bce43e6a",
+    "game/scripts/trial_director.gd": "de5ba14527d1886d3161bb553bb211c150f1b967ce53204175f5ceda4ab784be",
+    "game/scripts/trial_director.gd.uid": "4ab02add7ab9100a6503ce2c3ed7d912971a2f54b170fc2d64a5d36e0bb248ad",
+    "game/scripts/trial_set.gd": "cd989d483a5d1a1c026e245addc79d3553681041c814f3800771f6c2fe282a5e",
+    "game/scripts/trial_set.gd.uid": "16c3cb708af820cb41941d29c19027c4acc2e0b126c69d10bbfa5ab9eed4cf5c",
+    "game/scripts/trial_world.gd": "e42ac3b81386f92876abd6ccce69b7e8b7fb86a94701468cce2854aad5e8a9b9",
+    "game/scripts/trial_world.gd.uid": "e03265f42a9c407f5eb86a3a3cb6249edf403ab9ac6626ef416bd372f1953c37",
+    "game/tests/README.md": "4c36ccd8ff98adb587b735b85ebf173957c78620a807a0f749b2b2c330e355c0",
+    "game/tests/capture_third.gd": "9826d9c5d609c993dcaeae8b08b453cef6a86000575dc19516c746c4b3721df1",
+    "game/tests/capture_third.gd.uid": "347acada970baaca6f022fb53f1880d84452497745f2f9ca6333c6459ba8a1d8",
+    "game/tests/capture_ui.gd": "96ada3aee8cd44940407c30f32d9aa4d9600a412d8eb17feb2a420a56f1269f0",
+    "game/tests/capture_ui.gd.uid": "0bbbed3f9ecee59ac8220fe1e74bed7884d35cf2c043aca28d419ca88937ab79",
+    "game/tests/test_director.gd": "da14232025f079377af1310a21679880d4b2dd028003575a505e19830b555f61",
+    "game/tests/test_director.gd.uid": "c05e835b856c1f4a9c61a6c78efb6609959c139493b95cb5aa726ed985bb63a5",
+    "game/tests/test_second_survivor_route.gd": "48601dfb7781d2173c2d938d1ca9f339abfb4e52d448bd5ebe87a906677ca8df",
+    "game/tests/test_second_survivor_route.gd.uid": "e02015cf72da1ddfc92731b8c973b2094c40d3a158531c198115d895229efcdd",
+    "game/tests/test_second_world.gd": "2f2ed04d37bc574ab7ac2ba5bdd943d96a10c5897ed8c215051f74fe09432589",
+    "game/tests/test_second_world.gd.uid": "a6f57b4d4451e7fb3a48ae7d8f6660f19fd675eebf0e0687d46a942f81c393ea",
+    "game/tests/test_squad_route.gd": "0df7d01b72d6490594a45071039b326d67804de2a196090c2eabbfacb4ece82b",
+    "game/tests/test_squad_route.gd.uid": "ed1f1d303dda5749a989747629e354cf13074993db84502d95c91c66ef2b342c",
+    "game/tests/test_squad_state.gd": "9904d62279b70c309b1cc478583d9fcbcb126986afdb38b4068b46505926234d",
+    "game/tests/test_squad_state.gd.uid": "7b07097d186b95f0cf7eb9327d077b3e7327f3374962bf15f46385386b2dfbc9",
+    "game/tests/test_squad_world.gd": "f11349e8ff393aa43aa4c4d091d1194a47e0b466f6f6b5236cfb9841ec4ba14a",
+    "game/tests/test_squad_world.gd.uid": "b6d1626d3e032d2db592c893a7507467f1ac779e99bd6a30d83e5b5730ae7ef2",
+    "game/tests/test_survivor_route.gd": "ed6fb122259eb7a2da6799c3f4e5e993b514a87eec3df6ec53f20db263279991",
+    "game/tests/test_survivor_route.gd.uid": "bc24173017178e6e9bedba86487cd8ce30a1f424ed77dac5fa037015f9389209",
+    "game/tests/test_third_survivor_route.gd": "ba7ddd1e17b7ecb1aecc284eb057ec3cffe97b258882fbfb8c2a9824ad499773",
+    "game/tests/test_third_survivor_route.gd.uid": "5b4940e47687bfabd036c824f03c594060c09f17fd9f84e690dcc4e2e0787756",
+    "game/tests/test_third_trials.gd": "30384ff7646ab839057d396045de511d18372ba6d6c3f8367dfeb8f2423a5ed2",
+    "game/tests/test_third_trials.gd.uid": "4582e1b073195395332d987a98e2f9ffaab44ae6a3b8204c5046538799909712",
+    "game/tests/test_third_world.gd": "b5eb124e1e4b7aa7616b19f3e8932eed7f625790684e65bdd643194d491dc71c",
+    "game/tests/test_third_world.gd.uid": "bc63a2ead5727776cd8bb5e0410d97cb4061fcedfab45c371f7e1958be4af366",
+    "game/tests/test_trial_set.gd": "e23045a6bd12ea7fdebff4b791f3b1eb6889a47e1c079a75f68a01857594dc2b",
+    "game/tests/test_trial_set.gd.uid": "cbeb9ff98eb7bc4bc78a3eaa74a1da8c11bc23b088a32b89cd7f583c0d3e9c6a",
+    "game/tests/test_world.gd": "f6e82cd6c7549d51c5441df8f8e44adfc4c71cb19143ef75f4d71affc59e7d01",
+    "game/tests/test_world.gd.uid": "50411b5e9636be6e9063e0362f39eb4f774a68390cdc867182b5b54efe6594ba",
+    "tools/build_windows.py": "8db8f124e97ff548cb5df601e0161be289205ecebbb2689da04f92df0041bed8",
+    "tools/fetch_export_templates.py": "264746f346d905c84b5e356ad1a6532aa55ad7bbe73ffbbaf26f3b34185fc128",
+    "tools/generate_audio.py": "0a3633c2f2ac95a27b0a51b02df5e9b8ac02ed0831c61c69e04b35920de88f10"
+  },
+  "source_manifest_scope": "game/, tools/ and .github/workflows/ at the final local integration run; documentation is outside this manifest",
+  "interpretation": "Headless rule/world fixtures, unopposed physical bot routes and informed ordinary-input Story routes. Not novice balance, all-seed coverage, graphical Windows playthrough or Unreal execution."
+}

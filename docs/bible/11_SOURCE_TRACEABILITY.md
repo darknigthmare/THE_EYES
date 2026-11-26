@@ -32,10 +32,10 @@ All titles appear in [the trial catalogue](06_TRIAL_CATALOGUE.md) and [the struc
 | T01 | The Labyrinth of Shadows | Planned |
 | T02 | The Silent Countdown | Selected core trial |
 | T03 | Threads of Fate | Planned |
-| T04 | Light in the Darkness | Planned |
+| T04 | Light in the Darkness | v0.4 implemented observatory subset |
 | T05 | Trial of the Echoes | Selected core trial |
 | T06 | Bridge of Illusions | Planned |
-| T07 | Strings of Despair | Planned |
+| T07 | Strings of Despair | v0.4 implemented observatory subset |
 | T08 | Clockwork Relay | Selected core trial |
 | T09 | Glass Symphony | Planned |
 | T10 | The Ritual Circle | v0.2 implemented physical subset |
@@ -45,7 +45,7 @@ All titles appear in [the trial catalogue](06_TRIAL_CATALOGUE.md) and [the struc
 | T14 | Warden’s Chains | Planned |
 | T15 | The Marionette’s Dance | Planned |
 | T16 | The Clock Room | v0.2 implemented physical subset |
-| T17 | Chimes of Doom | Planned |
+| T17 | Chimes of Doom | v0.4 implemented observatory subset |
 | T18 | The Spiral Stairs | Planned |
 | T19 | Strings of Time | Planned |
 | T20 | The Gauntlet | Planned |
@@ -75,4 +75,8 @@ All titles appear in [the trial catalogue](06_TRIAL_CATALOGUE.md) and [the struc
 
 ## Document status
 
-This bible is a detailed design baseline, not a record of twenty-five completed games. Implementation truth is maintained in the repository's release notes, test report, and runnable source. The machine-readable catalogue distinguishes the original v0.1 trio, the three alternate subsets implemented in v0.2, and nineteen remaining planned designs. The [contract chapter](12_PROTOTYPE_CONTRACTS.md) records exactly which production features are included or deferred. Expansion characters, realms, items, and minions remain planned until their actual assets and behavior pass the relevant acceptance gates.
+This bible is a detailed design baseline, not a record of twenty-five completed games. Implementation truth is maintained in the repository's release notes, test report, and runnable source. The machine-readable catalogue distinguishes the original v0.1 trio, the three alternate subsets implemented in v0.2, the three v0.4 observatory subsets, and sixteen remaining planned designs. The [contract chapter](12_PROTOTYPE_CONTRACTS.md) records exactly which production features are included or deferred. Expansion characters, realms, items, and minions remain planned until their actual assets and behavior pass the relevant acceptance gates.
+
+## v0.4 source interpretation
+
+[The Third Observance](14_THIRD_OBSERVANCE.md) implements T04/T07/T17 through connected ground-level apparatus. Portable light uses a recoverable charge budget and permanent refuges; rope clues intersect side and shape family to produce a unique explainable answer; bells require physical travel and preserve the first phrase. The full island/chill, suspended traversal, dedicated sound-minion and trial-specific Eye variants remain proposed production work. Mix expands to 27 layouts in version 0.4; a v0.3 seed can select different trials. First and Second retain independent existing puzzle streams.

@@ -329,22 +329,22 @@ func _build_exit() -> void:
 
 func configure_trials(mapping: Dictionary, names: Dictionary) -> void:
 	slot_trials = mapping.duplicate()
-	var subtitles = {"silent":"DELIVER THREE WHISPER MOTES","echoes":"OBSERVE. REMEMBER. REPEAT.","relay":"HOLD THE WHEEL. BREAK THE GAZE.","vault":"FOUR RELICS. FOUR EXACT CRADLES.","ritual":"CARRY THE EMBER. BANK EACH PAIR.","clock":"THREE COUPLED HANDS. ONE CONSTELLATION."}
+	var subtitles = {"silent":"DELIVER THREE WHISPER MOTES","echoes":"OBSERVE. REMEMBER. REPEAT.","relay":"HOLD THE WHEEL. BREAK THE GAZE.","vault":"FOUR RELICS. FOUR EXACT CRADLES.","ritual":"CARRY THE EMBER. BANK EACH PAIR.","clock":"THREE COUPLED HANDS. ONE CONSTELLATION.","light":"THREE CELLS. PERMANENT REFUGES.","strings":"READ BOTH CLUES. CUT WITH CARE.","chimes":"TWO PHRASES. EVERY SOUND HAS A COST."}
 	var index = 0
 	for slot in STATIONS:
 		var trial: String = mapping[slot]
 		station_titles[slot].text = "%s   /   %s" % [["I","II","III"][index],names[trial]]
 		station_subtitles[slot].text = subtitles[trial]
-		var title_height: float = 6.6 if trial == "clock" else (5.5 if trial in ["vault","ritual"] else 3.8)
+		var title_height: float = {"clock":6.6,"vault":5.5,"ritual":5.5,"light":5.3,"strings":6.2,"chimes":5.5}.get(trial,3.8)
 		station_titles[slot].position.y = title_height
 		station_subtitles[slot].position.y = title_height-0.55
-		beacon_lights[slot].visible = trial != "clock"
+		beacon_lights[slot].visible = trial not in ["clock","strings","chimes"]
 		index += 1
 	for mesh in echo_meshes:
 		mesh.visible = mapping.echoes == "echoes"
 	relay_wheel.visible = mapping.relay == "relay"
 	# The distant monument inscription otherwise sits inside the Clock's face.
-	observance_mark.visible = mapping.relay != "clock"
+	observance_mark.visible = mapping.relay not in ["clock","chimes"]
 	observance_mark.text = "THE FIRST\nOBSERVANCE" if mapping.silent == "silent" and mapping.echoes == "echoes" else "THE\nOBSERVANCE"
 	for mote in motes:
 		mote.get_parent().visible = mapping.silent == "silent"

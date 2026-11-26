@@ -1,6 +1,6 @@
 # THE EYES — Unreal Engine 5 foundation
 
-**Status: construction foundation, not a playable Unreal build.** The runnable game prototype is the [Godot project](../game). This folder supplies a content-only `.uproject`, input configuration, seven CSV registry/tuning tables and a precise Blueprint construction plan. No Unreal Editor has compiled or tested these assets in this delivery, and there are no `.uasset` or `.umap` files yet.
+**Status: construction foundation, not a playable Unreal build.** The runnable game prototype is the [Godot project](../game). This folder supplies a content-only `.uproject`, input configuration, nine CSV registry/tuning tables and a precise Blueprint construction plan. No Unreal Editor has compiled or tested these assets in this delivery, and there are no `.uasset` or `.umap` files yet.
 
 The intended UE5 game is entirely authored in Blueprints, with English gameplay text. There are no project C++ modules, C++ gameplay classes or build targets here. Built-in engine plugins remain engine implementation details; enabling Enhanced Input or Niagara does not add project C++ source.
 
@@ -11,7 +11,7 @@ The intended UE5 game is entirely authored in Blueprints, with English gameplay 
 3. Accept the built-in Enhanced Input and Niagara plugins. This shell has no custom binary module to rebuild. If the editor reports a plugin incompatibility, select a supported UE5 release and verify the bundled plugin before proceeding; do not invent missing modules.
 4. Create a **Basic** level and immediately save it as `/Game/TheEyes/Maps/L_FirstObservance`.
 5. Create the folders and assets in the order below. Set Project Settings → Maps & Modes only after the corresponding map and Blueprint classes actually exist. No config here points to a nonexistent map or GameMode.
-6. Follow the [Blueprint implementation guide](../docs/technical/UE5_BLUEPRINT_IMPLEMENTATION.md), then the [six-trial contract extension](../docs/technical/CONTRACT_TRIAL_IMPLEMENTATION.md) and [Survivor Squad construction](../docs/technical/SQUAD_IMPLEMENTATION.md). Start with the local survivor loop, all three contracts and the separate squad authority, then run the network tests before considering any public multiplayer build.
+6. Follow the [Blueprint implementation guide](../docs/technical/UE5_BLUEPRINT_IMPLEMENTATION.md), then the [six-trial contract extension](../docs/technical/CONTRACT_TRIAL_IMPLEMENTATION.md), [Survivor Squad construction](../docs/technical/SQUAD_IMPLEMENTATION.md) and [Third Observance extension](../docs/technical/THIRD_TRIAL_IMPLEMENTATION.md). Start with the local survivor loop, all four contracts and the separate squad authority, then run the network tests before considering any public multiplayer build.
 
 ## Asset creation order
 
@@ -22,7 +22,7 @@ The intended UE5 game is entirely authored in Blueprints, with English gameplay 
 | 3 | Survivor character, Eye pawn, interaction and status components | `/Game/TheEyes/Characters`, `/Game/TheEyes/Components` |
 | 4 | Input actions and mapping contexts | `/Game/TheEyes/Input` |
 | 5 | Arena floor, occluders, four sockets and exit corridor | `/Game/TheEyes/Maps/L_FirstObservance` |
-| 6 | Trial base, six trial children, contract registry, shared cargo, trap and escape gate | `/Game/TheEyes/Trials`, `/Game/TheEyes/World` |
+| 6 | Trial base, nine trial children, contract registry, shared cargo, trap and escape gate | `/Game/TheEyes/Trials`, `/Game/TheEyes/World` |
 | 7 | HUD, main menu, options and result widgets | `/Game/TheEyes/UI` |
 | 8 | Eye/survivor controllers, squad life/order component, blackboards and behavior trees | `/Game/TheEyes/AI`, `/Game/TheEyes/Components` |
 | 9 | Original meshes, materials, VFX, animations and sounds | `/Game/TheEyes/Art`, `/Game/TheEyes/Audio` |
@@ -40,7 +40,7 @@ Assign the intended GameMode to the map's World Settings too, or clear an accide
 - Targeting combines angular eligibility with collision queries. A wall must block a harmful gaze command.
 - Clients request actions through their owned PlayerController. The server validates and commits gameplay state.
 - Complete three seals, then survive an escape countdown. The first legitimate survivor crossing wins for the survivor team.
-- The Godot pool contains six trial subsets: **The Silent Countdown**, **Trial of the Echoes**, **Clockwork Relay**, **The Memory Vault**, **The Ritual Circle**, and **The Clock Room**. First, Second and Seeded Mix activate one trial per bay: three seals per match. The other 19 remain design entries, and all Unreal trial assets still need authoring and acceptance tests.
+- The original Godot pool contains six trial subsets: **The Silent Countdown**, **Trial of the Echoes**, **Clockwork Relay**, **The Memory Vault**, **The Ritual Circle**, and **The Clock Room**. First, Second and Seeded Mix activate one trial per bay: three seals per match. Version 0.4 adds Light in the Darkness, Strings of Despair and Chimes of Doom; Third selects them and Mix expands to 27 mappings. The other 16 remain design entries, and all Unreal trial assets still need authoring and acceptance tests.
 - v0.3 adds a distinct local Survivor Squad mode: one human plus four AI allies, Work/Follow/Hold orders, physical rescue with one chance per member, and the existing six-trial pool. Its CSV and Blueprint recipes are construction inputs, not generated Unreal gameplay assets.
 - The complete game's 5–7 survivors versus one Eye, session browser, reconnect, party modes and cross-platform services remain development work.
 
@@ -55,3 +55,7 @@ Assign the intended GameMode to the map's World Settings too, or clear an accide
 - [CSV import instructions](Data/README.md)
 
 Before marking the Unreal milestone playable, attach actual editor compile output, a packaged smoke-test log and two-client test results to its change request. Until then, link users to the Godot prototype rather than treating this descriptor as an executable game.
+
+## Third Observance handoff
+
+Version 0.4 supplies nine trial registry entries, a third candidate in each bay, four contracts and `DT_ThirdTrialDefaults.csv` (nine CSV tables total). Follow the [Third trial Blueprint recipe](../docs/technical/THIRD_TRIAL_IMPLEMENTATION.md) for charge/cargo ownership, stationary holds, evidence epochs, banked phrases, one shared damper and sound events. These are construction inputs; create and compile the corresponding Blueprint actors and validate the map in Unreal Editor.

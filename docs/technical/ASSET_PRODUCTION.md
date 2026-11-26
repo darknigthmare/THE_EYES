@@ -229,7 +229,7 @@ Keep art evidence distinct from gameplay evidence: a turntable proves a model's 
 
 ## v0.2 apparatus handoff: three alternate trials
 
-The six-trial prototype pool reuses the existing three bays. It does not add a finished realm or an annex. The production art handoff must let each bay swap its trial without moving the shared exits, Eye sockets or essential cover. Keep each apparatus under one authored root with explicit interaction, visual, collision and cargo anchors; disabling an inactive apparatus must also disable its query/overlap registration.
+The v0.2 six-trial prototype pool reuses the existing three bays. Version 0.4 adds three more subsets in those bays; their cells/refuge lamps, rope evidence and physical bells are specified in [Third-trial implementation](THIRD_TRIAL_IMPLEMENTATION.md). Neither extension adds a finished realm or an annex. The production art handoff must let each bay swap its trial without moving the shared exits, Eye sockets or essential cover. Keep each apparatus under one authored root with explicit interaction, visual, collision and cargo anchors; disabling an inactive apparatus must also disable its query/overlap registration.
 
 | Apparatus | Required original assets | Readability and interaction criteria |
 | --- | --- | --- |

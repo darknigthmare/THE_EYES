@@ -9,11 +9,11 @@ The repository contains a playable Godot prototype and a production design for a
 | One local 3D arena | Prototype implementation | Recorded complete playthrough and collision review |
 | Solo survivor and Eye roles | Verified v0.2 prototype implementation | Both roles complete fair matches with human testers |
 | Local human-plus-four-AI Squad | Published v0.3: local domain/world checks, three pressured contract routes, native-renderer inspection and nine native Windows startup cases passed | Graphical Windows playthrough and broader human balance/UX qualification |
-| Three active trials from six selected families | Six implemented Godot subsets; three active per match | Reset, failure, recovery, completion and physical interaction tests |
+| Three active trials from nine selected families | Nine implemented Godot subsets; three active per match | Reset, failure, recovery, completion and physical interaction tests |
 | Four fixed sockets | Prototype core | Correct visual and authoritative sight behavior |
 | Four archetypes | Prototype mechanics | Final animations, readable effects and measured balance |
 | Eight named survivors | Detailed design | Models, animation sets, voices and narrative integration |
-| Twenty-five trials | Six implemented prototype subsets; nineteen planned | Per-trial content and acceptance sheet |
+| Twenty-five trials | Nine implemented prototype subsets; sixteen planned | Per-trial content and acceptance sheet |
 | Four full realms | Detailed design | Complete level graphs, art, navigation and performance |
 | Online multiplayer | Planned architecture | Remote-session and authority tests under delay |
 | UE5 Blueprint gameplay | Implementation specification and foundation | Assets created, compiled, run and tested in Unreal Editor |
@@ -28,6 +28,8 @@ The release report can narrow or update this matrix after actual verification. I
 **M0.2 — Alternate contracts.** Add the physical Memory Vault, Ritual Circle, and Clock Room subsets inside the existing bays. Preserve First, add Second, and validate all eight Seeded Mix combinations. Test exact relic/cradle identity, pair-bank recovery, continuous ring occupancy, reversible clock moves, physical bot interactions, inactive-prop cleanup, and the unchanged three-seal outcome rule. The Godot implementation and scoped domain, physical bot-route, and active Story survivor-route checks have passed; [Prototype contracts](12_PROTOTYPE_CONTRACTS.md) records their evidence and limits. The published v0.2 Windows archive passed its six native headless startup cases; broader human balance/usability testing remains separate work.
 
 **M0.3 — The Survivor Accord.** Add a local human-and-four-AI Squad on the existing six-trial observatory. Implement Work/Follow/Hold, physical rescue with per-actor recovery limits, Keeper support, roster state, and ally spectating. Preserve Solo Second Sight and Eye-mode behavior. Verify command priorities, cargo recovery, interruption, team wipe, a single aggregate Relay update per frame, actual escape, and all existing regressions. Current local evidence includes 26 domain cases / 120 assertions, 23 physical world cases / 234 assertions, three successful Story/Keeper Squad contracts and five inspected native frames. Existing regressions retain their outcomes. The published v0.3 Windows archive passed all nine native headless mode/contract startup cases; graphical Windows playthrough and broader qualification remain unverified; see [the verification report](../qa/V0_3_VERIFICATION.md).
+
+**M0.4 — The Third Observance.** Add three complete observatory subsets: Light in the Darkness, Strings of Despair and Chimes of Doom. Validate charge and cargo recovery, uniquely explainable shape/side clues, deliberate interruptible cutting, permanent phrase banks, damping and real noise perception. Every bot visits the clue stand and performs the same spatially validated actions as a human. Expand Mix to all 27 mappings and explicitly record the seed-selection migration. Improve survivor silhouettes, labels and squad readability. Require the twelve-suite gameplay gate and twelve native Windows mode/contract startups before publication. The [v0.4 report](../qa/V0_4_VERIFICATION.md) records actual evidence. This local extension does not complete M1.
 
 **M1 — UE5 mechanical port.** Recreate the verified loop in Blueprint actors and components. Import design data, implement authoritative state changes, create one playable level, and match the Godot acceptance scenarios. Use placeholder art where needed, but identify it. Do not port incidental prototype hacks merely to claim parity.
 
@@ -51,7 +53,7 @@ Pure rule checks verify deterministic state transitions and invariants: time can
 
 Engine integration checks run the actual project, create the arena, exercise interactions through the same public path used by players, and inspect results. They catch script parsing, missing resources, invalid node paths, and state-to-presentation mismatches. A headless test is useful for logic; it cannot certify lighting, sound mix, or input comfort.
 
-Visual and human checks inspect the rendered game at supported resolutions, both roles, each difficulty, all six selected trial subsets, escape, defeat, and restart. Three trials are active per match; the eight mixed combinations also need integration coverage. Capture real frames. Human sessions answer whether warnings are understood and whether the Eye has interesting decisions. A screenshot of the title screen alone does not establish that a match can be completed.
+Visual and human checks inspect the rendered game at supported resolutions, both roles, each difficulty, all nine selected trial subsets, escape, defeat, and restart. Three trials are active per match; the 27 mixed combinations also need integration coverage. Capture real frames. Human sessions answer whether warnings are understood and whether the Eye has interesting decisions. A screenshot of the title screen alone does not establish that a match can be completed.
 
 ## Representative acceptance scenarios
 
@@ -98,4 +100,4 @@ Online bandwidth budgets distinguish state that must replicate from cosmetic eve
 
 Every significant design change records the problem, new rule, affected content, migration need, and verification evidence. Preserve the original source intent in the traceability chapter. If the first playtests show that a source idea is unfair—such as erasing completed progress or randomizing a safe tile under a player—change the implementation transparently and explain the preserved fantasy.
 
-The next useful decision is based on evidence from the playable slice: whether the Eye's fixed observation creates enough agency for both sides. If that succeeds, expand content and port to UE5. If it fails, improve socket topology, sight readability, and intervention timing before producing the nineteen remaining trial environments or fuller realm versions of the six selected subsets.
+The next useful decision is based on evidence from the playable slice: whether the Eye's fixed observation creates enough agency for both sides. If that succeeds, expand content and port to UE5. If it fails, improve socket topology, sight readability, and intervention timing before producing the sixteen remaining trial environments or fuller realm versions of the nine selected subsets.

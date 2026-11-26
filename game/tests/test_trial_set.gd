@@ -76,6 +76,7 @@ func _test_contracts() -> void:
 	cases += 1
 	_check(_mapping_key(_new("first")) == "silent/echoes/relay", "First retains original trials")
 	_check(_mapping_key(_new("second")) == "vault/ritual/clock", "Second selects all three alternates")
+	_check(_mapping_key(_new("third")) == "light/strings/chimes", "Third selects all three new subsets")
 	_check(_mapping_key(_new("invalid")) == "silent/echoes/relay", "invalid contract safely defaults to First")
 	_check(_new("SECOND").contract == "second", "contract matching is case insensitive")
 	_check(_new().trial_for_slot("invalid").is_empty(), "unknown slot has no trial")
@@ -105,7 +106,7 @@ func _test_mix_coverage() -> void:
 		seen[_mapping_key(rules)] = true
 		for slot: String in Rules.SLOT_VARIANTS:
 			_check(Rules.SLOT_VARIANTS[slot].has(rules.trial_for_slot(slot)), "mixed selection stays in its assigned bay")
-	_check(seen.size() == 8, "seeded selection reaches all eight bay combinations")
+	_check(seen.size() == 27, "seeded selection reaches all twenty-seven bay combinations")
 
 
 func _test_generated_content() -> void:
@@ -405,9 +406,9 @@ func _test_all_mixed_completions() -> void:
 		for slot: String in ["silent", "echoes", "relay"]:
 			_finish_slot(director, slot)
 		_check(director.phase == "escape" and director.seals.values().count(true) == 3, "mixed combination reaches three-seal escape: " + key)
-		if seen.size() == 8:
+		if seen.size() == 27:
 			break
-	_check(seen.size() == 8, "all eight mixed combinations completed through production commands")
+	_check(seen.size() == 27, "all twenty-seven mixed combinations completed through production commands")
 
 
 func _test_reconfigure() -> void:
@@ -465,3 +466,16 @@ func _finish_slot(director: Director, slot: String) -> void:
 				rules.turn_clock(move.x, move.y)
 				director.step(0.25)
 			rules.confirm_clock()
+		"light":
+			for cell: int in range(3):
+				rules.third.pickup_cell(cell + 1, cell)
+				rules.third.update_light_hold(cell + 1, cell, 2, true)
+		"strings":
+			for unused: int in range(3):
+				rules.third.update_strings_hold(1, rules.third.strings_answer(), 2, true)
+				rules.third.interrupt_actor(1)
+		"chimes":
+			for phrase: Array in rules.third.chimes_sequences:
+				for bell: int in phrase:
+					rules.third.strike_bell(1, bell)
+					director.step(0.45)

@@ -1,5 +1,7 @@
 # THE EYES — six-trial contracts and Blueprint construction
 
+**Version boundary:** this is the v0.2 six-trial foundation. [Third-trial implementation](THIRD_TRIAL_IMPLEMENTATION.md) extends the current registry to nine trials, adds Third and changes Mix to 27 layouts in v0.4. Use the current CSV schemas alongside that extension.
+
 This is the UE5 construction specification for the v0.2 Godot rule contract in [`trial_set.gd`](../../game/scripts/trial_set.gd). It extends the [original Blueprint foundation](UE5_BLUEPRINT_IMPLEMENTATION.md). All Unreal classes and graphs named here must still be authored in Unreal Editor; the CSV files are source data and are not imported `.uasset` tables. No UE5 runtime, replication or packaging result is claimed by these instructions.
 
 The gameplay definitions below follow the local prototype. The networking, save and editor integration choices are a proposed UE5 implementation. Keep those two evidence levels separate when reviewing the port.

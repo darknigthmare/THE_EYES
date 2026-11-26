@@ -35,7 +35,7 @@ ERROR_LINE = re.compile(
     r"(?im)^\s*(?:SCRIPT\s+)?ERROR\s*:|\bParse Error\s*:|\bFailed to export project\b"
 )
 
-QUICK_START_EN = """THE EYES — THE SURVIVOR ACCORD
+QUICK_START_EN = """THE EYES — THE THIRD OBSERVANCE
 Windows x64 prototype v{version}
 
 START
@@ -68,8 +68,10 @@ and contextual prompt for the current squad order, life state and rescue.
 
 CONTRACTS — THREE SEALS PER MATCH
 First Observance selects the original three trials below. Second Observance
-selects Memory Vault, Ritual Circle and Clock Room. Seeded Mix chooses one trial
-for each chamber bay from these six trials. The displayed seed repeats a layout.
+selects Memory Vault, Ritual Circle and Clock Room. Third Observance selects
+Light in the Darkness, Strings of Despair and Chimes of Doom. Seeded Mix selects
+one of three trials per bay: 27 layouts from nine trials. A seed is stable
+within this game version; old Mix seeds may choose a different layout in v0.4.
 
 FIRST OBSERVANCE
 Silent Countdown: collect and deliver three motes; use cover and quiet movement.
@@ -77,6 +79,16 @@ Trial of the Echoes: watch the four-symbol sequence, then answer with 1–4.
 R replays the sequence; E leaves the panel. The Eye remains active during it.
 Clockwork Relay: hold E at the machinery; work is protected at checkpoints.
 After all three seals are completed, reach the open exit before time expires.
+
+THIRD OBSERVANCE
+Light: carry each numbered cell to its matching refuge lamp. Hold E still for
+two seconds to align. Charge drains only while carrying outside lit refuges;
+return to the starting refuge or a lit lamp to refill. G returns cargo safely.
+Strings: read the side and shape clues, then hold E at the correct rope for
+two seconds. Wrong cuts trigger a three-second catch; earlier stages stay banked.
+Chimes: read two four-note phrases, then walk between the numbered bells. E
+strikes, R toggles the one shared damper at the nearby bell. A wrong note resets
+only the current phrase and makes a loud sound. The first phrase stays banked.
 
 SECOND OBSERVANCE
 Memory Vault: remember four requested relics and deliver each to its matching cradle.
@@ -93,7 +105,7 @@ Stop every survivor from escaping. Walls and cover interrupt line of sight.
 
 SCOPE
 This is a local playable Godot prototype, not the completed UE5 multiplayer game.
-Six trials are playable; the full 25-trial design and UE5 Blueprint foundation
+Nine trials are playable; the full 25-trial design and UE5 Blueprint foundation
 are in the source repository. There is no online matchmaking in this build.
 
 VERIFICATION AND CREDITS
@@ -103,7 +115,7 @@ See THIRD_PARTY_NOTICES.md and licenses/ for engine and font attributions.
 Source: https://github.com/darknigthmare/THE_EYES
 """
 
-QUICK_START_FR = """THE EYES — THE SURVIVOR ACCORD
+QUICK_START_FR = """THE EYES — THE THIRD OBSERVANCE
 Prototype Windows x64 v{version}
 
 DEMARRER
@@ -117,7 +129,7 @@ pas nécessaire pour jouer. Le jeu est en anglais. Pour débuter, choisis Story.
 COMMANDES SURVIVANT
 ZQSD sur AZERTY / WASD sur QWERTY, ou flèches : déplacement.
 Souris : regarder. Maj : courir. Ctrl ou C : s'accroupir. Espace : sauter.
-E : interagir / maintenir au mécanisme Relay. Q : capacité de l'archétype choisi.
+E : interagir / maintenir au mécanisme. A sur AZERTY / Q sur QWERTY : capacité.
 Tab : afficher/masquer le plan. Échap : pause ou fermeture du panneau d'épreuve.
 
 ESCOUADE — TOI ET QUATRE ALLIÉS IA
@@ -137,8 +149,10 @@ affiche l'ordre, l'état de chaque membre et la progression des secours.
 
 CONTRATS — TROIS SCEAUX PAR PARTIE
 First Observance choisit les trois épreuves initiales décrites ci-dessous.
-Second Observance choisit Memory Vault, Ritual Circle et Clock Room. Seeded Mix
-choisit une épreuve par zone parmi ces six épreuves ; la graine reproduit ce choix.
+Second Observance choisit Memory Vault, Ritual Circle et Clock Room. Third
+Observance ajoute Light in the Darkness, Strings of Despair et Chimes of Doom.
+Seeded Mix choisit une des trois épreuves de chaque zone : 27 configurations.
+La graine reste stable dans une même version ; le choix Mix change en v0.4.
 
 FIRST OBSERVANCE
 Silent Countdown : collecte et rapporte trois orbes, en utilisant les couverts.
@@ -146,6 +160,16 @@ Trial of the Echoes : observe les quatre symboles, puis reproduis avec 1 à 4.
 R rejoue la séquence ; E quitte le panneau. L'Œil reste actif pendant l'épreuve.
 Clockwork Relay : maintiens E au mécanisme ; les paliers protègent ta progression.
 Les trois sceaux terminés, rejoins la sortie ouverte avant la fin du compte à rebours.
+
+THIRD OBSERVANCE
+Light : porte chaque cellule au refuge de même numéro, puis maintiens E deux
+secondes immobile. La charge baisse seulement en portant hors des refuges ;
+rejoins le refuge initial ou une lampe allumée pour recharger. G restitue la cellule.
+Strings : lis les deux indices (côté et forme), puis maintiens E deux secondes
+près de la bonne corde. Une erreur bloque trois secondes ; les paliers restent acquis.
+Chimes : lis deux phrases de quatre notes et rejoins les cloches numérotées.
+E frappe ; R déplace ou enlève l’unique sourdine. Une fausse note réinitialise
+seulement la phrase actuelle et fait du bruit. La première phrase reste acquise.
 
 SECOND OBSERVANCE
 Memory Vault : retiens les quatre reliques demandées et livre-les aux bons socles.
@@ -161,7 +185,7 @@ Q : invoquer. Les actions coûtent de l'énergie et ont un temps de recharge.
 Empêche tous les survivants de s'échapper. Les murs et couverts bloquent la vision.
 
 CONTENU DE CETTE VERSION
-Prototype Godot jouable en local. Six épreuves sont jouables. La bible complète
+Prototype Godot jouable en local. Neuf épreuves sont jouables. La bible complète
 des 25 épreuves et la préparation UE5 entièrement en Blueprints sont dans le dépôt.
 Le multijoueur en ligne et le jeu UE5 complet ne sont pas inclus dans ce prototype.
 

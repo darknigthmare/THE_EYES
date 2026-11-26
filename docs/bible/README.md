@@ -1,6 +1,6 @@
 # THE EYES — Game Bible
 
-**Design version:** 0.3 · **Created:** 26 November 2026 · **Language:** English · **Owner:** Darknigthmare
+**Design version:** 0.4 · **Created:** 26 November 2026 · **Language:** English · **Owner:** Darknigthmare
 
 **A room can hunt you even when its monster cannot move.** THE EYES is an original asymmetric nightmare game about observation, coordinated trials, and escape. A team of survivors breaks the seals of a hostile ritual theatre while an enormous, physically immobile Eye occupies fixed sockets, studies movement, and commands the machinery through its gaze.
 
@@ -23,6 +23,7 @@ This bible turns the supplied concept and all twenty-five proposed games into a 
 | [11 — Source traceability](11_SOURCE_TRACEABILITY.md) | Mapping from the attached brief to this design, including deliberately clarified rules |
 | [12 — Prototype contracts](12_PROTOTYPE_CONTRACTS.md) | Exact First, Second and Seeded Mix scope; physical v0.2 trial subsets and verification boundaries |
 | [13 — Squad and rescue](13_SQUAD_AND_RESCUE.md) | The Survivor Accord: implemented local five-survivor team, orders, recovery, support and acceptance gates |
+| [14 — The Third Observance](14_THIRD_OBSERVANCE.md) | Nine-trial pool, refuge charge, evidence-based rope cuts, physical bell phrases and 27 Mix layouts |
 
 The structured companion is [design_catalog.json](../../data/design_catalog.json). It identifies every trial, realm, character, archetype, and high-level status. Narrative detail remains in these chapters. Actual executable tuning lives in the Godot implementation; proposed production tuning in this bible must not silently override tested code.
 
@@ -31,6 +32,8 @@ The structured companion is [design_catalog.json](../../data/design_catalog.json
 The published v0.1 local Godot slice implements **The Silent Countdown**, **Trial of the Echoes**, and **Clockwork Relay** in one observatory. Its roles are a survivor against an AI Eye, and the Eye against four AI survivors. The **v0.2 Godot implementation** adds physical subsets of **The Memory Vault**, **The Ritual Circle**, and **The Clock Room** as alternate apparatus in the same three bays. First, Second, and Seeded Mix contracts always require three seals; six trials are available to the contract selector, not six simultaneous mandatory objectives. See [the exact implemented scope and verification evidence](12_PROTOTYPE_CONTRACTS.md). Domain checks, physical bot routes through all eight mixed combinations, and a complete Second survivor route against the active Story Eye have passed. Native Windows headless startup has passed for both roles under all three contracts. Graphical Windows playthrough and Unreal gameplay remain unverified.
 
 The published **v0.3, The Survivor Accord**, adds a local Squad session: one human survivor and four AI allies against the AI Eye. It introduces Work/Follow/Hold orders, one physical ally-assisted revival per actor, a team roster and ally spectating. The life domain and physical world fixtures have passed, as have three complete Story/Keeper Squad sessions and native-renderer inspection. The combined six assertion suites report 121 cases and 2,774 assertions with zero failures. The official v0.3 Windows archive has also passed all nine native headless startup cases: Solo, Eye and Squad under First, Second and Mix. Graphical Windows playthrough remains unverified. It preserves the existing six trials and adds no arena or networking. See [Squad and rescue](13_SQUAD_AND_RESCUE.md).
+
+**Version 0.4 — The Third Observance** adds the implemented observatory subsets of **T04 Light in the Darkness**, **T07 Strings of Despair**, and **T17 Chimes of Doom**. Four contracts are available: First, Second, Third and Seeded Mix. Mix now chooses among three trials per bay for 27 configurations; its old seed-to-layout mapping changes, while First/Second puzzle streams remain independent. Current verification and publication status are recorded in the [v0.4 report](../qa/V0_4_VERIFICATION.md). The detailed rules and production limits appear in [chapter 14](14_THIRD_OBSERVANCE.md).
 
 The prototype uses original procedural presentation. Read [the play guide](../PLAY.md) and the repository's verification report for the exact controls, tested features and known limitations. Production specifications elsewhere in this bible remain broader than the implemented subsets.
 

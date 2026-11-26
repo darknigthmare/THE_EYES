@@ -3,16 +3,20 @@ extends RefCounted
 ## Shared spatial command path: humans and bots use exactly these validations.
 
 const Props = preload("res://scripts/trial_apparatus.gd")
+const ThirdWorld = preload("res://scripts/third_world.gd")
 var game
 var state
 var apparatus: EyesTrialApparatus
 var clock_operator: int = 0
+var third: ThirdWorld
 
 func configure(p_game, p_state, p_apparatus: EyesTrialApparatus) -> void:
 	game = p_game
 	state = p_state
 	apparatus = p_apparatus
 	clock_operator = 0
+	third = ThirdWorld.new()
+	third.configure(self,apparatus.third)
 
 func _valid(actor: EyesSurvivor) -> bool:
 	return actor in game.actors and not actor.eliminated and not actor.downed and state.live and not (actor == game.player and game.punishment)
@@ -22,14 +26,21 @@ func _within(actor: EyesSurvivor, point: Vector3, radius: float) -> bool:
 
 func has_cargo(actor: EyesSurvivor) -> bool:
 	var id = actor.get_instance_id()
-	return state.carried_relic(id) >= 0 or state.ember_owner == id
+	return state.carried_relic(id) >= 0 or state.ember_owner == id or third.has_cargo(actor)
 
 func release(actor: EyesSurvivor) -> void:
 	state.release_actor(actor.get_instance_id())
+	third.release(actor)
 	if actor.carrying >= 0:
 		game._drop_mote(actor)
 	if clock_operator == actor.get_instance_id():
 		clock_operator = 0
+
+func cancel_actor(actor: EyesSurvivor) -> void:
+	third.cancel_actor(actor)
+
+func cancel_all() -> void:
+	third.cancel_all()
 
 func _command(kind: String, index: int, point: Vector3, radius: float, title: String) -> Dictionary:
 	return {"kind":kind,"index":index,"point":point,"radius":radius,"title":title}
@@ -38,6 +49,7 @@ func nearest(actor: EyesSurvivor) -> Dictionary:
 	if not _valid(actor):
 		return {}
 	var options: Array[Dictionary] = []
+	options.append_array(third.options(actor))
 	var id = actor.get_instance_id()
 	if state.trial_for_slot("silent") == "vault" and not game.director.seals.silent:
 		options.append(_command("vault_read",0,Props.VAULT_DESK,2.7,"[ E ]  Read the four relics / eight-second display"))
@@ -46,7 +58,7 @@ func nearest(actor: EyesSurvivor) -> Dictionary:
 			for i in range(4):
 				if state.vault_cradles[i] < 0:
 					options.append(_command("vault_deposit",i,Props.CRADLE_POSITIONS[i],1.85,"[ E ]  Place %s in cradle %d" % [Props.RELIC_NAMES[relic],i+1]))
-		elif actor.carrying < 0 and state.ember_owner != id:
+		elif actor.carrying < 0 and state.ember_owner != id and not third.has_cargo(actor):
 			for i in range(6):
 				if state.relic_available(i):
 					options.append(_command("vault_pickup",i,Props.RELIC_POSITIONS[i],1.9,"[ E ]  Carry %s / G returns it to its shelf" % Props.RELIC_NAMES[i]))
@@ -79,6 +91,9 @@ func interact(actor: EyesSurvivor, direction: int = 1, reset: bool = false) -> b
 			perform(actor,"clock_reset",0)
 			return true
 		return false
+	if direction < 0 and option.kind == "chimes_strike":
+		perform(actor,"chimes_damp",option.index)
+		return true
 	if direction < 0 and option.kind != "clock_turn":
 		return false
 	perform(actor,option.kind,option.index,direction)
@@ -88,6 +103,8 @@ func perform(actor: EyesSurvivor, kind: String, index: int = 0, direction: int =
 	if not _valid(actor):
 		return false
 	var id = actor.get_instance_id()
+	if kind.begins_with("light_") or kind.begins_with("strings_") or kind.begins_with("chimes_"):
+		return third.perform(actor,kind,index)
 	match kind:
 		"vault_read":
 			if state.trial_for_slot("silent") != "vault" or not _within(actor,Props.VAULT_DESK,2.7):
@@ -97,7 +114,7 @@ func perform(actor: EyesSurvivor, kind: String, index: int = 0, direction: int =
 				game.ui.toast("The target relics are shown above the vault. Four cradles, four exact identities.",4)
 			return true
 		"vault_pickup":
-			if index < 0 or index >= 6 or actor.carrying >= 0 or not _within(actor,Props.RELIC_POSITIONS[index],1.9):
+			if index < 0 or index >= 6 or actor.carrying >= 0 or third.has_cargo(actor) or not _within(actor,Props.RELIC_POSITIONS[index],1.9):
 				return false
 			return state.pickup_relic(id,index)
 		"vault_deposit":
@@ -105,7 +122,7 @@ func perform(actor: EyesSurvivor, kind: String, index: int = 0, direction: int =
 				return false
 			return state.deposit_relic(id,index)
 		"ember_pickup":
-			if actor.carrying >= 0 or not _within(actor,Props.EMBER_POSITION,1.8):
+			if actor.carrying >= 0 or third.has_cargo(actor) or not _within(actor,Props.EMBER_POSITION,1.8):
 				return false
 			return state.take_ember(id)
 		"ritual_light":
@@ -127,6 +144,7 @@ func perform(actor: EyesSurvivor, kind: String, index: int = 0, direction: int =
 	return false
 
 func step(delta: float) -> void:
+	third.step(delta)
 	if state.trial_for_slot("echoes") != "ritual":
 		return
 	var occupied = false
@@ -140,6 +158,9 @@ func step(delta: float) -> void:
 	state.charge_ritual(delta,occupied)
 
 func hint(actor: EyesSurvivor) -> String:
+	var third_hint: String = third.hint(actor)
+	if not third_hint.is_empty():
+		return third_hint
 	if state.trial_for_slot("echoes") == "ritual" and state.ritual_index >= 5 and not game.director.seals.echoes and actor.global_position.distance_to(Props.RITUAL_CENTER) < 4.5:
 		return "RITUAL  /  Keep moving inside the ring  /  %.1f of 8 seconds" % state.ritual_hold
 	var option = nearest(actor)
@@ -154,6 +175,8 @@ func _assign(data: Dictionary, task: String, point: Vector3, index: int = 0, dir
 	return true
 
 func cargo_goal(data: Dictionary) -> bool:
+	if third.cargo_goal(data):
+		return true
 	var actor: EyesSurvivor = data.actor
 	var id = actor.get_instance_id()
 	var relic: int = state.carried_relic(id)
@@ -169,6 +192,8 @@ func cargo_goal(data: Dictionary) -> bool:
 	return false
 
 func assign_slot(data: Dictionary, slot: String) -> bool:
+	if state.trial_for_slot(slot) in ["light","strings","chimes"]:
+		return third.assign_slot(data,slot)
 	var actor: EyesSurvivor = data.actor
 	var id = actor.get_instance_id()
 	match state.trial_for_slot(slot):
@@ -221,6 +246,9 @@ func assign_slot(data: Dictionary, slot: String) -> bool:
 func bot_arrived(data: Dictionary, delta: float) -> void:
 	var actor: EyesSurvivor = data.actor
 	var task: String = data.task
+	if task.begins_with("light_") or task.begins_with("strings_") or task.begins_with("chimes_"):
+		third.bot_arrived(data,delta)
+		return
 	if task == "vault_observe":
 		if not bool(data.get("vault_observing",false)):
 			data.vault_observing = perform(actor,"vault_read")

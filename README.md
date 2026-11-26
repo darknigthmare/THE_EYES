@@ -1,42 +1,43 @@
 # THE EYES
 
-### The Survivor Accord · local 3D prototype 0.3.0
+### The Third Observance · local 3D prototype 0.4.0
 
 **It cannot follow you. It only needs to see you.**
 
 An original asymmetrical nightmare game by **Darknigthmare**. Break three seals
 and escape a hostile observatory while an enormous, immobile Eye watches real
-sightlines, commands traps, and summons stalking shadows. In **The Survivor
-Accord**, lead four physical AI allies, choose their priorities, and rescue
-one another under pressure.
+sightlines, commands traps, and summons stalking shadows. In **The Third Observance**, power permanent refuges, read the rope clues and
+control the noise of four physical bells. Lead four AI allies, choose their
+priorities, and rescue one another under pressure.
 
 This repository contains the playable **Godot prototype**, a detailed English
 **game bible covering all 25 source trials**, and a **UE5 Blueprint-only
 construction foundation**. The production target remains 5–7 survivors against
 one Eye; the new five-survivor Squad is local, with one human and four AI allies.
 
-![Actual Godot v0.3 menu](docs/qa/v0.3/menu.png)
+![Actual Godot v0.4 menu](docs/qa/v0.4/menu.png)
 
 ## Start here
 
-**[Windows x64 package — THE EYES 0.3.0](https://github.com/darknigthmare/THE_EYES/releases/download/v0.3.0/THE_EYES_v0.3.0_Windows_x64.zip)**
-· [Release, checksums and startup report](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.3.0)
+**[Windows x64 package — THE EYES 0.4.0](https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/THE_EYES_v0.4.0_Windows_x64.zip)**
+· [Release, checksums and startup report](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0)
 
 Extract the entire ZIP and run **THE_EYES.exe**. Godot is not required for the
 package. Publication requires the exact exported archive to pass native Windows
-headless startup for all **nine mode × contract combinations**. Its evidence
+headless startup for all **twelve mode × contract combinations**. Its evidence
 is `WINDOWS_SMOKE.json`; graphical Windows playthrough and hardware performance
 remain separate checks. The package is an unsigned development build.
 
 | I want to… | Open |
 | --- | --- |
 | Play | [English guide](docs/PLAY.md) · [Guide français](docs/DEMARRAGE_FR.md) |
-| See what changed | [0.3.0 release notes](docs/releases/V0_3_0.md) |
-| Understand the new squad | [Squad and rescue](docs/bible/13_SQUAD_AND_RESCUE.md) |
+| See what changed | [0.4.0 release notes](docs/releases/V0_4_0.md) |
+| Understand the squad | [Squad and rescue](docs/bible/13_SQUAD_AND_RESCUE.md) |
+| Understand the new trials | [The Third Observance](docs/bible/14_THIRD_OBSERVANCE.md) |
 | Read the complete design | [Bible index](docs/bible/README.md) · [25-trial catalogue](docs/bible/06_TRIAL_CATALOGUE.md) |
 | Inspect the game | [Godot project](game/project.godot) · [Scene controller](game/scripts/main.gd) |
 | Build the Unreal version | [UE5 foundation](unreal/README.md) · [Squad Blueprint recipe](docs/technical/SQUAD_IMPLEMENTATION.md) |
-| Review evidence | [v0.3 verification](docs/qa/V0_3_VERIFICATION.md) · [Test guide](game/tests/README.md) |
+| Review evidence | [v0.4 verification](docs/qa/V0_4_VERIFICATION.md) · [Test guide](game/tests/README.md) |
 | Compare with the brief | [Original supplied concept](docs/source/ORIGINAL_CONCEPT.txt) |
 
 ## Three local ways to play
@@ -48,7 +49,7 @@ remain separate checks. The package is an unsigned development build.
 | **Take the Eye's Seat** | Human Eye against four AI survivors | Existing Eye-mode rules |
 
 Choose **Story / Keeper / First Observance** for an introductory run. All three
-modes support First, Second, and Seeded Mix. There is no online lobby or second
+modes support First, Second, Third, and Seeded Mix. There is no online lobby or second
 local human controller.
 
 ### Lead, help, and survive
@@ -72,17 +73,19 @@ favors the Keeper. Its cooldown is 35 seconds. Healing does not revive a downed
 member. If you are eliminated, **1–4 / mouse wheel** watches surviving allies.
 The first valid escape still wins for the whole team.
 
-![Actual Squad HUD and physical allies](docs/qa/v0.3/squad.png)
+![Actual Squad HUD and physical allies](docs/qa/v0.4/squad.png)
 
-## Six trials, three seals
+## Nine trials, three seals
 
 | Contract | Northwest | Northeast | South |
 | --- | --- | --- | --- |
 | **First Observance** | Silent Countdown | Trial of the Echoes | Clockwork Relay |
 | **Second Observance** | The Memory Vault | The Ritual Circle | The Clock Room |
-| **Seeded Mix** | Countdown or Vault | Echoes or Ritual | Relay or Clock |
+| **Third Observance** | Light in the Darkness | Strings of Despair | Chimes of Doom |
+| **Seeded Mix** | Countdown, Vault or Light | Echoes, Ritual or Strings | Relay, Clock or Chimes |
 
-Seeded Mix has eight possible sets. The seed repeats trial selection and puzzle
+Seeded Mix has **27 possible sets**. Version 0.4 expands its selection from two
+to three choices per bay, so a seed from 0.3 may choose a different Mix layout. The seed repeats trial selection and puzzle
 setup within the same game version; it does not guarantee identical AI or
 physics timing. Each round activates exactly three trials.
 
@@ -94,6 +97,9 @@ physics timing. Each round activates exactly three trials.
 | The Memory Vault | Read four named targets, retrieve their real shapes from six shelves, and fill the exact indexed cradles. |
 | The Ritual Circle | Carry the shared ember between five ordered vessels, then stay inside the ring for eight seconds; movement within it is allowed. |
 | The Clock Room | Walk between coupled reversible levers, match three hands, and press the central seal. Generated starts require four optimal turns. |
+| Light in the Darkness | Carry three uniquely owned cells to their matching lamps. Hold E still for two seconds; charge recovers at the base and lit refuges. |
+| Strings of Despair | Read side and shape-family clues; hold E to cut one of four tagged ropes. Three cage stages bank; a wrong cut triggers a recoverable safety catch. |
+| Chimes of Doom | Walk between four bells and ring two four-note phrases. E strikes; R moves the one shared damper. The first phrase stays banked after mistakes. |
 
 Three completed seals open the north door and start a fresh escape countdown.
 Hold E there for 1.5 seconds. Seals and accepted checkpoints remain permanent.
@@ -112,6 +118,7 @@ Q-labelled ability is **A**. Top-row 1–4 positions work without Shift.
 | B / F / V in Squad | Work / Follow / Hold |
 | 1–4; R in Echoes | Repeat symbols; replay the observed sequence |
 | E / R at Clock levers; X at centre | Forward / reverse; reset |
+| E / R at a bell | Strike / toggle the one shared damper |
 | 1–4 / wheel after Squad elimination | Watch another surviving ally |
 | Tab; Escape | Map; pause/settings |
 
@@ -137,42 +144,35 @@ Procedural geometry, original synthesized sounds, and licensed fonts are include
 | Area | Local prototype | Production direction |
 | --- | --- | --- |
 | World | One connected 54 × 48 m observatory and four fixed sockets | Four complete nightmare realms |
-| Sessions | Solo, local Squad, human Eye; three contracts | Networked 5–7 versus 1 play |
-| Content | Six trial subsets; four archetypes; existing eight character names used for squad identity | All 25 trials, final rigs, animation and narrative assets |
+| Sessions | Solo, local Squad, human Eye; four contracts | Networked 5–7 versus 1 play |
+| Content | Nine trial subsets; four archetypes; existing eight character names used for squad identity | All 25 trials, final rigs, animation and narrative assets |
 | Cooperation | Orders, physical rescue, Keeper support, roster and ally spectating | Expanded cooperative kits and online coordination |
 | Persistence | Settings plus schema-3 last-match ledger with session mode and squad summary | Profile, reconnect and progression; no current mid-match save |
-| Unreal | Project foundation, eight CSV tables and Blueprint recipes | Playable maps and compiled Blueprint assets |
+| Unreal | Project foundation, nine CSV tables and Blueprint recipes | Playable maps and compiled Blueprint assets |
 
-The **19 other trials**, full production variants, networking, controller/input
+The **16 other trials**, full production variants, networking, controller/input
 remapping, complete realms and finished Unreal gameplay remain future work.
 The Unreal directory contains construction material, not fabricated binary
 Blueprint assets.
 
 ## Development and verification
 
-The existing six suites retain their verified v0.2 outcomes: **72 counted cases /
-2,420 assertions**, all eight mixed bot routes, and the two Solo completion
-routes. Squad adds **26 domain cases / 120 assertions** and **23 physical world
-cases / 234 assertions**. The six counted suites total **121 cases and 2,774
-assertions, with zero failures**.
-Three additional normal-input Story/Keeper sessions completed against the active
-Eye, each issuing all three orders and earning all three seals:
+The v0.4 integration run passes twelve gameplay suites: 194 cases / 4,878
+assertions plus seven complete pressured sessions. Domain checks cover charge ownership, continuous
+holds, unique explainable rope clues, phrase banks and damping. World checks
+exercise actual range, line of sight, motion, damage, pause, bot observation and
+cargo cleanup. The expanded Mix runner discovers **all 27 distinct mappings**
+and requires physical bot completion for each.
 
-| Squad contract, seed 271126 | Simulated team-win time | Human HP | Recorded wound events |
-| --- | ---: | ---: | ---: |
-| First | 46.88 s | 33 | 4 |
-| Second | 86.80 s | 20 | 6 |
-| Seeded Mix | 46.72 s | 100 | 1 |
+Normal-input routes cover the original Solo and Squad contracts plus Third
+Solo and Third Squad against the active Story Eye. These informed drivers use
+ordinary movement and interaction; they do not inject actor positions, health,
+clock changes or completed progress. They establish scoped completion, not
+novice usability, all-difficulty balance or hardware frame rates.
 
-These routes use ordinary movement, physics and interactions without injected
-health, position, clocks or objective progress. Wound events are match-wide;
-none of these three final runs included a down. Separate physical rescue checks
-include a real AI walking 7.64 m and completing the six-second rescue in 7.50 s
-total, with correct health and protection. Native-renderer captures are inspected;
-the exact-build Windows gate remains pending. Details are in the
-[v0.3 report](docs/qa/V0_3_VERIFICATION.md).
-The informed drivers are completion evidence, not novice usability or hardware
-performance measurements.
+The [v0.4 verification report](docs/qa/V0_4_VERIFICATION.md) records measured
+results and the separate exact-build Windows publication evidence. Earlier
+release evidence remains in its versioned reports.
 
 Run the suites listed in [the test guide](game/tests/README.md). For example:
 
@@ -184,7 +184,7 @@ godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://
 
 `tools/build_windows.py` exports with the matching template, validates the
 executable/archive, and records checksums and provenance. The release workflow
-requires all nine suites and the exact archive's nine native Windows startup
+requires all twelve suites and the exact archive's twelve native Windows startup
 cases before publication. See the report for completed gates and limitations.
 
 ## Credits

@@ -11,12 +11,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: the-eyes-release-v0.3.0
+  group: the-eyes-release-v0.4.0
   cancel-in-progress: false
 
 env:
-  RELEASE_TAG: v0.3.0
-  PACKAGE: THE_EYES_v0.3.0_Windows_x64
+  RELEASE_TAG: v0.4.0
+  PACKAGE: THE_EYES_v0.4.0_Windows_x64
   GODOT_VERSION: 4.7.2
   GODOT_ARCHIVE_SHA256: cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4
   WINDOWS_TEMPLATE_SHA256: d34d36f3be1a6c49c56525ae86469b92e4f417ddf0b43cf00dd80c385c4b0562
@@ -96,7 +96,7 @@ jobs:
           unzip -q "$RUNNER_TEMP/eyes-godot.zip" -d "$RUNNER_TEMP/eyes-godot"
           chmod +x "$RUNNER_TEMP/eyes-godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64"
 
-      - name: Import and pass all nine gameplay suites
+      - name: Import and pass all twelve gameplay suites
         if: steps.gate.outputs.publish == 'true'
         shell: bash
         run: |
@@ -112,7 +112,8 @@ jobs:
           cases = [('import', [godot, '--headless', '--editor', '--path', 'game', '--import'])]
           suites = ['test_director.gd', 'test_world.gd', 'test_survivor_route.gd',
                     'test_trial_set.gd', 'test_second_world.gd', 'test_second_survivor_route.gd',
-                    'test_squad_state.gd', 'test_squad_world.gd', 'test_squad_route.gd']
+                    'test_squad_state.gd', 'test_squad_world.gd', 'test_squad_route.gd',
+                    'test_third_trials.gd', 'test_third_world.gd', 'test_third_survivor_route.gd']
           for suite in suites:
               cases.append((suite, [godot, '--headless', '--path', 'game', '--fixed-fps', '60',
                                     '--audio-driver', 'Dummy', '--script', f'res://tests/{suite}']))
@@ -171,14 +172,14 @@ jobs:
           (assets / 'SHA256SUMS.txt').write_text(f'{digest}  {archive.name}\n', encoding='utf-8')
           with Path(os.environ['GITHUB_OUTPUT']).open('a', encoding='utf-8') as output:
               output.write(f'archive_sha256={digest}\n')
-          notes = Path('docs/releases/V0_3_0.md').read_text(encoding='utf-8')
+          notes = Path('docs/releases/V0_4_0.md').read_text(encoding='utf-8')
           server, repository, sha, run = (os.environ[k] for k in
               ['GITHUB_SERVER_URL', 'GITHUB_REPOSITORY', 'GITHUB_SHA', 'GITHUB_RUN_ID'])
           notes += (f'\n\n## Exact build provenance\n\n'
                     f'Built and tested from [{sha}]({server}/{repository}/commit/{sha}). '
                     f'[Workflow run]({server}/{repository}/actions/runs/{run}).\n\n'
                     f'Godot: `{info["godot_version"]}`. Windows ZIP SHA-256: `{digest}`.\n\n'
-                    'All nine required Linux gameplay suites passed before this archive was exported. '
+                    'All twelve required Linux gameplay suites passed before this archive was exported. '
                     'The publish job additionally requires the native Windows headless startup report.\n')
           (assets / 'release-notes.md').write_text(notes, encoding='utf-8')
           PY
@@ -247,7 +248,7 @@ jobs:
           $logDirectory = Join-Path $env:RUNNER_TEMP 'eyes-windows-smoke'
           New-Item -ItemType Directory -Path $logDirectory | Out-Null
           $cases = @()
-          foreach ($contract in @('first', 'second', 'mix')) {
+          foreach ($contract in @('first', 'second', 'mix', 'third')) {
             foreach ($role in @('survivor', 'eye', 'squad')) {
               $label = "$contract-$role"
               $stdout = Join-Path $logDirectory "$label.stdout.log"
@@ -279,7 +280,7 @@ jobs:
             mode='headless'; graphical_hardware_playtest=$false; cases=$cases
           }
           $report | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $logDirectory 'WINDOWS_SMOKE.json') -Encoding utf8
-          "All nine native Windows headless startup checks passed. This is not a graphical hardware playtest." >> $env:GITHUB_STEP_SUMMARY
+          "All twelve native Windows headless startup checks passed. This is not a graphical hardware playtest." >> $env:GITHUB_STEP_SUMMARY
 
       - name: Retain native Windows startup evidence
         id: smoke
@@ -329,8 +330,8 @@ jobs:
           assert report['archive_sha256'] == digest
           assert report['mode'] == 'headless' and report['platform'] == 'Windows'
           assert report['graphical_hardware_playtest'] is False
-          expected = {(role, contract) for role in ['survivor', 'eye', 'squad'] for contract in ['first', 'second', 'mix']}
-          assert len(report['cases']) == 9
+          expected = {(role, contract) for role in ['survivor', 'eye', 'squad'] for contract in ['first', 'second', 'mix', 'third']}
+          assert len(report['cases']) == 12
           assert {(case['role'], case['contract']) for case in report['cases']} == expected
           assert all(case['session_mode'] == case['role'] and case['exit_code'] == 0 and
                      case['ready_marker_seen'] is True and
@@ -342,8 +343,8 @@ jobs:
               f'{digest}  {archive.name}\n{report_digest}  WINDOWS_SMOKE.json\n', encoding='utf-8')
           with (assets / 'release-notes.md').open('a', encoding='utf-8') as notes:
               notes.write('\n\n## Native Windows startup result\n\n'
-                  'The exported executable passed all nine native Windows headless startup checks: '
-                  'Survivor, Eye and Survivor Squad for First, Second and Seeded Mix. Each run reached its requested '
+                  'The exported executable passed all twelve native Windows headless startup checks: '
+                  'Survivor, Eye and Survivor Squad for First, Second, Third and Seeded Mix. Each run reached its requested '
                   'playable scene with its actual session mode, exited with code zero and emitted no engine error diagnostics. '
                   'See the attached `WINDOWS_SMOKE.json` for the exact archive, source revision and cases. '
                   'This is a startup test without graphical rendering; it does not establish graphical '
@@ -383,6 +384,6 @@ jobs:
             --repo "$GH_REPO" \
             --target "$GITHUB_SHA" \
             --prerelease \
-            --title 'THE EYES 0.3.0 — The Survivor Accord' \
+            --title 'THE EYES 0.4.0 — The Third Observance' \
             --notes-file "$RUNNER_TEMP/eyes-release-assets/release-notes.md"
           gh release view "$RELEASE_TAG" --repo "$GH_REPO" --json url --jq '.url' >> "$GITHUB_STEP_SUMMARY"
