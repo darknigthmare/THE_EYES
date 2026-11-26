@@ -5,7 +5,7 @@
   "language": "en",
   "project": "THE EYES",
   "owner": "Darknigthmare",
-  "status_note": "This is a design catalogue. selected_for_prototype identifies six implemented local Godot trial subsets; prototype_stage records their implementation milestone. Original subsets shipped in v0.1 and three alternate physical subsets are implemented in v0.2. Nineteen entries and fuller production variants remain planned. Domain checks, physical bot routes and an active Story survivor route have passed for the tested build; native Windows and Unreal gameplay verification remain separate gates. See docs/bible/12_PROTOTYPE_CONTRACTS.md and release verification for the exact evidence.",
+  "status_note": "This is a design catalogue. selected_for_prototype identifies six implemented local Godot trial subsets; prototype_stage records their implementation milestone. Original subsets shipped in v0.1 and three alternate physical subsets are implemented in v0.2. Nineteen entries and fuller production variants remain planned. Domain checks, physical bot routes and an active Story survivor route have passed for the tested build; all six native Windows headless startup cases have also passed for the published archive. Graphical Windows playthrough and compiled Unreal gameplay remain unverified. See docs/bible/12_PROTOTYPE_CONTRACTS.md and release verification for the exact evidence.",
   "source": {
     "attachment": "Texte collé.txt",
     "original_trial_count": 25,
@@ -244,7 +244,7 @@
     "input_remapping": false,
     "socket_reacquisition_warning_seconds": 0.85,
     "previous_release": "0.1.0",
-    "verification_status": "local_domain_and_physical_routes_passed_native_windows_pending",
+    "verification_status": "local_domain_routes_and_native_windows_headless_passed",
     "active_trial_count": 3,
     "required_seals": 3,
     "bays": [
@@ -375,11 +375,21 @@
         "driver_position_health_timer_or_progress_overrides": false,
         "driver": "informed normal-input physics driver"
       },
-      "native_windows_release_workflow": "pending_at_evidence_snapshot",
+      "native_windows_release_workflow": "passed",
       "graphical_windows_playthrough": "not_verified",
       "compiled_playable_unreal_assets": false,
       "general_balance_or_novice_usability_established": false,
-      "document": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
+      "document": "docs/bible/12_PROTOTYPE_CONTRACTS.md",
+      "native_windows_release_evidence": {
+        "source_commit": "4e8e034e60979856cef2fdd1508e28fb144e2812",
+        "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.2.0",
+        "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45865864627",
+        "report": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.2.0/WINDOWS_SMOKE.json",
+        "archive_sha256": "1e23f7981a5e387b5853a32894ecb820d4dc4ebe4d2e20bc55fc6b9e5576df00",
+        "cases_passed": 6,
+        "mode": "headless",
+        "graphical_hardware_playtest": false
+      }
     }
   },
   "production": {

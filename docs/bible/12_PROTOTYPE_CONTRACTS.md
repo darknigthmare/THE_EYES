@@ -1,6 +1,6 @@
 # 12 — Prototype contracts and v0.2 scope
 
-**Status: implemented in the local Godot v0.2 prototype.** Domain checks, physical bot routes, and an active Story survivor route have passed for the tested build. Native Windows execution and graphical platform checks remain separate release gates. This chapter records implementation boundaries and the evidence available on 26 November 2026.
+**Status: implemented in the local Godot v0.2 prototype.** Domain checks, physical bot routes, and an active Story survivor route have passed for the tested build. Native Windows headless startup has passed for both roles under all three contracts. Graphical Windows playthrough and Unreal gameplay remain unverified. This chapter records implementation boundaries and the evidence available on 26 November 2026.
 
 ## One observatory, three active trials
 
@@ -76,4 +76,4 @@ The following results were obtained with Godot 4.7.2 for the current implementat
 
 The unopposed Second bot route completed in 81.08 simulated seconds; the eight mixed routes completed in 46.03–89.02 simulated seconds. Those runs establish physical task reachability with several bots. The active Story survivor run separately establishes a complete pressured route, including legitimate recovery and movement inside the ritual ring. Its informed scripted driver knows the map and puzzle clues; it does not substitute for first-time human usability testing or validate every difficulty and archetype.
 
-Rendered captures and native platform results must be assessed separately from these logic and route results. At this evidence snapshot, the native Windows release workflow and graphical Windows playthrough are not reported as passed. Blueprint assets still require creation, compilation, and playtesting in Unreal Editor, and online authority remains planned. Release notes must state the actual platform checks completed for the exact distributed build.
+Six final Godot renderer captures were visually inspected after correcting world-label and manual overlap. The published v0.2.0 executable also passed all six native Windows headless startup cases: both roles under First, Second and Seeded Mix. The [verification report](../qa/V0_2_VERIFICATION.md) links the exact source revision, archive hash, workflow and machine-produced Windows evidence. This does not establish graphical Windows driver compatibility, a complete interactive Windows playthrough or hardware performance. Blueprint assets still require creation, compilation and playtesting in Unreal Editor, and online authority remains planned.

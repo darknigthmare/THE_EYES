@@ -4,8 +4,8 @@
 scenes, gameplay authority, physical bot routes, and both normal-input survivor
 routes have passed their checks. Six actual renderer captures have been
 visually inspected after correcting overlapping world labels and manual text.
-The native Windows release gate has not yet been reported as passed, and a
-graphical Windows playthrough remains untested.
+All six native Windows headless startup cases have also passed for the published
+archive. A graphical Windows playthrough remains untested.
 
 This report concerns the local Godot implementation: one connected observatory,
 two roles, six trial subsets with three active per round, and First, Second, or
@@ -28,7 +28,7 @@ and three-trial catalogue describe that earlier build.
 | First unopposed physical bots | Four ordinary AI survivors and a human Eye taking no power actions | Passed; 52.95 simulated seconds |
 | Second and all eight mixed bot configurations | Nine complete routes with three seals and a real exit interaction | Passed; all zero wounds |
 | Actual rendered presentation | Six screenshots captured from Godot and inspected | Passed; final captures visually inspected at 1280 × 800 |
-| Native Windows exported executable | Required six role × contract headless startup cases | Required release gate; not yet reported as passed |
+| Native Windows exported executable | Required six role × contract headless startup cases | Passed; six cases, exit zero and no engine error diagnostics |
 | Graphical Windows playthrough | Interactive executable, real graphical drivers and complete match | Untested |
 | Catalogue and bible | JSON, source-title traceability, relative links, exact implemented boundaries | Passed; 25 designs, six implemented subsets, three active per match |
 | UE5 foundation | Blueprint implementation recipes, project foundation and data schemas | Specification/foundation only; Unreal Editor gameplay not compiled or run |
@@ -193,7 +193,16 @@ compatibility or hardware performance.
 
 ## Native Windows release gate
 
-**Required; not yet reported as passed in this source-validation snapshot.**
+**Passed for the published v0.2.0 archive on 26 November 2026.**
+The [release workflow](https://github.com/darknigthmare/THE_EYES/actions/runs/45865864627) completed all three jobs successfully.
+The [published smoke report](https://github.com/darknigthmare/THE_EYES/releases/download/v0.2.0/WINDOWS_SMOKE.json) records both roles under First, Second
+and Seeded Mix, all six ready markers, zero exit codes and no engine errors.
+
+- Build source: [`4e8e034e60979856cef2fdd1508e28fb144e2812`](https://github.com/darknigthmare/THE_EYES/commit/4e8e034e60979856cef2fdd1508e28fb144e2812).
+- Windows ZIP SHA-256: `1e23f7981a5e387b5853a32894ecb820d4dc4ebe4d2e20bc55fc6b9e5576df00`.
+- [Release and exact downloadable assets](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.2.0).
+
+The following requirements were applied to that exact archive.
 The [release workflow](../../.github/workflows/release-windows.yml) first reruns
 all six Linux gameplay suites under the pinned Godot engine and rejects engine
 errors even when an exit code is zero. It exports the exact source revision,
@@ -216,15 +225,15 @@ The workflow requests 240 process frames per case and writes
 platform, and all six outcomes. It explicitly records
 `graphical_hardware_playtest: false`. Publication requires a successful report
 for that exact archive and checks the checksum again before attaching it to the
-release. A report has not been fabricated or substituted with this Markdown
-specification; the actual workflow output is the required evidence.
+release. The published report is the actual workflow output and identifies the
+archive independently of this documentation.
 
 Native Windows headless startup remains narrower than a graphical Windows
 match. It does not test graphics drivers, controller support, hardware FPS,
 interactive input feel, or a full match on Windows. A graphical Windows
-playthrough remains **untested**, even after that startup gate eventually
-passes. The exact published revision and workflow result belong in the release
-body and its attached smoke report.
+playthrough remains **untested** after the successful startup gate. The release
+body and attached report identify the exact tested build; later documentation
+commits do not change the distributed executable.
 
 ## Remaining scope
 
