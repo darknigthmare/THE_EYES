@@ -56,6 +56,17 @@ pas, son regard ne blesse pas, aucun délai de partie ne te presse et tu n'as
 pas à rejoindre la sortie après le sceau. Le guide à l'écran explique l'action
 à réaliser ; les indices générés restent à lire sur place.
 
+Pendant l'entraînement, **H** replie le guide à droite pour dégager la vue sur
+l'épreuve. Le titre, la progression, l'objectif, l'objet porté et les commandes
+restent visibles. Le petit rappel **H Show Workshop Guide** permet de réafficher
+les conseils. Le jeu continue pendant cette commande d'affichage ; utilise F1
+ou Échap pour faire une pause.
+
+Chaque nouvelle tentative réouvre le guide. La carte, le panneau Echoes, la
+pause et le manuel le masquent temporairement avec son rappel, puis retrouvent
+ton choix au retour. H ne fait rien sur ces écrans, dans les menus/résultats ou
+pendant une partie ordinaire. Ce choix n'est pas enregistré entre les tentatives.
+
 Après la réussite, **Retry Same Seed** recommence la même configuration,
 **Try Another Seed** change la graine, et **Next Trial** passe à l'épreuve
 suivante. **Choose a Trial** revient au choix des neuf cartes. Les objets,
@@ -162,6 +173,7 @@ seule mise à jour par pas physique. Les règles Solo restent inchangées.
 | 1–4 / molette après élimination en Squad | Observer un allié |
 | Tab ; Échap | Carte ; pause et réglages |
 | F1 | Ouvrir le manuel ; le fermer ramène à la pause pendant une session |
+| H pendant un entraînement | Replier ou réafficher le guide ; le jeu continue |
 
 Le jeu affiche les positions physiques d'un clavier QWERTY : son « Q »
 correspond à **A sur AZERTY**. Les positions 1–4 de la rangée supérieure

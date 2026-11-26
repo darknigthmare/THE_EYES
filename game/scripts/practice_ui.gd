@@ -25,6 +25,9 @@ var role_select: OptionButton
 var seed_select: SpinBox
 var start_button: Button
 var guide_panel: Control
+var guide_collapsed: bool = false
+var guide_reminder: Control
+var guide_reminder_label: Label
 var guide_title: Label
 var guide_text: Label
 var guide_controls: Label
@@ -122,7 +125,6 @@ func _build_cards() -> void:
 		var at := Vector2(66+(index%3)*299,194+(index/3)*176)
 		var card: Button = host.button(catalog_panel,"",at,Vector2(280,160))
 		card.name = "PracticeCard_"+id
-		card.tooltip_text = str(item.get("title",id))+" — "+str(item.get("summary",""))
 		var title: Label = _paragraph(card,str(item.get("title",id)),Vector2(17,13),Vector2(246,51),20,host.PAPER)
 		title.add_theme_font_override("font",host.title_font)
 		_paragraph(card,str(item.get("summary","")),Vector2(17,69),Vector2(246,51),13,host.MUTED)
@@ -143,12 +145,18 @@ func _build_drill() -> void:
 	guide_panel = host.panel(host.hud,Vector2(1008,117),Vector2(396,470),Color(0.025,0.06,0.075,0.94),Color("52665e"))
 	guide_panel.name = "WorkshopGuide"
 	guide_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	host.label(guide_panel,"WORKSHOP GUIDE",Vector2(20,16),Vector2(356,23),12,host.GOLD,host.mono_font)
+	host.label(guide_panel,"WORKSHOP GUIDE",Vector2(20,16),Vector2(210,23),12,host.GOLD,host.mono_font)
+	var hide_hint: Label = host.label(guide_panel,"H  HIDE",Vector2(246,16),Vector2(130,23),12,host.MINT,host.mono_font)
+	hide_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	guide_title = _paragraph(guide_panel,"",Vector2(20,54),Vector2(356,61),26,host.PAPER)
 	guide_title.add_theme_font_override("font",host.title_font)
 	guide_text = _paragraph(guide_panel,"",Vector2(20,126),Vector2(356,226),17,host.PAPER)
 	guide_controls = _paragraph(guide_panel,"",Vector2(20,367),Vector2(356,53),12,host.MINT)
-	host.label(guide_panel,"F1  Manual    ESC  Pause / retry",Vector2(20,435),Vector2(356,22),11,host.MUTED,host.mono_font)
+	host.label(guide_panel,"H  Hide guide    F1  Manual    ESC  Pause",Vector2(20,435),Vector2(356,22),11,host.MUTED,host.mono_font)
+	guide_reminder = host.panel(host.hud,Vector2(1152,117),Vector2(252,42),Color(0.025,0.06,0.075,0.94),Color("52665e"))
+	guide_reminder.name = "WorkshopGuideReminder"
+	guide_reminder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	guide_reminder_label = host.label(guide_reminder,"H  SHOW WORKSHOP GUIDE",Vector2(12,10),Vector2(228,22),12,host.MINT,host.mono_font)
 
 
 func _build_result() -> void:
@@ -202,6 +210,7 @@ func show_catalog(items: Array, notebook: Dictionary, archetype: String, seed_va
 		catalog_cards[id].state.add_theme_color_override("font_color",host.MINT if count > 0 else host.MUTED)
 	progress_panel.hide()
 	guide_panel.hide()
+	guide_reminder.hide()
 	result_panel.hide()
 	catalog_panel.show()
 	if catalog_cards.has(selected_trial):
@@ -276,11 +285,11 @@ func _refresh_record() -> void:
 	var personal: Dictionary = _role_record(selected_trial,role)
 	var count: int = int(total.get("completions",0))
 	if int(personal.get("completions",0)) > 0 and int(personal.get("best_seed",0)) > 0:
-		selected_record_label.text = "%d total completions · %s best %s\nBest seed %d · this role only" % [count,role,_time(float(personal.get("best_seconds",0.0))),int(personal.get("best_seed",0))]
+		selected_record_label.text = "%d total %s · %s best %s\nBest seed %d · this role only" % [count,_completion_noun(count),role,_time(float(personal.get("best_seconds",0.0))),int(personal.get("best_seed",0))]
 	elif int(personal.get("completions",0)) > 0:
-		selected_record_label.text = "%d total completions\n%s: %d completed · no saved best time." % [count,role,int(personal.get("completions",0))]
+		selected_record_label.text = "%d total %s\n%s: %d completed · no saved best time." % [count,_completion_noun(count),role,int(personal.get("completions",0))]
 	else:
-		selected_record_label.text = "%d total completions\n%s: no completed exercise yet." % [count,role]
+		selected_record_label.text = "%d total %s\n%s: no completed exercise yet." % [count,_completion_noun(count),role]
 
 
 func _choose_new_seed() -> void:
@@ -297,10 +306,10 @@ func _start_selected() -> void:
 
 
 func show_drill(snapshot: Dictionary) -> void:
+	guide_collapsed = false
 	catalog_panel.hide()
 	result_panel.hide()
 	progress_panel.show()
-	guide_panel.show()
 	update_drill(snapshot)
 
 
@@ -314,7 +323,18 @@ func update_drill(snapshot: Dictionary) -> void:
 	guide_title.text = str(snapshot.get("guide_title","Explore the trial"))
 	guide_text.text = str(snapshot.get("guide_text","Move close to an apparatus and read its interaction prompt. F1 opens the field manual."))
 	guide_controls.text = str(_item(selected_trial).get("controls","E · interact    G · return cargo    TAB · map"))
-	guide_panel.visible = host.hud.visible and not host.minimap.visible and not host.echo_panel.visible and not result_panel.visible
+	sync_guide_visibility()
+
+
+func set_guide_collapsed(collapsed: bool) -> void:
+	guide_collapsed = collapsed
+	sync_guide_visibility()
+
+
+func sync_guide_visibility() -> void:
+	var available: bool = host.practice_enabled and host.hud.visible and not host.minimap.visible and not host.echo_panel.visible and not host.pause_panel.visible and not host.help_panel.visible and not result_panel.visible
+	guide_panel.visible = available and not guide_collapsed
+	guide_reminder.visible = available and guide_collapsed
 
 
 func show_completion(snapshot: Dictionary) -> void:
@@ -326,7 +346,8 @@ func show_completion(snapshot: Dictionary) -> void:
 	result_title.text = str(snapshot.get("title",selected_trial))
 	result_body.text = "Completed with %s · seed %d · %s of practice.\nYour next attempt starts a fresh trial. The same seed keeps this puzzle." % [role,int(snapshot.get("seed",0)),_time(float(snapshot.get("elapsed",0.0)))]
 	if int(personal.get("completions",0)) > 0:
-		result_record.text = "LOCAL NOTEBOOK / %d completions with %s" % [int(personal.get("completions",0)),role]
+		var completions: int = int(personal.get("completions",0))
+		result_record.text = "LOCAL NOTEBOOK / %d %s with %s" % [completions,_completion_noun(completions),role]
 		if int(personal.get("best_seed",0)) > 0:
 			result_record.text += "\nBest for this role: %s · seed %d" % [_time(float(personal.get("best_seconds",0.0))),int(personal.get("best_seed",0))]
 		else:
@@ -335,6 +356,7 @@ func show_completion(snapshot: Dictionary) -> void:
 		result_record.text = "LOCAL NOTEBOOK / Exercise complete. This session's record is in memory only." if not _storage_error().is_empty() else "LOCAL NOTEBOOK / Exercise complete. Records are stored on this device."
 	progress_panel.hide()
 	guide_panel.hide()
+	guide_reminder.hide()
 	catalog_panel.hide()
 	result_panel.show()
 	retry_button.grab_focus.call_deferred()
@@ -344,7 +366,12 @@ func hide_all() -> void:
 	catalog_panel.hide()
 	progress_panel.hide()
 	guide_panel.hide()
+	guide_reminder.hide()
 	result_panel.hide()
+
+
+func _completion_noun(count: int) -> String:
+	return "completion" if count == 1 else "completions"
 
 
 func _time(seconds: float) -> String:

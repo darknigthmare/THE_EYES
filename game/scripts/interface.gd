@@ -49,6 +49,7 @@ var health_label: Label
 var gaze_label: Label
 var ability_label: Label
 var objective_label: Label
+var objective_detail_panel: Panel
 var hint_label: Label
 var notification: Label
 var notification_panel: Panel
@@ -117,6 +118,8 @@ func _ready() -> void:
 	practice_view = PracticeView.new()
 	practice_view.build(self)
 	_build_help()
+	pause_panel.visibility_changed.connect(_sync_practice_visibility)
+	help_panel.visibility_changed.connect(_sync_practice_visibility)
 	for view: Control in [menu, hud, pause_panel, echo_panel, result_panel, help_panel, practice_view.catalog_panel, practice_view.result_panel]:
 		view.visibility_changed.connect(_refresh_visible_panel.bind(view))
 	show_menu()
@@ -177,7 +180,9 @@ func button(parent: Control, value: String, at: Vector2, size_value: Vector2, pr
 	b.add_theme_stylebox_override("pressed",style(Color("b39b72") if primary else Color("314d52"),MINT))
 	b.add_theme_stylebox_override("focus",style(Color.TRANSPARENT,MINT,2))
 	b.add_theme_color_override("font_color",INK if primary else PAPER)
+	b.add_theme_color_override("font_focus_color",INK if primary else PAPER)
 	b.add_theme_color_override("font_hover_color",INK if primary else PAPER)
+	b.add_theme_color_override("font_hover_pressed_color",INK if primary else PAPER)
 	b.add_theme_color_override("font_pressed_color",INK if primary else PAPER)
 	parent.add_child(b)
 	return b
@@ -305,9 +310,12 @@ func _build_hud() -> void:
 		seal_labels[key] = label(objective_box,names[key],Vector2(16,45+i*37),Vector2(286,22),12,PAPER,mono_font)
 		seal_bars[key] = _bar(objective_box,Vector2(16,72+i*37),Vector2(280,2),MINT)
 		i += 1
-	objective_label = label(hud,"",Vector2(38,307),Vector2(470,76),15,MUTED)
+	objective_detail_panel = panel(hud,Vector2(36,299),Vector2(488,98),Color(0.025,0.06,0.075,0.94),Color("344a4e"))
+	objective_detail_panel.name = "ObjectiveDetails"
+	objective_detail_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	objective_label = label(objective_detail_panel,"",Vector2(16,12),Vector2(456,74),15,MUTED)
 	objective_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	objective_label.set_deferred("size",Vector2(470,76))
+	objective_label.set_deferred("size",Vector2(456,74))
 	var bottom = panel(hud,Vector2(36,744),Vector2(334,116),Color(0.025,0.06,0.075,0.85),Color("344a4e"))
 	health_label = label(bottom,"VITALITY  100",Vector2(16,12),Vector2(270,20),11,PAPER,mono_font)
 	health_bar = _bar(bottom,Vector2(16,39),Vector2(300,5),MINT)
@@ -395,7 +403,7 @@ func _refresh_mode_controls() -> void:
 	if not is_instance_valid(controls_label):
 		return
 	if practice_enabled:
-		controls_label.text = "WASD / ZQSD  Move    E  Interact    Q/A  Ability    G  Drop    R  Reverse / damp    TAB  Map    F1  Manual    ESC  Pause"
+		controls_label.text = "WASD / ZQSD  Move    E  Use    Q/A  Ability    G  Drop    R  Reverse / damp    TAB  Map    H  Guide    F1  Manual    ESC  Pause"
 	elif is_eye_mode:
 		controls_label.text = "1–4 / WHEEL  Socket    MOUSE  Aim    LMB  Trap    RMB  Mark    Q/A  Summon    TAB  Map    F1  Manual    ESC  Pause"
 	elif squad_enabled and squad_leader_state == "eliminated":
@@ -553,6 +561,11 @@ func sync_settings_controls() -> void:
 			setting_controls[key].set_value_no_signal(settings[key])
 
 func _unhandled_input(event: InputEvent) -> void:
+	if InputMap.has_action("practice_guide") and event.is_action_pressed("practice_guide"):
+		if practice_enabled and hud.visible and not get_tree().paused and not pause_panel.visible and not help_panel.visible and not echo_panel.visible and not minimap.visible and not practice_view.result_panel.visible and not bool(practice_view.current_snapshot.get("completed",false)):
+			set_practice_guide_collapsed(not practice_view.guide_collapsed)
+			get_viewport().set_input_as_handled()
+		return
 	if InputMap.has_action("field_manual") and event.is_action_pressed("field_manual"):
 		if help_panel.visible:
 			close_field_manual()
@@ -634,7 +647,7 @@ func _build_help() -> void:
 	columns.add_theme_constant_override("separation",56)
 	body.add_child(columns)
 	var left = "THE TRIAL WORKSHOP
-Choose any of the nine trials from the main menu. Practise its real interactions with no Eye and no countdown. Only that trial is active; complete it to finish the exercise. ESC offers a same-seed restart or another trial. Your local notebook records completions and keeps best times separately for each survivor role. Workshop exercises do not count as match victories.
+Choose any of the nine trials from the main menu. Practise its real interactions with no Eye and no countdown. Only that trial is active; complete it to finish the exercise. H hides or restores the right-hand guide; a small H reminder stays visible while it is hidden. Each new exercise opens the guide again. ESC offers a same-seed restart or another trial. Your local notebook records completions and keeps best times separately for each survivor role. Workshop exercises do not count as match victories.
 
 THREE ACTIVE TRIALS PER MATCH
 First keeps the original trials. Second and Third each replace all three. Seeded Mix selects one of three in each bay: 27 combinations. Seeds reproduce selection and puzzles within this version.
@@ -759,7 +772,11 @@ func _set_practice_enabled(enabled: bool) -> void:
 
 func _sync_practice_visibility() -> void:
 	if practice_view != null and is_instance_valid(practice_view.guide_panel):
-		practice_view.guide_panel.visible = practice_enabled and hud.visible and not minimap.visible and not echo_panel.visible and not practice_view.result_panel.visible
+		practice_view.sync_guide_visibility()
+
+func set_practice_guide_collapsed(collapsed: bool) -> void:
+	if practice_enabled:
+		practice_view.set_guide_collapsed(collapsed)
 
 func show_practice_catalog(items: Array, records: Dictionary, archetype: String = "", seed_value: int = 0) -> void:
 	_set_practice_enabled(false)

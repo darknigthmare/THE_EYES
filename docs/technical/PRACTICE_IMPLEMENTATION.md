@@ -84,6 +84,19 @@ The player must still travel from spawn, approach the apparatus, carry actual ca
 
 The practice HUD combines the selected trial's stable teaching text with its authoritative progress. It should explain the next kind of action without replacing the player's observation: reach the board, read the phrase, choose the intersection, carry the matching object, or confirm aligned hands. It must not expose a generated Vault list, Echoes answer, rope solution or bell phrase remotely just because the UI can access the underlying state.
 
+The physical **H** key uses the InputMap action `practice_guide` to fold or restore the guide on the right during active Workshop gameplay. The trial title/progress, objective/cargo and controls stay visible. A collapsed guide exposes the small **H SHOW WORKSHOP GUIDE** reminder; the expanded panel shows **H HIDE** and its footer controls. The command changes only presentation, without pausing time, cancelling trial work, modifying a seal or emitting a domain event.
+
+| Context | Guide and H behavior |
+| --- | --- |
+| Active Workshop HUD | H toggles the guide; keep the folded reminder available |
+| Map or Echoes panel | Hide guide and reminder, retain the previous choice, ignore H |
+| Pause or F1 manual | Hide guide and reminder, retain the previous choice, ignore H |
+| Return to active Workshop HUD | Restore the previous guide choice |
+| Any new attempt | Open the guide, including same/new-seed retry and next trial |
+| Menu, catalogue, result or ordinary match | H has no guide action |
+
+The collapse flag belongs to the current attempt's UI. It is not persisted in settings or journal schema 1. The presentation-only `ui.set_practice_guide_collapsed(true)` API supports a deliberately staged capture; it is not an objective-completion path.
+
 The Field Manual is available from menus and with **F1** during play or pause. When opened from a live session it uses the local pause path before displaying text. Closing it returns to that session's pause screen; the player chooses Resume explicitly. When opened from a menu, closing returns to that menu. Reading must neither create a new attempt nor advance active elapsed time.
 
 Focus loss also invokes local pause. Returning application focus does not resume by itself. Pause clears incomplete physical holds according to the existing trial/squad rules and freezes simulation timers; banked checkpoints remain banked. This applies to ordinary local matches as well as practice. It is not a promise about how a future remote game will pause.
@@ -197,6 +210,8 @@ The rows use `RulesVersion=0.5.0` for the new Workshop selection contract. Ordin
 
 Create a Workshop selection widget with nine entries, four archetypes, seed entry, selected instructions and journal summary. Create an in-game objective/guide panel and a separate Workshop result widget. Wire requests to the session owner; widgets never mark seals or increment records. Include same-seed retry, another seed, next trial, catalogue and main menu actions.
 
+Give the guide a presentation-only collapse flag and a contextual H action admitted only by the active Workshop HUD. Keep its small restore reminder separate from the large panel. Temporary map, puzzle, pause and manual overlays suppress both surfaces without discarding the flag; a new attempt resets the flag to expanded. Keep the progress/objective surfaces visible when the player folds the guide. This UI state does not enter the practice journal.
+
 Create the Field Manual overlay with an explicit return destination. Open it from a local active session by pausing first; closing returns to the paused menu. Implement focus-loss pause in the chosen engine/platform integration and verify actual focus events on the packaged target. Do not equate a widget losing keyboard focus with the application losing operating-system focus. Keep the player able to deliberately resume and test all input modes after that transition.
 
 ### Port the journal without inventing file equivalence
@@ -220,6 +235,7 @@ These are required checks, not a report that they have already passed. The relea
 | No opponent pressure | No Eye power, gaze wound, trap/shadow damage, deadline or escape requirement during practice |
 | Repetition | Same-seed reset reproduces setup; new-seed and next-trial requests rebuild transient state; late events do not leak across attempts |
 | Pause/manual/focus | Active time freezes; incomplete holds cancel; manual returns to pause; focus return needs explicit resume |
+| Guide display | H folds/restores only during active Workshop play; progress remains visible, overlays preserve the choice, every new attempt opens the guide and ordinary matches are unaffected |
 | Journal | Attempts and completions counted once; four separate archetype bests; bounded normalization, reload and invalid-data checks |
 | Persistence failure | Failed/unsupported primary load preserves it without fallback; missing primary can load one valid `.bak`; invalid existing backup blocks saving; failed replacement attempts restoration and still reports failure |
 | Stable user directory | Release subtitles do not change the `THE_EYES` data directory; older title-based folders remain untouched |

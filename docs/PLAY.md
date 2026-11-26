@@ -50,6 +50,16 @@ Your archetype's movement and ability still apply. There is no active Eye,
 gaze damage, Hunt deadline or exit to reach after completion. The HUD's guide
 explains what to do without supplying generated puzzle answers from a distance.
 
+Press **H** during the drill to fold the guide on the right and see more of the
+apparatus. Your trial title/progress, objective/cargo and controls remain visible.
+The small **H Show Workshop Guide** reminder lets you restore it. H changes the
+display while the game continues; use F1 or Escape when you want to pause.
+
+Each new attempt opens the guide again. The map, Echoes panel, pause and manual
+temporarily hide the guide and reminder, then restore your previous choice when
+you return. H is inactive on those screens, in menus/results and in ordinary
+matches. Its display choice is not saved between attempts.
+
 The completion screen offers **Retry Same Seed**, **Try Another Seed**,
 **Next Trial**, **Choose a Trial** and **Main Menu**. A retry starts fresh,
 including cargo, checkpoints, partial holds and the timer. Same-seed practice
@@ -220,6 +230,7 @@ combined Squad Relay work is subject to the 1.8× team cap; Solo rates are uncha
 | 1–4 / wheel after Squad elimination | Spectate an ally |
 | Tab; Escape | Map; pause/settings |
 | F1 | Open the Field Manual; close it back to pause during a session |
+| H during Workshop gameplay | Fold or restore the guide; practice continues |
 
 Bindings use physical QWERTY positions: the Q-labelled ability is **A on
 AZERTY**, and the top-row 1–4 positions work without Shift. Dropping a mote

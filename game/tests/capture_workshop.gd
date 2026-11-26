@@ -1,7 +1,7 @@
 extends SceneTree
 ## v0.5 native presentation fixtures, deliberately staged, NOT playthroughs.
 ## The fixture freezes physics and may supply illustrative notebook entries.
-## --capture-path=/absolute/image.png --capture-view=menu|workshop|practice|manual|result|save_error
+## --capture-path=/absolute/image.png --capture-view=menu|workshop|practice|practice_clear|manual|result|save_error|result_save_error
 
 const Practice = preload("res://scripts/practice_state.gd")
 const Guide = preload("res://scripts/practice_guide.gd")
@@ -18,7 +18,7 @@ func _run() -> void:
 			capture_path = argument.get_slice("=",1)
 		elif argument.begins_with("--capture-view="):
 			view = argument.get_slice("=",1)
-	if capture_path.is_empty() or not capture_path.is_absolute_path() or DisplayServer.get_name() == "headless" or view not in ["menu","workshop","practice","manual","result","save_error"]:
+	if capture_path.is_empty() or not capture_path.is_absolute_path() or DisplayServer.get_name() == "headless" or view not in ["menu","workshop","practice","practice_clear","manual","result","save_error","result_save_error"]:
 		push_error("Workshop capture requires a native renderer, absolute path and supported view.")
 		quit(1)
 		return
@@ -56,7 +56,7 @@ func _run() -> void:
 			# Keep this presentation-only fixture rendering while scene gameplay
 			# is frozen; the real pause boundary is covered by world/UI tests.
 			scene.process_mode = Node.PROCESS_MODE_ALWAYS
-		"result":
+		"result","result_save_error":
 			scene.director.practice.completed = true
 			scene.director.practice.active = false
 			scene.director.phase = "ended"
@@ -64,11 +64,15 @@ func _run() -> void:
 			scene.director.trial_set.third.strings_stage = 3
 			scene.practice_records.complete_attempt(47.5)
 			scene.practice_journal = scene.practice_records.snapshot()
+			if view == "result_save_error":
+				scene.practice_journal["_storage_error"] = "The notebook could not be saved. Your completion is available for this session only."
 			scene.ui.show_practice_result(Guide.snapshot(scene,scene.practice_journal))
+		"practice_clear":
+			scene.ui.set_practice_guide_collapsed(true)
 		"practice":
 			pass
 	scene.ui.toast("",0.0)
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if view in ["menu","workshop","manual","result","save_error"] else Input.MOUSE_MODE_CAPTURED
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if view in ["menu","workshop","manual","result","save_error","result_save_error"] else Input.MOUSE_MODE_CAPTURED
 	print("THE_EYES_VISUAL_FIXTURE view=%s contract=practice physics_frozen=true; staged inspection, not playthrough" % view)
 	scene.qa_capture = capture_path
 	scene.qa_done = false

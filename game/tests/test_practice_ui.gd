@@ -21,7 +21,7 @@ func _initialize() -> void:
 
 
 func _run() -> void:
-	for action: String in ["pause","field_manual"]:
+	for action: String in ["pause","field_manual","practice_guide"]:
 		if not InputMap.has_action(action):
 			InputMap.add_action(action)
 	ui = Interface.new()
@@ -39,11 +39,13 @@ func _run() -> void:
 	_test_catalog_and_notebook()
 	_test_start_and_new_seed()
 	_test_single_trial_and_hud()
+	_test_guide_toggle_and_contexts()
 	_test_manual_and_pause()
 	_test_fov_scope()
 	_test_missing_timing_record()
 	_test_notebook_storage_error()
 	_test_result_actions_and_role_record()
+	_test_completion_wording()
 	_test_session_visual_reset()
 	paused = false
 	ui.queue_free()
@@ -102,6 +104,10 @@ func _test_catalog_and_notebook() -> void:
 	var view = ui.practice_view
 	_check(view.catalog_panel.visible and not ui.menu.visible and not ui.hud.visible,"catalog is a dedicated screen")
 	_check(view.catalog_cards.size() == 9,"all nine shipped trials are selectable")
+	var has_tooltip: bool = false
+	for card: Dictionary in view.catalog_cards.values():
+		has_tooltip = has_tooltip or not card.button.tooltip_text.is_empty()
+	_check(not has_tooltip,"catalog cards cannot cover the selected instructions with redundant tooltips")
 	_check("1 OF 9" in view.notebook_label.text,"notebook counts completed trials, not attempts or completions")
 	view.catalog_cards.light.button.pressed.emit()
 	_check(view.selected_trial == "light" and "LIGHT" in view.catalog_title.text.to_upper(),"a real card selects the corresponding instructions")
@@ -148,6 +154,8 @@ func _test_single_trial_and_hud() -> void:
 	ui.update_hud({"time":100.0,"phase":"PREPARATION","health_text":"VITALITY 100","health":100.0,"stamina":100.0,"gaze":0.0,"gaze_text":"UNSEEN","ability":"Q / READY","objective":"CELL 2 / LANTERN 75%","hint":"E / Use","socket":0,"compass":"NORTH","seals":{"silent":false,"echoes":false,"relay":false},"progress":{"silent":0.5,"echoes":0.0,"relay":0.0},"position":Vector3.ZERO,"bots":bot_positions})
 	_check(ui.timer_label.text == "NO TIME LIMIT" and "NO EYE" in ui.phase_label.text,"normal HUD updates cannot introduce a false countdown or phase")
 	_check(ui.objective_label.text == "CELL 2 / LANTERN 75%" and "F1" in ui.controls_label.text,"workshop retains supplied cargo/ability feedback and exposes the manual shortcut")
+	var backing: StyleBoxFlat = ui.objective_detail_panel.get_theme_stylebox("panel")
+	_check(ui.objective_label.get_parent() == ui.objective_detail_panel and ui.objective_detail_panel.is_visible_in_tree() and backing.bg_color.a >= 0.9,"cargo and ability text has a visible dark backing against world inscriptions")
 	ui.minimap.show()
 	_check(not view.guide_panel.visible,"the map does not overlap the workshop guide")
 	ui.minimap.hide()
@@ -157,6 +165,68 @@ func _test_single_trial_and_hud() -> void:
 	ui.echo_panel.hide()
 	_check(view.guide_panel.visible,"stepping away from Echoes restores the guide")
 	_check(ui.pause_restart_button.visible and ui.pause_catalog_button.visible,"workshop pause offers an explicit retry and catalog")
+
+
+func _test_guide_toggle_and_contexts() -> void:
+	cases += 1
+	ui.show_practice_game(_snapshot())
+	var view = ui.practice_view
+	_check(not view.guide_collapsed and view.guide_panel.visible and not view.guide_reminder.visible,"every fresh drill starts with the guide expanded")
+	_press_action("practice_guide")
+	_check(view.guide_collapsed and not view.guide_panel.visible and view.guide_reminder.is_visible_in_tree(),"H folds the guide into its visible reminder")
+	_check("H" in view.guide_reminder_label.text and "SHOW" in view.guide_reminder_label.text and "H  Guide" in ui.controls_label.text,"both collapsed hint and controls explain how to restore the guide")
+	_check(view.progress_panel.visible and ui.objective_detail_panel.visible,"folding the guide preserves trial progress and cargo feedback")
+	var updated: Dictionary = _snapshot()
+	updated.guide_title = "Latest public instruction"
+	ui.update_practice(updated)
+	_check(view.guide_collapsed and not view.guide_panel.visible,"ordinary guide updates cannot undo the player's choice")
+	ui.minimap.show()
+	_press_action("practice_guide")
+	_check(view.guide_collapsed and not view.guide_panel.visible and not view.guide_reminder.visible,"the map masks both guide presentations and ignores H")
+	ui.minimap.hide()
+	_check(view.guide_reminder.visible and not view.guide_panel.visible,"closing the map restores the collapsed state")
+	_press_action("practice_guide")
+	_check(not view.guide_collapsed and view.guide_panel.visible and view.guide_title.text == updated.guide_title,"H restores the latest guidance without resetting progress")
+	ui.echo_panel.show()
+	_press_action("practice_guide")
+	_check(not view.guide_collapsed and not view.guide_panel.visible and not view.guide_reminder.visible,"Echoes masks the guide and ignores H")
+	ui.echo_panel.hide()
+	_check(view.guide_panel.visible,"leaving Echoes restores the previous expanded state")
+	ui.set_practice_guide_collapsed(true)
+	ui.pause_panel.show()
+	paused = true
+	_press_action("practice_guide")
+	_check(view.guide_collapsed and not view.guide_panel.visible and not view.guide_reminder.visible,"pause masks guidance without changing its collapsed state")
+	ui.open_field_manual()
+	_press_action("practice_guide")
+	_check(view.guide_collapsed and ui.help_panel.visible and paused,"H cannot alter the guide or resume while the manual is open")
+	ui.close_field_manual()
+	_check(not view.guide_reminder.visible,"closing the manual into pause does not reveal the reminder early")
+	paused = false
+	ui.pause_panel.hide()
+	_check(view.guide_collapsed and view.guide_reminder.visible,"explicit return from pause preserves the collapsed state")
+	ui.show_practice_game(_snapshot())
+	_check(not view.guide_collapsed and view.guide_panel.visible,"retry or a new drill opens its guide again")
+	ui.show_game(false)
+	_press_action("practice_guide")
+	_check(not ui.practice_enabled and not view.guide_collapsed and not view.guide_panel.visible and not view.guide_reminder.visible,"H has no effect in an ordinary survivor match")
+	ui.set_squad_enabled(true)
+	_press_action("practice_guide")
+	_check(ui.squad_enabled and not view.guide_panel.visible and not view.guide_reminder.visible,"H does not alter a normal Squad session")
+	ui.show_game(true)
+	_press_action("practice_guide")
+	_check(ui.is_eye_mode and not view.guide_panel.visible and not view.guide_reminder.visible,"H has no effect in the Eye's mode")
+	ui.show_practice_catalog(PracticeState.catalogue(),_records(),"Keeper",543210)
+	_press_action("practice_guide")
+	_check(view.catalog_panel.visible and not view.guide_collapsed and not view.guide_reminder.visible,"H does not alter the catalog")
+	var completed: Dictionary = _snapshot()
+	completed.completed = true
+	completed.progress = 1.0
+	ui.show_practice_game(completed)
+	ui.show_practice_result(completed)
+	_press_action("practice_guide")
+	_check(view.result_panel.visible and not view.guide_collapsed and not view.guide_panel.visible and not view.guide_reminder.visible,"H cannot reopen guidance on a result screen")
+	ui.show_practice_game(_snapshot())
 
 
 func _test_manual_and_pause() -> void:
@@ -169,6 +239,7 @@ func _test_manual_and_pause() -> void:
 	_check(guide_count == 1,"F1 asks the session owner to open the manual even while paused")
 	ui.open_field_manual()
 	_check(ui.help_panel.visible and "STAY PAUSED" in ui.help_return_button.text,"manual identifies its pause return destination")
+	_check(ui.help_return_button.get_theme_color("font_focus_color") == ui.INK,"focused gold manual button keeps dark readable text")
 	_press_action("pause")
 	_check(not ui.help_panel.visible and ui.pause_panel.visible and paused,"Escape closes only the manual and keeps the session paused")
 	_check(resume_count == 0,"closing the manual never emits resume")
@@ -205,6 +276,8 @@ func _test_result_actions_and_role_record() -> void:
 	var view = ui.practice_view
 	_check(view.result_panel.visible and not ui.result_panel.visible and not ui.hud.visible,"workshop completion uses its own result screen")
 	_check("Keeper" in view.result_record.text and "01:30" in view.result_record.text and not "00:25" in view.result_record.text,"result best time belongs to the actual survivor role")
+	_check("2 completions with Keeper" in view.result_record.text,"multiple completions retain plural wording")
+	_check(view.retry_button.get_theme_color("font_focus_color") == ui.INK,"focused gold retry button keeps dark readable text")
 	_check("543210" in view.result_body.text,"result exposes the seed that retry will preserve")
 	var choices: Dictionary = {"RETRY SAME SEED":"retry","TRY ANOTHER SEED":"new_seed","NEXT TRIAL   →":"next","CHOOSE A TRIAL":"catalog","MAIN MENU":"menu"}
 	for text_value: String in choices:
@@ -214,6 +287,25 @@ func _test_result_actions_and_role_record() -> void:
 			control.pressed.emit()
 			_check(requests.back() == [choices[text_value]],text_value+" emits a distinct session request")
 	_check(snapshot.records == _records(),"result rendering does not write or recalculate records")
+
+
+func _test_completion_wording() -> void:
+	cases += 1
+	var notebook: Dictionary = {"schema_version":1,"trials":{"light":{"attempts":1,"completions":1,"by_archetype":{
+		"Keeper":{"attempts":1,"completions":1,"last_seed":271126,"last_seconds":48.0,"best_seconds":48.0,"best_seed":271126}
+	}}}}
+	ui.show_practice_catalog(PracticeState.catalogue(),notebook,"Keeper",271126)
+	ui.practice_view.catalog_cards.light.button.pressed.emit()
+	_check("1 total completion ·" in ui.practice_view.selected_record_label.text and not "1 total completions" in ui.practice_view.selected_record_label.text,"the catalog uses singular completion for one recorded exercise")
+	var snapshot: Dictionary = _snapshot()
+	snapshot.completed = true
+	snapshot.progress = 1.0
+	snapshot.seed = 271126
+	snapshot.elapsed = 48.0
+	snapshot.records = notebook
+	ui.show_practice_game(snapshot)
+	ui.show_practice_result(snapshot)
+	_check("1 completion with Keeper" in ui.practice_view.result_record.text and not "1 completions" in ui.practice_view.result_record.text,"a first successful exercise uses singular completion on its result")
 
 
 func _test_missing_timing_record() -> void:

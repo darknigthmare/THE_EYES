@@ -148,7 +148,7 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if mode == "menu" else Input.MOUSE_MODE_CAPTURED
 
 func _register_input() -> void:
-	var keys: Dictionary = {"move_forward":[KEY_W,KEY_UP],"move_back":[KEY_S,KEY_DOWN],"move_left":[KEY_A,KEY_LEFT],"move_right":[KEY_D,KEY_RIGHT],"sprint":[KEY_SHIFT],"crouch":[KEY_CTRL,KEY_C],"jump":[KEY_SPACE],"interact":[KEY_E],"ability":[KEY_Q],"map":[KEY_TAB],"pause":[KEY_ESCAPE],"drop":[KEY_G],"reverse":[KEY_R],"reset_trial":[KEY_X],"squad_work":[KEY_B],"squad_follow":[KEY_F],"squad_hold":[KEY_V],"field_manual":[KEY_F1]}
+	var keys: Dictionary = {"move_forward":[KEY_W,KEY_UP],"move_back":[KEY_S,KEY_DOWN],"move_left":[KEY_A,KEY_LEFT],"move_right":[KEY_D,KEY_RIGHT],"sprint":[KEY_SHIFT],"crouch":[KEY_CTRL,KEY_C],"jump":[KEY_SPACE],"interact":[KEY_E],"ability":[KEY_Q],"map":[KEY_TAB],"pause":[KEY_ESCAPE],"drop":[KEY_G],"reverse":[KEY_R],"reset_trial":[KEY_X],"squad_work":[KEY_B],"squad_follow":[KEY_F],"squad_hold":[KEY_V],"field_manual":[KEY_F1],"practice_guide":[KEY_H]}
 	for action in keys:
 		if not InputMap.has_action(action):
 			InputMap.add_action(action)

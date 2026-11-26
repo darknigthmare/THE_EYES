@@ -78,8 +78,11 @@ or hardware frame-rate measurements.
 
 ## Native presentation
 
-`capture_workshop.gd` stages the v0.5 catalogue, practice HUD, completion screen
-and in-game manual. `capture_ui.gd` preserves the earlier capture fixtures. `capture_third.gd`
+`capture_workshop.gd` stages eight v0.5 views: menu, catalogue, practice HUD with
+the guide open and folded, manual, completion, catalogue save error and result
+save error. The folded-guide view checks that all four Strings tags are exposed;
+the error views check the visible notebook warning in both entry and completion.
+`capture_ui.gd` preserves the earlier capture fixtures. `capture_third.gd`
 prepares the current menu, Squad, Light, Strings, Chimes and manual for actual
 renderer inspection. These helpers deliberately stage camera and scene states.
 Screenshots are visual evidence and are never counted as input-only completion.

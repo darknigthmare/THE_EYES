@@ -987,7 +987,11 @@
       "notebook_max_records": 36,
       "best_times_partition": "trial and archetype",
       "mid_trial_resume": false,
-      "unreal_data": "unreal/Data/DT_PracticeDrills.csv"
+      "unreal_data": "unreal/Data/DT_PracticeDrills.csv",
+      "guide_toggle_key": "H",
+      "guide_collapsed_persisted": false,
+      "guide_default_on_new_attempt": "expanded",
+      "guide_toggle_scope": "active Workshop gameplay only; hidden during map, Echoes, pause and manual without changing the chosen state"
     },
     "interaction_settings": {
       "field_manual_key": "F1",

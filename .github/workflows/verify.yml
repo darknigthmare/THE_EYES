@@ -81,7 +81,7 @@ jobs:
           output = temporary / 'eyes-native-visuals'
           output.mkdir(exist_ok=True)
           images = []
-          for view in ['menu', 'workshop', 'practice', 'manual', 'result', 'save_error']:
+          for view in ['menu', 'workshop', 'practice', 'practice_clear', 'manual', 'result', 'save_error', 'result_save_error']:
               target = output / f'{view}.png'
               command = ['xvfb-run', '-a', '-s', '-screen 0 1440x900x24', godot,
                          '--path', 'game', '--rendering-method', 'gl_compatibility',

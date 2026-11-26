@@ -63,7 +63,10 @@ hold, cooldown and checkpoint rules. Only its bay is active; the other two have
 no tasks. There is no Eye AI, gaze damage, trap attack, deadline or escape.
 
 The contextual guide explains the next action without revealing unseen puzzle
-answers. **F1** opens the field manual during play and pauses the scene. Closing
+answers. **H** folds or restores it during Workshop gameplay, with a small
+reminder to reopen it. Progress, objective/cargo and controls remain visible,
+and practice continues. Each new attempt opens the guide again; H has no effect
+in ordinary matches. **F1** opens the field manual during play and pauses the scene. Closing
 it leaves the pause screen visible until you choose Resume. Losing application
 focus also pauses; regaining focus never resumes automatically.
 
@@ -146,6 +149,7 @@ Q-labelled ability is **A**. Top-row 1–4 positions work without Shift.
 | 1–4 / wheel after Squad elimination | Watch another surviving ally |
 | Tab; Escape | Map; pause/settings |
 | F1 | Field manual; pauses active gameplay |
+| H during Workshop gameplay | Fold/restore the guide; practice continues |
 
 The Eye uses mouse aim, **1–4 / wheel** to change sockets, **left click** for a
 visible trap, **right click** to mark, and **Q / AZERTY A** to summon. Geometry,

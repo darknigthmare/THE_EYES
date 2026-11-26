@@ -123,6 +123,10 @@ The first completed phrase is a permanent checkpoint. A wrong note resets only t
 
 The practice HUD identifies the selected lesson, current legitimate progress and the next type of action. It should name the physical task in plain language: carry, read, align, cut, strike or confirm. This guidance must be derived from admitted state, so a refused action cannot make the display imply success.
 
+During active Workshop play, **H** folds or restores the guide on the right so the player can see more of the apparatus. The trial title and progress, objective/cargo information and controls remain visible. When folded, a small **H SHOW WORKSHOP GUIDE** reminder provides the return action. This changes presentation only: the trial continues and its active time keeps advancing.
+
+Every new attempt opens the guide again, including same-seed retry, another seed and the next trial. The choice lasts only for the current attempt and is not saved as a setting or journal field. The map, Echoes panel, pause and F1 manual temporarily hide both guide and reminder without changing that choice; returning restores the previous display state. H is inactive on those screens, in menus/results and during ordinary matches.
+
 The Field Manual can be opened during a session, including from pause. Its trial descriptions preserve the same goal, controls, failure and recovery explanations available from the menu. F1 provides a direct route to that information. The manual is a safe reading surface: opening it pauses local simulation, and closing it returns through the appropriate menu or pause context. It does not automatically resume a background match simply because a page was closed.
 
 Generated puzzle evidence remains tied to the apparatus that presents it. A rule page can explain how to interpret a side/family clue or clock transformation without exposing a hidden answer remotely. Any future explicit answer-reveal assistance must be named, reflected in records and scoped separately from an unaided completion; it is not implied by the Workshop's ordinary instructions.

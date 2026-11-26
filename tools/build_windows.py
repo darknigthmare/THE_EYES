@@ -58,12 +58,18 @@ move to the next trial. Escape also offers retry and the trial selector.
 An admitted start counts as an attempt; leaving early is not a completion.
 The local notebook keeps attempts, completions and best times per archetype.
 Practice results are separate from ordinary match victories.
+H folds or restores the right-hand guide during active Workshop play. Progress,
+objective/cargo and controls remain visible, with a small H reminder to reopen.
+Practice continues. Every new attempt opens the guide again; the map, Echoes,
+pause and manual temporarily hide it while retaining your choice. H is inactive
+on those screens, in menus/results and in ordinary matches.
 
 SURVIVOR CONTROLS
 WASD / the corresponding physical ZQSD keys on AZERTY, or arrow keys: move.
 Mouse: look. Shift: sprint. Ctrl or C: crouch. Space: jump.
 E: interact / hold at the Relay. Q: use the chosen archetype's ability.
 Tab: show/hide map. Escape: pause or close a trial panel.
+H during Workshop gameplay: fold / restore the guide without pausing.
 F1: open the Field Manual. Closing it during a session returns to pause.
 Choose Resume when ready. Losing application focus pauses the session too;
 returning focus never resumes automatically.
@@ -176,12 +182,18 @@ passe à la suivante. Échap propose aussi la relance et le choix d'épreuve.
 Un démarrage accepté compte comme tentative ; l'abandon n'est pas une réussite.
 Le carnet local compte les tentatives et réussites, avec un meilleur temps
 séparé pour chaque classe. L'atelier n'enregistre pas une victoire de partie.
+H replie ou réaffiche le guide à droite pendant un entraînement. Progression,
+objectif/objet porté et commandes restent visibles, avec un petit rappel H.
+Le jeu continue. Toute nouvelle tentative réouvre le guide ; carte, Echoes,
+pause et manuel le masquent temporairement sans changer ton choix. H est
+inactif sur ces écrans, dans les menus/résultats et les parties ordinaires.
 
 COMMANDES SURVIVANT
 ZQSD sur AZERTY / WASD sur QWERTY, ou flèches : déplacement.
 Souris : regarder. Maj : courir. Ctrl ou C : s'accroupir. Espace : sauter.
 E : interagir / maintenir au mécanisme. A sur AZERTY / Q sur QWERTY : capacité.
 Tab : afficher/masquer le plan. Échap : pause ou fermeture du panneau d'épreuve.
+H pendant un entraînement : replier / réafficher le guide sans mettre en pause.
 F1 : ouvrir le manuel. Le fermer pendant une session ramène à la pause.
 Choisis Resume pour reprendre. Changer d'application met aussi le jeu en pause ;
 revenir dans sa fenêtre ne relance pas automatiquement la simulation.
