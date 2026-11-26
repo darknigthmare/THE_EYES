@@ -1,0 +1,10 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "",
+  "Category": "Games",
+  "Description": "THE EYES: content-only UE5 foundation. Create the Blueprint assets and map using README.md; the playable prototype is in ../game.",
+  "Plugins": [
+    { "Name": "EnhancedInput", "Enabled": true },
+    { "Name": "Niagara", "Enabled": true }
+  ]
+}

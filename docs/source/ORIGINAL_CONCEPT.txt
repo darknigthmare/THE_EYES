@@ -1,0 +1,433 @@
+ue5 blueprint only in english a new game concept called the eyes : an number of players VS the eyes (AI or player controlled), an immobile big eye whos target is to stop and kill the players and the players need to accomplish thing and escape, with reference like saw,squid game,fall guys and dead by daylight,in an nightmare setting,the eye can switch place to different point since he cant physically move but look, actionnate thing by look and maybe spawn thing by look, the player try to survive by accomplish objective,do punishing game and thing like that , expand the idea
+
+ChatGPT a dit :
+ChatGPT
+Game Concept: The Eyes
+Overview: "The Eyes" is an asymmetrical multiplayer survival game where a group of players faces off against a single, powerful antagonist known as "The Eye." This entity is either AI-controlled or player-controlled, and its sole purpose is to prevent the players from escaping. The players must work together (or betray one another) to complete objectives in a nightmarish, surreal setting while surviving the relentless gaze of The Eye.
+The game draws inspiration from Saw, Squid Game, Fall Guys, and Dead by Daylight, blending psychological horror, survival, and competition. The tone is eerie and oppressive, set in an ever-shifting dreamscape filled with traps, challenges, and a malevolent atmosphere.
+
+Core Mechanics
+The Eye (Antagonist):
+	• Immobility with Omnipresence:
+		○ The Eye cannot move physically but can teleport between predefined "Vantage Points" across the map.
+		○ From these points, The Eye surveys the environment, targeting players, activating traps, or summoning minions.
+	• Actions Through Vision:
+		○ The Eye’s power is tied to its gaze. By looking at objects, traps, or players, it can:
+			§ Activate traps (spike walls, flame bursts, collapsing floors, etc.).
+			§ Mark players, slowing them down or applying penalties like blindness or fear effects.
+			§ Summon hostile entities (nightmare creatures, shadow figures, or even clones of the players).
+	• Cooldown Mechanics:
+		○ Each action The Eye performs comes with a cooldown, forcing the player controlling it to strategize.
+	• Nightmare Abilities:
+		○ Over time, The Eye builds up "Terror," allowing it to perform powerful actions:
+			§ Summon massive environmental hazards.
+			§ Blind all players temporarily.
+			§ Create illusions to confuse and misdirect.
+
+The Players (Survivors):
+	• Objective-Driven Gameplay:
+		○ Players must complete a series of randomized objectives to unlock the exit. These objectives could include:
+			§ Repairing machines (similar to Dead by Daylight but with environmental puzzles).
+			§ Solving logic-based or physical challenges under pressure.
+			§ Escaping traps or punishments set by The Eye.
+	• Punishing Minigames:
+		○ Failing objectives or getting caught in The Eye's gaze could result in players being sent to "Punishment Zones."
+			§ Examples: timed escape rooms, deadly obstacle courses, or solo challenges that test reflexes and nerves.
+	• Perks and Abilities:
+		○ Each player chooses a unique character with abilities:
+			§ Stealth: Move quietly or hide better.
+			§ Engineer: Repair machines faster.
+			§ Athlete: Sprint for longer periods.
+			§ Medic: Heal others or revive downed players.
+	• Teamwork and Betrayal:
+		○ Players can work together to complete objectives or sabotage others to save themselves. The Eye might exploit betrayals, offering "deals" to selfish players.
+
+The Setting
+	• Nightmare Realm:
+		○ The maps are surreal and unsettling, constantly shifting. Examples include:
+			§ Twisted Carnival: Creepy clown faces, warped mirrors, and rollercoaster traps.
+			§ Labyrinth of Shadows: Infinite corridors, shifting walls, and hidden traps.
+			§ Dollhouse: Oversized furniture, lifelike mannequins, and winding passages.
+			§ Void of Despair: A cosmic, floating platform with minimal light and endless darkness below.
+
+Game Loop
+	1. Preparation Phase:
+		○ Players are dropped into the map and must orient themselves. The Eye takes its position and starts observing.
+	2. Survival Phase:
+		○ Players explore, complete objectives, and avoid The Eye's gaze while dealing with traps and minions.
+		○ The Eye gains power over time, creating more intense and frequent challenges.
+	3. Climactic Escape:
+		○ Once all objectives are completed, the exit opens. The Eye goes into a "Rage Mode," amplifying its abilities to stop the players from escaping.
+		○ Players must navigate a gauntlet of traps and hazards while avoiding being caught.
+	4. Victory/Defeat:
+		○ Players win if any member escapes. The Eye wins if it eliminates all players or prevents their escape before time runs out.
+
+The Eye’s Gameplay Experience
+	• Strategic Observation: Decide which Vantage Point to teleport to, balancing visibility with the ability to influence objectives.
+	• Mind Games: Use fear tactics and illusions to confuse players. Example: fake an objective being complete or spawn decoys.
+	• Adaptation: Adjust tactics based on player behavior, punishing teamwork or exploiting lone wolves.
+
+Player Experience
+	• Tension and Fear: Constantly avoiding The Eye’s gaze, never feeling safe.
+	• Skill Expression: Success relies on teamwork, stealth, and quick thinking.
+	• Dynamic Objectives: Each match feels unique with randomized challenges and traps.
+
+Inspirational Features
+	1. Saw-Inspired Traps: Mechanisms that force players into morally ambiguous or physically painful choices.
+	2. Squid Game-Inspired Punishments: Deadly mini-games that test skill and resolve.
+	3. Fall Guys-Inspired Chaos: Larger player counts with some challenges requiring competitive play.
+	4. Dead by Daylight-Inspired Asymmetry: The blend of tension, survival, and strategy.
+
+Game Modes
+	• Classic Mode: 5–7 players vs. 1 Eye.
+	• Endless Mode: Players complete objectives while waves of challenges escalate.
+	• Custom Mode: Tailor traps, abilities, and player perks for a unique experience.
+
+Would you like help drafting specific gameplay mechanics, blueprint implementation ideas, or character designs?
+
+
+
+4o
+Vous avez dit :
+go ahead
+
+ChatGPT a dit :
+ChatGPT
+Here's a more detailed breakdown of the key gameplay mechanics and ideas for The Eyes, along with how to approach them in Unreal Engine 5 Blueprints:
+
+1. Core Gameplay Mechanics
+1.1. The Eye’s Abilities
+Teleportation to Vantage Points
+	• Blueprint Setup:
+		1. Create an array of predefined vantage points (BP_VantagePoint) scattered across the map.
+		2. Allow The Eye to teleport to a point using an input action or timer.
+		3. Use a cooldown system (via a float variable and a timer) to prevent spamming.
+Activating Traps via Vision
+	• Blueprint Setup:
+		1. Attach a cone-shaped detection zone to The Eye (use Box Trace by Channel or Sphere Trace to simulate its gaze).
+		2. Place trap actors (BP_Trap) in the map, each with a unique ID and activation function.
+		3. When a trap is within the detection zone, allow the player controlling The Eye to activate it by pressing a button.
+Summoning Minions
+	• Blueprint Setup:
+		1. Create an AI controller (BP_MinionAI) for minions, which can follow simple patrol or chase logic.
+		2. The Eye uses a target location (player’s last seen position) to spawn minions near predefined spawn points.
+		3. Minions despawn after a timer or upon being defeated.
+Illusions and Fear Effects
+	• Blueprint Setup:
+		1. Use dynamic material instances to create visual distortions (e.g., screen glitches, darkness).
+		2. Implement HUD effects (flashing red, shaking) for fear buildup.
+		3. Use randomly spawning "phantoms" (non-lethal AI) to confuse players.
+
+1.2. Player Objectives
+Randomized Objective System
+	• Blueprint Setup:
+		1. Create a Data Table to store objectives (e.g., repair machines, find keys).
+		2. Randomly select a subset of objectives at the start of each match.
+		3. Track progress using variables and only unlock the exit when all objectives are complete.
+Punishment Games
+	• Blueprint Setup:
+		1. Create a system to transport players to punishment zones upon failure or being caught.
+		2. Design minigames (e.g., timed puzzles or physical challenges) within these zones.
+		3. Use a timer for the punishment game; failure results in penalties (injury, slowed movement) or death.
+
+1.3. Dynamic Map Design
+Shifting Environment
+	• Blueprint Setup:
+		1. Use Level Streaming or World Partition to create dynamic areas that unlock or shift based on triggers.
+		2. Randomize trap locations and environmental hazards for replayability.
+		3. Create a fog system to obscure parts of the map, forcing players to explore cautiously.
+Interactive Objects
+	• Blueprint Setup:
+		1. Tag certain objects (doors, lockers) as interactable.
+		2. Allow players to hide in or move these objects to evade The Eye’s gaze.
+
+1.4. Player Abilities and Perks
+Abilities
+	• Blueprint Setup:
+		1. Create a parent class for player characters (BP_PlayerCharacter) with variables for stamina, health, and abilities.
+		2. Implement abilities like stealth, speed boost, or healing via child classes.
+		3. Allow players to choose perks before the match starts (store these in an enum or struct).
+Teamwork vs. Betrayal
+	• Blueprint Setup:
+		1. Add a “trust” system that tracks cooperative actions (reviving teammates, sharing items).
+		2. Punish betrayal (e.g., locking doors on teammates) with negative trust effects (debuffs or exposing the betrayer’s position).
+
+2. Game Modes
+2.1. Classic Mode
+	• 5–7 players versus The Eye.
+	• Objective: Complete all tasks to escape while avoiding The Eye.
+2.2. Endless Mode
+	• Players face increasingly difficult objectives and hazards as time progresses.
+	• The Eye gains more abilities the longer the match lasts.
+2.3. Custom Mode
+	• Players can modify game settings (e.g., number of traps, minion strength) for unique challenges.
+
+3. Visual and Audio Design
+Visuals
+	• The Eye:
+		○ Design a large, ominous eye with a glowing iris and moving pupils to convey awareness.
+	• Environment:
+		○ Use surreal textures, shifting walls, and dark tones for an oppressive atmosphere.
+		○ Dynamic lighting effects (e.g., sudden flashes, shadows) to enhance fear.
+Audio
+	• Creepy ambient soundtracks with whispers and distorted effects.
+	• Dynamic sound cues (e.g., heartbeat increasing when The Eye looks at a player).
+	• Unique sounds for traps, objectives, and minions to communicate gameplay events.
+
+4. Advanced AI for The Eye
+	• AI Blueprint Logic:
+		1. Use Behavior Trees for controlling The Eye (e.g., prioritizing vantage points and high-value targets).
+		2. Incorporate dynamic decision-making (e.g., activating traps near clustered players).
+	• Adapting to Player Behavior:
+		○ Track player actions (e.g., staying in groups, avoiding certain areas).
+		○ Adjust strategy (e.g., placing traps in unvisited zones).
+
+5. Additional Ideas
+	• Customization: Players unlock skins or perks by completing challenges.
+	• Progression: The Eye and survivors unlock new abilities or tools as they gain experience.
+	• Cross-Platform Play: Include seamless multiplayer for a larger player base.
+
+Would you like me to create a more specific example for objectives, traps, or player abilities using Blueprints?
+
+
+
+4o
+Vous avez dit :
+create games challenges part like squid game inspirated (but not copy)
+
+ChatGPT a dit :
+ChatGPT
+Here are some game challenges inspired by Squid Game, but reimagined to fit the unique theme of The Eyes. These challenges include elements of psychological pressure, teamwork, and survival in a nightmare setting. Each game can be implemented as a standalone event or integrated into the overall gameplay.
+
+1. The Labyrinth of Shadows
+Concept:
+Players must navigate a shifting maze while avoiding traps and staying out of The Eye’s gaze.
+Mechanics:
+	• The maze shifts its walls every few seconds, creating new paths or dead ends.
+	• Some paths are trapped with pressure plates that activate spikes or gas when stepped on.
+	• Players must use stealth to avoid being seen by The Eye, whose gaze creates glowing "danger zones" on the floor.
+	• The exit is only revealed after players activate three hidden switches scattered in the maze.
+
+2. The Silent Countdown
+Concept:
+Players must perform tasks in complete silence while avoiding detection by The Eye.
+Mechanics:
+	• Players must collect glowing orbs from the environment and place them into specific containers.
+	• The Eye will listen for player sounds (footsteps, collisions, or interactions with objects).
+	• If players make too much noise, The Eye’s traps activate, forcing the team to reset the task.
+	• A timer counts down, adding pressure to complete the objective.
+
+3. Threads of Fate
+Concept:
+Players are tethered together in pairs by glowing threads and must cooperate to complete a dangerous platforming challenge.
+Mechanics:
+	• Each pair shares a health pool; if one falls or takes damage, both are affected.
+	• Players must navigate moving platforms, spinning blades, and collapsing floors.
+	• Communication and timing are key, as pulling the tether too hard can destabilize a partner.
+	• The Eye occasionally activates obstacles, such as extending spikes or speeding up platform movement.
+
+4. Light in the Darkness
+Concept:
+Players are trapped in a pitch-black arena and must find the light sources to reveal safe zones while avoiding hidden hazards.
+Mechanics:
+	• Players are equipped with limited-use flashlights that reveal parts of the arena.
+	• Hazards like traps or “phantoms” are hidden in the dark and only visible when illuminated.
+	• Players must stay in designated “safe zones” that appear sporadically, or they take damage over time.
+	• The Eye can manipulate the environment by turning off safe zones or spawning hazards.
+
+5. Trial of the Echoes
+Concept:
+Players must repeat a pattern of actions demonstrated by holographic figures to progress.
+Mechanics:
+	• Holographic figures perform a sequence of gestures (e.g., walking, crouching, jumping) that players must mimic perfectly.
+	• The sequences become progressively harder, adding more steps and faster timing.
+	• If a player makes a mistake, they are stunned, and their teammates must revive them.
+	• The Eye creates distractions, such as visual distortions or sudden loud noises, to break focus.
+
+6. Bridge of Illusions
+Concept:
+Players must cross a series of floating tiles, some of which are solid, and others will collapse.
+Mechanics:
+	• Players must deduce the safe path by observing subtle visual clues (e.g., faint glowing patterns).
+	• A timer forces players to make quick decisions.
+	• The Eye can alter the path by randomizing tile stability or extending the timer penalty for hesitations.
+	• Falling off the bridge sends players to a punishment zone where they must complete a separate mini-challenge to rejoin.
+
+7. Strings of Despair
+Concept:
+Players are suspended in the air by ropes and must cut the correct one to lower themselves safely.
+Mechanics:
+	• Each player faces a wall with multiple glowing ropes of different colors.
+	• Players must solve a logic puzzle (e.g., decoding symbols) to identify the correct rope.
+	• Cutting the wrong rope triggers traps or releases a phantom to chase the group.
+	• The Eye can activate a countdown timer or obscure the symbols to increase difficulty.
+
+8. Clockwork Relay
+Concept:
+Players must work together to turn massive gears and open a door while dealing with environmental hazards.
+Mechanics:
+	• Some players must crank the gears, while others defend them from hazards like traps or summoned minions.
+	• If players stop cranking, the door begins to close again.
+	• The Eye periodically resets gear progress by activating “time reversal” traps.
+	• Communication and coordination are essential, as cranking speeds vary based on the number of players involved.
+
+9. Glass Symphony
+Concept:
+Players must navigate a room filled with glass walls that shatter when touched or when sound waves from The Eye hit them.
+Mechanics:
+	• Players must crouch or hide behind solid glass walls to avoid shattering zones triggered by The Eye’s sound blasts.
+	• The path through the room is not visible initially and must be discovered by trial and error or by following faint light reflections.
+	• Once a player reaches the exit, they can disable the sound traps to allow others to follow safely.
+
+10. The Ritual Circle
+Concept:
+Players must perform a ritual by lighting candles in a specific sequence while evading phantoms and avoiding extinguishing traps.
+Mechanics:
+	• The Eye can blow out candles remotely, forcing players to relight them.
+	• Phantoms roam the area, and players must use stealth or distraction to avoid them.
+	• Players are given vague hints about the correct lighting sequence, requiring trial and error.
+	• Completing the ritual weakens The Eye, giving players a temporary advantage in the next phase.
+
+Additional Notes:
+	• Each challenge can have escalating difficulty with additional hazards, increased timer speeds, or The Eye gaining new abilities.
+	• Punishments for failure (e.g., splitting the team, inflicting status debuffs) add stakes to the gameplay.
+	• Randomization of challenges ensures replayability and unpredictability.
+
+Would you like help with designing specific challenges in Blueprints?
+
+
+
+4o
+Vous avez dit :
+for now keep give me idea of games
+
+ChatGPT a dit :
+ChatGPT
+Here’s a continuation of creative challenge ideas for The Eyes, each focusing on teamwork, survival, and psychological tension:
+
+11. The Tower of Babel
+Concept:
+Players must construct a tower using scattered blocks while balancing stability and avoiding sabotage by The Eye.
+Mechanics:
+	• Blocks of varying sizes and shapes are scattered across the area.
+	• Players must carry and stack them to reach a specific height.
+	• The Eye can destabilize the structure by sending shockwaves or causing certain blocks to crumble.
+	• Players need to maintain balance, with some holding the structure steady while others bring more blocks.
+
+12. Mirrors of Deceit
+Concept:
+Players are trapped in a hall of mirrors where they must navigate a maze and avoid their reflections turning hostile.
+Mechanics:
+	• Players can see themselves in mirrors, but some reflections are traps that attack if approached.
+	• Clues about the correct path are hidden in subtle differences between real and false reflections.
+	• The Eye uses its gaze to shatter mirrors or create fake paths, increasing the challenge.
+
+13. The Abyss Walk
+Concept:
+Players must cross a narrow beam suspended over a bottomless void, balancing speed and precision.
+Mechanics:
+	• The beam is constantly shaking, requiring careful movement.
+	• The Eye generates gusts of wind or visual distortions to throw players off balance.
+	• Some sections of the beam are missing and require players to jump or use teamwork to create makeshift bridges.
+	• Falling players land on a lower level where they must complete a mini-challenge to rejoin.
+
+14. Warden’s Chains
+Concept:
+Players are bound by glowing chains connecting them to an anchor point, limiting their movement and forcing cooperation.
+Mechanics:
+	• Players must work together to move in sync while solving puzzles or avoiding hazards.
+	• The Eye can pull the chains taut, dragging players closer to danger or splitting the group.
+	• The chain links occasionally spark, requiring players to time their movements carefully.
+
+15. The Marionette’s Dance
+Concept:
+Players are puppets on strings and must perform specific actions to avoid being "cut loose."
+Mechanics:
+	• Players are given a sequence of movements (e.g., jump, crouch, spin) to perform in rhythm.
+	• Failing to perform a move on time causes the strings to tighten, slowing movement.
+	• The Eye occasionally speeds up the rhythm or adds false instructions to trick players.
+
+16. The Clock Room
+Concept:
+Players must manipulate giant clock hands to align them to a specific time while avoiding deadly traps.
+Mechanics:
+	• Each player can control one hand of the clock, but moving one affects the others.
+	• Traps are tied to specific times (e.g., “12 o’clock triggers fire jets”).
+	• The Eye creates distractions by warping the clock face or hiding the correct time.
+
+17. Chimes of Doom
+Concept:
+Players must find and ring bells in a specific order while evading “sound-sensitive” monsters.
+Mechanics:
+	• The arena contains bells scattered in dangerous areas, each producing a unique tone.
+	• Players must listen to a sequence and replicate it by ringing the correct bells.
+	• Ringing the wrong bell spawns monsters that hunt based on sound.
+	• The Eye periodically silences players or moves bells to confuse the team.
+
+18. The Spiral Stairs
+Concept:
+Players climb an endless staircase that warps and twists, requiring precise timing and teamwork to ascend.
+Mechanics:
+	• Steps periodically retract or rotate, creating gaps that players must jump over.
+	• The Eye can reverse gravity, forcing players to navigate upside-down sections.
+	• Reaching checkpoints locks the staircase temporarily, allowing players to rest.
+
+19. Strings of Time
+Concept:
+Players are given a time limit to reach the end of a path, but touching glowing "time threads" increases their countdown.
+Mechanics:
+	• The path is littered with glowing threads that slow players down if touched.
+	• The Eye can generate additional threads or extend their reach.
+	• Some players can act as "cutters," using tools to sever threads and create safe passages.
+
+20. The Gauntlet
+Concept:
+Players must navigate a series of deadly rooms, each with unique hazards that require teamwork to overcome.
+Mechanics:
+	• Room 1: Laser grids that players must time their movements to avoid.
+	• Room 2: Pressure-sensitive tiles that deactivate traps if players stand on them together.
+	• Room 3: Rotating blades that require precise jumping or crouching to evade.
+	• The Eye periodically locks exits or speeds up hazards, forcing players to act quickly.
+
+21. The Infernal Carousel
+Concept:
+Players are trapped on a giant rotating platform and must avoid obstacles while staying on the carousel.
+Mechanics:
+	• Obstacles like spikes, fire jets, and swinging axes move with the platform.
+	• The Eye alters the carousel’s speed or reverses its direction unpredictably.
+	• Players can deactivate hazards by pressing buttons on the edges of the platform, but doing so risks falling off.
+
+22. Masks of Fear
+Concept:
+Players must don masks to hide from phantoms while solving puzzles.
+Mechanics:
+	• Each mask grants protection from a specific phantom but limits vision or movement.
+	• Players must switch masks depending on the hazard they face.
+	• The Eye can “corrupt” masks, making them ineffective for short periods.
+
+23. The Bone Bridge
+Concept:
+Players must build a bridge using bones scattered across the area while avoiding rising lava.
+Mechanics:
+	• Bones are fragile and will break if too much weight is applied, requiring strategic placement.
+	• The Eye accelerates the lava flow or dislodges bones from the bridge.
+	• Some bones are cursed and create hazards when picked up.
+
+24. The Memory Vault
+Concept:
+Players are shown a sequence of symbols or items, which they must recall and retrieve to progress.
+Mechanics:
+	• The sequence is displayed briefly, then scattered around the arena.
+	• The Eye distorts or hides symbols, forcing players to rely on memory and teamwork.
+	• Picking the wrong item triggers traps or spawns enemies.
+
+25. Whispers of the Void
+Concept:
+Players hear whispers that provide conflicting instructions, and they must discern the correct path.
+Mechanics:
+	• Players must follow audio clues while avoiding paths leading to dead ends or traps.
+	• The Eye can amplify false whispers or create decoys to mislead players.
+	• Communication is vital, as whispers are only audible to individual players.
+
+Final Note:
+Would you like to brainstorm even more, or start implementing one of these challenges into a cohesive gameplay flow? Let me know!

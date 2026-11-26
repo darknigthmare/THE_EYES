@@ -1,0 +1,12 @@
+.godot/
+.DS_Store
+*.tmp
+*.log
+builds/
+artifacts/
+__pycache__/
+unreal/TheEyes/Saved/
+unreal/TheEyes/Intermediate/
+unreal/TheEyes/DerivedDataCache/
+unreal/TheEyes/Binaries/
+

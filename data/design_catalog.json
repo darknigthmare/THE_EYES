@@ -1,0 +1,1399 @@
+{
+  "schema_version": "1.0",
+  "design_version": "0.1",
+  "date": "2026-11-26",
+  "language": "en",
+  "project": "THE EYES",
+  "owner": "Darknigthmare",
+  "status_note": "This is a design catalogue. selected_for_prototype identifies scope; actual completion and verification are reported by the executable release. planned entries are not shipped gameplay assets.",
+  "source": {
+    "attachment": "Texte collé.txt",
+    "original_trial_count": 25,
+    "production_engine": "Unreal Engine 5",
+    "production_gameplay_authoring": "Blueprints only",
+    "prototype_engine": "Godot 4",
+    "source_mapping": "docs/bible/11_SOURCE_TRACEABILITY.md"
+  },
+  "prototype": {
+    "title": "The First Observance",
+    "version": "0.1",
+    "online_multiplayer": false,
+    "roles": [
+      "human_survivor_vs_ai_eye",
+      "human_eye_vs_four_ai_survivors"
+    ],
+    "socket_count": 4,
+    "socket_names": [
+      "North",
+      "East",
+      "South",
+      "West"
+    ],
+    "socket_height_m": 8,
+    "arena_extents_m": [
+      54,
+      48
+    ],
+    "trial_ids": [
+      "T02",
+      "T05",
+      "T08"
+    ],
+    "preparation_seconds": 8,
+    "difficulty_timers": {
+      "Story": {
+        "hunt": 600,
+        "escape": 90
+      },
+      "Standard": {
+        "hunt": 480,
+        "escape": 65
+      },
+      "Ruthless": {
+        "hunt": 360,
+        "escape": 50
+      }
+    },
+    "escape_timer_starts_fresh": true,
+    "energy": {
+      "capacity": 100,
+      "regeneration_per_second": 4
+    },
+    "eye_commands": {
+      "trap": {
+        "cost": 25,
+        "cooldown": 4,
+        "requires_line_of_sight": true
+      },
+      "mark": {
+        "cost": 20,
+        "cooldown": 6,
+        "requires_line_of_sight": true
+      },
+      "summon": {
+        "cost": 45,
+        "cooldown": 16,
+        "requires_line_of_sight": true
+      },
+      "blink": {
+        "cost": 8,
+        "cooldown": 2,
+        "requires_line_of_sight": false
+      }
+    },
+    "trial_rules": {
+      "silent": {
+        "unique_motes": 3
+      },
+      "echoes": {
+        "symbol_count": 4,
+        "seeded_permutation": true,
+        "wrong_valid_input": "reset_current_sequence"
+      },
+      "relay": {
+        "net_hold_seconds": 12,
+        "checkpoint_seconds": [
+          4,
+          8
+        ],
+        "release_decay_normalized_per_second": 0.041666666666666664
+      }
+    },
+    "victory": "first_valid_survivor_escape",
+    "eye_victory": [
+      "all_survivors_eliminated",
+      "active_deadline_expired"
+    ],
+    "audio": "procedural_nonverbal",
+    "character_art": "procedural_prototype_not_final_roster",
+    "terror": {
+      "function": "atmosphere_telemetry",
+      "spendable": false,
+      "affects_ai": false,
+      "affects_damage": false,
+      "unlocks_ultimate": false
+    },
+    "escape_interaction": {
+      "human_hold_seconds": 1.5,
+      "requires_open_exit": true
+    },
+    "recovery": {
+      "name": "Second Sight",
+      "human_only": true,
+      "opportunities": 1,
+      "deadline_seconds": 25,
+      "required_successes": 3,
+      "pulse_seconds": 2,
+      "safe_pulse_interval_seconds": [
+        1.2,
+        1.8
+      ],
+      "wrong_press_penalty_seconds": 2,
+      "return_health": 50,
+      "return_protection_seconds": 5
+    },
+    "persistence": {
+      "settings_file": "settings.cfg",
+      "result_ledger_file": "last_observance.json",
+      "mid_match_save": false,
+      "deterministic_full_replay": false
+    },
+    "settings": [
+      "audio_toggle",
+      "reduced_motion_and_vignette",
+      "invert_vertical_look",
+      "mouse_sensitivity",
+      "field_of_view"
+    ],
+    "input_remapping": false,
+    "socket_reacquisition_warning_seconds": 0.85
+  },
+  "production": {
+    "classic_survivor_counts": [
+      5,
+      6,
+      7
+    ],
+    "classic_eye_count": 1,
+    "networking_status": "planned",
+    "realm_count": 4,
+    "trial_count": 25,
+    "roster_count": 8,
+    "archetype_count": 4,
+    "modes": [
+      "Classic",
+      "Endless Observance",
+      "Custom Observance",
+      "Trial Practice",
+      "Eye Training"
+    ],
+    "invariants": [
+      "Eye position only changes between authored sockets",
+      "Damage needs readable warning and valid counterplay",
+      "Completed seals are permanent",
+      "Every active mandatory objective remains reachable",
+      "First valid survivor escape wins the base round",
+      "No role is required to solve a mandatory trial",
+      "Gameplay information has accessible redundant cues"
+    ]
+  },
+  "archetypes": [
+    {
+      "id": "veil",
+      "title": "Veil",
+      "role": "Stealth",
+      "prototype_character_id": "SV01",
+      "prototype_ability": {
+        "name": "Quiet Step",
+        "duration_seconds": 5,
+        "cooldown_seconds": 25,
+        "movement_noise_multiplier": 0.15,
+        "gaze_gain_multiplier": 0.25
+      },
+      "production_active_proposal": "Held Breath",
+      "production_note": "Suppress movement noise; never grants invisibility.",
+      "prototype_passive_footstep_multiplier": 0.55
+    },
+    {
+      "id": "tinker",
+      "title": "Tinker",
+      "role": "Engineering",
+      "prototype_character_id": "SV03",
+      "prototype_ability": {
+        "name": "Overclock",
+        "duration_seconds": 8,
+        "cooldown_seconds": 25,
+        "additional_relay_multiplier": 1.6
+      },
+      "prototype_relay_multiplier": 1.4,
+      "production_active_proposal": "Brace",
+      "production_note": "Preserve only unbanked mechanism work during a bounded interval."
+    },
+    {
+      "id": "runner",
+      "title": "Runner",
+      "role": "Mobility",
+      "prototype_character_id": "SV05",
+      "prototype_ability": {
+        "name": "Second Wind",
+        "duration_seconds": 5,
+        "cooldown_seconds": 22,
+        "movement_multiplier": 1.25
+      },
+      "prototype_stamina": 135,
+      "prototype_sprint_mps": 8,
+      "production_active_proposal": "Second Wind",
+      "production_note": "Loud movement burst with normal collision and no invulnerability."
+    },
+    {
+      "id": "keeper",
+      "title": "Keeper",
+      "role": "Support",
+      "prototype_character_id": "SV07",
+      "prototype_ability": {
+        "name": "Mend",
+        "health_restored": 30,
+        "target": "self",
+        "cooldown_seconds": 35,
+        "health_cap": 100
+      },
+      "production_active_proposal": "Steady Hands",
+      "production_note": "Teammate support is a production extension, not a prototype claim."
+    }
+  ],
+  "survivors": [
+    {
+      "id": "SV01",
+      "name": "Mara Vale",
+      "archetype_id": "veil",
+      "background": "Surveyor",
+      "silhouette": "Slate coat, chalk accents, wrist survey cord",
+      "design_status": "detailed",
+      "prototype_selection": true,
+      "final_art_status": "planned",
+      "document": "docs/bible/03_SURVIVORS.md"
+    },
+    {
+      "id": "SV02",
+      "name": "Ivo Mercer",
+      "archetype_id": "veil",
+      "background": "Stagehand",
+      "silhouette": "Dark work shirt, fabric tool loops, tucked red scarf",
+      "design_status": "detailed",
+      "prototype_selection": false,
+      "final_art_status": "planned",
+      "document": "docs/bible/03_SURVIVORS.md"
+    },
+    {
+      "id": "SV03",
+      "name": "Nadiya Sayegh",
+      "archetype_id": "tinker",
+      "background": "Repairer",
+      "silhouette": "Ochre work jacket, reinforced knees, ordered tool case",
+      "design_status": "detailed",
+      "prototype_selection": true,
+      "final_art_status": "planned",
+      "document": "docs/bible/03_SURVIVORS.md"
+    },
+    {
+      "id": "SV04",
+      "name": "Tomas Venn",
+      "archetype_id": "tinker",
+      "background": "Horologist",
+      "silhouette": "Long vest, work gloves, flat toolkit, broken watch",
+      "design_status": "detailed",
+      "prototype_selection": false,
+      "final_art_status": "planned",
+      "document": "docs/bible/03_SURVIVORS.md"
+    },
+    {
+      "id": "SV05",
+      "name": "June Arlen",
+      "archetype_id": "runner",
+      "background": "Courier",
+      "silhouette": "Green shell, chest harness, taped sleeve",
+      "design_status": "detailed",
+      "prototype_selection": true,
+      "final_art_status": "planned",
+      "document": "docs/bible/03_SURVIVORS.md"
+    },
+    {
+      "id": "SV06",
+      "name": "Elias Rook",
+      "archetype_id": "runner",
+      "background": "Rescue climber",
+      "silhouette": "Broad harness, reinforced coat, inert rope coil",
+      "design_status": "detailed",
+      "prototype_selection": false,
+      "final_art_status": "planned",
+      "document": "docs/bible/03_SURVIVORS.md"
+    },
+    {
+      "id": "SV07",
+      "name": "Ada Fen",
+      "archetype_id": "keeper",
+      "background": "Night nurse",
+      "silhouette": "Blue overshirt, medical pouch, pale forearm band",
+      "design_status": "detailed",
+      "prototype_selection": true,
+      "final_art_status": "planned",
+      "document": "docs/bible/03_SURVIVORS.md"
+    },
+    {
+      "id": "SV08",
+      "name": "Soren Bell",
+      "archetype_id": "keeper",
+      "background": "Community organizer",
+      "silhouette": "Burgundy jacket, layered clothing, looped notebook",
+      "design_status": "detailed",
+      "prototype_selection": false,
+      "final_art_status": "planned",
+      "document": "docs/bible/03_SURVIVORS.md"
+    }
+  ],
+  "realms": [
+    {
+      "id": "carnival",
+      "title": "Twisted Carnival",
+      "theme": "Performance without celebration",
+      "hub": "Parade Court",
+      "wings": [
+        "Bell Arcade",
+        "Carousel Pit",
+        "Mirror Gallery",
+        "Rigging Hall"
+      ],
+      "return_loop": "Backstage service ring",
+      "exit": "Audience tunnel",
+      "status": "planned",
+      "trial_ids": [
+        "T08",
+        "T09",
+        "T12",
+        "T15",
+        "T17",
+        "T21"
+      ]
+    },
+    {
+      "id": "labyrinth",
+      "title": "Labyrinth of Shadows",
+      "theme": "Impossible administration",
+      "hub": "Index Rotunda",
+      "wings": [
+        "Records",
+        "Transit",
+        "Audit"
+      ],
+      "return_loop": "Protected maintenance spine",
+      "exit": "Unnumbered stair",
+      "status": "planned",
+      "trial_ids": [
+        "T01",
+        "T02",
+        "T07",
+        "T14",
+        "T16",
+        "T20",
+        "T24"
+      ]
+    },
+    {
+      "id": "dollhouse",
+      "title": "Dollhouse",
+      "theme": "Care distorted into ownership",
+      "hub": "Hearth Junction",
+      "wings": [
+        "Nursery",
+        "Sewing Room",
+        "Conservatory"
+      ],
+      "return_loop": "Skirting-board service passages",
+      "exit": "Grand stair and raised handle platform",
+      "status": "planned",
+      "trial_ids": [
+        "T03",
+        "T10",
+        "T11",
+        "T14",
+        "T22",
+        "T24"
+      ]
+    },
+    {
+      "id": "void",
+      "title": "Void of Despair",
+      "theme": "Distance and memory losing agreement",
+      "hub": "Arrival Ring",
+      "wings": [
+        "Three trial causeways",
+        "Central abyss",
+        "Trial islands"
+      ],
+      "return_loop": "Lower recovery shelves",
+      "exit": "Rising bridge",
+      "status": "planned",
+      "trial_ids": [
+        "T04",
+        "T06",
+        "T13",
+        "T18",
+        "T19",
+        "T23",
+        "T25"
+      ]
+    }
+  ],
+  "trials": [
+    {
+      "id": "T01",
+      "title": "The Labyrinth of Shadows",
+      "source_order": 1,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "labyrinth",
+      "skill_family": "navigation",
+      "goal": "Activate three index switches in an authored shifting maze.",
+      "checkpoint": "Three permanent switches",
+      "eye_intervention": "Future wall shift with connectivity validation",
+      "counterplay": "A safe service spine and recovery pockets",
+      "production_trial_budget_seconds": 150,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T02",
+      "title": "The Silent Countdown",
+      "source_order": 2,
+      "design_status": "detailed",
+      "implementation_status": "selected_for_prototype",
+      "prototype_runtime_id": "silent",
+      "realm_id": "labyrinth",
+      "skill_family": "delivery",
+      "goal": "Deliver three unique whisper motes while managing in-game noise.",
+      "checkpoint": "Each deposited mote",
+      "eye_intervention": "Threaten a visible lane or investigate a noise cue",
+      "counterplay": "Walk or crouch, take cover, recover dropped motes",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T03",
+      "title": "Threads of Fate",
+      "source_order": 3,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "dollhouse",
+      "skill_family": "cooperation",
+      "goal": "Cross a platform course using bounded paired tethers and shared strain.",
+      "checkpoint": "Each secured anchor",
+      "eye_intervention": "Accelerate one announced obstacle",
+      "counterplay": "Reduce tension, pin an endpoint, use recovery trays",
+      "production_trial_budget_seconds": 150,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T04",
+      "title": "Light in the Darkness",
+      "source_order": 4,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "void",
+      "skill_family": "resource",
+      "goal": "Connect three refuge lamps using limited portable light.",
+      "checkpoint": "Each powered refuge",
+      "eye_intervention": "Dim one nonessential light or summon a phantom",
+      "counterplay": "Share illumination and recharge at refuges",
+      "production_trial_budget_seconds": 150,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T05",
+      "title": "Trial of the Echoes",
+      "source_order": 5,
+      "design_status": "detailed",
+      "implementation_status": "selected_for_prototype",
+      "prototype_runtime_id": "echoes",
+      "realm_id": "cross_realm",
+      "skill_family": "memory",
+      "goal": "Repeat a demonstrated seeded four-symbol permutation.",
+      "checkpoint": "Completed seal; production phrase banks",
+      "eye_intervention": "Introduce distinguishable decoys or threaten the station",
+      "counterplay": "Replay or read the true cue frame; retry the current attempt",
+      "production_trial_budget_seconds": 90,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T06",
+      "title": "Bridge of Illusions",
+      "source_order": 6,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "void",
+      "skill_family": "deduction",
+      "goal": "Certify a safe route through three banks of unstable tiles.",
+      "checkpoint": "Each certified bank",
+      "eye_intervention": "Move an unoccupied future tile with warning",
+      "counterplay": "Probe support clues and retreat before collapse",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T07",
+      "title": "Strings of Despair",
+      "source_order": 7,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "labyrinth",
+      "skill_family": "logic",
+      "goal": "Decode support relations and release suspended frames.",
+      "checkpoint": "Each lowered frame stage",
+      "eye_intervention": "Obscure one duplicate clue or interrupt a cut",
+      "counterplay": "Compare shape-tagged ropes and use the viewing balcony",
+      "production_trial_budget_seconds": 90,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T08",
+      "title": "Clockwork Relay",
+      "source_order": 8,
+      "design_status": "detailed",
+      "implementation_status": "selected_for_prototype",
+      "prototype_runtime_id": "relay",
+      "realm_id": "carnival",
+      "skill_family": "operation",
+      "goal": "Hold a mechanism through three charge stages while managing exposure.",
+      "checkpoint": "Prototype: four and eight seconds of twelve",
+      "eye_intervention": "Threaten an operator or rewind only unbanked work",
+      "counterplay": "Retreat at banks and coordinate stabilization",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T09",
+      "title": "Glass Symphony",
+      "source_order": 9,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "carnival",
+      "skill_family": "timing",
+      "goal": "Cross resonant waves using explicitly marked acoustic shields.",
+      "checkpoint": "Midpoint service shutter",
+      "eye_intervention": "Select an emitter or arm brittle glass",
+      "counterplay": "Read wave fronts and shelter behind solid shields",
+      "production_trial_budget_seconds": 90,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T10",
+      "title": "The Ritual Circle",
+      "source_order": 10,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "dollhouse",
+      "skill_family": "sequence",
+      "goal": "Light five vessels by a clue-supported sequence and hold the ring.",
+      "checkpoint": "Each correct vessel pair",
+      "eye_intervention": "Extinguish one unbanked vessel or call a phantom",
+      "counterplay": "Bank pairs and share ember carrying",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T11",
+      "title": "The Tower of Babel",
+      "source_order": 11,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "dollhouse",
+      "skill_family": "construction",
+      "goal": "Assemble a supported access tower from snapped structural pieces.",
+      "checkpoint": "Each braced height band",
+      "eye_intervention": "Shake an unbraced section or threaten a supply lane",
+      "counterplay": "Over-brace, inspect loads, use locked platforms",
+      "production_trial_budget_seconds": 180,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T12",
+      "title": "Mirrors of Deceit",
+      "source_order": 12,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "carnival",
+      "skill_family": "deduction",
+      "goal": "Identify true passages through consistent reflected and engraved clues.",
+      "checkpoint": "Each certified passage",
+      "eye_intervention": "Animate a false reflection or shatter a nonessential mirror",
+      "counterplay": "Compare two clues and inspect suspicious silhouettes",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T13",
+      "title": "The Abyss Walk",
+      "source_order": 13,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "void",
+      "skill_family": "traversal",
+      "goal": "Cross a wind-swept causeway and secure three stabilizers.",
+      "checkpoint": "Each stabilizer",
+      "eye_intervention": "Select an announced gust direction",
+      "counterplay": "Brace, shelter, and use lower recovery shelves",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T14",
+      "title": "Warden’s Chains",
+      "source_order": 14,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "labyrinth",
+      "skill_family": "cooperation",
+      "goal": "Move a shared anchor carriage through three chain-lock puzzles.",
+      "checkpoint": "Each carriage lock",
+      "eye_intervention": "Energize one chain or reduce announced slack",
+      "counterplay": "Pin endpoints and operate emergency releases",
+      "production_trial_budget_seconds": 150,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T15",
+      "title": "The Marionette’s Dance",
+      "source_order": 15,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "carnival",
+      "skill_family": "rhythm",
+      "goal": "Perform three action phrases while rejecting visibly false instructions.",
+      "checkpoint": "Each successful phrase",
+      "eye_intervention": "Add a framed decoy or alter the next announced tempo",
+      "counterplay": "Follow true cue frames and release accumulated tension",
+      "production_trial_budget_seconds": 90,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T16",
+      "title": "The Clock Room",
+      "source_order": 16,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "labyrinth",
+      "skill_family": "logic",
+      "goal": "Align linked clock hands through visible discrete gear relationships.",
+      "checkpoint": "Solved relationship and final constellation",
+      "eye_intervention": "Engage a known announced offset or threaten a sector",
+      "counterplay": "Use reversible controls, clutches, and the ratio diagram",
+      "production_trial_budget_seconds": 150,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T17",
+      "title": "Chimes of Doom",
+      "source_order": 17,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "carnival",
+      "skill_family": "sequence",
+      "goal": "Ring two bell phrases while managing sound-sensitive pursuit.",
+      "checkpoint": "First phrase",
+      "eye_intervention": "Move an unclaimed bell between phrases or add a phantom",
+      "counterplay": "Dampen bells and use sound distractions",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T18",
+      "title": "The Spiral Stairs",
+      "source_order": 18,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "void",
+      "skill_family": "traversal",
+      "goal": "Ascend three controlled stair segments with safe orientation transitions.",
+      "checkpoint": "Each landing",
+      "eye_intervention": "Cycle a future segment within a safe schedule",
+      "counterplay": "Lock segments and use recovery landings",
+      "production_trial_budget_seconds": 150,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T19",
+      "title": "Strings of Time",
+      "source_order": 19,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "void",
+      "skill_family": "resource",
+      "goal": "Carry a charged vessel through threads that add explicit time debt.",
+      "checkpoint": "Each vessel cradle",
+      "eye_intervention": "Extend an unoccupied thread after warning",
+      "counterplay": "Cut anchors or take a longer clear route",
+      "production_trial_budget_seconds": 90,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T20",
+      "title": "The Gauntlet",
+      "source_order": 20,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "labyrinth",
+      "skill_family": "mixed",
+      "goal": "Clear beam, pressure-tile, and sweeping-arm rooms in sequence.",
+      "checkpoint": "Each cleared room",
+      "eye_intervention": "Accelerate one legal hazard schedule",
+      "counterplay": "Use vestibules, latches, and the safe service lane",
+      "production_trial_budget_seconds": 180,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T21",
+      "title": "The Infernal Carousel",
+      "source_order": 21,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "carnival",
+      "skill_family": "timing",
+      "goal": "Disable three brakes on a rotating ring and align the exit.",
+      "checkpoint": "Each disabled brake",
+      "eye_intervention": "Choose bounded speed or one announced obstacle",
+      "counterplay": "Use the center refuge and radial lanes",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T22",
+      "title": "Masks of Fear",
+      "source_order": 22,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "dollhouse",
+      "skill_family": "matching",
+      "goal": "Match three mask protections to explicit phantom behaviors.",
+      "checkpoint": "Each deposited seal fragment",
+      "eye_intervention": "Corrupt one mask for an announced bounded interval",
+      "counterplay": "Switch masks, wait in refuge, or lure threats",
+      "production_trial_budget_seconds": 150,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T23",
+      "title": "The Bone Bridge",
+      "source_order": 23,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "void",
+      "skill_family": "construction",
+      "goal": "Build and brace a load-limited bridge above a rising heat basin.",
+      "checkpoint": "Each anchored segment",
+      "eye_intervention": "Accelerate heat or damage an unbanked brace",
+      "counterplay": "Distribute weight and inspect cursed pieces",
+      "production_trial_budget_seconds": 180,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T24",
+      "title": "The Memory Vault",
+      "source_order": 24,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "labyrinth",
+      "skill_family": "memory",
+      "goal": "Retrieve four identified objects and place them in ordered cradles.",
+      "checkpoint": "Each correct placement",
+      "eye_intervention": "Move unclaimed decoys or obscure a duplicate aisle label",
+      "counterplay": "Inspect objects, replay reference, and divide memory roles",
+      "production_trial_budget_seconds": 120,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    },
+    {
+      "id": "T25",
+      "title": "Whispers of the Void",
+      "source_order": 25,
+      "design_status": "detailed",
+      "implementation_status": "planned",
+      "prototype_runtime_id": null,
+      "realm_id": "void",
+      "skill_family": "deduction",
+      "goal": "Choose three routes using evidence that identifies truthful testimony.",
+      "checkpoint": "Each correct gate",
+      "eye_intervention": "Amplify a false voice or add a decoy statement",
+      "counterplay": "Compare physical markers and complete captions",
+      "production_trial_budget_seconds": 150,
+      "production_budget_is_proposal": true,
+      "solo_variant_required": true,
+      "supported_production_survivors": [
+        5,
+        6,
+        7
+      ],
+      "blueprint_parent": "BP_TrialBase",
+      "document": "docs/bible/06_TRIAL_CATALOGUE.md",
+      "acceptance_required": [
+        "solvable_state",
+        "readable_warning",
+        "recoverable_failure",
+        "permanent_completion",
+        "accessible_information",
+        "duplicate_action_safety"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "IT01",
+      "title": "Whisper mote",
+      "status": "selected_for_prototype"
+    },
+    {
+      "id": "IT02",
+      "title": "Hand lamp",
+      "status": "planned"
+    },
+    {
+      "id": "IT03",
+      "title": "Signal pebble",
+      "status": "planned"
+    },
+    {
+      "id": "IT04",
+      "title": "Mechanical brace",
+      "status": "planned"
+    },
+    {
+      "id": "IT05",
+      "title": "Field dressing",
+      "status": "planned"
+    },
+    {
+      "id": "IT06",
+      "title": "Thread cutter",
+      "status": "planned"
+    },
+    {
+      "id": "IT07",
+      "title": "Probe weight",
+      "status": "planned"
+    },
+    {
+      "id": "IT08",
+      "title": "Ritual ember",
+      "status": "planned"
+    },
+    {
+      "id": "IT09",
+      "title": "Structural piece",
+      "status": "planned"
+    },
+    {
+      "id": "IT10",
+      "title": "Time vessel",
+      "status": "planned"
+    },
+    {
+      "id": "IT11",
+      "title": "Mask",
+      "status": "planned"
+    },
+    {
+      "id": "IT12",
+      "title": "Memory relic",
+      "status": "planned"
+    }
+  ],
+  "traps": [
+    {
+      "id": "TR01",
+      "title": "Needle bed",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR02",
+      "title": "Shutter press",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR03",
+      "title": "Cinder jet",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR04",
+      "title": "Pendulum arm",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR05",
+      "title": "Resonance burst",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR06",
+      "title": "False floor",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR07",
+      "title": "Chain surge",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR08",
+      "title": "Rewind clutch",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR09",
+      "title": "Light siphon",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    },
+    {
+      "id": "TR10",
+      "title": "Delay thread",
+      "status": "production_design",
+      "prototype_note": "See release report for implemented hazard representation."
+    }
+  ],
+  "minions": [
+    {
+      "id": "MN01",
+      "title": "The Hollow",
+      "role": "Visible pursuer with bounded search",
+      "status": "production_design"
+    },
+    {
+      "id": "MN02",
+      "title": "The Listener",
+      "role": "Noise-event hunter",
+      "status": "production_design"
+    },
+    {
+      "id": "MN03",
+      "title": "The Reflection",
+      "role": "Inspectable decoy silhouette",
+      "status": "production_design"
+    },
+    {
+      "id": "MN04",
+      "title": "The Seamstress",
+      "role": "Removable filament lane control",
+      "status": "production_design"
+    },
+    {
+      "id": "MN05",
+      "title": "The Usher",
+      "role": "Rule-bound doorway guardian",
+      "status": "production_design"
+    }
+  ],
+  "documents": {
+    "index": "docs/bible/README.md",
+    "vision": "docs/bible/01_VISION_AND_FICTION.md",
+    "rules": "docs/bible/02_MATCH_AND_SURVIVAL.md",
+    "survivors": "docs/bible/03_SURVIVORS.md",
+    "eye": "docs/bible/04_THE_EYE.md",
+    "realms": "docs/bible/05_REALMS_AND_LEVEL_DESIGN.md",
+    "trials": "docs/bible/06_TRIAL_CATALOGUE.md",
+    "objects": "docs/bible/07_OBJECTS_AND_ENEMIES.md",
+    "presentation": "docs/bible/08_PRESENTATION_AND_ACCESSIBILITY.md",
+    "modes": "docs/bible/09_MODES_AND_PROGRESSION.md",
+    "production": "docs/bible/10_PRODUCTION_AND_ACCEPTANCE.md",
+    "source": "docs/bible/11_SOURCE_TRACEABILITY.md"
+  }
+}
