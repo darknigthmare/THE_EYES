@@ -19,7 +19,7 @@ Exact production values follow playtest evidence. Prototype abilities may be sma
 
 ### Current prototype choices
 
-The playable local slice selects four identities from the full roster. Its ability names and values are intentionally smaller than the cooperative production proposals above:
+The published v0.2 local slice selects four primary identities from the full roster. Its baseline ability names and values are intentionally smaller than the cooperative production proposals above; the v0.3 Squad extension is described below:
 
 | Character / archetype | Prototype ability | Current effect |
 |---|---|---|
@@ -28,7 +28,9 @@ The playable local slice selects four identities from the full roster. Its abili
 | June Arlen / Runner | Second Wind | Movement ×1.25 for 5 seconds; 22-second cooldown; larger 135 stamina reserve and 8 m/s sprint |
 | Ada Fen / Keeper | Mend | Restore up to 30 health to self, capped at 100; 35-second cooldown |
 
-The prototype's Keeper action is self-healing, not a completed teammate-targeting medical system. Tinker's v0.2 Clock hint requires physical travel and interaction; it supplies no automatic turns, completion, or passive Clock rate bonus. The procedural presentation does not yet constitute final models and animation sets for these named characters. The runtime module and verified release report take precedence if later tuning changes these values.
+The published v0.2 Keeper action is self-healing. The v0.3 Squad extends Mend to the most injured eligible active squad member, including self. Allies must be within four metres and clear line of sight; equal health favors self, then stable ally order. It retains the 30-health amount and 35-second cooldown; physical world fixtures verify reach, walls, target ties, amount and cooldown. Downed allies require the separate rescue interaction. Tinker's v0.2 Clock hint requires physical travel and interaction; it supplies no automatic turns, completion, or passive Clock rate bonus. The procedural presentation does not yet constitute final models and animation sets for these named characters. The runtime module and verified release report take precedence if later tuning changes these values.
+
+The v0.3 Squad names five distinct participants: the human uses the primary identity for their chosen archetype, and four bots include one of each archetype. The matching-archetype bot uses Ivo Mercer, Tomas Venn, Elias Rook, or Soren Bell respectively; the other bots use their primary identities. This uses the existing eight names without adding archetypes or finished character art. See [the roster and rescue specification](13_SQUAD_AND_RESCUE.md).
 
 ## 01 — Mara Vale, the surveyor
 

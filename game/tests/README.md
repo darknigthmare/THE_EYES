@@ -1,7 +1,7 @@
-# Gameplay verification — all six suites
+# Gameplay verification — all nine suites
 
 Run from the repository root with **Godot 4.7.2**. Import a fresh checkout before
-running the six suites:
+running the nine suites:
 
 ```bash
 godot --headless --path game --editor --import
@@ -11,16 +11,19 @@ godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://
 godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_trial_set.gd
 godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_second_world.gd
 godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_second_survivor_route.gd
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_squad_state.gd
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_squad_world.gd
+godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_squad_route.gd
 ```
 
 These are GDScript tests running inside the actual Godot engine and loading the
 production rule modules or main scene. Assertion runners exit `0` on success
-and `1` on failure. The two survivor-route runners likewise return a nonzero
+and `1` on failure. The three survivor-route runners likewise return a nonzero
 status if normal inputs cannot complete their route or produce a recorded route
 failure. The verification and release workflows also reject Godot error
 diagnostics even if a process happens to return zero.
 
-## Current v0.2 results
+## Current v0.3 results
 
 | Suite | Purpose | Verified result |
 | --- | --- | --- |
@@ -30,12 +33,15 @@ diagnostics even if a process happens to return zero.
 | [test_trial_set.gd](test_trial_set.gd) | Contract selection and alternate-trial authority | 23 cases; 2,098 assertions; zero failures |
 | [test_second_world.gd](test_second_world.gd) | Alternate apparatus, shared physical commands and all mixed bot routes | 16 cases; 137 assertions; zero failures |
 | [test_second_survivor_route.gd](test_second_survivor_route.gd) | Second survivor route against active Story Eye AI | Escape at 324.17 simulated seconds |
+| [test_squad_state.gd](test_squad_state.gd) | Squad life, rescue, freeze and one recovery | 26 cases; 120 assertions; zero failures |
+| [test_squad_world.gd](test_squad_world.gd) | Real Squad physics, rescue, healing, orders and perception | 23 cases; 234 assertions; zero failures |
+| [test_squad_route.gd](test_squad_route.gd) | First/Second/Mix Squad sessions against active Story Eye AI | Three team escapes at 46.88 / 86.80 / 46.72 seconds |
 
-The four counted suites total **72 cases and 2,420 assertions**. The two complete
-survivor routes are additional completion scenarios; their results are not
+The six assertion suites total **121 cases and 2,774 assertions**, with zero failures. The retained v0.2 subtotal is 72 cases / 2,420 assertions. The two complete solo
+survivor routes and three complete Squad sessions are additional completion scenarios; their results are not
 invented assertion counts. All times below are simulated gameplay time, not
-execution time or a hardware performance benchmark. The [v0.2 verification
-report](../../docs/qa/V0_2_VERIFICATION.md) records exact route outcomes and
+execution time or a hardware performance benchmark. The [v0.3 verification
+report](../../docs/qa/V0_3_VERIFICATION.md) records exact route outcomes and
 separates source, rendering, Windows, and Unreal evidence.
 
 ## Shared authority contract
@@ -327,13 +333,72 @@ inspection and are clearly separated from the movement routes above. A
 headless suite cannot establish HUD legibility, audible sound, graphical-driver
 compatibility, or usable controls.
 
-Both repository workflows require all six gameplay suites. The release workflow
+Both repository workflows require all nine gameplay suites. The release workflow
 then exports the exact source build and requires native Windows **headless
-startup** for Survivor and Eye under each of First, Second, and Seeded Mix.
-Those six executable-startup results, archive SHA-256, source revision, and
-engine version belong in `WINDOWS_SMOKE.json`. At this documentation snapshot,
-that platform gate has not yet been reported as passed. It remains distinct
+startup** for Solo Survivor, Eye and Squad under each of First, Second, and Seeded Mix.
+Those nine executable-startup results, archive SHA-256, source revision, and
+engine version belong in `WINDOWS_SMOKE.json`. The v0.3 platform gate remains pending at this source-candidate snapshot. It remains distinct
 from a graphical Windows playthrough, which is untested. See the
-[verification report](../../docs/qa/V0_2_VERIFICATION.md) and
+[verification report](../../docs/qa/V0_3_VERIFICATION.md) and
 [release workflow](../../.github/workflows/release-windows.yml) for the exact
 required evidence.
+
+
+## Squad life authority
+
+`test_squad_state.gd` exercises `EyesSquadState`: **26 cases, 120 assertions,
+zero failures**. It checks five-member configuration, foreign/self/duplicate
+identifiers, first fall, 35-second bleedout, six-second exclusive rescue,
+interruption reset, one recovery per member, subsequent elimination, simultaneous
+rescues, helper loss, immediate all-downed wipe, atomic events, nonfinite durations,
+freeze semantics and rematch isolation. Timed boundary cases step at 60 Hz.
+
+The state module has no position, health-controller or rendering knowledge.
+`test_squad_world.gd` separately checks the real scene and physical commands:
+**23 cases / 234 assertions / zero failures**. It covers population and unique
+names, downed objective eligibility, actual walls and distance limits, release,
+movement, damage and pause interruption, exclusive reservations, the six-second
+hold/protection lifecycle, single elimination/wipe, Keeper selection and wall
+rejection, orders, escape priority, real ally spectator viewpoints, rematch and
+visible-only Eye target selection.
+
+Its staged AI rescuer walks 7.64 m along a nine-point AStar path, then finishes the
+continuous rescue; total travel plus hold is 7.50 s. The revived human has 35 HP and
+normal protection. Actors are deliberately staged and wounded through the real
+world boundary, so this is physical rescue evidence, not a full pressured match.
+
+The suite also calls the production main physics update: a human plus four
+allies gives exactly 0.15 Relay progress in one second at the 1.8× cap. Human-only
+holding produces 1/12 per second without extra decay from the allied pass.
+
+## Three complete Squad sessions
+
+`test_squad_route.gd` extends the existing normal-input route driver. It starts
+one human Keeper and four AI allies, chooses Story and seed 271126, and runs all
+three contracts against the active AI Eye. It sends Follow, Hold and Work through
+ordinary input events, physically moves the human, operates the actual south
+mechanism, uses normal cooldown-limited healing, and attempts the north exit.
+The other survivors independently walk to and perform their own trial tasks.
+
+No route input changes health, speed, actor positions, clocks, seals, AI perception
+or trial progress. The driver can wait for legitimate rescue or spectate after
+elimination, but those mechanisms were not needed in these three final runs.
+Isolated rescue fixtures are reported separately; successful ordinary routes do
+not prove that every rescue scenario is survivable.
+
+| Contract | Team result | Simulated duration | Human final HP | Team wounds | Orders |
+| --- | --- | ---: | ---: | ---: | ---: |
+| First | Survivors escaped | 46.88 s | 33 | 4 | 3 |
+| Second | Survivors escaped | 86.80 s | 20 | 6 | 3 |
+| Seeded Mix | Survivors escaped | 46.72 s | 100 | 1 | 3 |
+
+Every run broke all three selected seals. This single informed driver and seed
+establish reproducible completion of these configurations, not difficulty balance,
+novice usability, every Mix seed, or guaranteed survival on Standard/Ruthless.
+
+During integration, the first Second-contract attempt exposed allies remaining
+beside visible pursuing shadows while trying to rescue. The production Squad
+AI now checks nearby visible shadows, selects a physically clear evasive step,
+cancels any rescue hold, and resumes a legitimate goal when the immediate threat
+passes. The Eye still has its normal powers and damage. Solo and human-Eye bot
+behavior retain the previous implementation and pass their original routes.

@@ -1,146 +1,213 @@
-# Play THE EYES — The Observance Collection
+# Play THE EYES — The Survivor Accord
 
-Version **0.2.0** is a local 3D prototype with two asymmetric roles and one
-complete match arena. Six trial subsets are playable, with three active per
-match. The 25-trial bible describes the larger target game.
+Version **0.3.0** is a local 3D Godot prototype with **Solo Survivor, a human-plus-four-AI
+Squad, and human Eye** modes. Six trial subsets are available, with exactly three
+active in a match. The complete 25-trial bible describes the larger game.
 
-## Windows package
+## Start the game
 
-Download the [Windows x64 ZIP](https://github.com/darknigthmare/THE_EYES/releases/download/v0.2.0/THE_EYES_v0.2.0_Windows_x64.zip)
-from the [v0.2.0 release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.2.0).
+**Windows:** download [THE_EYES_v0.3.0_Windows_x64.zip](https://github.com/darknigthmare/THE_EYES/releases/download/v0.3.0/THE_EYES_v0.3.0_Windows_x64.zip)
+from the [v0.3.0 release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.3.0),
+extract the complete archive, and open **THE_EYES.exe**. Godot is not needed for
+the package. It is an unsigned development build with embedded game data.
 
-Extract `THE_EYES_v0.2.0_Windows_x64.zip` completely, then launch `THE_EYES.exe`.
-Game data is embedded in the executable; Godot need not be installed. Use the
-package and SHA-256 provided on that release. This is an unsigned development
-build, not an installer.
+Publication requires the exact exported archive to pass native Windows
+headless startup in all nine mode/contract combinations. `WINDOWS_SMOKE.json`
+on the release records the actual checks. A graphical Windows playthrough is
+a separate remaining qualification; consult [v0.3 verification](qa/V0_3_VERIFICATION.md).
 
-The release workflow exports and structurally checks the executable, then runs
-that exact package natively on Windows in headless mode for both roles under
-all three contracts. See the release asset `WINDOWS_SMOKE.json` for execution
-evidence. A graphical Windows hardware playtest remains required. See
-[verification](qa/V0_2_VERIFICATION.md).
+**Source:** import `game/project.godot` into standard **Godot 4.7.2**, wait for
+resource import, and press **F5**. The project uses GDScript and the Compatibility
+renderer. No account, server, plugin, or API key is required.
 
-## Source project
+Choose **Story / Keeper / First Observance** to begin. Select your session:
 
-Install the standard **Godot 4.7.2** editor on Windows, Linux or macOS. Import
-`game/project.godot`, wait for resource import and press F5. It uses GDScript,
-not C#, and the Compatibility renderer. Earlier engine versions are unverified.
+| Menu entry | What you control |
+| --- | --- |
+| Play Solo as a Survivor | One survivor against the AI Eye; first-fall Second Sight recovery |
+| Lead a Local Squad · You + 4 AI | One survivor with four physical AI allies against the AI Eye |
+| Take the Eye's Seat | The fixed Eye against four AI survivors |
 
-Choose Story for a first survivor run. Keeper heals with Q; Veil reduces noise
-and offers a short gaze-resistance ability. Select **Enter as a survivor** to
-face the AI Eye, or **Take the Eye's seat** to oppose four AI survivors. There
-is no lobby or network session in 0.2.0.
+There is no network lobby, remote partner, or second local human controller.
+The first valid survivor escape wins for the team in every session.
 
-## Choose a contract
+## Contracts and objectives
 
-**First Observance** uses Countdown, Echoes and Relay. **Second Observance**
-uses Memory Vault, Ritual Circle and Clock Room. **Seeded Mix** chooses one of
-two trials in each bay, giving eight sets. Both roles support every contract.
-The seed fixes the selected trials and puzzle setup. It does not freeze AI or
-physics timing. Exactly three seals are required in every case.
-
-## First Observance survivor run
-
-1. You start in the south with eight protected seconds. Inspect the map with Tab.
-2. Pick up one cyan whisper mote using E. Carry only one at a time. Deliver it
-   to Silent Countdown in the northwest. Repeat three times. Sprinting with a
-   mote makes noise; crouching is quieter.
-3. At the northeast Echo station, press E. Watch the symbols and repeat the
-   order with 1–4 or the buttons. R replays; E/Escape lets you retreat. The Eye
-   keeps acting while the puzzle panel is open.
-4. At the south Relay, hold E. The first and second thirds remain banked if you
-   must release the wheel and hide.
-5. After all seals break, reach the north door and hold E for 1.5 seconds.
-
-Move with WASD/ZQSD or arrows. Shift sprints, Ctrl/C crouches, Space jumps,
-Q activates your ability, G releases cargo, Tab toggles the map and Escape
-pauses. Dropping a mote leaves it in the world; a relic returns to its shelf
-and the shared ember returns to its cradle, so neither can be lost.
-
-Key bindings use physical QWERTY positions. On AZERTY, the Q-labelled ability
-is therefore **A**, while movement is ZQSD. Use the top-row 1–4 key positions
-without Shift for symbols and Eye sockets. This applies to the Eye's Q-labelled
-summon command as well.
-
-The active Eye is brighter. Stone walls and the central monument block its
-sight. Gold floor warnings precede spikes by 1.5 seconds. Shadows appear after
-a two-second warning and pursue through physical navigation; break their sight.
-Completed seals cannot be erased.
-
-Your first lethal wound offers **Second Sight**: press E when the ring turns
-green, three times within 25 seconds. A wrong press costs two seconds. Success
-returns you with 50 vitality and five seconds of protection. The next lethal
-wound is final.
-
-| Archetype | Character | Passive | Q ability |
+| Contract | Northwest | Northeast | South |
 | --- | --- | --- | --- |
-| Veil | Mara Vale | Footstep noise ×0.55 | Quiet Step: 5 s quieter steps/reduced gaze gain; 25 s cooldown |
-| Tinker | Nadiya Sayegh | Relay work ×1.4 | Overclock for 8 s: additional ×1.6 Relay rate, or advice for the next Clock lever/direction; 25 s cooldown |
-| Runner | June Arlen | 135 stamina; 8 m/s sprint | Second Wind: movement ×1.25 for 5 s; 22 s cooldown |
-| Keeper | Ada Fen | Recovery-oriented kit | Mend: up to 30 vitality; 35 s cooldown |
+| First Observance | Silent Countdown | Trial of the Echoes | Clockwork Relay |
+| Second Observance | The Memory Vault | The Ritual Circle | The Clock Room |
+| Seeded Mix | Countdown or Vault | Echoes or Ritual | Relay or Clock |
 
-## Second Observance survivor run
+Seeded Mix chooses one of two trials per bay, giving eight sets. All three
+session types support all contracts. The seed fixes selection and puzzle setup
+within a game version; it does not freeze AI or physics timing. Each match
+begins with eight protected seconds. Three seals open the north door and start
+a fresh escape timer. **Hold E at the door for 1.5 seconds** to leave.
 
-1. **Memory Vault, northwest:** E at the desk reveals four named relics for
-   eight seconds. Replay whenever needed. Six distinct relics stand on the
-   southern shelves. Carry one with E and bring it to the exact numbered
-   cradle. Correct placements bank permanently. An incorrect deposit retains
-   your cargo; G returns it safely to its shelf.
-2. **Ritual Circle, northeast:** take the shared ember and follow the engraved
-   five-vessel order. E lights a nearby vessel. The second and fourth vessels
-   bank pairs. Choosing an incorrect unlit vessel loses the current unbanked
-   part and returns the ember; clicking an already lit vessel is harmless.
-   After all five are lit, remain in the ring for eight continuous seconds.
-   **Keep moving inside its 2.8 m radius** to evade hazards. Leaving resets
-   only that final hold, not the vessels. Jumping above the floor or entering
-   Second Sight cannot contribute occupancy.
-3. **Clock Room, south:** read the target and current positions, numbered 0–5.
-   Walk to lever A, B or C. E turns forward; R turns backward. A moves A+B, B
-   moves B+C, C moves C+A. Match all three hands, then press E at the centre
-   to confirm. X at the centre restores the initial puzzle. Each generated
-   start is exactly four optimal turns from its target. Overclock temporarily
-   advises a legal next turn, but you must travel and use the lever yourself.
-4. Break the three seals and hold E at the north doorway, as in First.
+### First Observance
 
-You can complete these trials in any order. Seeded Mix uses the same apparatus
-and rules for whichever three trials were selected. Absent trials cannot be
-advanced by using their old locations.
+1. **Silent Countdown:** take a cyan whisper mote with E, carry it northwest,
+   and deposit it with E. Deliver all three distinct motes. Only one objective
+   can be carried at a time; sprinting with a mote makes more noise.
+2. **Trial of the Echoes:** press E at the northeast station, observe four
+   symbols, then repeat them with 1–4 or the buttons. R replays; E/Escape closes
+   the panel. The Eye continues acting while you solve it.
+3. **Clockwork Relay:** hold E at the south wheel. The first and second thirds
+   remain banked if you must release and hide. In Squad, all contributions
+   combine once per physics frame and are capped at 1.8× the base rate.
 
-## First Eye run
+### Second Observance
 
-You cannot walk. Aim with the mouse; switch sockets with 1–4 or the wheel. The
-map shows only survivors currently in your line of sight. Survivors have real
-bodies, collision, navigation and objectives.
+1. **The Memory Vault:** E at the northwest desk shows four named targets for
+   eight seconds; you can replay the reference. Find them among six relics on
+   the southern shelves. Carry each to its exact numbered cradle. Accepted
+   placements are permanent. A wrong deposit keeps your cargo; G returns the
+   relic safely to its shelf.
+2. **The Ritual Circle:** take the shared ember northeast and visit the five
+   vessels in their engraved order. E lights a nearby vessel. Correct pairs
+   bank at two and four. A wrong unlit vessel rolls back the unbanked part and
+   returns the ember; already lit vessels are harmless. Once all five are lit,
+   stay inside the ring for eight continuous seconds. **Keep moving inside its
+   2.8 m radius** to evade danger. Leaving resets only the hold. Jumping above
+   floor level, being downed, or entering Solo Second Sight does not count as
+   valid occupancy.
+3. **The Clock Room:** read target/current hands, numbered 0–5. Walk to each
+   lever: E turns forward, R reverses. A moves A+B, B moves B+C, and C moves C+A.
+   Match all hands and press E at the centre to seal. X at the centre resets
+   the start. Every generated puzzle is four optimal turns from its target.
+   Tinker's Overclock can advise a turn; travel and input remain necessary.
 
-| Command | Energy | Cooldown | Use |
+Trials may be completed in any order. Seeded Mix uses the same rules for its
+selected apparatus. Inactive trials cannot award extra progress.
+
+## Lead your Squad
+
+The human's chosen archetype joins one bot of each archetype. Names remain
+unique: a bot matching your role uses Ivo Mercer, Tomas Venn, Elias Rook, or
+Soren Bell; the other bots use Mara Vale, Nadiya Sayegh, June Arlen, or Ada Fen.
+The right HUD shows every member's health/state, task, bleedout and rescue
+progress. Tab replaces that roster with the map.
+
+| Key | Order | Behavior |
+| --- | --- | --- |
+| B | Work | Allies pursue the active trials through real movement and interactions |
+| F | Follow | Allies navigate toward you; if you become inactive, they can resume Work |
+| V | Hold | On switching to Hold, each bot saves its own current position |
+
+Immediate danger, viable rescue, and open-exit evacuation can override ordinary
+orders. A bot facing a nearby visible shadow may sprint along a clear physical
+route to evade it before resuming work, following, holding, or rescue. Evasion
+interrupts a rescue and resets its progress. Hold cannot stop allies evacuating
+when the door opens.
+
+### Rescue before bleedout
+
+Each Squad member has **one revival**. Their first lethal fall starts a
+**35-second bleedout**. To rescue them, stand still within **1.8 m**, maintain
+clear line of sight, and **hold E for six continuous seconds before bleedout
+ends**. Bots use the same physical conditions. Only one helper can rescue a
+member at a time.
+
+Moving, jumping, releasing E, leaving range, losing sight, or taking a hit
+interrupts the attempt and resets it to zero. Pausing freezes bleedout and
+cancels partial rescue; after resuming, begin a new continuous hold. A successful rescue restores
+**35 HP plus five seconds of protection**. A later lethal fall eliminates the
+member immediately. Bleedout also eliminates them. If no active member remains
+to help, the squad loses without waiting out every timer.
+
+Mend heals an active actor; it cannot revive the downed or restore a spent
+revival. Required cargo is released safely when its carrier falls. If you are
+eliminated, **1–4 / mouse wheel** cycles surviving allies' actual viewpoints.
+Their escape can still win for the whole team.
+
+## Solo recovery and abilities
+
+Solo keeps **Second Sight** instead of ally rescue. On the first lethal fall,
+press E when its ring turns green three times within 25 seconds. A wrong press
+costs two seconds. Success returns you with 50 HP and five seconds of protection;
+the next lethal fall is final. Squad does not grant this extra recovery room.
+
+| Archetype | Q / AZERTY A ability |
+| --- | --- |
+| Veil / Mara Vale | Quiet Step: five seconds of much quieter movement and reduced gaze gain; 25-second cooldown; passive footstep noise ×0.55 |
+| Tinker / Nadiya Sayegh | Overclock: eight seconds of extra Relay contribution or the next physical Clock instruction; 25-second cooldown; base Relay contribution ×1.4 |
+| Runner / June Arlen | Second Wind: movement ×1.25 for five seconds; 22-second cooldown; 135 stamina and 8 m/s sprint |
+| Keeper / Ada Fen | Mend: up to 30 HP, capped at 100; 35-second cooldown |
+
+In Squad, **Keeper heals the most injured eligible active member, including
+self**. Allies must be within 4 m and clear sight. Equal health favors self;
+equal-health allies use stable actor order. In Solo, Mend heals you. Tinker's
+combined Squad Relay work is subject to the 1.8× team cap; Solo rates are unchanged.
+
+## Controls and survival
+
+| Input | Action |
+| --- | --- |
+| WASD / ZQSD or arrows; mouse | Move; look |
+| Shift; Ctrl/C; Space | Sprint; crouch; jump |
+| E / hold E | Use, charge, rescue or escape as prompted |
+| Q / AZERTY A; G | Ability; release objective cargo |
+| B / F / V in Squad | Work / Follow / Hold |
+| 1–4; R in Echoes | Enter symbols; replay |
+| E / R at a Clock lever; X at centre | Forward / reverse; reset |
+| 1–4 / wheel after Squad elimination | Spectate an ally |
+| Tab; Escape | Map; pause/settings |
+
+Bindings use physical QWERTY positions: the Q-labelled ability is **A on
+AZERTY**, and the top-row 1–4 positions work without Shift. Dropping a mote
+leaves it in the world; a relic returns to its shelf and the ember to its cradle.
+
+Walls and the central monument block the Eye's real sight. Leave a gold trap
+warning before its strike. Shadows have a visible arrival warning and use
+physical navigation. Completed seals cannot be erased. The microphone is never
+read; Silent Countdown responds to in-game movement noise.
+
+## Play the Eye
+
+Aim with the mouse; switch fixed sockets with 1–4 or the wheel. The map shows
+survivors currently visible to the Eye. Four AI survivors physically navigate,
+carry, solve, and attempt escape under the selected contract.
+
+| Command | Energy | Cooldown | Requirement |
 | --- | ---: | ---: | --- |
-| Left click | 25 | 4 s | Visible floor trap; warning before strike |
-| Right click | 20 | 6 s | Visible survivor; faster gaze buildup for 6 s |
-| Q | 45 | 16 s | Visible open floor, at least 3 m from survivors |
-| Socket change | 8 | 2 s | A different fixed viewpoint |
+| Left click: trap | 25 | 4 s | Visible floor trap; warning before strike |
+| Right click: mark | 20 | 6 s | Visible survivor |
+| Q / AZERTY A: shadow | 45 | 16 s | Visible open floor, at least 3 m from survivors |
+| Socket change | 8 | 2 s | A different authored viewpoint |
 
-Influence regenerates at 4/s, capped at 100. Gaze damages when its meter fills;
-breaking sight lowers it. Two shadows can coexist. Their 20 s lifetime includes
-the warning. Terror is atmosphere telemetry in 0.2.0, not a spendable ultimate.
+Influence regenerates at 4/s, capped at 100. Gaze wounds when its meter fills;
+breaking sight lowers it. At most two shadows coexist. Terror remains atmosphere
+telemetry, not an additional spendable power.
 
-## Settings and persistence
+## Settings, records and verification
 
-Sound, reduced camera motion/vignette, inverted vertical look, sensitivity and
-field of view are adjustable. Escape pauses the complete local match. Inputs
-are fixed; remapping and controller support are later milestones. Silent
-Countdown uses in-game noise; the microphone is never read.
+Settings include audio, reduced camera motion/vignette, vertical-look inversion,
+sensitivity, and field of view. Escape pauses the complete local match. Input
+remapping and controller support remain future work.
 
-Godot's `user://` directory contains `settings.cfg` and, after a match,
-`last_observance.json`. Schema 2 records the version, contract, exact selected
-trial mapping, result, seed, counters and event ledger. It is not a mid-match
-save or deterministic full replay.
+Godot's `user://` directory contains `settings.cfg` and the post-match
+`last_observance.json`. **Schema 3** records `session_mode`, contract, selected
+trials, seed, result, metrics, events, and squad summary. This is a result ledger;
+it does not resume an interrupted match or replay a complete simulation.
 
-## Export from source
+The current Story/Keeper squad routes, seed 271126, completed First in **46.88 s**,
+Second in **86.80 s**, and Mix in **46.72 s** of simulated gameplay. They use
+normal inputs and physical teammates against the active Eye; the final runs
+contained no downs. Separate domain and physical fixtures verify rescue,
+including an AI traveling 7.64 m and finishing its hold in 7.50 s total. The
+six counted suites total **121 cases / 2,774 assertions**, with zero failures.
+See [verification](qa/V0_3_VERIFICATION.md) for rescue checks,
+preserved Solo/Eye regressions, rendering, and pending platform gates.
+
+For an export from source:
 
 ```bash
 python3 tools/build_windows.py --output /absolute/path/to/build
 ```
 
-Use an installed matching Godot template, or pass
-`--template /absolute/path/to/windows_release_x86_64.exe`.
-The helper restores the repository preset even on an export error.
+Use a matching installed template or pass
+`--template /absolute/path/to/windows_release_x86_64.exe`. The helper restores
+the export preset even on an error. The [UE5 foundation](../unreal/README.md)
+contains eight CSV tables and Blueprint recipes; a compiled Unreal game is
+still a separate implementation milestone.

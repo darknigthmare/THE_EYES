@@ -1,11 +1,11 @@
 {
   "schema_version": "1.1",
-  "design_version": "0.2",
+  "design_version": "0.3",
   "date": "2026-11-26",
   "language": "en",
   "project": "THE EYES",
   "owner": "Darknigthmare",
-  "status_note": "This is a design catalogue. selected_for_prototype identifies six implemented local Godot trial subsets; prototype_stage records their implementation milestone. Original subsets shipped in v0.1 and three alternate physical subsets are implemented in v0.2. Nineteen entries and fuller production variants remain planned. Domain checks, physical bot routes and an active Story survivor route have passed for the tested build; all six native Windows headless startup cases have also passed for the published archive. Graphical Windows playthrough and compiled Unreal gameplay remain unverified. See docs/bible/12_PROTOTYPE_CONTRACTS.md and release verification for the exact evidence.",
+  "status_note": "This catalogue preserves 25 designs and six implemented local Godot trial subsets. Version 0.3 adds a locally verified human-plus-four-AI Squad: life authority, physical fixtures, three complete pressured contract sessions, preserved Solo/Eye regressions and native-renderer inspection have passed. Exact-build v0.3 Windows startup remains a release gate. Online play, remaining 19 trials and playable UE5 assets remain unimplemented.",
   "source": {
     "attachment": "Texte collé.txt",
     "original_trial_count": 25,
@@ -15,12 +15,13 @@
     "source_mapping": "docs/bible/11_SOURCE_TRACEABILITY.md"
   },
   "prototype": {
-    "title": "THE EYES — Observatory prototype",
-    "version": "0.2.0",
+    "title": "THE EYES — The Survivor Accord",
+    "version": "0.3.0",
     "online_multiplayer": false,
     "roles": [
       "human_survivor_vs_ai_eye",
-      "human_eye_vs_four_ai_survivors"
+      "human_eye_vs_four_ai_survivors",
+      "human_survivor_with_four_ai_allies_vs_ai_eye"
     ],
     "socket_count": 4,
     "socket_names": [
@@ -99,7 +100,13 @@
           4,
           8
         ],
-        "release_decay_normalized_per_second": 0.041666666666666664
+        "release_decay_normalized_per_second": 0.041666666666666664,
+        "squad_extension": {
+          "implementation_status": "implemented_physical_tick_verified",
+          "aggregate_max_base_multiplier": 1.8,
+          "updates_per_physics_frame": 1,
+          "solo_contribution_unchanged": true
+        }
       },
       "vault": {
         "relics": [
@@ -226,13 +233,19 @@
       ],
       "wrong_press_penalty_seconds": 2,
       "return_health": 50,
-      "return_protection_seconds": 5
+      "return_protection_seconds": 5,
+      "session_modes": [
+        "survivor"
+      ]
     },
     "persistence": {
       "settings_file": "settings.cfg",
       "result_ledger_file": "last_observance.json",
       "mid_match_save": false,
-      "deterministic_full_replay": false
+      "deterministic_full_replay": false,
+      "result_ledger_schema_version": 3,
+      "includes_session_mode": true,
+      "includes_squad_summary": true
     },
     "settings": [
       "audio_toggle",
@@ -243,8 +256,8 @@
     ],
     "input_remapping": false,
     "socket_reacquisition_warning_seconds": 0.85,
-    "previous_release": "0.1.0",
-    "verification_status": "local_domain_routes_and_native_windows_headless_passed",
+    "previous_release": "0.2.0",
+    "verification_status": "local_engine_world_routes_and_rendering_passed_native_windows_pending",
     "active_trial_count": 3,
     "required_seals": 3,
     "bays": [
@@ -317,78 +330,307 @@
     "deposit_and_vessel_actor_cooldown_seconds": 0.35,
     "verification": {
       "evidence_date": "2026-11-26",
+      "scope_version": "0.3.0",
       "engine": "Godot 4.7.2",
-      "trial_set": {
-        "test": "game/tests/test_trial_set.gd",
-        "cases": 23,
-        "assertions": 2098,
-        "failures": 0
+      "squad_life_domain": {
+        "test": "game/tests/test_squad_state.gd",
+        "cases": 26,
+        "assertions": 120,
+        "failures": 0,
+        "physical_world_verified": false,
+        "scope_note": "Domain-only suite; physical evidence is recorded separately."
       },
-      "clock_short_solution_exclusion": {
-        "tested_seeds": 129,
-        "seed_range_inclusive": [
-          0,
-          127
-        ],
-        "additional_seeds": [
-          271126
-        ],
-        "excluded_solution_lengths": [
-          0,
-          1,
-          2,
-          3
-        ],
-        "independent_legal_move_enumeration": true
+      "interface_api": {
+        "status": "headless_check_passed",
+        "scope": "five-argument start signal, roster states, map exclusion, spectator/result copy, menu reset and Eye map",
+        "rendered_verification": true,
+        "rendered_scope": "menu, five-member roster, staged rescue, staged spectator and scrollable manual; actual native software renderer, not hardware performance or full-match evidence"
       },
-      "physical_world": {
-        "test": "game/tests/test_second_world.gd",
-        "cases": 16,
-        "assertions": 137,
-        "failures": 0
-      },
-      "unopposed_bot_routes": {
-        "passed": 9,
-        "contracts": "Second plus all eight Seeded Mix combinations",
-        "human_eye": "idle",
-        "wounds": 0,
-        "second_simulated_seconds": 81.08,
-        "mix_simulated_seconds_range": [
-          46.03,
-          89.02
-        ],
-        "normal_movement_and_shared_dispatcher": true
-      },
-      "active_story_survivor_route": {
-        "test": "game/tests/test_second_survivor_route.gd",
-        "contract": "second",
-        "archetype": "Keeper",
+      "complete_squad_routes": {
+        "test": "game/tests/test_squad_route.gd",
+        "status": "passed",
         "difficulty": "Story",
+        "archetype": "Keeper",
         "seed": 271126,
-        "winner": "survivors",
-        "simulated_seconds": 324.17,
-        "remaining_health": 80,
-        "wounds": 11,
-        "second_sight_recoveries": 1,
-        "clock_turns": 4,
-        "active_ai_eye": true,
-        "driver_position_health_timer_or_progress_overrides": false,
-        "driver": "informed normal-input physics driver"
+        "active_eye": true,
+        "normal_input_and_physics": true,
+        "driver_injected_damage_health_position_clocks_or_progress": false,
+        "orders_per_route": 3,
+        "downs_in_final_routes": 0,
+        "wounds_scope": "match_wide_events",
+        "routes": [
+          {
+            "contract": "first",
+            "simulated_seconds": 46.88,
+            "human_hp": 33,
+            "team_wounds": 4
+          },
+          {
+            "contract": "second",
+            "simulated_seconds": 86.8,
+            "human_hp": 20,
+            "team_wounds": 6
+          },
+          {
+            "contract": "mix",
+            "simulated_seconds": 46.72,
+            "human_hp": 100,
+            "team_wounds": 1
+          }
+        ]
       },
-      "native_windows_release_workflow": "passed",
+      "native_windows_release_workflow": "pending_for_v0.3",
       "graphical_windows_playthrough": "not_verified",
       "compiled_playable_unreal_assets": false,
-      "general_balance_or_novice_usability_established": false,
-      "document": "docs/bible/12_PROTOTYPE_CONTRACTS.md",
-      "native_windows_release_evidence": {
-        "source_commit": "4e8e034e60979856cef2fdd1508e28fb144e2812",
-        "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.2.0",
-        "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45865864627",
-        "report": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.2.0/WINDOWS_SMOKE.json",
-        "archive_sha256": "1e23f7981a5e387b5853a32894ecb820d4dc4ebe4d2e20bc55fc6b9e5576df00",
-        "cases_passed": 6,
-        "mode": "headless",
-        "graphical_hardware_playtest": false
+      "document": "docs/qa/V0_3_VERIFICATION.md",
+      "squad_world": {
+        "test": "game/tests/test_squad_world.gd",
+        "cases": 23,
+        "assertions": 234,
+        "failures": 0,
+        "physical_world_verified": true,
+        "includes_pause_reset_and_freeze": true,
+        "includes_keeper_walls_and_target_ties": true,
+        "includes_orders_spectator_and_reset": true,
+        "includes_eye_visible_target_selection": true,
+        "staged_ai_rescue": {
+          "path_points": 9,
+          "actual_travel_m": 7.64,
+          "travel_and_rescue_seconds": 7.5,
+          "restored_hp": 35,
+          "protection_seconds": 5,
+          "scope": "isolated_staged_fixture_not_full_match"
+        },
+        "relay_main_physics_fixture": {
+          "combined_actors": 5,
+          "interval_seconds": 1,
+          "normalized_progress": 0.15,
+          "base_rate_multiplier_cap": 1.8,
+          "solo_normalized_progress_per_second": 0.08333333333333333,
+          "no_extra_decay_from_empty_allied_pass": true
+        }
+      },
+      "assertion_totals": {
+        "counted_suites": 6,
+        "cases": 121,
+        "assertions": 2774,
+        "failures": 0,
+        "full_completion_routes_counted_as_assertions": false
+      },
+      "existing_six_suites": {
+        "status": "passed_same_v0.2_outcomes",
+        "counted_suites": 4,
+        "cases": 72,
+        "assertions": 2420,
+        "failures": 0,
+        "additional_solo_completion_routes": 2,
+        "prior_detailed_evidence": "prototype.verification_history.0.2.0"
+      },
+      "native_visual_captures": [
+        "docs/qa/v0.3/menu.png",
+        "docs/qa/v0.3/squad.png",
+        "docs/qa/v0.3/rescue.png",
+        "docs/qa/v0.3/spectator.png",
+        "docs/qa/v0.3/manual.png"
+      ],
+      "required_native_windows_mode_contract_cases": 9
+    },
+    "verification_history": {
+      "0.2.0": {
+        "evidence_date": "2026-11-26",
+        "engine": "Godot 4.7.2",
+        "trial_set": {
+          "test": "game/tests/test_trial_set.gd",
+          "cases": 23,
+          "assertions": 2098,
+          "failures": 0
+        },
+        "clock_short_solution_exclusion": {
+          "tested_seeds": 129,
+          "seed_range_inclusive": [
+            0,
+            127
+          ],
+          "additional_seeds": [
+            271126
+          ],
+          "excluded_solution_lengths": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "independent_legal_move_enumeration": true
+        },
+        "physical_world": {
+          "test": "game/tests/test_second_world.gd",
+          "cases": 16,
+          "assertions": 137,
+          "failures": 0
+        },
+        "unopposed_bot_routes": {
+          "passed": 9,
+          "contracts": "Second plus all eight Seeded Mix combinations",
+          "human_eye": "idle",
+          "wounds": 0,
+          "second_simulated_seconds": 81.08,
+          "mix_simulated_seconds_range": [
+            46.03,
+            89.02
+          ],
+          "normal_movement_and_shared_dispatcher": true
+        },
+        "active_story_survivor_route": {
+          "test": "game/tests/test_second_survivor_route.gd",
+          "contract": "second",
+          "archetype": "Keeper",
+          "difficulty": "Story",
+          "seed": 271126,
+          "winner": "survivors",
+          "simulated_seconds": 324.17,
+          "remaining_health": 80,
+          "wounds": 11,
+          "second_sight_recoveries": 1,
+          "clock_turns": 4,
+          "active_ai_eye": true,
+          "driver_position_health_timer_or_progress_overrides": false,
+          "driver": "informed normal-input physics driver"
+        },
+        "native_windows_release_workflow": "passed",
+        "graphical_windows_playthrough": "not_verified",
+        "compiled_playable_unreal_assets": false,
+        "general_balance_or_novice_usability_established": false,
+        "document": "docs/bible/12_PROTOTYPE_CONTRACTS.md",
+        "native_windows_release_evidence": {
+          "source_commit": "4e8e034e60979856cef2fdd1508e28fb144e2812",
+          "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.2.0",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45865864627",
+          "report": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.2.0/WINDOWS_SMOKE.json",
+          "archive_sha256": "1e23f7981a5e387b5853a32894ecb820d4dc4ebe4d2e20bc55fc6b9e5576df00",
+          "cases_passed": 6,
+          "mode": "headless",
+          "graphical_hardware_playtest": false
+        }
+      }
+    },
+    "role_implementation_status": {
+      "human_survivor_vs_ai_eye": "implemented_existing_regressions_passed_v0.3",
+      "human_eye_vs_four_ai_survivors": "implemented_existing_regressions_passed_v0.3",
+      "human_survivor_with_four_ai_allies_vs_ai_eye": "implemented_local_domain_world_and_complete_routes_passed"
+    },
+    "squad": {
+      "implementation_status": "implemented_locally_verified",
+      "session_mode_id": "squad",
+      "human_survivors": 1,
+      "ai_survivors": 4,
+      "eye_control": "ai",
+      "orders": {
+        "work": {
+          "key": "B",
+          "behavior": "advance_selected_trials_physically"
+        },
+        "follow": {
+          "key": "F",
+          "behavior": "navigate_toward_human"
+        },
+        "hold": {
+          "key": "V",
+          "behavior": "retain_each_bot_position_captured_when_changing_to_hold_order",
+          "repeating_current_order_recaptures_positions": false
+        }
+      },
+      "order_overrides": [
+        "visible_nearby_shadow_evasion",
+        "viable_rescue",
+        "open_exit_evacuation"
+      ],
+      "states": [
+        "active",
+        "downed",
+        "eliminated"
+      ],
+      "bleedout_seconds": 35,
+      "revive_seconds": 6,
+      "revive_requires_nearby_clear_sight_and_continuous_action": true,
+      "interrupted_revive": "reset_attempt_to_zero",
+      "revive_health": 35,
+      "revive_protection_seconds": 5,
+      "revivals_per_actor": 1,
+      "second_fall_after_revival": "immediate_elimination",
+      "no_active_rescuer": "eliminate_remaining_downed_and_resolve_team_wipe",
+      "simultaneous_helpers_per_subject": 1,
+      "simultaneous_subjects_per_helper": 1,
+      "solo_second_sight_in_squad": false,
+      "keeper_ally_heal_range_m": 4,
+      "keeper_ally_heal_requires_line_of_sight": true,
+      "keeper_heal_target": "most_injured_eligible_active_member_including_self",
+      "keeper_heal_tie_break": [
+        "self_first",
+        "stable_ally_order"
+      ],
+      "keeper_heal_revives_downed": false,
+      "spectator_inputs": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "mouse_wheel"
+      ],
+      "spectator_camera": "actual_remaining_ally_position",
+      "human_elimination_does_not_end_match_if_allies_can_continue": true,
+      "primary_character_ids_by_archetype": {
+        "veil": "SV01",
+        "tinker": "SV03",
+        "runner": "SV05",
+        "keeper": "SV07"
+      },
+      "matching_human_archetype_bot_character_ids": {
+        "veil": "SV02",
+        "tinker": "SV04",
+        "runner": "SV06",
+        "keeper": "SV08"
+      },
+      "new_selectable_archetypes": 0,
+      "new_trials": 0,
+      "new_arena": false,
+      "online_multiplayer": false,
+      "ui": {
+        "roster_rows": 5,
+        "hidden_while_map_visible": true,
+        "revive_progress_unit": "normalized_0_to_1",
+        "start_signal_arguments_unchanged": true
+      },
+      "document": "docs/bible/13_SQUAD_AND_RESCUE.md",
+      "self_preservation": {
+        "scope": "squad_ai_only",
+        "threat": "visible_nearby_shadow",
+        "distance_strictly_below_m": 4.5,
+        "remaining_warmup_strictly_below_seconds": 0.7,
+        "requires_physical_line_of_sight": true,
+        "candidate_destination_count": 16,
+        "candidate_destination_distance_m": 2.8,
+        "rejects_blocked_and_occluded_destinations": true,
+        "uses_real_movement": true,
+        "cancels_partial_rescue": true,
+        "resumes_legitimate_goal_after_threat": true
+      },
+      "rescue_radius_m": 1.8,
+      "rescue_requires_stationary_helper": true,
+      "rescue_must_complete_before_bleedout": true,
+      "rescue_interruptions": [
+        "movement",
+        "jump",
+        "released_input",
+        "out_of_range",
+        "lost_line_of_sight",
+        "hit",
+        "visible_shadow_evasion",
+        "pause"
+      ],
+      "pause": {
+        "freezes_bleedout": true,
+        "cancels_partial_rescue": true,
+        "resume_requires_fresh_hold": true
       }
     }
   },
@@ -487,10 +729,22 @@
         "health_restored": 30,
         "target": "self",
         "cooldown_seconds": 35,
-        "health_cap": 100
+        "health_cap": 100,
+        "squad_extension": {
+          "implementation_status": "implemented_physical_targeting_verified",
+          "target": "most_injured_eligible_active_member_including_self",
+          "ally_range_m": 4,
+          "ally_line_of_sight_required": true,
+          "tie_break": [
+            "self_first",
+            "stable_ally_order"
+          ],
+          "amount_and_cooldown_unchanged": true,
+          "does_not_revive": true
+        }
       },
       "production_active_proposal": "Steady Hands",
-      "production_note": "Teammate support is a production extension, not a prototype claim."
+      "production_note": "Version 0.3 implements scoped local Squad ally healing; the broader production support kit and final character assets remain planned."
     }
   ],
   "survivors": [
@@ -514,7 +768,8 @@
       "design_status": "detailed",
       "prototype_selection": false,
       "final_art_status": "planned",
-      "document": "docs/bible/03_SURVIVORS.md"
+      "document": "docs/bible/03_SURVIVORS.md",
+      "prototype_squad_name_usage": "implemented_alternate_label_for_bot_matching_human_archetype"
     },
     {
       "id": "SV03",
@@ -536,7 +791,8 @@
       "design_status": "detailed",
       "prototype_selection": false,
       "final_art_status": "planned",
-      "document": "docs/bible/03_SURVIVORS.md"
+      "document": "docs/bible/03_SURVIVORS.md",
+      "prototype_squad_name_usage": "implemented_alternate_label_for_bot_matching_human_archetype"
     },
     {
       "id": "SV05",
@@ -558,7 +814,8 @@
       "design_status": "detailed",
       "prototype_selection": false,
       "final_art_status": "planned",
-      "document": "docs/bible/03_SURVIVORS.md"
+      "document": "docs/bible/03_SURVIVORS.md",
+      "prototype_squad_name_usage": "implemented_alternate_label_for_bot_matching_human_archetype"
     },
     {
       "id": "SV07",
@@ -580,7 +837,8 @@
       "design_status": "detailed",
       "prototype_selection": false,
       "final_art_status": "planned",
-      "document": "docs/bible/03_SURVIVORS.md"
+      "document": "docs/bible/03_SURVIVORS.md",
+      "prototype_squad_name_usage": "implemented_alternate_label_for_bot_matching_human_archetype"
     }
   ],
   "realms": [
@@ -1667,6 +1925,7 @@
     "modes": "docs/bible/09_MODES_AND_PROGRESSION.md",
     "production": "docs/bible/10_PRODUCTION_AND_ACCEPTANCE.md",
     "source": "docs/bible/11_SOURCE_TRACEABILITY.md",
-    "prototype_contracts": "docs/bible/12_PROTOTYPE_CONTRACTS.md"
+    "prototype_contracts": "docs/bible/12_PROTOTYPE_CONTRACTS.md",
+    "squad": "docs/bible/13_SQUAD_AND_RESCUE.md"
   }
 }

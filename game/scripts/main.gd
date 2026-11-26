@@ -5,6 +5,7 @@ extends Node3D
 var arena: EyesArena
 var apparatus: EyesTrialApparatus
 var trial_world: EyesTrialWorld
+var squad_world: EyesSquadWorld
 var contract: String = "first"
 var qa_contract: String = "first"
 var ui: EyesInterface
@@ -15,7 +16,10 @@ var actors: Array[EyesSurvivor] = []
 var bots: Array[Dictionary] = []
 var eye_camera: Camera3D
 var menu_camera: Camera3D
+var spectator_camera: Camera3D
+var spectator_index: int = 0
 var mode: String = "menu"
+var session_mode: String = "menu"
 var seed_value: int = 271126
 var elapsed: float = 0.0
 var menu_elapsed: float = 0.0
@@ -78,6 +82,11 @@ func _ready() -> void:
 	eye_camera.near = 0.1
 	eye_camera.far = 180
 	add_child(eye_camera)
+	spectator_camera = Camera3D.new()
+	spectator_camera.near = 0.05
+	spectator_camera.far = 170
+	spectator_camera.fov = 79
+	add_child(spectator_camera)
 	player = EyesSurvivor.new()
 	add_child(player)
 	player.active = false
@@ -105,11 +114,11 @@ func _ready() -> void:
 		soundscape.set_enabled(false)
 	if qa_view != "menu":
 		start_match(qa_view,"Veil","standard",271126,qa_contract)
-		print("THE_EYES_QA_READY role=%s contract=%s" % [mode,contract])
+		print("THE_EYES_QA_READY role=%s contract=%s session_mode=%s" % [session_mode,contract,session_mode])
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if mode == "menu" else Input.MOUSE_MODE_CAPTURED
 
 func _register_input() -> void:
-	var keys: Dictionary = {"move_forward":[KEY_W,KEY_UP],"move_back":[KEY_S,KEY_DOWN],"move_left":[KEY_A,KEY_LEFT],"move_right":[KEY_D,KEY_RIGHT],"sprint":[KEY_SHIFT],"crouch":[KEY_CTRL,KEY_C],"jump":[KEY_SPACE],"interact":[KEY_E],"ability":[KEY_Q],"map":[KEY_TAB],"pause":[KEY_ESCAPE],"drop":[KEY_G],"reverse":[KEY_R],"reset_trial":[KEY_X]}
+	var keys: Dictionary = {"move_forward":[KEY_W,KEY_UP],"move_back":[KEY_S,KEY_DOWN],"move_left":[KEY_A,KEY_LEFT],"move_right":[KEY_D,KEY_RIGHT],"sprint":[KEY_SHIFT],"crouch":[KEY_CTRL,KEY_C],"jump":[KEY_SPACE],"interact":[KEY_E],"ability":[KEY_Q],"map":[KEY_TAB],"pause":[KEY_ESCAPE],"drop":[KEY_G],"reverse":[KEY_R],"reset_trial":[KEY_X],"squad_work":[KEY_B],"squad_follow":[KEY_F],"squad_hold":[KEY_V]}
 	for action in keys:
 		if not InputMap.has_action(action):
 			InputMap.add_action(action)
@@ -145,7 +154,8 @@ func _block_rect(center: Vector2, size_value: Vector2) -> void:
 func start_match(requested_mode: String, archetype: String, difficulty: String, match_seed: int, selected_contract: String = "first") -> void:
 	get_tree().paused = false
 	_cleanup_match()
-	mode = requested_mode
+	session_mode = requested_mode if requested_mode in ["survivor","eye","squad"] else "survivor"
+	mode = "survivor" if session_mode == "squad" else session_mode
 	seed_value = match_seed
 	elapsed = 0.0
 	metrics = {"wounds":0,"traps_triggered":0,"shadows_called":0,"times_seen":0,"distance":0.0,"punishments_survived":0}
@@ -163,7 +173,7 @@ func start_match(requested_mode: String, archetype: String, difficulty: String, 
 		arena.set_trap(i,"idle")
 	director = TrialDirector.new()
 	director.event_raised.connect(_on_event)
-	director.configure(mode,difficulty,match_seed,4 if mode == "eye" else 1,selected_contract)
+	director.configure(mode,difficulty,match_seed,5 if session_mode == "squad" else (4 if mode == "eye" else 1),selected_contract)
 	contract = director.trial_set.contract
 	arena.configure_trials(director.trial_set.slot_trials,EyesTrialApparatus.TRIAL_NAMES)
 	apparatus.configure(arena,director.trial_set)
@@ -186,22 +196,37 @@ func start_match(requested_mode: String, archetype: String, difficulty: String, 
 	else:
 		player.active = false
 		player.visible = false
+	if mode == "eye" or session_mode == "squad":
 		var roles = ["Veil","Tinker","Runner","Keeper"]
+		var alternatives = ["Ivo Mercer","Tomas Venn","Elias Rook","Soren Bell"]
 		for i in range(4):
 			var bot = EyesSurvivor.new()
 			add_child(bot)
-			bot.reset_body(Vector3(-3+i*2,0.1,20),roles[i],true)
+			bot.reset_body(Vector3(-3+i*2,0.1,19 if session_mode == "squad" else 20),roles[i],true)
+			if session_mode == "squad":
+				if bot.archetype == player.archetype:
+					bot.set_character_name(alternatives[i])
+				bot.footstep.connect(_ally_step.bind(bot))
 			actors.append(bot)
 			bots.append({"actor":bot,"task":"","target":Vector3.ZERO,"path":PackedVector2Array(),"path_index":0,"repath":0.0,"think":0.0,"action_time":0.0,"hiding":0.0,"mote":-1})
+		if mode == "eye":
 			eye_camera.current = true
+	if session_mode == "squad":
+		squad_world = EyesSquadWorld.new()
+		squad_world.configure(self)
+		spectator_index = 0
 	_set_socket(0,true)
 	_apply_settings(ui.settings,false)
 	ui.show_game(mode == "eye")
+	ui.set_squad_enabled(session_mode == "squad")
 	ui.set_trial_names(director.trial_set.slot_trials,contract)
 	ui.toast("Eight seconds of grace. Learn the chamber.",6.0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _cleanup_match() -> void:
+	if squad_world != null:
+		squad_world.shutdown()
+		squad_world = null
 	for a in actors:
 		if is_instance_valid(a) and a != player:
 			a.queue_free()
@@ -217,10 +242,13 @@ func _cleanup_match() -> void:
 		punishment_room = null
 	player.active = false
 	player.visible = false
+	player.downed = false
+	player.team_id = 0
 
 func _return_to_menu() -> void:
 	get_tree().paused = false
 	mode = "menu"
+	session_mode = "menu"
 	_cleanup_match()
 	ui.show_menu()
 	menu_camera.current = true
@@ -231,6 +259,9 @@ func _resume() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if mode == "menu" or echo_open else Input.MOUSE_MODE_CAPTURED
 
 func _pause() -> void:
+	if squad_world != null:
+		squad_world.state.set_live(false)
+		squad_world.player_rescuing = false
 	get_tree().paused = true
 	ui.pause_panel.show()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -268,6 +299,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("ability"):
 			_eye_summon_input()
 	elif mode == "survivor":
+		if squad_world != null:
+			if player.eliminated:
+				_spectator_input(event)
+				return
+			if player.downed:
+				return
+			for order_name: String in ["work","follow","hold"]:
+				if event.is_action_pressed("squad_"+order_name):
+					squad_world.set_order(order_name)
 		if punishment:
 			if event.is_action_pressed("interact"):
 				_punishment_input()
@@ -290,8 +330,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			trial_world.interact(player,1,true)
 		if event.is_action_pressed("interact"):
 			_interact_player()
-		if event.is_action_pressed("ability") and player.use_ability():
-			ui.toast({"Veil":"Quiet Step — your presence fades.","Tinker":"Overclock — the mechanism answers.","Runner":"Second Wind — keep moving.","Keeper":"Mend — thirty vitality restored."}[player.archetype],3)
+		if event.is_action_pressed("ability") and (squad_world.try_ability(player) if squad_world != null else player.use_ability()):
+			if squad_world == null or player.archetype != "Keeper":
+				ui.toast({"Veil":"Quiet Step — your presence fades.","Tinker":"Overclock — the mechanism answers.","Runner":"Second Wind — keep moving.","Keeper":"Mend — thirty vitality restored."}[player.archetype],3)
 			soundscape.play("pickup",0.8)
 
 func _physics_process(delta: float) -> void:
@@ -301,6 +342,8 @@ func _physics_process(delta: float) -> void:
 	director.step(delta)
 	if director.phase == "ended":
 		return
+	if squad_world != null:
+		squad_world.state.set_live(director.phase in ["hunt","escape"])
 	noise_memory = maxf(0.0,noise_memory-delta)
 	sight_memory = maxf(0.0,sight_memory-delta)
 	socket_warning_left = maxf(0.0,socket_warning_left-delta)
@@ -312,7 +355,16 @@ func _physics_process(delta: float) -> void:
 	_update_shadows(delta)
 	if director.phase == "ended":
 		return
-	if punishment:
+	if squad_world != null:
+		squad_world.step(delta)
+		if director.phase == "ended":
+			return
+		var combined_rate: float = _update_player_objectives(delta,false)+_update_bots(delta,false)
+		director.charge_relay(delta*minf(1.8,combined_rate) if combined_rate > 0 else delta,combined_rate > 0)
+		if combined_rate > 0:
+			arena.relay_wheel.rotation.z += delta*2.0
+		_update_spectator()
+	elif punishment:
 		_update_punishment(delta)
 	elif mode == "survivor":
 		_update_player_objectives(delta)
@@ -400,9 +452,12 @@ func eye_sees(point: Vector3, check_cone: bool = true) -> bool:
 func _update_eye_ai(delta: float) -> void:
 	if punishment or director.phase == "preparation":
 		return
-	var visible_player = eye_sees(player.target_point()) and not player.eliminated
+	var observed: EyesSurvivor = player
+	if squad_world != null:
+		observed = _perceived_squad_target()
+	var visible_player = observed != null and not observed.eliminated and not observed.downed and eye_sees(observed.target_point())
 	if visible_player:
-		last_seen = player.target_point()
+		last_seen = observed.target_point()
 		sight_memory = 3.0
 	var look_target = Vector3(sin(elapsed*0.27)*18,1.0,cos(elapsed*0.21)*17)
 	if sight_memory > 0:
@@ -433,22 +488,34 @@ func _update_eye_ai(delta: float) -> void:
 		return
 	ai_decision_left = 3.0 if director.difficulty == "story" else 1.45
 	for i in range(EyesArena.TRAP_POSITIONS.size()):
-		if player.global_position.distance_to(EyesArena.TRAP_POSITIONS[i]) < 3.3 and traps[i].state == "idle":
+		if observed.global_position.distance_to(EyesArena.TRAP_POSITIONS[i]) < 3.3 and traps[i].state == "idle":
 			if _activate_trap(i):
 				return
 	var mark_threshold: float = 60.0 if director.difficulty == "story" else 30.0
-	if player.gaze > mark_threshold and not marked_until.has(player.get_instance_id()):
-		if _mark(player):
+	if observed.gaze > mark_threshold and not marked_until.has(observed.get_instance_id()):
+		if _mark(observed):
 			return
 	if elapsed > 28 and shadows.size() < 2 and director.can_use("summon"):
-		var spawn_point = player.global_position+Vector3(sin(elapsed)*4.5,0,cos(elapsed)*4.5)
+		var spawn_point = observed.global_position+Vector3(sin(elapsed)*4.5,0,cos(elapsed)*4.5)
 		_summon(spawn_point)
+
+func _perceived_squad_target() -> EyesSurvivor:
+	var selected: EyesSurvivor = null
+	var score: float = -INF
+	for actor in actors:
+		if not squad_world.eligible(actor) or not eye_sees(actor.target_point()):
+			continue
+		var candidate = actor.gaze-eye_origin().distance_to(actor.target_point())*0.15
+		if candidate > score:
+			score = candidate
+			selected = actor
+	return selected
 
 func _update_gaze(delta: float) -> void:
 	if director.phase == "preparation" or socket_warning_left > 0:
 		return
 	for a in actors:
-		if a.eliminated or (a == player and punishment):
+		if a.eliminated or a.downed or (a == player and punishment):
 			continue
 		var seen = eye_sees(a.target_point()) and a.respawn_shield <= 0
 		var gain = {"story":8.0,"standard":20.0,"ruthless":27.0}[director.difficulty]
@@ -473,7 +540,7 @@ func _update_gaze(delta: float) -> void:
 			_hurt(a,{"story":22.0,"standard":30.0,"ruthless":40.0}[director.difficulty],"The gaze found you. Break line of sight.")
 
 func _player_step(loudness: float) -> void:
-	if mode != "survivor" or punishment:
+	if mode != "survivor" or punishment or player.downed or player.eliminated:
 		return
 	soundscape.play("step",0.92+sin(elapsed)*0.08,-30.0+loudness*9.0)
 	if loudness > 0.35:
@@ -486,6 +553,12 @@ func _player_step(loudness: float) -> void:
 		if mote_notice_left <= 0:
 			mote_notice_left = 5.0
 			ui.toast("The whisper mote rings when you sprint.",1.8)
+
+func _ally_step(loudness: float, actor: EyesSurvivor) -> void:
+	if squad_world == null or not squad_world.eligible(actor) or loudness <= 0.35:
+		return
+	last_noise = actor.target_point()+Vector3(sin(elapsed)*1.2,0,cos(elapsed)*1.2)
+	noise_memory = 6.0 if actor.carrying >= 0 and loudness > 0.7 else 4.0
 
 func _activate_trap(index: int) -> bool:
 	if index < 0 or index >= traps.size() or traps[index].state != "idle":
@@ -510,7 +583,7 @@ func _update_traps(delta: float) -> void:
 			arena.set_trap(i,"active")
 		elif t.state == "active":
 			for a in actors:
-				if a.eliminated or t.hit.has(a.get_instance_id()):
+				if a.eliminated or a.downed or t.hit.has(a.get_instance_id()):
 					continue
 				var offset = a.global_position-EyesArena.TRAP_POSITIONS[i]
 				if Vector2(offset.x,offset.z).length() < 1.85 and a.global_position.y < 1.25:
@@ -538,7 +611,7 @@ func _aimed_actor() -> EyesSurvivor:
 	var result: EyesSurvivor = null
 	var best: float = 0.975
 	for a in actors:
-		if a.eliminated:
+		if a.eliminated or a.downed:
 			continue
 		var alignment = eye_forward.dot((a.target_point()-eye_origin()).normalized())
 		if alignment > best and eye_sees(a.target_point()):
@@ -561,7 +634,7 @@ func _eye_mark_input() -> void:
 		ui.toast("Mark needs 20 energy and a ready cooldown.",2)
 
 func _mark(actor: EyesSurvivor) -> bool:
-	if actor.eliminated or not director.try_use("mark",eye_sees(actor.target_point())):
+	if actor not in actors or actor.eliminated or actor.downed or not director.try_use("mark",eye_sees(actor.target_point())):
 		return false
 	marked_until[actor.get_instance_id()] = elapsed+6.0
 	soundscape.play("warning",0.72,-14)
@@ -628,7 +701,7 @@ func _update_shadows(delta: float) -> void:
 			s.think = 0.6
 			var nearest: float = 14.0
 			for a in actors:
-				if a.eliminated or (a == player and punishment):
+				if a.eliminated or a.downed or (a == player and punishment):
 					continue
 				var distance = a.global_position.distance_to(s.node.global_position)
 				if distance < nearest and has_sight(s.node.global_position+Vector3.UP,a.target_point()):
@@ -642,17 +715,22 @@ func _update_shadows(delta: float) -> void:
 		if desired.length() > 0.1:
 			s.node.rotation.y = atan2(-desired.x,-desired.z)
 		for a in actors:
-			if not a.eliminated and a.global_position.distance_to(s.node.global_position) < 1.0:
+			if not a.eliminated and not a.downed and a.global_position.distance_to(s.node.global_position) < 1.0:
 				_hurt(a,25.0,"A shadow reached you. Break its sight and keep moving.")
 
 func _hurt(actor: EyesSurvivor, amount: float, reason: String) -> void:
-	if director.phase == "ended" or not actor.damage(amount):
+	if actor not in actors or director.phase not in ["hunt","escape"] or not actor.damage(amount):
 		return
+	if squad_world != null:
+		squad_world.interrupt_actor(actor)
 	metrics.wounds += 1
 	soundscape.play("fail",0.75,-10)
 	if actor == player:
 		ui.toast(reason,3)
 	if actor.health <= 0:
+		if squad_world != null:
+			squad_world.state.fall(actor.get_instance_id())
+			return
 		trial_world.release(actor)
 		if actor == player and not punishment_used:
 			_start_punishment()
@@ -668,7 +746,7 @@ func _mote_position(index: int) -> Vector3:
 	return arena.motes[index].get_parent().global_position
 
 func _pickup(actor: EyesSurvivor, index: int) -> bool:
-	if director == null or director.phase not in ["hunt","escape"] or actor.eliminated or index < 0 or index >= 3 or director.trial_for_slot("silent") != "silent" or trial_world.has_cargo(actor):
+	if director == null or director.phase not in ["hunt","escape"] or actor not in actors or actor.eliminated or actor.downed or index < 0 or index >= 3 or director.trial_for_slot("silent") != "silent" or trial_world.has_cargo(actor):
 		return false
 	if actor.carrying >= 0 or motes_state[index] != 0 or actor.global_position.distance_to(_mote_position(index)) > 2.8:
 		return false
@@ -679,7 +757,7 @@ func _pickup(actor: EyesSurvivor, index: int) -> bool:
 	return true
 
 func _deliver(actor: EyesSurvivor) -> bool:
-	if actor.carrying < 0 or actor.global_position.distance_to(EyesArena.STATIONS.silent) > 3.0:
+	if actor not in actors or actor.eliminated or actor.downed or director.phase not in ["hunt","escape"] or actor.carrying < 0 or actor.global_position.distance_to(EyesArena.STATIONS.silent) > 3.0:
 		return false
 	if not director.deliver_mote():
 		return false
@@ -697,6 +775,10 @@ func _drop_mote(actor: EyesSurvivor) -> void:
 	arena.motes[index].show()
 
 func _interact_player() -> void:
+	if player.eliminated or player.downed:
+		return
+	if squad_world != null and squad_world.nearby_downed(player) != null:
+		return
 	if director.phase == "preparation":
 		ui.toast("The trials awaken when the grace ends.",2)
 		return
@@ -716,11 +798,20 @@ func _interact_player() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		_replay_echo()
 
-func _update_player_objectives(delta: float) -> void:
+func _update_player_objectives(delta: float, integrate_relay: bool = true) -> float:
 	active_hint = ""
+	if player.eliminated or player.downed:
+		escape_hold = 0.0
+		return 0.0
 	if director.phase == "preparation":
 		active_hint = "PREPARATION  /  Find cover and plan your route."
-		return
+		return 0.0
+	if squad_world != null and squad_world.nearby_downed(player) != null:
+		var subject = squad_world.nearby_downed(player)
+		var row = squad_world.state.member(subject.get_instance_id())
+		active_hint = "[ HOLD E ]  Rescue %s  /  %.1f of 6s" % [subject.display_name,float(row.revive_progress)]
+		escape_hold = 0.0
+		return 0.0
 	var holding_relay = false
 	if not echo_open:
 		for i in range(3):
@@ -752,9 +843,11 @@ func _update_player_objectives(delta: float) -> void:
 	var rate: float = 1.4 if player.archetype == "Tinker" else 1.0
 	if player.archetype == "Tinker" and player.ability_left > 0:
 		rate *= 1.6
-	director.charge_relay(delta*(rate if holding_relay else 1.0),holding_relay)
-	if holding_relay:
+	if integrate_relay:
+		director.charge_relay(delta*(rate if holding_relay else 1.0),holding_relay)
+	if holding_relay and integrate_relay:
 		arena.relay_wheel.rotation.z += delta*2.0
+	return rate if holding_relay else 0.0
 
 func _replay_echo() -> void:
 	if not echo_open or director.seals.echoes:
@@ -785,7 +878,7 @@ func _update_echo(delta: float) -> void:
 		soundscape.play("echo",1.0+director.echo_sequence[index]*0.16,-12)
 
 func _echo_input(symbol: int) -> void:
-	if not echo_open or echo_showing or director.phase == "ended":
+	if not echo_open or echo_showing or director.phase == "ended" or player.eliminated or player.downed:
 		return
 	var correct = director.input_echo(symbol)
 	if director.seals.echoes:
@@ -804,7 +897,7 @@ func _close_echo() -> void:
 	ui.echo_panel.hide()
 	arena.show_echo(-1)
 	player.controls_locked = false
-	player.active = mode == "survivor" and director.phase != "ended"
+	player.active = mode == "survivor" and director.phase != "ended" and not player.eliminated
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _nearest_cell(at: Vector3) -> Vector2i:
@@ -872,7 +965,7 @@ func _choose_bot_goal(data: Dictionary, number: int) -> void:
 					continue
 				var reserved = false
 				for other in bots:
-					if other != data and other.mote == i and other.task == "pickup" and not other.actor.eliminated:
+					if other != data and other.mote == i and other.task == "pickup" and not other.actor.eliminated and not other.actor.downed:
 						reserved = true
 				if reserved:
 					continue
@@ -904,15 +997,19 @@ func _safe_point(a: EyesSurvivor) -> Vector3:
 			distance = p.distance_to(a.global_position)
 	return best
 
-func _update_bots(delta: float) -> void:
+func _update_bots(delta: float, integrate_relay: bool = true) -> float:
 	var relay_rate: float = 0.0
 	for i in range(bots.size()):
 		var data: Dictionary = bots[i]
 		var a: EyesSurvivor = data.actor
-		if a.eliminated:
+		if a.eliminated or a.downed:
 			continue
 		if director.phase == "preparation":
 			a.move_target = a.global_position
+			continue
+		if squad_world != null and squad_world.avoid_threat(data):
+			continue
+		if squad_world != null and squad_world.drive_bot(data,i,delta):
 			continue
 		data.think -= delta
 		data.repath -= delta
@@ -966,13 +1063,17 @@ func _update_bots(delta: float) -> void:
 				director.register_escape()
 			else:
 				trial_world.bot_arrived(data,delta)
-		if a.archetype == "Keeper" and a.health < 60:
+		if squad_world != null:
+			squad_world.auto_ability(a)
+		elif a.archetype == "Keeper" and a.health < 60:
 			a.use_ability()
 		elif a.gaze > 50:
 			a.use_ability()
-	director.charge_relay(delta*minf(1.8,relay_rate) if relay_rate > 0 else delta,relay_rate > 0)
-	if relay_rate > 0:
+	if integrate_relay:
+		director.charge_relay(delta*minf(1.8,relay_rate) if relay_rate > 0 else delta,relay_rate > 0)
+	if relay_rate > 0 and integrate_relay:
 		arena.relay_wheel.rotation.z += delta*2.0
+	return relay_rate
 
 func _start_punishment() -> void:
 	_close_echo()
@@ -1034,9 +1135,72 @@ func _punishment_input() -> void:
 		punishment_left = maxf(0,punishment_left-2.0)
 		soundscape.play("fail",1,-12)
 
+func _on_squad_event(kind: String, payload: Dictionary) -> void:
+	var details = payload.duplicate(true)
+	var actor: EyesSurvivor = squad_world.roster.get(int(payload.get("actor_id",0)))
+	if actor != null:
+		details.actor_name = actor.display_name
+	event_log.append({"time":snappedf(elapsed,0.01),"kind":kind,"data":details})
+	match kind:
+		"squad_order":
+			ui.toast("TEAM / %s. Rescue and open-exit evacuation take priority." % str(payload.order).to_upper(),4)
+		"squad_downed":
+			ui.toast("%s is down. Reach them and hold E for six seconds." % actor.display_name,5)
+			soundscape.play("warning",0.8,-13)
+		"squad_revived":
+			ui.toast("%s is back — five seconds of protection. Their next fall is final." % actor.display_name,5)
+			soundscape.play("pickup",0.9,-12)
+		"squad_eliminated":
+			ui.toast("%s is out. The remaining survivors can still win." % actor.display_name,4)
+			if actor == player:
+				if echo_open:
+					_close_echo()
+				_switch_spectator(0)
+		"squad_heal":
+			var recipient: EyesSurvivor = squad_world.roster.get(int(payload.target_id))
+			ui.toast("MEND / %s restores %d vitality to %s." % [actor.display_name,int(payload.amount),recipient.display_name],3)
+
+func _spectator_actor() -> EyesSurvivor:
+	if squad_world == null or not player.eliminated or bots.is_empty():
+		return null
+	for offset in range(bots.size()):
+		var index: int = (spectator_index+offset)%bots.size()
+		var actor: EyesSurvivor = bots[index].actor
+		if not actor.eliminated:
+			spectator_index = index
+			return actor
+	return null
+
+func _switch_spectator(index: int) -> void:
+	if squad_world == null or not player.eliminated:
+		return
+	spectator_index = posmod(index,bots.size())
+	_update_spectator()
+
+func _spectator_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_4:
+			_switch_spectator(event.physical_keycode-KEY_1)
+	elif event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			_switch_spectator(spectator_index+1)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			_switch_spectator(spectator_index-1)
+
+func _update_spectator() -> void:
+	var actor = _spectator_actor()
+	if actor == null:
+		return
+	spectator_camera.global_position = actor.head.global_position-actor.global_basis.z*0.24
+	spectator_camera.global_rotation = Vector3(actor.head.rotation.x,actor.global_rotation.y,0)
+	spectator_camera.current = true
+	active_hint = "SPECTATING %s  /  [ 1–4 / WHEEL ] Switch allies" % actor.display_name
+
 func _on_event(kind: String, payload: Dictionary) -> void:
 	event_log.append({"time":snappedf(elapsed,0.01),"kind":kind,"data":payload.duplicate(true)})
 	if kind == "phase":
+		if squad_world != null:
+			squad_world.state.set_live(payload.phase in ["hunt","escape"])
 		if payload.phase == "hunt":
 			ui.toast("The observance begins. Stay out of its gaze.",4)
 		elif payload.phase == "escape":
@@ -1073,6 +1237,8 @@ func _on_event(kind: String, payload: Dictionary) -> void:
 		_end_match(payload)
 
 func _end_match(payload: Dictionary) -> void:
+	if squad_world != null:
+		squad_world.state.set_live(false)
 	for a in actors:
 		a.active = false
 		# Physics states freeze on a result; no additional wounds or terminal events.
@@ -1086,10 +1252,15 @@ func _end_match(payload: Dictionary) -> void:
 	if qa_capture.is_empty():
 		var file = FileAccess.open("user://last_observance.json",FileAccess.WRITE)
 		if file:
-			file.store_string(JSON.stringify({"schema_version":2,"game_version":"0.2.0","mode":mode,"contract":contract,"trials":director.trial_set.slot_trials,"seed":seed_value,"difficulty":director.difficulty,"result":payload,"elapsed":elapsed,"metrics":metrics,"events":event_log},"\t"))
+			file.store_string(JSON.stringify({"schema_version":3,"game_version":"0.3.0","mode":session_mode,"session_mode":session_mode,"contract":contract,"trials":director.trial_set.slot_trials,"seed":seed_value,"difficulty":director.difficulty,"result":payload,"elapsed":elapsed,"metrics":metrics,"squad_summary":squad_world.summary() if squad_world != null else {},"events":event_log},"\t"))
 
 func _update_hud() -> void:
 	var eye_mode = mode == "eye"
+	var hud_actor: EyesSurvivor = _spectator_actor() if squad_world != null and player.eliminated else player
+	if hud_actor == null:
+		hud_actor = player
+	if squad_world != null:
+		ui.update_squad(squad_world.hud_data())
 	var display_time: float = director.escape_left if director.phase == "escape" else director.time_left
 	if director.phase == "preparation":
 		display_time = director.grace_left
@@ -1099,6 +1270,10 @@ func _update_hud() -> void:
 		for a in actors:
 			if not a.eliminated and eye_sees(a.target_point()):
 				bot_positions.append(a.global_position)
+	elif squad_world != null:
+		for ally in actors:
+			if ally != player and not ally.eliminated:
+				bot_positions.append(ally.global_position)
 	var objective = "Three active trials / %s\nUse TAB to read the chamber." % {"first":"FIRST OBSERVANCE","second":"SECOND OBSERVANCE","mix":"SEEDED MIX"}[contract]
 	if player.carrying >= 0:
 		objective = "CARRYING A WHISPER\nCrouch to keep it quiet. Deliver northwest."
@@ -1107,18 +1282,26 @@ func _update_hud() -> void:
 		objective = "CARRYING %s\nFind its numbered cradle. G returns it safely." % EyesTrialApparatus.RELIC_NAMES[carried_relic]
 	elif director.trial_set.ember_owner == player.get_instance_id():
 		objective = "CARRYING THE SHARED EMBER\nFollow the engraved vessel order in the northeast."
-	if not eye_mode and player.archetype == "Tinker" and player.ability_left > 0 and director.trial_for_slot("relay") == "clock" and not director.seals.relay:
+	if not eye_mode and hud_actor.archetype == "Tinker" and player.ability_left > 0 and director.trial_for_slot("relay") == "clock" and not director.seals.relay:
 		objective += "\nOVERCLOCK / " + trial_world.clock_hint()
 	if director.phase == "escape":
 		objective = "THE UNSEEN DOOR IS OPEN\nNorth side. Hold E at the doorway."
 	if eye_mode:
 		objective = "%d SURVIVORS REMAIN\nVisible survivors appear on your map." % director.alive_count
+	if squad_world != null and player.eliminated:
+		objective = "SPECTATING %s\nYour allies can still win for the entire team." % hud_actor.display_name
 	var ability = ""
 	if eye_mode:
 		ability = "TRAP %02d  MARK %02d  CALL %02d" % [ceili(director.cooldowns.trap),ceili(director.cooldowns.mark),ceili(director.cooldowns.summon)]
 	else:
-		ability = "Q  %s  /  %s" % [{"Veil":"QUIET STEP","Tinker":"OVERCLOCK","Runner":"SECOND WIND","Keeper":"MEND"}[player.archetype],"READY" if player.ability_cooldown <= 0 else "%ds" % ceili(player.ability_cooldown)]
+		ability = "Q  %s  /  %s" % [{"Veil":"QUIET STEP","Tinker":"OVERCLOCK","Runner":"SECOND WIND","Keeper":"MEND"}[hud_actor.archetype],"READY" if player.ability_cooldown <= 0 else "%ds" % ceili(player.ability_cooldown)]
 	var hint = active_hint
+	if squad_world != null and player.downed:
+		var row = squad_world.state.member(player.get_instance_id())
+		hint = "DOWNED / %.0fs remaining / Rescue %.1f of 6s" % [float(row.bleed_left),float(row.revive_progress)]
+		ability = "WAIT FOR AN ALLY / One successful rescue allowed"
+	elif squad_world != null and player.eliminated:
+		ability = "WATCHING AN ALLY / 1–4 or wheel"
 	if eye_mode:
 		var target = _aimed_actor()
 		var trap = _aimed_trap()
@@ -1126,18 +1309,18 @@ func _update_hud() -> void:
 		if director.phase == "preparation":
 			hint = "PREPARATION  /  The survivors have eight seconds of grace."
 	var gaze_text = "UNSEEN"
-	if player.gaze > 0:
-		gaze_text = "BREAK THE GAZE  /  %d%%" % int(player.gaze)
+	if hud_actor.gaze > 0:
+		gaze_text = "BREAK THE GAZE  /  %d%%" % int(hud_actor.gaze)
 	if punishment:
 		gaze_text = "SECOND SIGHT"
 	if eye_mode:
 		gaze_text = "TERROR  /  %d%%" % int(director.terror)
 	var direction = "NORTH  /  THE UNSEEN DOOR"
 	if not eye_mode:
-		var angle = fposmod(player.rotation_degrees.y+45,360)
+		var angle = fposmod(hud_actor.rotation_degrees.y+45,360)
 		direction = ["NORTH  /  THE UNSEEN DOOR","WEST  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("silent")],"SOUTH  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("relay")],"EAST  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("echoes")]][int(angle/90)%4]
-	ui.update_hud({"time":display_time,"phase":phase_text,"health_text":"INFLUENCE  %d / 100" % int(director.energy) if eye_mode else "%s  /  VITALITY  %d" % [player.archetype.to_upper(),int(player.health)],"health":director.energy if eye_mode else player.health,"stamina":100 if eye_mode else player.stamina/player.params.stamina*100,"gaze":director.terror if eye_mode else player.gaze,"gaze_text":gaze_text,"ability":ability,"objective":objective,"hint":hint,"socket":director.eye_socket,"compass":direction,"seals":director.seals,"progress":{"silent":director.progress_for_slot("silent"),"echoes":director.progress_for_slot("echoes"),"relay":director.progress_for_slot("relay")},"position":player.global_position,"bots":bot_positions})
-	ui.flash_label.text = "MARKED" if marked_until.has(player.get_instance_id()) and not eye_mode else ""
+	ui.update_hud({"time":display_time,"phase":phase_text,"health_text":"INFLUENCE  %d / 100" % int(director.energy) if eye_mode else "%s  /  VITALITY  %d" % [hud_actor.archetype.to_upper(),int(hud_actor.health)],"health":director.energy if eye_mode else hud_actor.health,"stamina":100 if eye_mode else hud_actor.stamina/hud_actor.params.stamina*100,"gaze":director.terror if eye_mode else hud_actor.gaze,"gaze_text":gaze_text,"ability":ability,"objective":objective,"hint":hint,"socket":director.eye_socket,"compass":direction,"seals":director.seals,"progress":{"silent":director.progress_for_slot("silent"),"echoes":director.progress_for_slot("echoes"),"relay":director.progress_for_slot("relay")},"position":hud_actor.global_position,"bots":bot_positions})
+	ui.flash_label.text = "DOWNED" if player.downed else ("MARKED" if marked_until.has(hud_actor.get_instance_id()) and not eye_mode else "")
 
 func _apply_settings(values: Dictionary, save: bool = true) -> void:
 	soundscape.set_enabled(values.audio and not mute_requested)
@@ -1145,6 +1328,7 @@ func _apply_settings(values: Dictionary, save: bool = true) -> void:
 	player.invert_y = values.invert_y
 	player.motion_reduced = values.reduced_motion
 	player.camera.fov = values.fov
+	spectator_camera.fov = values.fov
 	if save:
 		var config = ConfigFile.new()
 		for key in values:

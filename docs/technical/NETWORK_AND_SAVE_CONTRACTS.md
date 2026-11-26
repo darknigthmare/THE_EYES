@@ -1,6 +1,6 @@
 # THE EYES — network and persistence contracts
 
-**Status:** specified for the future UE5 build. The Godot v0.2 game remains local, with AI filling the opposing side. It does not provide a lobby server, internet matchmaking, replicated clients, reconnect or cross-platform accounts. This document makes those future features concrete enough to implement and test without implying they already exist.
+**Status:** specified for the future UE5 build. The Godot v0.3 scope remains local: Solo Survivor, human Eye and Survivor Squad with one human plus four AI allies. It does not provide a lobby server, internet matchmaking, replicated clients, reconnect or cross-platform accounts. This document makes those future features concrete enough to implement and test without implying they already exist. The squad's exact authority and proposed Blueprint request/lease recipes are in [Squad Implementation](SQUAD_IMPLEMENTATION.md).
 
 ## 1. Session model
 
@@ -128,6 +128,16 @@ The controller interaction request additionally binds `MatchEpoch`, `SlotId`, `T
 For a future checkpoint schema that adds contract selection, increment its schema version explicitly. A supported legacy checkpoint with the three original slot flags can map to `ContractId=first` and the corresponding original trial IDs. Preserve its stored resolved Echo configuration if present. A legacy save with insufficient layout data may retain settings and records while declining to resume the match; it must not silently generate a different puzzle and label it an exact continuation. Future schema versions remain protected from accidental overwrite by an older build.
 
 At load/admission, validate three unique slot IDs, registry membership, slot/trial compatibility, known contract ID, a supported rules version, unique vault targets in 0–5, ritual permutation 0–4, bank values in {0,2,4} consistent with the lit prefix, and clock array lengths/ranges/reachability. A new v0.2 clock begins at a shortest-path distance of at least four commands; its generator selects among 48 distance-four candidates in the 108-state connected component. Validate that constraint against the stored **initial** state. A legitimate in-progress saved position can be closer to the target and must not be regenerated to restore the initial difficulty. These are proposed UE persistence checks. The Godot prototype still has no mid-match resume or authenticated reconnect service.
+
+### 5.2 Squad mode and report schema 3
+
+The local v0.3 last-match ledger records `session_mode` as `survivor`, `eye` or `squad`, and retains the requested role even when squad reuses survivor movement internally. `squad_summary` records downs, revives, eliminations and orders. These post-match records are schema 3. They do not contain a resumable authority process, an authenticated identity or a network reconnect token. A legacy record must not be interpreted as a squad match merely because it includes bot events; the mode must be explicit.
+
+A future resumable squad snapshot needs the authoritative life state, one-chance recovery count, remaining bleedout, protection deadline, stored order, hold anchors, roster IDs and versioned trial/cargo snapshot. It must clear active rescue leases on disconnect/load rather than resurrect a stale helper reservation. Preserve `RecoveriesUsed` and current life on any approved bot takeover or reconnect. Reject unknown state/order IDs, multiple helpers for one subject, one helper bound to multiple subjects, recovery counts outside 0–1, or positive rescue progress without an eligible reserved pair.
+
+For proposed network play, all squad commands pass through the owned controller and the server's member registry. Order and begin-rescue requests are initially capped at 4/s, stop-rescue at 8/s, and unreliable rescue heartbeats at 5/s with a 0.6-second lease expiry. A client never sends accepted progress, health or a movement/line-of-sight verdict. The server validates the 180 cm rescue range and physical trace continuously, while measuring six seconds of unbroken eligible work. Rate limits and network tolerances are design targets requiring actual latency/loss tests; they are not implemented transport in the local Godot mode.
+
+Freezing or ending the match clears every reservation and resets rescue progress, then stops countdown updates. This differs from a durable checkpoint: it provides no serialization or resume guarantee. The current local schema 3 deliberately saves a match report only. See the [squad state and acceptance specification](SQUAD_IMPLEMENTATION.md) for the 35-second first-fall window, rescue result, one-chance allowance, mode isolation and wipe policy.
 
 ## 6. Joining, leaving and reconnect
 

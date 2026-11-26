@@ -1,0 +1,2 @@
+Name,HumanSurvivors,BotSurvivors,BleedoutSeconds,RescueSeconds,RescueHealth,ProtectionSeconds,RescueRangeCm,KeeperRangeCm,KeeperHealAmount,KeeperCooldownSeconds,KeeperIncludesSelf,KeeperSelfWinsEqualHealth,RelayCombinedRateMaximum,RecoveriesPerMember
+prototype_0_3,1,4,35,6,35,5,180,400,30,35,true,true,1.8,1

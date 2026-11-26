@@ -2,7 +2,9 @@
 
 ## Current local prototype
 
-The observatory prototype supports two local role experiences: one human survivor against an AI Eye, and one human Eye against four AI survivors. It uses the same three-seal goal and visible exit. The v0.2 prototype offers First, Second, and Seeded Mix contracts, selecting exactly one active trial in each of three bays from a six-trial pool. These are local content configurations, not online lobbies, split-screen, or a finished cooperative campaign. See [Prototype contracts](12_PROTOTYPE_CONTRACTS.md) for the precise subsets and verification status.
+The published v0.2 observatory prototype supports two local role experiences: one human survivor against an AI Eye, and one human Eye against four AI survivors. It uses the same three-seal goal and visible exit. The v0.2 prototype offers First, Second, and Seeded Mix contracts, selecting exactly one active trial in each of three bays from a six-trial pool. These are local content configurations, not online lobbies, split-screen, or a finished cooperative campaign. See [Prototype contracts](12_PROTOTYPE_CONTRACTS.md) for the precise subsets and verification status.
+
+The **v0.3 Squad** adds one human survivor and four AI allies against the AI Eye. It uses the same contracts, map, and three-seal victory rule, with Work/Follow/Hold commands and one physical revival per actor. Immediate visible-shadow evasion, rescue and open-exit evacuation override orders; Hold remembers each bot's own position when issued. Human elimination switches to ally spectating while a surviving teammate can still win. See [Squad and rescue](13_SQUAD_AND_RESCUE.md) for implementation evidence, timings, and limits.
 
 Story, Standard, and Ruthless are tuning presets. The current rule module uses Hunt/Escape windows of 600/90, 480/65, and 360/50 seconds respectively, with eight seconds of preparation. The escape window starts fresh after the third seal. These values are for the prototype and should be measured before promotion into the final Classic design.
 

@@ -11,7 +11,7 @@ The intended UE5 game is entirely authored in Blueprints, with English gameplay 
 3. Accept the built-in Enhanced Input and Niagara plugins. This shell has no custom binary module to rebuild. If the editor reports a plugin incompatibility, select a supported UE5 release and verify the bundled plugin before proceeding; do not invent missing modules.
 4. Create a **Basic** level and immediately save it as `/Game/TheEyes/Maps/L_FirstObservance`.
 5. Create the folders and assets in the order below. Set Project Settings → Maps & Modes only after the corresponding map and Blueprint classes actually exist. No config here points to a nonexistent map or GameMode.
-6. Follow the [Blueprint implementation guide](../docs/technical/UE5_BLUEPRINT_IMPLEMENTATION.md), then the [six-trial contract extension](../docs/technical/CONTRACT_TRIAL_IMPLEMENTATION.md). Start with the local survivor loop and all three contracts, then run the network tests before considering any public multiplayer build.
+6. Follow the [Blueprint implementation guide](../docs/technical/UE5_BLUEPRINT_IMPLEMENTATION.md), then the [six-trial contract extension](../docs/technical/CONTRACT_TRIAL_IMPLEMENTATION.md) and [Survivor Squad construction](../docs/technical/SQUAD_IMPLEMENTATION.md). Start with the local survivor loop, all three contracts and the separate squad authority, then run the network tests before considering any public multiplayer build.
 
 ## Asset creation order
 
@@ -24,7 +24,7 @@ The intended UE5 game is entirely authored in Blueprints, with English gameplay 
 | 5 | Arena floor, occluders, four sockets and exit corridor | `/Game/TheEyes/Maps/L_FirstObservance` |
 | 6 | Trial base, six trial children, contract registry, shared cargo, trap and escape gate | `/Game/TheEyes/Trials`, `/Game/TheEyes/World` |
 | 7 | HUD, main menu, options and result widgets | `/Game/TheEyes/UI` |
-| 8 | Eye/survivor controllers, blackboards and behavior trees | `/Game/TheEyes/AI` |
+| 8 | Eye/survivor controllers, squad life/order component, blackboards and behavior trees | `/Game/TheEyes/AI`, `/Game/TheEyes/Components` |
 | 9 | Original meshes, materials, VFX, animations and sounds | `/Game/TheEyes/Art`, `/Game/TheEyes/Audio` |
 | 10 | Functional test map and packaged development build | `/Game/TheEyes/Tests` |
 
@@ -40,13 +40,15 @@ Assign the intended GameMode to the map's World Settings too, or clear an accide
 - Targeting combines angular eligibility with collision queries. A wall must block a harmful gaze command.
 - Clients request actions through their owned PlayerController. The server validates and commits gameplay state.
 - Complete three seals, then survive an escape countdown. The first legitimate survivor crossing wins for the survivor team.
-- The v0.2 Godot pool contains six trial subsets: **The Silent Countdown**, **Trial of the Echoes**, **Clockwork Relay**, **The Memory Vault**, **The Ritual Circle**, and **The Clock Room**. First, Second and Seeded Mix activate one trial per bay: three seals per match. The other 19 remain design entries, and all Unreal trial assets still need authoring and acceptance tests.
+- The Godot pool contains six trial subsets: **The Silent Countdown**, **Trial of the Echoes**, **Clockwork Relay**, **The Memory Vault**, **The Ritual Circle**, and **The Clock Room**. First, Second and Seeded Mix activate one trial per bay: three seals per match. The other 19 remain design entries, and all Unreal trial assets still need authoring and acceptance tests.
+- v0.3 adds a distinct local Survivor Squad mode: one human plus four AI allies, Work/Follow/Hold orders, physical rescue with one chance per member, and the existing six-trial pool. Its CSV and Blueprint recipes are construction inputs, not generated Unreal gameplay assets.
 - The complete game's 5–7 survivors versus one Eye, session browser, reconnect, party modes and cross-platform services remain development work.
 
 ## Working documents
 
 - [Blueprint classes, variables and node recipes](../docs/technical/UE5_BLUEPRINT_IMPLEMENTATION.md)
 - [Six-trial contracts, ownership and alternate-trial node recipes](../docs/technical/CONTRACT_TRIAL_IMPLEMENTATION.md)
+- [Survivor Squad life authority, rescue, orders and AI recipes](../docs/technical/SQUAD_IMPLEMENTATION.md)
 - [Networking, replay boundaries and save contracts](../docs/technical/NETWORK_AND_SAVE_CONTRACTS.md)
 - [Art, animation, audio and rendering production](../docs/technical/ASSET_PRODUCTION.md)
 - [Verified primary sources and their scope](../docs/technical/SOURCES.md)

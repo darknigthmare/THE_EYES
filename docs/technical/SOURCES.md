@@ -31,6 +31,7 @@ Epic's pages may show different selected documentation versions, and Godot's `st
 | [GitHub — upload-artifact](https://github.com/actions/upload-artifact/blob/main/README.md) | Current v7 upload inputs and archive behavior | Hosted-runner action, distinct from the game's pinned engine/template binaries |
 | [GitHub — download-artifact](https://github.com/actions/download-artifact) | Current v8 download inputs and default digest failure behavior | Downloads exact artifact IDs passed by the producing jobs; attempt-specific names allow safe reruns |
 | [Microsoft — Start-Process](https://learn.microsoft.com/powershell/module/Microsoft.PowerShell.Management/Start-Process) | Process waiting, exit object and redirected stdout/stderr | Used to run the actual exported executable on the Windows runner |
+| [Epic — Gameplay Timers](https://dev.epicgames.com/documentation/en-us/unreal-engine/gameplay-timers-in-unreal-engine) | Timer manager lifetime, repeat scheduling, handles and cancellation | Rechecked for the v0.3 squad recipe; elapsed rescue/bleedout policy and freeze semantics are project rules, not engine guarantees |
 
 ## Evidence categories used in this delivery
 

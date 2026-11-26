@@ -21,6 +21,9 @@ var noise: float = 0.0
 var crouching: bool = false
 var carrying: int = -1
 var eliminated: bool = false
+var downed: bool = false
+var team_id: int = 0
+var display_name: String = "Mara Vale"
 var invulnerability: float = 0.0
 var ability_left: float = 0.0
 var ability_cooldown: float = 0.0
@@ -121,6 +124,9 @@ func reset_body(at: Vector3, role: String, bot: bool) -> void:
 	gaze = 0.0
 	carrying = -1
 	eliminated = false
+	downed = false
+	team_id = 0
+	display_name = params.name
 	invulnerability = 0.0
 	respawn_shield = 4.0
 	ability_left = 0.0
@@ -130,6 +136,7 @@ func reset_body(at: Vector3, role: String, bot: bool) -> void:
 	pitch = 0.0
 	rotation.y = 0.0
 	body_mesh.visible = bot
+	body_mesh.scale = Vector3.ONE
 	(body_mesh.get_node("NameTag") as Label3D).text = archetype.to_upper()
 	(body_mesh.get_node("NameTag") as Label3D).modulate = params.color
 	(body_mesh.get_child(0) as MeshInstance3D).material_override = EyesArena.material(params.color.darkened(0.65),0.8)
@@ -138,6 +145,23 @@ func reset_body(at: Vector3, role: String, bot: bool) -> void:
 	controls_locked = false
 	active = true
 	visible = true
+	set_character_name(display_name)
+
+func set_character_name(value: String) -> void:
+	display_name = value
+	(body_mesh.get_node("NameTag") as Label3D).text = "%s\n%s" % [display_name,archetype.to_upper()]
+
+func set_downed(value: bool) -> void:
+	downed = value
+	velocity = Vector3.ZERO
+	move_target = global_position
+	noise = 0.0
+	gaze = 0.0
+	controls_locked = false
+	var tag = body_mesh.get_node("NameTag") as Label3D
+	tag.text = "%s\n%s" % [display_name,"DOWNED" if downed else archetype.to_upper()]
+	tag.modulate = Color("e3a46c") if downed else params.color
+	(body_mesh.get_child(4) as MeshInstance3D).material_override = EyesArena.material(Color("e3a46c") if downed else params.color,0.4,0.2,1.2)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not active or is_bot or eliminated or controls_locked:
@@ -154,6 +178,18 @@ func _physics_process(delta: float) -> void:
 	respawn_shield = maxf(0.0,respawn_shield-delta)
 	ability_left = maxf(0.0,ability_left-delta)
 	ability_cooldown = maxf(0.0,ability_cooldown-delta)
+	if downed:
+		velocity.x = 0.0
+		velocity.z = 0.0
+		if not is_on_floor():
+			velocity.y -= 21.0*delta
+		move_and_slide()
+		(collider.shape as CapsuleShape3D).height = 0.7
+		collider.position.y = 0.35
+		head.position.y = lerpf(head.position.y,0.55,minf(1.0,delta*10.0))
+		body_mesh.scale.y = lerpf(body_mesh.scale.y,0.35,minf(1.0,delta*10.0))
+		noise = 0.0
+		return
 	var movement = Vector3.ZERO
 	var sprinting = false
 	crouching = bot_crouch if is_bot else Input.is_action_pressed("crouch")
@@ -213,20 +249,27 @@ func _physics_process(delta: float) -> void:
 		body_mesh.scale.y = lerpf(body_mesh.scale.y,0.67 if crouching else 1.0,delta*10)
 
 func target_point() -> Vector3:
-	return global_position+Vector3(0,0.65 if crouching else 1.2,0)
+	return global_position+Vector3(0,0.45 if downed else (0.65 if crouching else 1.2),0)
 
 func damage(amount: float) -> bool:
-	if eliminated or invulnerability > 0 or respawn_shield > 0:
+	if eliminated or downed or not is_finite(amount) or amount <= 0 or invulnerability > 0 or respawn_shield > 0:
 		return false
 	health = maxf(0.0,health-amount)
 	invulnerability = 1.35
 	return true
 
-func use_ability() -> bool:
-	if ability_cooldown > 0 or eliminated:
+func use_ability(healing_target: EyesSurvivor = null) -> bool:
+	if ability_cooldown > 0 or eliminated or downed:
 		return false
+	var recipient: EyesSurvivor = self if healing_target == null else healing_target
+	if archetype == "Keeper" and recipient != self:
+		if not is_instance_valid(recipient) or recipient.eliminated or recipient.downed or team_id == 0 or recipient.team_id != team_id or global_position.distance_to(recipient.global_position) > 4.0:
+			return false
+		var query = PhysicsRayQueryParameters3D.create(target_point(),recipient.target_point(),1)
+		if not get_world_3d().direct_space_state.intersect_ray(query).is_empty():
+			return false
 	ability_cooldown = {"Veil":25.0,"Tinker":25.0,"Runner":22.0,"Keeper":35.0}[archetype]
 	ability_left = {"Veil":5.0,"Tinker":8.0,"Runner":5.0,"Keeper":1.0}[archetype]
 	if archetype == "Keeper":
-		health = minf(100.0,health+30.0)
+		recipient.health = minf(100.0,recipient.health+30.0)
 	return true
