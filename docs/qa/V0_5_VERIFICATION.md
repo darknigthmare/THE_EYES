@@ -78,7 +78,7 @@ This evidence comes from that exact CI execution. It does not establish a succes
 
 Eight native staged fixtures were rendered from the same exact source and run using Godot 4.7.2, OpenGL compatibility, software Mesa and Xvfb.
 
-The recovery verifies artifact digests, the source manifest, every PNG hash/header, and all eight capture success markers. **Human visual review remains pending.** These fixtures do not establish a complete graphical playthrough or hardware performance.
+The recovery verifies artifact digests, the source manifest, every PNG hash/header, and all eight capture success markers. **Assistant visual inspection is complete for all eight 1280 × 800 fixtures.** [The visual review](v0.5/VISUAL_REVIEW.md) records the observations. Human playtesting remains outside this evidence. These fixtures do not establish a complete graphical playthrough or hardware performance.
 
 | Fixture | PNG | Dimensions |
 |---|---|---:|
@@ -91,7 +91,7 @@ The recovery verifies artifact digests, the source manifest, every PNG hash/head
 | save_error | [save_error.png](v0.5/save_error.png) | 1280 × 800 |
 | result_save_error | [result_save_error.png](v0.5/result_save_error.png) | 1280 × 800 |
 
-[Original visual provenance](v0.5/VISUAL_PROVENANCE.json), [individual capture logs](v0.5/logs/visual/), and [recovery provenance](v0.5/RECOVERY_PROVENANCE.json) preserve the source and hashes. This section records automated capture validation; visual inspection can be recorded in a later documentation commit.
+[Original visual provenance](v0.5/VISUAL_PROVENANCE.json), [individual capture logs](v0.5/logs/visual/), and [recovery provenance](v0.5/RECOVERY_PROVENANCE.json) preserve the source and hashes. The recovery provenance records its collection-time state. The subsequent assistant inspection is documented separately in the visual review.
 
 ## Exact Windows publication
 
