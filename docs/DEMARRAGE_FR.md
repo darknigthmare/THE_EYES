@@ -29,7 +29,13 @@ Les classes sont **Veil** pour la discrétion, **Tinker** pour le mécanisme,
 
 **ZQSD/WASD** ou flèches pour bouger ; souris pour regarder ; **Maj** pour
 sprinter ; **Ctrl/C** pour s'accroupir ; **Espace** pour sauter ; **E** pour
-interagir ; **Q** pour le pouvoir ; **Tab** pour la carte ; **Échap** pour la pause.
+interagir ; **A sur AZERTY / Q sur QWERTY** pour le pouvoir ; **Tab** pour la carte ;
+**Échap** pour la pause.
+
+Les commandes suivent les positions physiques d'un clavier QWERTY : le « Q »
+affiché dans le jeu correspond donc à **A sur AZERTY**. Les positions **1–4** de
+la rangée supérieure fonctionnent sans maintenir Maj, pour les symboles et les
+points d'observation de l'Œil.
 
 1. Rapporte les **trois fragments lumineux**, un par un, à **Silent Countdown**
    au nord-ouest. E les prend et les dépose. Courir avec un fragment fait du bruit.
@@ -49,7 +55,7 @@ appuis sur E lorsque l'anneau est vert. Après un retour réussi, le prochain
 
 **1–4 / molette** change de point d'observation. La souris oriente le regard.
 **Clic gauche :** piège visible visé. **Clic droit :** marquer un survivant visible.
-**Q :** invoquer une ombre sur un sol libre visible. L'énergie, les délais et
+**A sur AZERTY / Q sur QWERTY :** invoquer une ombre sur un sol libre visible. L'énergie, les délais et
 les avertissements limitent les pouvoirs. L'Œil ne peut pas marcher.
 
 ## Contenu livré et suite du projet

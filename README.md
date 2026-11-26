@@ -58,6 +58,10 @@ All prototype geometry, sounds and fonts are included.
 
 ### Controls
 
+Labels use physical QWERTY key positions. On an AZERTY keyboard, movement is
+ZQSD and the Q-labelled ability is on **A**. The top-row 1–4 positions select
+symbols or sockets without requiring Shift.
+
 | Survivor | Action |
 | --- | --- |
 | WASD / ZQSD or arrows; mouse | Move; look |

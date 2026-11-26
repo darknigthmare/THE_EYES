@@ -44,6 +44,11 @@ is no lobby or network session in 0.1.0.
 Move with WASD/ZQSD or arrows. Shift sprints, Ctrl/C crouches, Space jumps,
 Q activates your ability, Tab toggles the map and Escape pauses.
 
+Key bindings use physical QWERTY positions. On AZERTY, the Q-labelled ability
+is therefore **A**, while movement is ZQSD. Use the top-row 1–4 key positions
+without Shift for symbols and Eye sockets. This applies to the Eye's Q-labelled
+summon command as well.
+
 The active Eye is brighter. Stone walls and the central monument block its
 sight. Gold floor warnings precede spikes by 1.5 seconds. Shadows appear after
 a two-second warning and pursue through physical navigation; break their sight.
