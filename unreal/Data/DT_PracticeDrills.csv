@@ -1,0 +1,10 @@
+Name,CatalogueId,SlotId,DisplayOrder,DisplayName,LearningGoal,RulesVersion
+silent,T02,silent,1,The Silent Countdown,Carry and deliver three unique whisper motes.,0.5.0
+echoes,T05,echoes,2,Trial of the Echoes,Observe a symbol sequence and reproduce its order.,0.5.0
+relay,T08,relay,3,Clockwork Relay,Hold a physical mechanism and understand banked checkpoints.,0.5.0
+vault,T24,silent,4,The Memory Vault,Match each requested relic to its exact cradle.,0.5.0
+ritual,T10,echoes,5,The Ritual Circle,Follow the vessel order and complete the final ring occupancy.,0.5.0
+clock,T16,relay,6,The Clock Room,Use reversible coupled levers and confirm aligned hands.,0.5.0
+light,T04,silent,7,Light in the Darkness,Manage carried charge and build permanent recharge refuges.,0.5.0
+strings,T07,echoes,8,Strings of Despair,Intersect side and shape clues before each deliberate cut.,0.5.0
+chimes,T17,relay,9,Chimes of Doom,Play ordered physical bell phrases and use the shared damper.,0.5.0

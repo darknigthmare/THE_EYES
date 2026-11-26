@@ -1,4 +1,4 @@
-# Gameplay verification — twelve suites for v0.4
+# Gameplay verification — seventeen suites for v0.5
 
 Use standard **Godot 4.7.2** and run from the repository root. Import a fresh
 checkout before running any scene-based tests:
@@ -23,6 +23,11 @@ godot --headless --path game --editor --import
 | `test_third_trials.gd` | Cell ownership/charge, continuous holds, unique rope clues, phrase banking and damping |
 | `test_third_world.gd` | Real Third apparatus, range/LOS/holds, rescue priority, clue epochs, cargo cleanup and rematch |
 | `test_third_survivor_route.gd` | Complete Third Solo and Squad sessions against active Story Eye |
+| `test_practice_state.gd` | Single active bay, nine completions, seeded parity, retired authority and no competitive result |
+| `test_practice_records.gd` | Bounded per-archetype records, validation, preserved future schema and file recovery |
+| `test_practice_ui.gd` | Real workshop controls, per-role notebook, field manual, result and visible save errors |
+| `test_practice_world.gd` | Physical admission, inactive bays, pause/focus/held-input cleanup, retries and normal-match return |
+| `test_practice_routes.gd` | Nine individual drills completed through ordinary input and physics, with no state injection |
 
 Run any suite using the same fixed-step invocation as CI:
 
@@ -32,9 +37,9 @@ godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://
 godot --headless --path game --fixed-fps 60 --audio-driver Dummy --script res://tests/test_third_survivor_route.gd
 ```
 
-The two workflows enumerate all twelve scripts explicitly and reject engine
+The two workflows enumerate all seventeen scripts explicitly and reject engine
 errors even when Godot returns zero. Each process has a bounded timeout.
-Measured counts and outcomes are in the [v0.4 verification report](../../docs/qa/V0_4_VERIFICATION.md).
+Measured counts and outcomes are in the [v0.5 verification report](../../docs/qa/V0_5_VERIFICATION.md).
 Historical counts belong to their [v0.2](../../docs/qa/V0_2_VERIFICATION.md) and
 [v0.3](../../docs/qa/V0_3_VERIFICATION.md) reports and are not reused as proof for
 changed source.
@@ -73,7 +78,8 @@ or hardware frame-rate measurements.
 
 ## Native presentation
 
-`capture_ui.gd` preserves the earlier capture fixtures. `capture_third.gd`
+`capture_workshop.gd` stages the v0.5 catalogue, practice HUD, completion screen
+and in-game manual. `capture_ui.gd` preserves the earlier capture fixtures. `capture_third.gd`
 prepares the current menu, Squad, Light, Strings, Chimes and manual for actual
 renderer inspection. These helpers deliberately stage camera and scene states.
 Screenshots are visual evidence and are never counted as input-only completion.
@@ -81,14 +87,14 @@ Native software-renderer output does not establish a hardware performance target
 
 ## Windows publication gate
 
-The release workflow imports the exact revision, passes all twelve gameplay
+The release workflow imports the exact revision, passes all seventeen gameplay
 suites, exports with the pinned official Windows template and transfers the
-unchanged archive to a native Windows runner. The executable must pass **twelve
+unchanged archive to a native Windows runner. The executable must pass **21
 headless startup cases**: Solo Survivor, Eye and Squad under First, Second,
-Third and Seeded Mix. Every result must identify the requested contract and
-actual session mode, return zero and contain no engine diagnostics.
+Third and Seeded Mix, plus each of the nine Workshop drills. Every result must identify the requested contract and
+actual session mode (and selected trial for practice), return zero and contain no engine diagnostics.
 
-`WINDOWS_SMOKE.json` records the source commit, archive SHA-256, Godot version,
+`WINDOWS_SMOKE.json` schema 3 records the source commit, archive SHA-256, Godot version,
 Windows platform and each case. It explicitly reports headless mode and that a
 graphical hardware playtest has not been performed. The final publication job
 rechecks the report and hashes before creating a new versioned prerelease.

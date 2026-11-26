@@ -1,39 +1,80 @@
 # THE EYES — démarrage rapide
 
-Le prototype **0.4.0, The Third Observance**, propose trois façons de jouer en
-local : survivant Solo, **toi avec quatre alliés IA**, ou l'Œil contre quatre
-survivants IA. Il conserve **neuf épreuves disponibles, trois actives par partie**.
+Le prototype **0.5.0, The Trial Workshop**, ajoute un atelier pour apprendre
+chacune des **neuf épreuves** à ton rythme, sans Œil ni compte à rebours. Les
+trois modes de partie restent disponibles : survivant Solo, **toi avec quatre
+alliés IA**, ou l'Œil contre quatre survivants IA. Une partie ordinaire conserve
+trois épreuves actives ; l'atelier se concentre sur celle que tu choisis.
 Le jeu et sa bible sont en anglais, conformément au concept fourni.
 
 ## Lancer le jeu
 
-**Windows :** télécharge le [ZIP Windows x64 0.4.0](https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/THE_EYES_v0.4.0_Windows_x64.zip)
-depuis la [release 0.4.0](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0).
-Décompresse entièrement `THE_EYES_v0.4.0_Windows_x64.zip`, puis ouvre
+**Windows :** télécharge le [ZIP Windows x64 0.5.0](https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/THE_EYES_v0.5.0_Windows_x64.zip)
+depuis la [release 0.5.0](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.5.0).
+Décompresse entièrement `THE_EYES_v0.5.0_Windows_x64.zip`, puis ouvre
 **THE_EYES.exe**. Godot n'est pas nécessaire pour ce paquet. C'est un exécutable
 de développement non signé, avec les données du jeu intégrées.
 
 La publication exige le démarrage du même paquet sur Windows, sans affichage,
-pour les **douze combinaisons mode × contrat**. `WINDOWS_SMOKE.json` donne les
-résultats réellement obtenus. Une partie graphique sur un PC Windows reste une
-validation distincte. Consulte le [rapport 0.4](qa/V0_4_VERIFICATION.md) pour les
-contrôles terminés et ceux qui restent à faire.
+pour **21 sélections : les douze combinaisons mode × contrat et les neuf
+entraînements**. `WINDOWS_SMOKE.json` donne les résultats réellement obtenus.
+Une partie graphique sur un PC Windows reste une validation distincte.
+Consulte le [rapport 0.5](qa/V0_5_VERIFICATION.md) pour les contrôles terminés
+et ceux qui restent à faire.
 
 **Sources :** dans Godot **4.7.2**, importe `game/project.godot`, attends la fin
 de l'import et appuie sur **F5**. Aucun compte, serveur, plugin ni clé API.
 
 ## Choisir sa partie
 
-Commence par **Story / Keeper / First Observance**. Tu peux ensuite sélectionner :
+Commence par **The Trial Workshop** pour apprendre une épreuve tranquillement.
+Pour ta première partie contre l'Œil, choisis **Story / Keeper / First Observance**.
 
 | Bouton | Partie |
 | --- | --- |
 | **Play Solo as a Survivor** | Un survivant contre l'Œil IA ; récupération Solo avec Second Sight |
 | **Lead a Local Squad · You + 4 AI** | Ton survivant et quatre alliés IA contre l'Œil IA |
 | **Take the Eye's Seat** | L'Œil contre quatre survivants IA |
+| **Enter the Trial Workshop** | Ton survivant apprend une seule épreuve, sans Œil ni délai |
 
-Il n'y a ni salon réseau ni second joueur humain local. Une seule évasion valide
-fait gagner toute l'équipe, même si ton propre survivant a déjà été éliminé.
+Il n'y a ni salon réseau ni second joueur humain local. Dans les trois modes
+de partie, une seule évasion valide fait gagner toute l'équipe, même si ton
+propre survivant a déjà été éliminé. L'atelier se termine dès que tu réussis
+l'épreuve choisie.
+
+## Apprendre dans l'atelier
+
+Choisis l'une des **neuf cartes d'épreuve**, ta classe et une graine (`Seed`).
+Lis l'objectif, les étapes, les points de progression conservés et les
+commandes, puis clique sur **Start This Trial**. Aucun entraînement n'est
+bloqué derrière une victoire ou un déverrouillage.
+
+Tu pars du point de départ habituel et rejoins réellement les objets. Une seule
+épreuve est active. Les transports, énigmes, délais d'action et maintiens
+utilisent leurs règles normales. Ta classe garde ses capacités. L'Œil n'attaque
+pas, son regard ne blesse pas, aucun délai de partie ne te presse et tu n'as
+pas à rejoindre la sortie après le sceau. Le guide à l'écran explique l'action
+à réaliser ; les indices générés restent à lire sur place.
+
+Après la réussite, **Retry Same Seed** recommence la même configuration,
+**Try Another Seed** change la graine, et **Next Trial** passe à l'épreuve
+suivante. **Choose a Trial** revient au choix des neuf cartes. Les objets,
+paliers, maintiens partiels et chronomètre repartent à zéro à chaque relance.
+Échap permet aussi de recommencer ou de choisir une autre épreuve avant la fin.
+Une nouvelle tentative est comptée ; l'abandon ne devient pas une réussite.
+
+Le carnet local compte tes tentatives et réussites, puis conserve ton meilleur
+temps **séparément pour Veil, Tinker, Runner et Keeper**. Les classes gardent
+leurs différences de vitesse et de mécanique ; leurs temps ne sont donc pas
+mélangés. Une réussite d'atelier est un entraînement terminé, sans victoire
+contre l'Œil ni récompense de puissance.
+
+**F1** ouvre le manuel pendant le jeu ou depuis la pause. La simulation s'arrête
+pendant la lecture. Fermer le manuel ramène à la pause ; choisis **Resume**
+pour reprendre. Changer d'application met aussi le jeu en pause. Revenir dans
+la fenêtre ne relance pas automatiquement la partie.
+
+## Contrats des parties
 
 | Contrat | Épreuves |
 | --- | --- |
@@ -42,8 +83,9 @@ fait gagner toute l'équipe, même si ton propre survivant a déjà été élimi
 | **Third Observance** | Light in the Darkness, Strings of Despair, Chimes of Doom |
 | **Seeded Mix** | Une épreuve parmi trois dans chaque zone : 27 combinaisons possibles |
 
-Les trois modes acceptent tous les contrats. Le nombre `Seed` fixe la sélection
-et les énigmes dans une même version ; il ne reproduit pas exactement les temps
+Les trois modes de partie acceptent tous les contrats. L'atelier choisit une
+épreuve directement et n'ajoute pas de cinquième contrat. Le nombre `Seed` fixe
+la sélection et les énigmes dans une même version ; il ne reproduit pas exactement les temps
 de déplacement ou les décisions de l'IA. Standard et Ruthless augmentent la
 pression. Les huit premières secondes protègent les survivants. Le passage à
 neuf épreuves change la sélection Mix : une graine 0.3 peut donner un autre
@@ -119,6 +161,7 @@ seule mise à jour par pas physique. Les règles Solo restent inchangées.
 | E / R près d’une cloche | Frapper / déplacer ou enlever la sourdine commune |
 | 1–4 / molette après élimination en Squad | Observer un allié |
 | Tab ; Échap | Carte ; pause et réglages |
+| F1 | Ouvrir le manuel ; le fermer ramène à la pause pendant une session |
 
 Le jeu affiche les positions physiques d'un clavier QWERTY : son « Q »
 correspond à **A sur AZERTY**. Les positions 1–4 de la rangée supérieure
@@ -206,28 +249,53 @@ escouade, pas à cette partie de l'Œil.
 
 ## Réglages, traces et contenu livré
 
-Échap met toute la partie locale en pause. Les réglages comprennent son,
-mouvements/vignette réduits, inversion verticale, sensibilité et champ de vue.
-Le changement des touches et les manettes restent à ajouter.
+Échap met toute la session locale en pause. Les réglages comprennent son,
+mouvements/vignette réduits, inversion verticale, sensibilité et **champ de vue
+du survivant et du spectateur**. L'Œil garde sa vue fixe prévue pour ses règles
+de perception. F1 permet de lire le manuel sans laisser tourner la simulation.
+La perte de focus met le jeu en pause ; la reprise reste volontaire. Les
+maintiens partiels sont annulés, tandis que les paliers validés restent acquis.
+Le changement des touches, les manettes et l'entraînement de l'Œil restent à
+ajouter.
+
+Depuis la v0.5, les fichiers personnels utilisent le dossier stable **THE_EYES**.
+Sous Windows, saisis `%APPDATA%\THE_EYES` dans l'Explorateur pour l'ouvrir.
+Un changement de sous-titre de version ne change plus ce dossier. Les anciens
+dossiers portant le titre du jeu restent intacts et ne sont pas importés
+automatiquement.
 
 `settings.cfg` conserve les réglages. `last_observance.json`, en **schéma 3**,
 conserve mode de session, contrat, épreuves, graine, résultat, événements et
 bilan d'escouade. C'est un compte rendu après partie, sans reprise d'une partie
 interrompue ni relecture complète de sa simulation.
 
-Le [rapport 0.4](qa/V0_4_VERIFICATION.md) distingue les tests de règles, les
-situations physiques préparées, les parcours complets contre l’Œil actif et
-les démarrages Windows. Il donne les résultats réellement mesurés pour cette
-version. Les contrôles de démarrage ne remplacent pas une partie graphique
-complète sous Windows.
+`practice_records.json`, en **schéma 1**, conserve séparément le carnet de
+l'atelier : neuf épreuves avec quatre fiches de classe chacune, nombres de
+tentatives et de réussites, temps et graines associés. Il ne crée pas une
+liste d'historique sans limite et ne permet pas de reprendre un entraînement
+interrompu. Une seule copie `practice_records.json.bak` conserve le carnet
+précédent avant son remplacement. Si le fichier principal manque, le jeu peut
+charger cette copie valide. Un principal illisible ou provenant d'un schéma
+inconnu reste conservé, sans chargement de secours ni écrasement automatique.
+Une copie de secours invalide bloque aussi l'enregistrement.
+Tu peux continuer à t'entraîner. Un échec d'enregistrement est signalé même si
+le carnet précédent a pu être restauré.
 
-Le prototype conserve une arène, trois modes locaux, neuf épreuves, quatre
+Le [rapport 0.5](qa/V0_5_VERIFICATION.md) distingue les tests de règles, les
+parcours physiques des neuf entraînements, le carnet et la pause, les parties
+contre l'Œil actif et les démarrages Windows. Il donne les résultats réellement
+mesurés pour cette version. Les anciennes mesures restent dans les rapports
+de leurs versions respectives. Les contrôles de démarrage ne remplacent pas
+une partie graphique complète sous Windows.
+
+Le prototype conserve une arène, trois modes de partie et un atelier local,
+neuf épreuves, quatre
 classes et les huit noms de personnages de la bible pour distinguer l'équipe.
 La [bible](bible/README.md) détaille les **25 épreuves**, quatre univers et la
 production visée. `unreal/` prépare le portage **UE5 en Blueprints uniquement**
-avec projet, paramètres, **neuf tables CSV** et recettes ; il ne fournit pas
+avec projet, paramètres, **dix tables CSV** et recettes ; il ne fournit pas
 encore de carte jouable ni de Blueprints compilés. Le réseau, les 16 autres
 épreuves et les variantes complètes restent des étapes suivantes.
 
-Voir les [notes 0.4.0](releases/V0_4_0.md) pour les changements et le
-[rapport de vérification](qa/V0_4_VERIFICATION.md) pour leur validation exacte.
+Voir les [notes 0.5.0](releases/V0_5_0.md) pour les changements et le
+[rapport de vérification](qa/V0_5_VERIFICATION.md) pour leur validation exacte.

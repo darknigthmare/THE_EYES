@@ -1,35 +1,74 @@
-# Play THE EYES — The Third Observance
+# Play THE EYES — The Trial Workshop
 
-Version **0.4.0** is a local 3D Godot prototype with **Solo Survivor, a human-plus-four-AI
-Squad, and human Eye** modes. Nine trial subsets are available, with exactly three
-active in a match. The complete 25-trial bible describes the larger game.
+Version **0.5.0** is a local 3D Godot prototype with **Solo Survivor, a human-plus-four-AI
+Squad, human Eye, and the Trial Workshop**. Practise any one of the nine existing
+trials with its real controls and no Eye or deadline, then take those skills into
+a match. Ordinary matches still activate exactly three trials. The complete
+25-trial bible describes the larger game.
 
 ## Start the game
 
-**Windows:** download [THE_EYES_v0.4.0_Windows_x64.zip](https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/THE_EYES_v0.4.0_Windows_x64.zip)
-from the [v0.4.0 release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0),
+**Windows:** download [THE_EYES_v0.5.0_Windows_x64.zip](https://github.com/darknigthmare/THE_EYES/releases/download/v0.5.0/THE_EYES_v0.5.0_Windows_x64.zip)
+from the [v0.5.0 release](https://github.com/darknigthmare/THE_EYES/releases/tag/v0.5.0),
 extract the complete archive, and open **THE_EYES.exe**. Godot is not needed for
 the package. It is an unsigned development build with embedded game data.
 
 Publication requires the exact exported archive to pass native Windows
-headless startup in all twelve mode/contract combinations. `WINDOWS_SMOKE.json`
-on the release records the actual checks. A graphical Windows playthrough is
-a separate remaining qualification; consult [v0.4 verification](qa/V0_4_VERIFICATION.md).
+headless startup in **21 selections: twelve ordinary mode/contract combinations
+and all nine practice trials**. `WINDOWS_SMOKE.json` on the release records the
+actual checks. A graphical Windows playthrough is a separate qualification;
+consult [v0.5 verification](qa/V0_5_VERIFICATION.md) for completed checks and limits.
 
 **Source:** import `game/project.godot` into standard **Godot 4.7.2**, wait for
 resource import, and press **F5**. The project uses GDScript and the Compatibility
 renderer. No account, server, plugin, or API key is required.
 
-Choose **Story / Keeper / First Observance** to begin. Select your session:
+Start in **The Trial Workshop** to learn an apparatus at your own pace. For your
+first match, choose **Story / Keeper / First Observance**. Select your session:
 
 | Menu entry | What you control |
 | --- | --- |
 | Play Solo as a Survivor | One survivor against the AI Eye; first-fall Second Sight recovery |
 | Lead a Local Squad · You + 4 AI | One survivor with four physical AI allies against the AI Eye |
 | Take the Eye's Seat | The fixed Eye against four AI survivors |
+| Enter the Trial Workshop | One survivor learning one chosen trial, without an Eye or countdown |
 
 There is no network lobby, remote partner, or second local human controller.
-The first valid survivor escape wins for the team in every session.
+The first valid survivor escape wins for the team in the three ordinary match
+modes. Workshop practice finishes when you complete its one selected trial.
+
+## Learn in the Trial Workshop
+
+Choose any of the **nine trial cards**, then select Veil, Tinker, Runner or Keeper
+and a seed. Read the goal, steps, checkpoint rules and controls, then press
+**Start This Trial**. All nine drills are available immediately.
+
+You begin at the normal survivor spawn and walk to the selected apparatus.
+Only that trial is active. Carry the real objects, read the station's clues and
+complete the normal interactions; the other bays cannot provide extra progress.
+Your archetype's movement and ability still apply. There is no active Eye,
+gaze damage, Hunt deadline or exit to reach after completion. The HUD's guide
+explains what to do without supplying generated puzzle answers from a distance.
+
+The completion screen offers **Retry Same Seed**, **Try Another Seed**,
+**Next Trial**, **Choose a Trial** and **Main Menu**. A retry starts fresh,
+including cargo, checkpoints, partial holds and the timer. Same-seed practice
+reuses the generated setup; another seed may still share some visible details.
+Escape also provides a same-seed restart or return to the selector before you
+finish. Starting again counts as a new attempt, while leaving early does not
+count as completion.
+
+Your local notebook counts attempts and completions and keeps best times
+**separately for each archetype**. Tinker and Runner have real mechanical
+advantages, so their times are not compared with the other roles. Practice
+results stay separate from match victories. The trial rules below are shared
+with ordinary play; the Eye pressure and three-seal escape sequence apply to
+matches.
+
+**F1** opens the Field Manual during play or pause. Reading pauses local
+simulation. Closing the manual during a session returns to pause; choose
+**Resume** when ready. Switching away from the application also pauses it,
+and returning focus does not resume automatically.
 
 ## Contracts and objectives
 
@@ -42,7 +81,7 @@ The first valid survivor escape wins for the team in every session.
 
 Seeded Mix chooses one of three trials per bay, giving **27 sets**. Its selection
 changed in v0.4; a v0.3 Mix seed can therefore resolve to a different set. All three
-session types support all contracts. The seed fixes selection and puzzle setup
+match modes support all contracts. The seed fixes selection and puzzle setup
 within a game version; it does not freeze AI or physics timing. Each match
 begins with eight protected seconds. Three seals open the north door and start
 a fresh escape timer. **Hold E at the door for 1.5 seconds** to leave.
@@ -180,6 +219,7 @@ combined Squad Relay work is subject to the 1.8× team cap; Solo rates are uncha
 | E / R at a bell | Strike / toggle the shared damper |
 | 1–4 / wheel after Squad elimination | Spectate an ally |
 | Tab; Escape | Map; pause/settings |
+| F1 | Open the Field Manual; close it back to pause during a session |
 
 Bindings use physical QWERTY positions: the Q-labelled ability is **A on
 AZERTY**, and the top-row 1–4 positions work without Shift. Dropping a mote
@@ -210,22 +250,38 @@ telemetry, not an additional spendable power.
 ## Settings, records and verification
 
 Settings include audio, reduced camera motion/vignette, vertical-look inversion,
-sensitivity, and field of view. Escape pauses the complete local match. Input
-remapping and controller support remain future work.
+sensitivity and **survivor/spectator field of view**. The Eye retains its fixed
+authored view. Escape pauses the complete local session. F1 opens the paused
+Field Manual; focus loss pauses as well, and returning focus requires an
+explicit Resume. Partial interaction holds restart after pause while completed
+checkpoints remain banked. Input remapping, controller support and Eye training
+remain future work.
 
-Godot's `user://` directory contains `settings.cfg` and the post-match
+From v0.5, Godot's `user://` directory uses the stable **THE_EYES** application-data
+folder. On Windows, enter `%APPDATA%\THE_EYES` in File Explorer to open it.
+Changing the release subtitle no longer changes this location. Older versions'
+title-based folders remain untouched and are not imported automatically.
+
+This folder contains `settings.cfg` and the post-match
 `last_observance.json`. **Schema 3** records `session_mode`, contract, selected
 trials, seed, result, metrics, events, and squad summary. This is a result ledger;
 it does not resume an interrupted match or replay a complete simulation.
 
-The current Story/Keeper squad routes, seed 271126, completed First in **46.88 s**,
-Second in **86.80 s**, and Mix in **46.72 s** of simulated gameplay. They use
-normal inputs and physical teammates against the active Eye; the final runs
-contained no downs. Separate domain and physical fixtures verify rescue,
-including an AI traveling 7.64 m and finishing its hold in 7.50 s total. The
-six counted suites total **121 cases / 2,774 assertions**, with zero failures.
-See [verification](qa/V0_4_VERIFICATION.md) for rescue checks,
-preserved Solo/Eye regressions, rendering, and pending platform gates.
+The separate `practice_records.json` uses **schema 1**: nine trials with four
+archetype profiles each, bounded attempt/completion counts and last/best timing
+fields with their seeds. It keeps no growing history list and does not resume
+an unfinished drill. One `practice_records.json.bak` keeps the previous notebook
+before replacement. If the primary is absent, the game can load that valid
+backup; an unreadable or unsupported-schema primary is preserved without
+fallback or replacement. An invalid existing backup also blocks saving.
+Training remains available, and a failed save is reported even if the previous
+notebook was restored.
+
+See [v0.5 verification](qa/V0_5_VERIFICATION.md) for the actual practice routes,
+journal and pause checks, ordinary-mode regressions, rendering and platform
+evidence. Older route times and assertion totals belong to their versioned
+reports; they are not current performance claims. The [v0.5 release notes](releases/V0_5_0.md)
+describe this update's scope.
 
 For an export from source:
 
@@ -236,5 +292,5 @@ python3 tools/build_windows.py --output /absolute/path/to/build
 Use a matching installed template or pass
 `--template /absolute/path/to/windows_release_x86_64.exe`. The helper restores
 the export preset even on an error. The [UE5 foundation](../unreal/README.md)
-contains nine CSV tables and Blueprint recipes; a compiled Unreal game is
+contains ten CSV tables and Blueprint recipes; a compiled Unreal game is
 still a separate implementation milestone.

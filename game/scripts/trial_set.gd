@@ -24,6 +24,8 @@ const CLOCK_STEPS: int = 6
 const CLOCK_MIN_SOLUTION_TURNS: int = 4
 const CLOCK_TRANSFORMS: Array[Vector3i] = [Vector3i(1, 1, 0), Vector3i(0, 1, 1), Vector3i(1, 0, 1)]
 const EPSILON: float = 0.000001
+const PRACTICE_MIN_SEED: int = 1
+const PRACTICE_MAX_SEED: int = 999999
 
 var contract: String = "first"
 var slot_trials: Dictionary = {"silent": "silent", "echoes": "echoes", "relay": "relay"}
@@ -50,8 +52,33 @@ var _solution_cache: Array[Vector2i] = []
 
 
 func configure(p_seed: int, p_contract: String = "first") -> void:
+	_configure(p_seed, p_contract)
+
+
+func configure_practice(trial_id: String, p_seed: int) -> bool:
+	# Validate first: a rejected selection must not retire the current authority.
+	if slot_for_trial(trial_id).is_empty() or not valid_practice_seed(p_seed):
+		return false
+	_configure(p_seed, "practice", trial_id)
+	return true
+
+
+static func slot_for_trial(trial_id: String) -> String:
+	for slot: String in SLOT_VARIANTS:
+		if SLOT_VARIANTS[slot].has(trial_id):
+			return slot
+	return ""
+
+
+static func valid_practice_seed(p_seed: int) -> bool:
+	return p_seed >= PRACTICE_MIN_SEED and p_seed <= PRACTICE_MAX_SEED
+
+
+func _configure(p_seed: int, p_contract: String, practice_trial: String = "") -> void:
 	contract = p_contract.to_lower()
-	if contract not in ["first", "second", "mix", "third"]:
+	if not practice_trial.is_empty():
+		contract = "practice"
+	elif contract not in ["first", "second", "mix", "third"]:
 		contract = "first"
 	live = false
 	completed = {"silent": false, "echoes": false, "relay": false}
@@ -67,6 +94,8 @@ func configure(p_seed: int, p_contract: String = "first") -> void:
 			# v0.4 explicitly expands the resolved pool to 27 combinations.
 			variant = selection_rng.randi_range(0, 2)
 		slot_trials[slot] = SLOT_VARIANTS[slot][variant]
+		if contract == "practice":
+			slot_trials[slot] = practice_trial if slot == slot_for_trial(practice_trial) else ""
 	# Separate random streams keep the same trial's puzzle stable across contracts
 	# and prevent any change to the original director's Echo random stream.
 	var vault_rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -138,7 +167,7 @@ func trial_for_slot(slot: String) -> String:
 
 func mark_slot_complete(slot: String) -> void:
 	# Director calls this for legacy trials so selection progress stays coherent.
-	if completed.has(slot):
+	if completed.has(slot) and not trial_for_slot(slot).is_empty():
 		completed[slot] = true
 		third.completed[slot] = true
 

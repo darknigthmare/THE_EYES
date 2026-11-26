@@ -1,11 +1,11 @@
 {
-  "schema_version": "1.2",
-  "design_version": "0.4",
+  "schema_version": "1.3",
+  "design_version": "0.5",
   "date": "2026-11-26",
   "language": "en",
   "project": "THE EYES",
   "owner": "Darknigthmare",
-  "status_note": "This catalogue preserves 25 designs and nine implemented local Godot trial subsets. Version 0.4 adds the Third Observance and expands Seeded Mix to 27 mappings. Current measured evidence and native Windows publication status are recorded in docs/qa/V0_4_VERIFICATION.md. The remaining 16 trials, full realms, online play and compiled playable UE5 assets remain planned.",
+  "status_note": "Version 0.5 adds individual practice for nine existing trials, contextual learning, a separate per-archetype notebook and in-game manual/focus pause. Competitive contracts and 27 Mix mappings are unchanged. Exact evidence is in docs/qa/V0_5_VERIFICATION.md. The remaining 16 trials, full realms, online play and compiled playable UE5 assets remain planned.",
   "source": {
     "attachment": "Texte collé.txt",
     "original_trial_count": 25,
@@ -15,8 +15,8 @@
     "source_mapping": "docs/bible/11_SOURCE_TRACEABILITY.md"
   },
   "prototype": {
-    "title": "THE EYES — The Third Observance",
-    "version": "0.4.0",
+    "title": "THE EYES — The Trial Workshop",
+    "version": "0.5.0",
     "online_multiplayer": false,
     "roles": [
       "human_survivor_vs_ai_eye",
@@ -302,7 +302,13 @@
       "deterministic_full_replay": false,
       "result_ledger_schema_version": 3,
       "includes_session_mode": true,
-      "includes_squad_summary": true
+      "includes_squad_summary": true,
+      "custom_user_directory": "THE_EYES",
+      "practice_file": "practice_records.json",
+      "practice_backup_file": "practice_records.json.bak",
+      "practice_schema_version": 1,
+      "practice_separate_from_competitive_ledger": true,
+      "practice_backup_recovery": "only when primary is absent; corrupt and future primary files are preserved"
     },
     "settings": [
       "audio_toggle",
@@ -313,8 +319,8 @@
     ],
     "input_remapping": false,
     "socket_reacquisition_warning_seconds": 0.85,
-    "previous_release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.3.0",
-    "verification_status": "published_exact_build_native_windows_headless_startups_passed",
+    "previous_release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0",
+    "verification_status": "implementation_under_verification",
     "active_trial_count": 3,
     "required_seals": 3,
     "bays": [
@@ -402,181 +408,17 @@
     "new_bespoke_eye_powers": [],
     "deposit_and_vessel_actor_cooldown_seconds": 0.35,
     "verification": {
-      "scope_version": "0.4.0",
-      "document": "docs/qa/V0_4_VERIFICATION.md",
+      "scope_version": "0.5.0",
+      "document": "docs/qa/V0_5_VERIFICATION.md",
       "engine": "Godot 4.7.2",
-      "required_gameplay_suites": 12,
+      "required_gameplay_suites": 17,
       "required_native_windows_mode_contract_cases": 12,
+      "required_native_windows_practice_cases": 9,
+      "required_native_windows_total_cases": 21,
       "graphical_windows_playthrough": "not_verified",
       "compiled_playable_unreal_assets": false,
       "evidence_date": "2026-11-26",
-      "completed_local_gameplay_suites": 12,
-      "local_failures": 0,
-      "assertion_suite_count": 8,
-      "cases": 194,
-      "assertions": 4878,
-      "full_pressured_sessions": 7,
-      "mixed_bot_mappings_completed": 27,
-      "ordinary_input_third_sessions": [
-        {
-          "bell_phrases": 2,
-          "cage_stages": 3,
-          "contract": "third",
-          "difficulty": "story",
-          "elapsed": 328.88,
-          "failures": [],
-          "human_distance": 1087.86,
-          "human_health": 65.0,
-          "human_inputs": 42,
-          "human_trial_events": {
-            "chime_strike": 8,
-            "light_deposit": 3,
-            "strings_cut": 3
-          },
-          "lamps": [
-            true,
-            true,
-            true
-          ],
-          "observation_epoch_restarts": 0,
-          "punishments": 0,
-          "role": "survivor",
-          "seals": {
-            "echoes": true,
-            "relay": true,
-            "silent": true
-          },
-          "seed": 271126,
-          "visible_threat_retreats": 7,
-          "winner": "survivors",
-          "wounds": 8
-        },
-        {
-          "bell_phrases": 2,
-          "cage_stages": 3,
-          "contract": "third",
-          "difficulty": "story",
-          "elapsed": 74.13,
-          "failures": [],
-          "human_distance": 203.14,
-          "human_health": 100.0,
-          "human_inputs": 20,
-          "human_trial_events": {
-            "chime_strike": 6,
-            "light_deposit": 0,
-            "strings_cut": 2
-          },
-          "lamps": [
-            true,
-            true,
-            true
-          ],
-          "observation_epoch_restarts": 0,
-          "punishments": 0,
-          "role": "squad",
-          "seals": {
-            "echoes": true,
-            "relay": true,
-            "silent": true
-          },
-          "seed": 271126,
-          "squad": {
-            "downs": 0,
-            "eliminations": 0,
-            "heals": 0,
-            "members": [
-              {
-                "archetype": "Keeper",
-                "name": "Ada Fen",
-                "recoveries": 0,
-                "state": "active"
-              },
-              {
-                "archetype": "Veil",
-                "name": "Mara Vale",
-                "recoveries": 0,
-                "state": "active"
-              },
-              {
-                "archetype": "Tinker",
-                "name": "Nadiya Sayegh",
-                "recoveries": 0,
-                "state": "active"
-              },
-              {
-                "archetype": "Runner",
-                "name": "June Arlen",
-                "recoveries": 0,
-                "state": "active"
-              },
-              {
-                "archetype": "Keeper",
-                "name": "Soren Bell",
-                "recoveries": 0,
-                "state": "active"
-              }
-            ],
-            "order": "work",
-            "orders": 3,
-            "revives": 0
-          },
-          "visible_threat_retreats": 1,
-          "winner": "survivors",
-          "wounds": 0
-        }
-      ],
-      "local_results": "docs/qa/v0.4/GAMEPLAY_RESULTS.json",
-      "local_logs": "docs/qa/v0.4/GAMEPLAY_LOG.txt",
-      "native_visual_review": "docs/qa/v0.4/VISUAL_REVIEW.md",
-      "general_balance_or_novice_usability_established": false,
-      "native_windows_release_workflow": "passed",
-      "native_windows_release_evidence": {
-        "source_commit": "54937979ba9c34d1ab41738daa64a1982020e1dd",
-        "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0",
-        "release_id": 459860259,
-        "published_at": "2026-11-26T20:12:21Z",
-        "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888895728",
-        "workflow_run_id": "45888895728",
-        "jobs": {
-          "linux_build": "140146378655",
-          "native_windows": "140147438124",
-          "publication": "140147685765"
-        },
-        "report": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/WINDOWS_SMOKE.json",
-        "local_report": "docs/qa/v0.4/WINDOWS_SMOKE.json",
-        "report_schema_version": 2,
-        "report_sha256": "cee9c2155418a2cd33b745a17af9f91654f4ac3f928c47f3f9ceae0ef2dd833e",
-        "archive": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/THE_EYES_v0.4.0_Windows_x64.zip",
-        "archive_size_bytes": 39119006,
-        "archive_sha256": "0b7bdb2ac5c3378b1404b25f60b7bfed6a111941dae787c88dbf664e3055b2b1",
-        "cases_passed": 12,
-        "session_modes": [
-          "survivor",
-          "eye",
-          "squad"
-        ],
-        "contracts": [
-          "first",
-          "second",
-          "third",
-          "mix"
-        ],
-        "all_mode_contract_pairs_passed": true,
-        "mode": "headless",
-        "graphical_hardware_playtest": false
-      },
-      "source_ci_evidence": {
-        "feature_verification": {
-          "result": "passed",
-          "source_commit": "14679626e5aa340c32f26944c438c6195e7c5a9e",
-          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888531783"
-        },
-        "main_verification": {
-          "result": "passed",
-          "source_commit": "54937979ba9c34d1ab41738daa64a1982020e1dd",
-          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888895748"
-        }
-      }
+      "current_status": "pending_final_integrated_run_and_exact_build_publication"
     },
     "verification_history": {
       "0.2.0": {
@@ -805,6 +647,183 @@
             "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45874067644"
           }
         }
+      },
+      "0.4.0": {
+        "scope_version": "0.4.0",
+        "document": "docs/qa/V0_4_VERIFICATION.md",
+        "engine": "Godot 4.7.2",
+        "required_gameplay_suites": 12,
+        "required_native_windows_mode_contract_cases": 12,
+        "graphical_windows_playthrough": "not_verified",
+        "compiled_playable_unreal_assets": false,
+        "evidence_date": "2026-11-26",
+        "completed_local_gameplay_suites": 12,
+        "local_failures": 0,
+        "assertion_suite_count": 8,
+        "cases": 194,
+        "assertions": 4878,
+        "full_pressured_sessions": 7,
+        "mixed_bot_mappings_completed": 27,
+        "ordinary_input_third_sessions": [
+          {
+            "bell_phrases": 2,
+            "cage_stages": 3,
+            "contract": "third",
+            "difficulty": "story",
+            "elapsed": 328.88,
+            "failures": [],
+            "human_distance": 1087.86,
+            "human_health": 65.0,
+            "human_inputs": 42,
+            "human_trial_events": {
+              "chime_strike": 8,
+              "light_deposit": 3,
+              "strings_cut": 3
+            },
+            "lamps": [
+              true,
+              true,
+              true
+            ],
+            "observation_epoch_restarts": 0,
+            "punishments": 0,
+            "role": "survivor",
+            "seals": {
+              "echoes": true,
+              "relay": true,
+              "silent": true
+            },
+            "seed": 271126,
+            "visible_threat_retreats": 7,
+            "winner": "survivors",
+            "wounds": 8
+          },
+          {
+            "bell_phrases": 2,
+            "cage_stages": 3,
+            "contract": "third",
+            "difficulty": "story",
+            "elapsed": 74.13,
+            "failures": [],
+            "human_distance": 203.14,
+            "human_health": 100.0,
+            "human_inputs": 20,
+            "human_trial_events": {
+              "chime_strike": 6,
+              "light_deposit": 0,
+              "strings_cut": 2
+            },
+            "lamps": [
+              true,
+              true,
+              true
+            ],
+            "observation_epoch_restarts": 0,
+            "punishments": 0,
+            "role": "squad",
+            "seals": {
+              "echoes": true,
+              "relay": true,
+              "silent": true
+            },
+            "seed": 271126,
+            "squad": {
+              "downs": 0,
+              "eliminations": 0,
+              "heals": 0,
+              "members": [
+                {
+                  "archetype": "Keeper",
+                  "name": "Ada Fen",
+                  "recoveries": 0,
+                  "state": "active"
+                },
+                {
+                  "archetype": "Veil",
+                  "name": "Mara Vale",
+                  "recoveries": 0,
+                  "state": "active"
+                },
+                {
+                  "archetype": "Tinker",
+                  "name": "Nadiya Sayegh",
+                  "recoveries": 0,
+                  "state": "active"
+                },
+                {
+                  "archetype": "Runner",
+                  "name": "June Arlen",
+                  "recoveries": 0,
+                  "state": "active"
+                },
+                {
+                  "archetype": "Keeper",
+                  "name": "Soren Bell",
+                  "recoveries": 0,
+                  "state": "active"
+                }
+              ],
+              "order": "work",
+              "orders": 3,
+              "revives": 0
+            },
+            "visible_threat_retreats": 1,
+            "winner": "survivors",
+            "wounds": 0
+          }
+        ],
+        "local_results": "docs/qa/v0.4/GAMEPLAY_RESULTS.json",
+        "local_logs": "docs/qa/v0.4/GAMEPLAY_LOG.txt",
+        "native_visual_review": "docs/qa/v0.4/VISUAL_REVIEW.md",
+        "general_balance_or_novice_usability_established": false,
+        "native_windows_release_workflow": "passed",
+        "native_windows_release_evidence": {
+          "source_commit": "54937979ba9c34d1ab41738daa64a1982020e1dd",
+          "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0",
+          "release_id": 459860259,
+          "published_at": "2026-11-26T20:12:21Z",
+          "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888895728",
+          "workflow_run_id": "45888895728",
+          "jobs": {
+            "linux_build": "140146378655",
+            "native_windows": "140147438124",
+            "publication": "140147685765"
+          },
+          "report": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/WINDOWS_SMOKE.json",
+          "local_report": "docs/qa/v0.4/WINDOWS_SMOKE.json",
+          "report_schema_version": 2,
+          "report_sha256": "cee9c2155418a2cd33b745a17af9f91654f4ac3f928c47f3f9ceae0ef2dd833e",
+          "archive": "https://github.com/darknigthmare/THE_EYES/releases/download/v0.4.0/THE_EYES_v0.4.0_Windows_x64.zip",
+          "archive_size_bytes": 39119006,
+          "archive_sha256": "0b7bdb2ac5c3378b1404b25f60b7bfed6a111941dae787c88dbf664e3055b2b1",
+          "cases_passed": 12,
+          "session_modes": [
+            "survivor",
+            "eye",
+            "squad"
+          ],
+          "contracts": [
+            "first",
+            "second",
+            "third",
+            "mix"
+          ],
+          "all_mode_contract_pairs_passed": true,
+          "mode": "headless",
+          "graphical_hardware_playtest": false
+        },
+        "source_ci_evidence": {
+          "feature_verification": {
+            "result": "passed",
+            "source_commit": "14679626e5aa340c32f26944c438c6195e7c5a9e",
+            "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888531783"
+          },
+          "main_verification": {
+            "result": "passed",
+            "source_commit": "54937979ba9c34d1ab41738daa64a1982020e1dd",
+            "workflow_run": "https://github.com/darknigthmare/THE_EYES/actions/runs/45888895748"
+          }
+        }
       }
     },
     "role_implementation_status": {
@@ -927,7 +946,55 @@
         "resume_requires_fresh_hold": true
       }
     },
-    "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.4.0"
+    "release": "https://github.com/darknigthmare/THE_EYES/releases/tag/v0.5.0",
+    "practice": {
+      "implemented": true,
+      "trial_ids": [
+        "silent",
+        "echoes",
+        "relay",
+        "vault",
+        "ritual",
+        "clock",
+        "light",
+        "strings",
+        "chimes"
+      ],
+      "active_trials": 1,
+      "inactive_slot_value": "",
+      "phase": "practice",
+      "completion_event": "practice_completed",
+      "competitive_result": false,
+      "winner": "",
+      "escape_required": false,
+      "eye_active": false,
+      "gaze_damage": false,
+      "match_countdown": false,
+      "ordinary_world_validation": true,
+      "puzzle_streams_unchanged": true,
+      "seed_min": 1,
+      "seed_max": 999999,
+      "selection": "one trial, one archetype, one seed",
+      "retry_actions": [
+        "same_seed",
+        "another_seed",
+        "next_trial",
+        "catalogue",
+        "main_menu"
+      ],
+      "guide": "authored controls and public progress; no unseen puzzle answers",
+      "notebook_schema": 1,
+      "notebook_max_records": 36,
+      "best_times_partition": "trial and archetype",
+      "mid_trial_resume": false,
+      "unreal_data": "unreal/Data/DT_PracticeDrills.csv"
+    },
+    "interaction_settings": {
+      "field_manual_key": "F1",
+      "focus_loss_pauses": true,
+      "focus_gain_auto_resumes": false,
+      "fov_scope": "survivor and spectator; Eye remains 85 degrees"
+    }
   },
   "production": {
     "classic_survivor_counts": [
@@ -2231,6 +2298,7 @@
     "source": "docs/bible/11_SOURCE_TRACEABILITY.md",
     "prototype_contracts": "docs/bible/12_PROTOTYPE_CONTRACTS.md",
     "squad": "docs/bible/13_SQUAD_AND_RESCUE.md",
-    "third_observance": "docs/bible/14_THIRD_OBSERVANCE.md"
+    "third_observance": "docs/bible/14_THIRD_OBSERVANCE.md",
+    "trial_workshop": "docs/bible/15_TRIAL_WORKSHOP.md"
   }
 }

@@ -10,6 +10,8 @@ The repository contains a playable Godot prototype and a production design for a
 | Solo survivor and Eye roles | Verified v0.2 prototype implementation | Both roles complete fair matches with human testers |
 | Local human-plus-four-AI Squad | Published v0.3: local domain/world checks, three pressured contract routes, native-renderer inspection and nine native Windows startup cases passed | Graphical Windows playthrough and broader human balance/UX qualification |
 | Three active trials from nine selected families | Nine implemented Godot subsets; three active per match | Reset, failure, recovery, completion and physical interaction tests |
+| Single-trial Workshop | v0.5 Godot session policy: one selected trial, one human, no Eye/deadline/escape | All nine physical completion routes, inactive-bay denial, retry/reset and ordinary-mode regressions |
+| Local practice journal and reading flow | v0.5 bounded per-archetype records, paused Field Manual and focus-loss pause | Once-only completion, persistence failure/reload, future-schema protection and explicit resume checks |
 | Four fixed sockets | Prototype core | Correct visual and authoritative sight behavior |
 | Four archetypes | Prototype mechanics | Final animations, readable effects and measured balance |
 | Eight named survivors | Detailed design | Models, animation sets, voices and narrative integration |
@@ -30,6 +32,8 @@ The release report can narrow or update this matrix after actual verification. I
 **M0.3 — The Survivor Accord.** Add a local human-and-four-AI Squad on the existing six-trial observatory. Implement Work/Follow/Hold, physical rescue with per-actor recovery limits, Keeper support, roster state, and ally spectating. Preserve Solo Second Sight and Eye-mode behavior. Verify command priorities, cargo recovery, interruption, team wipe, a single aggregate Relay update per frame, actual escape, and all existing regressions. Current local evidence includes 26 domain cases / 120 assertions, 23 physical world cases / 234 assertions, three successful Story/Keeper Squad contracts and five inspected native frames. Existing regressions retain their outcomes. The published v0.3 Windows archive passed all nine native headless mode/contract startup cases; graphical Windows playthrough and broader qualification remain unverified; see [the verification report](../qa/V0_3_VERIFICATION.md).
 
 **M0.4 — The Third Observance.** Add three complete observatory subsets: Light in the Darkness, Strings of Despair and Chimes of Doom. Validate charge and cargo recovery, uniquely explainable shape/side clues, deliberate interruptible cutting, permanent phrase banks, damping and real noise perception. Every bot visits the clue stand and performs the same spatially validated actions as a human. Expand Mix to all 27 mappings and explicitly record the seed-selection migration. Improve survivor silhouettes, labels and squad readability. Require the twelve-suite gameplay gate and twelve native Windows mode/contract startups before publication. The [v0.4 report](../qa/V0_4_VERIFICATION.md) records actual evidence. This local extension does not complete M1.
+
+**M0.5 — The Trial Workshop.** Expose all nine existing trials as separate, physically played survivor drills. Preserve their mechanics, checkpoints, cargo ownership and seed generation. Remove Eye pressure and the match deadline through an explicit practice policy; finish on one real selected seal without fabricating other seals or entering escape. Add clear steps and controls, same/new-seed retry, the next drill, a bounded journal with best times per archetype, F1/paused manual access and focus-loss pause. Require rule and world checks for all nine drills, record isolation and persistence, manual/pause behavior, the ordinary match regressions, and 21 native Windows startups: twelve mode/contract combinations plus nine practice selections. The [v0.5 report](../qa/V0_5_VERIFICATION.md) records which checks actually ran and their limits. Eye training, remapping and gamepad qualification remain separate work. This milestone does not complete the UE5 port.
 
 **M1 — UE5 mechanical port.** Recreate the verified loop in Blueprint actors and components. Import design data, implement authoritative state changes, create one playable level, and match the Godot acceptance scenarios. Use placeholder art where needed, but identify it. Do not port incidental prototype hacks merely to claim parity.
 
@@ -55,6 +59,8 @@ Engine integration checks run the actual project, create the arena, exercise int
 
 Visual and human checks inspect the rendered game at supported resolutions, both roles, each difficulty, all nine selected trial subsets, escape, defeat, and restart. Three trials are active per match; the 27 mixed combinations also need integration coverage. Capture real frames. Human sessions answer whether warnings are understood and whether the Eye has interesting decisions. A screenshot of the title screen alone does not establish that a match can be completed.
 
+Workshop checks add all nine single-trial routes, truthful inactive-bay presentation, clear instructions, selected-archetype records and the complete retry path. Pause, manual and focus changes must stop active time and incomplete holds without inventing completed progress. A native Windows startup matrix is a packaging gate; it does not replace a graphical Windows playthrough or establish novice comprehension.
+
 ## Representative acceptance scenarios
 
 | Scenario | Expected result |
@@ -72,6 +78,16 @@ Visual and human checks inspect the rendered game at supported resolutions, both
 | Required item falls outside bounds | It returns to a reachable declared cradle |
 | Player restarts after defeat | Timers, abilities, hazards, actors and UI reset completely |
 | Audio muted and camera shake disabled | Every required warning remains understandable |
+| A Workshop drill starts | One selected trial and one human are active; other bays reject commands and provide no objective cargo |
+| A practice trial completes | One real seal, one `practice_completed` event, frozen elapsed time and a practice result; no competitive winner or escape phase |
+| A practice completion event is repeated | No second completion, additional best-time update or duplicate persisted count |
+| Retry follows partial or completed practice | Fresh physical cargo, checkpoints, holds, cooldowns and timer; accepted starts count as new attempts |
+| Manual closes during a live local session | Return to pause; simulation resumes only after an explicit player action |
+| Application loses and regains focus | Pause on loss, remain paused on return, and clear incomplete interaction holds |
+| A journal has an unsupported schema or cannot be read | Preserve the file, block replacement writes and leave training available |
+| Notebook replacement fails after its primary disappears | Attempt restoration from one `.bak`, report save failure, and preserve the backup if restoration fails |
+| Only a valid notebook `.bak` survives | Load it without rewriting files; a corrupt or newer primary must never trigger fallback |
+| Practice follows an ordinary completed match | Update the separate practice journal while preserving the ordinary match ledger |
 
 Prototype verification should record which of these are covered automatically, manually, or not yet. Avoid reporting a future test plan as a completed test run.
 

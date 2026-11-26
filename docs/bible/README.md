@@ -1,6 +1,6 @@
 # THE EYES — Game Bible
 
-**Design version:** 0.4 · **Created:** 26 November 2026 · **Language:** English · **Owner:** Darknigthmare
+**Design version:** 0.5 · **Created:** 26 November 2026 · **Language:** English · **Owner:** Darknigthmare
 
 **A room can hunt you even when its monster cannot move.** THE EYES is an original asymmetric nightmare game about observation, coordinated trials, and escape. A team of survivors breaks the seals of a hostile ritual theatre while an enormous, physically immobile Eye occupies fixed sockets, studies movement, and commands the machinery through its gaze.
 
@@ -24,6 +24,7 @@ This bible turns the supplied concept and all twenty-five proposed games into a 
 | [12 — Prototype contracts](12_PROTOTYPE_CONTRACTS.md) | Exact First, Second and Seeded Mix scope; physical v0.2 trial subsets and verification boundaries |
 | [13 — Squad and rescue](13_SQUAD_AND_RESCUE.md) | The Survivor Accord: implemented local five-survivor team, orders, recovery, support and acceptance gates |
 | [14 — The Third Observance](14_THIRD_OBSERVANCE.md) | Nine-trial pool, refuge charge, evidence-based rope cuts, physical bell phrases and 27 Mix layouts |
+| [15 — The Trial Workshop](15_TRIAL_WORKSHOP.md) | Nine single-trial practice lessons, physical completion, retry flow, Field Manual and separate per-archetype records |
 
 The structured companion is [design_catalog.json](../../data/design_catalog.json). It identifies every trial, realm, character, archetype, and high-level status. Narrative detail remains in these chapters. Actual executable tuning lives in the Godot implementation; proposed production tuning in this bible must not silently override tested code.
 
@@ -35,7 +36,9 @@ The published **v0.3, The Survivor Accord**, adds a local Squad session: one hum
 
 **Version 0.4 — The Third Observance** adds the implemented observatory subsets of **T04 Light in the Darkness**, **T07 Strings of Despair**, and **T17 Chimes of Doom**. Four contracts are available: First, Second, Third and Seeded Mix. Mix now chooses among three trials per bay for 27 configurations; its old seed-to-layout mapping changes, while First/Second puzzle streams remain independent. Current verification and publication status are recorded in the [v0.4 report](../qa/V0_4_VERIFICATION.md). The detailed rules and production limits appear in [chapter 14](14_THIRD_OBSERVANCE.md).
 
-The prototype uses original procedural presentation. Read [the play guide](../PLAY.md) and the repository's verification report for the exact controls, tested features and known limitations. Production specifications elsewhere in this bible remain broader than the implemented subsets.
+**Version 0.5 — The Trial Workshop** adds a separate single-player learning session for any one of the nine implemented trials. Choose a trial, archetype and seed, complete the same physical apparatus without an Eye or deadline, and repeat with the same seed, another seed or the next trial. Its bounded local journal records attempts, completions and best times per archetype without changing the ordinary match ledger. F1 opens the Field Manual from play or pause; loss of application focus pauses local simulation until the player resumes. Practice earns its own completion result, while the three match modes, four contracts and 27 Mix layouts retain their rules. See [chapter 15](15_TRIAL_WORKSHOP.md), the [implementation contract](../technical/PRACTICE_IMPLEMENTATION.md) and the [v0.5 verification report](../qa/V0_5_VERIFICATION.md) for scope and actual checks.
+
+The prototype uses original procedural presentation. Read [the play guide](../PLAY.md) and the repository's verification report for the exact controls, tested features and known limitations. The versioned paragraphs above preserve historical evidence; they are not the current release's assertion totals. Production specifications elsewhere in this bible remain broader than the implemented subsets.
 
 The production design targets **five to seven survivors against one Eye**, with human or AI control. Online sessions, the complete twenty-five-trial pool, all four realm campaigns, full character art, progression services, and cross-platform play are future work. Blueprint specifications and project scaffolding are not compiled Unreal gameplay assets.
 

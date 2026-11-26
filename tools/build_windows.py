@@ -35,22 +35,38 @@ ERROR_LINE = re.compile(
     r"(?im)^\s*(?:SCRIPT\s+)?ERROR\s*:|\bParse Error\s*:|\bFailed to export project\b"
 )
 
-QUICK_START_EN = """THE EYES — THE THIRD OBSERVANCE
+QUICK_START_EN = """THE EYES — THE TRIAL WORKSHOP
 Windows x64 prototype v{version}
 
 START
 Extract the complete ZIP to a folder, then open THE_EYES.exe. Keep any supplied
 data files beside the executable. Godot Editor is not needed to play this build.
-The game is in English. Choose Story for a first visit, then select:
+The game is in English. Start in the Trial Workshop to learn one trial.
+For your first match, choose Story / Keeper / First Observance, then select:
   PLAY SOLO AS A SURVIVOR — survive the AI Eye and escape.
   LEAD A LOCAL SQUAD — lead four AI allies against the AI Eye.
   TAKE THE EYE'S SEAT — control the Eye against four AI survivors.
+  ENTER THE TRIAL WORKSHOP — practise one trial without an Eye or countdown.
+
+THE TRIAL WORKSHOP
+Choose one of nine trials, an archetype and a seed, read its steps and controls,
+then start. Walk from the normal spawn to the real apparatus. Only the selected
+trial is active. Cargo, puzzle rules, checkpoints and abilities work normally;
+there is no Eye damage, time limit or escape after the selected seal.
+Finish for a Workshop result, then retry the same seed, try another seed or
+move to the next trial. Escape also offers retry and the trial selector.
+An admitted start counts as an attempt; leaving early is not a completion.
+The local notebook keeps attempts, completions and best times per archetype.
+Practice results are separate from ordinary match victories.
 
 SURVIVOR CONTROLS
 WASD / the corresponding physical ZQSD keys on AZERTY, or arrow keys: move.
 Mouse: look. Shift: sprint. Ctrl or C: crouch. Space: jump.
 E: interact / hold at the Relay. Q: use the chosen archetype's ability.
 Tab: show/hide map. Escape: pause or close a trial panel.
+F1: open the Field Manual. Closing it during a session returns to pause.
+Choose Resume when ready. Losing application focus pauses the session too;
+returning focus never resumes automatically.
 
 SURVIVOR SQUAD — YOU AND FOUR AI ALLIES
 B: Work on objectives. F: Follow you. V: Hold position.
@@ -71,14 +87,15 @@ First Observance selects the original three trials below. Second Observance
 selects Memory Vault, Ritual Circle and Clock Room. Third Observance selects
 Light in the Darkness, Strings of Despair and Chimes of Doom. Seeded Mix selects
 one of three trials per bay: 27 layouts from nine trials. A seed is stable
-within this game version; old Mix seeds may choose a different layout in v0.4.
+within this game version. Mix changed from v0.3 to v0.4; v0.5 retains that pool.
 
 FIRST OBSERVANCE
 Silent Countdown: collect and deliver three motes; use cover and quiet movement.
 Trial of the Echoes: watch the four-symbol sequence, then answer with 1–4.
-R replays the sequence; E leaves the panel. The Eye remains active during it.
+R replays the sequence; E leaves the panel. In matches the Eye remains active.
 Clockwork Relay: hold E at the machinery; work is protected at checkpoints.
-After all three seals are completed, reach the open exit before time expires.
+In a match, three seals open the exit. Reach it and hold E for 1.5 seconds
+before the fresh escape countdown ends. Workshop ends at its selected seal.
 
 THIRD OBSERVANCE
 Light: carry each numbered cell to its matching refuge lamp. Hold E still for
@@ -103,34 +120,71 @@ Left mouse: activate a targeted trap. Right mouse: mark a visible survivor.
 Q: summon. Commands consume energy, have cooldowns and require legal targets.
 Stop every survivor from escaping. Walls and cover interrupt line of sight.
 
+SETTINGS AND RECORDS
+Settings cover audio, reduced motion/vignette, look sensitivity/inversion and
+survivor/spectator FOV. The Eye keeps its fixed authored view.
+From v0.5, local data uses the stable THE_EYES application-data folder.
+On Windows, open %APPDATA%\\THE_EYES in File Explorer. Old title-based folders
+are left untouched and are not automatically imported.
+settings.cfg stores options. last_observance.json (schema 3) stores an ordinary
+match result; practice_records.json (schema 1) is the separate bounded notebook.
+There are nine trial records with four archetype profiles each, without an
+unbounded history. One practice_records.json.bak preserves the previous notebook
+before replacement. It is loaded only if the primary is absent and the backup
+is valid. An unreadable or unknown-schema primary is preserved without fallback.
+An invalid existing backup also blocks saving. A failed save is reported even if the previous notebook was restored. Neither
+record resumes an unfinished session. Key rebinding,
+controller support and Eye training remain future work.
+
 SCOPE
 This is a local playable Godot prototype, not the completed UE5 multiplayer game.
-Nine trials are playable; the full 25-trial design and UE5 Blueprint foundation
+Nine trials support four match contracts and individual Workshop drills.
+The full 25-trial design and UE5 Blueprint foundation
 are in the source repository. There is no online matchmaking in this build.
 
 VERIFICATION AND CREDITS
 SHA256SUMS.txt lists package file hashes. BUILD_INFO.json records export/format
 checks. A PE header check does not prove execution on a Windows machine.
+The official release also provides WINDOWS_SMOKE.json: its gate is 21 native
+headless startups (12 ordinary mode/contract cases and nine practice trials).
+Those startup checks do not replace a graphical Windows playthrough.
 See THIRD_PARTY_NOTICES.md and licenses/ for engine and font attributions.
 Source: https://github.com/darknigthmare/THE_EYES
 """
 
-QUICK_START_FR = """THE EYES — THE THIRD OBSERVANCE
+QUICK_START_FR = """THE EYES — THE TRIAL WORKSHOP
 Prototype Windows x64 v{version}
 
 DEMARRER
 Extrais toute l'archive ZIP dans un dossier, puis ouvre THE_EYES.exe. Conserve
 les éventuels fichiers de données à côté de l'exécutable. L'éditeur Godot n'est
-pas nécessaire pour jouer. Le jeu est en anglais. Pour débuter, choisis Story.
+pas nécessaire pour jouer. Le jeu est en anglais. Commence dans The Trial
+Workshop pour apprendre une épreuve ; choisis Story / Keeper / First Observance
+pour ta première partie contre l'Œil.
   PLAY SOLO AS A SURVIVOR : joue un survivant face à l'Œil contrôlé par l'IA.
   LEAD A LOCAL SQUAD : dirige quatre alliés IA face à l'Œil contrôlé par l'IA.
   TAKE THE EYE'S SEAT : incarne l'Œil face à quatre survivants contrôlés par l'IA.
+  ENTER THE TRIAL WORKSHOP : apprends une épreuve sans Œil ni compte à rebours.
+
+L'ATELIER DES ÉPREUVES
+Choisis une des neuf épreuves, ta classe et une graine. Lis les étapes et les
+commandes, puis démarre. Rejoins les vrais objets depuis le point de départ
+habituel. Une seule épreuve est active ; elle conserve ses transports, règles,
+paliers et pouvoirs de classe. Aucun dégât de l'Œil, délai ou sortie finale.
+Une fois l'épreuve réussie, recommence la même graine, change de graine ou
+passe à la suivante. Échap propose aussi la relance et le choix d'épreuve.
+Un démarrage accepté compte comme tentative ; l'abandon n'est pas une réussite.
+Le carnet local compte les tentatives et réussites, avec un meilleur temps
+séparé pour chaque classe. L'atelier n'enregistre pas une victoire de partie.
 
 COMMANDES SURVIVANT
 ZQSD sur AZERTY / WASD sur QWERTY, ou flèches : déplacement.
 Souris : regarder. Maj : courir. Ctrl ou C : s'accroupir. Espace : sauter.
 E : interagir / maintenir au mécanisme. A sur AZERTY / Q sur QWERTY : capacité.
 Tab : afficher/masquer le plan. Échap : pause ou fermeture du panneau d'épreuve.
+F1 : ouvrir le manuel. Le fermer pendant une session ramène à la pause.
+Choisis Resume pour reprendre. Changer d'application met aussi le jeu en pause ;
+revenir dans sa fenêtre ne relance pas automatiquement la simulation.
 
 ESCOUADE — TOI ET QUATRE ALLIÉS IA
 B : travailler sur les objectifs. F : te suivre. V : tenir la position.
@@ -152,14 +206,16 @@ First Observance choisit les trois épreuves initiales décrites ci-dessous.
 Second Observance choisit Memory Vault, Ritual Circle et Clock Room. Third
 Observance ajoute Light in the Darkness, Strings of Despair et Chimes of Doom.
 Seeded Mix choisit une des trois épreuves de chaque zone : 27 configurations.
-La graine reste stable dans une même version ; le choix Mix change en v0.4.
+La graine reste stable dans une même version. Mix a changé entre v0.3 et v0.4 ;
+la v0.5 garde ce même ensemble de neuf épreuves.
 
 FIRST OBSERVANCE
 Silent Countdown : collecte et rapporte trois orbes, en utilisant les couverts.
 Trial of the Echoes : observe les quatre symboles, puis reproduis avec 1 à 4.
-R rejoue la séquence ; E quitte le panneau. L'Œil reste actif pendant l'épreuve.
+R rejoue la séquence ; E quitte le panneau. En partie, l'Œil reste actif.
 Clockwork Relay : maintiens E au mécanisme ; les paliers protègent ta progression.
-Les trois sceaux terminés, rejoins la sortie ouverte avant la fin du compte à rebours.
+En partie, les trois sceaux ouvrent la sortie. Rejoins-la et maintiens E
+1,5 seconde avant la fin du nouveau délai. L'atelier finit à son seul sceau.
 
 THIRD OBSERVANCE
 Light : porte chaque cellule au refuge de même numéro, puis maintiens E deux
@@ -181,17 +237,40 @@ Lis les instructions de chaque poste et le manuel du jeu pour ses commandes.
 COMMANDES DE L'ŒIL
 Souris : viser. 1 à 4 ou molette : changer de point d'observation fixe.
 Clic gauche : activer un piège ciblé. Clic droit : marquer un survivant visible.
-Q : invoquer. Les actions coûtent de l'énergie et ont un temps de recharge.
+A sur AZERTY / Q sur QWERTY : invoquer. Les actions coûtent de l'énergie
+et ont un temps de recharge.
 Empêche tous les survivants de s'échapper. Les murs et couverts bloquent la vision.
 
+RÉGLAGES ET CARNETS
+Son, mouvements/vignette réduits, sensibilité/inversion et champ de vue du
+survivant ou du spectateur se règlent depuis la pause. L'Œil garde sa vue fixe.
+Depuis la v0.5, les données locales utilisent le dossier stable THE_EYES.
+Sous Windows, ouvre %APPDATA%\\THE_EYES dans l'Explorateur. Les anciens dossiers
+portant le titre du jeu restent intacts, sans importation automatique.
+settings.cfg conserve les options. last_observance.json (schéma 3) conserve le
+résultat d'une partie ; practice_records.json (schéma 1) est le carnet séparé
+de l'atelier, avec neuf épreuves et quatre fiches de classe chacune. Il ne crée
+pas un historique sans limite. practice_records.json.bak conserve une seule
+copie précédente. Elle est chargée uniquement si le principal manque et si elle
+est valide. Un principal illisible ou de schéma inconnu reste intact, sans
+chargement de secours. Une copie invalide bloque aussi l'enregistrement.
+Un échec est signalé même si le carnet précédent a été
+restauré. Ces fichiers ne reprennent
+pas une session interrompue. Touches personnalisables, manettes et entraînement
+de l'Œil restent à ajouter.
+
 CONTENU DE CETTE VERSION
-Prototype Godot jouable en local. Neuf épreuves sont jouables. La bible complète
+Prototype Godot jouable en local. Neuf épreuves, quatre contrats et un atelier
+pour apprendre chaque épreuve séparément sont disponibles. La bible complète
 des 25 épreuves et la préparation UE5 entièrement en Blueprints sont dans le dépôt.
 Le multijoueur en ligne et le jeu UE5 complet ne sont pas inclus dans ce prototype.
 
 VERIFICATION ET CREDITS
 SHA256SUMS.txt contient les empreintes des fichiers. BUILD_INFO.json décrit les
 contrôles d'export et de format. Un contrôle PE ne prouve pas une exécution Windows.
+La publication officielle joint WINDOWS_SMOKE.json : le gate exige 21 démarrages
+natifs sans affichage, soit 12 cas mode/contrat et neuf entraînements.
+Ce contrôle ne remplace pas une partie graphique complète sous Windows.
 Les licences du moteur et des polices figurent dans THIRD_PARTY_NOTICES.md et licenses/.
 Sources : https://github.com/darknigthmare/THE_EYES
 """

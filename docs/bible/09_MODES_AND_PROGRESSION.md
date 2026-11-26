@@ -8,7 +8,11 @@ The **v0.3 Squad** adds one human survivor and four AI allies against the AI Eye
 
 Story, Standard, and Ruthless are tuning presets. The current rule module uses Hunt/Escape windows of 600/90, 480/65, and 360/50 seconds respectively, with eight seconds of preparation. The escape window starts fresh after the third seal. These values are for the prototype and should be measured before promotion into the final Classic design.
 
-All modes and progression systems below are production proposals. The prototype has no standalone trial-practice selector, online lobby, campaign, unlock economy, mid-match save, or full replay system.
+Version 0.4 expands the pool to nine implemented trials and adds Third Observance. First, Second, Third and Seeded Mix each activate one trial in every bay; Mix has 27 combinations. All three ordinary local match modes share these four contracts.
+
+Version 0.5 adds **The Trial Workshop**, a separate single-player practice session. The player chooses one of the nine existing trials, an archetype and a seed. The real apparatus and physical interactions remain, while the Eye, damage, deadline and escape requirement are disabled. Completing the selected trial produces a practice result and updates its separate local journal. It does not resolve a competitive match or add a fifth contract.
+
+The production Classic, Endless, Custom and progression systems below remain proposals. The prototype has no online lobby, campaign, unlock economy, mid-match save or full replay system. The implemented practice subset is distinguished from future training below.
 
 ## Production Classic
 
@@ -30,9 +34,13 @@ Settings are visible to every participant before readying. Changing a consequent
 
 ## Trial practice and Eye training
 
-Practice lets a player select one trial, read its rules, replay its demonstration, and reset without a long lobby cycle. Optional overlays show safe zones, actual gaze traces, interaction ranges, and checkpoint state. These are training aids, not production competitive visibility. Practice records personal completion and improvement but does not grant power unavailable to new players.
+The **v0.5 Workshop** implements the trial selector, explicit rules and controls, real single-trial completion, same-seed retry, new-seed retry and next-trial progression. The player starts at the normal survivor spawn and travels to the apparatus; inactive bays do not provide extra cargo or seals. The Field Manual is available during paused play. Its explanations do not reveal generated puzzle answers that the player has not reached physically. See [The Trial Workshop](15_TRIAL_WORKSHOP.md) for all nine lessons and the exact delivery boundary.
 
-Eye training introduces socket switching, legal targeting, energy budgeting, and respecting cover. Scenarios include an obvious blocked target, a noisy but hidden survivor, an exposed operator, and an escape route with two choices. A tutorial succeeds only if the player can identify why a command is unavailable and can use another socket to create a legitimate opportunity.
+The local journal has nine trial records with separate Veil, Tinker, Runner and Keeper profiles. Attempts and completions are counted; the latest attempt and best completed time retain their seeds. Best times are compared only within the same archetype. This is a bounded local learning summary, without a leaderboard, rewards, unlocks or power progression. The normal match ledger remains separate.
+
+Optional safe-zone, gaze-trace and interaction-range debug overlays remain future training aids. They are not implied by the current HUD or Field Manual, and must be explicitly identified if later introduced.
+
+**Eye training remains planned.** It would introduce socket switching, legal targeting, energy budgeting and respecting cover. Scenarios include an obvious blocked target, a noisy but hidden survivor, an exposed operator and an escape route with two choices. A tutorial succeeds only if the player can identify why a command is unavailable and can use another socket to create a legitimate opportunity. The Workshop is survivor trial practice and does not claim to teach or qualify these Eye scenarios.
 
 ## Progression philosophy
 

@@ -2,6 +2,10 @@ extends Node3D
 ## The playable local slice. TrialDirector owns match authority; this scene
 ## verifies world interactions, simulates physical actors and presents feedback.
 
+const PracticeRecords = preload("res://scripts/practice_records.gd")
+const PracticeState = preload("res://scripts/practice_state.gd")
+const EyesPracticeGuide = preload("res://scripts/practice_guide.gd")
+
 var arena: EyesArena
 var apparatus: EyesTrialApparatus
 var trial_world: EyesTrialWorld
@@ -59,6 +63,12 @@ var qa_view: String = "menu"
 var qa_age: float = 0.0
 var qa_done: bool = false
 var mute_requested: bool = false
+var qa_trial: String = "silent"
+var practice_records = PracticeRecords.new()
+var practice_journal: Dictionary = {}
+var last_practice_trial: String = "silent"
+var last_practice_archetype: String = "Veil"
+var last_practice_seed: int = 271126
 
 func _ready() -> void:
 	get_tree().auto_accept_quit = false
@@ -100,7 +110,16 @@ func _ready() -> void:
 	ui.echo_replay_requested.connect(_replay_echo)
 	ui.echo_close_requested.connect(_close_echo)
 	ui.settings_changed.connect(_apply_settings)
+	ui.practice_start_requested.connect(start_practice)
+	ui.practice_restart_requested.connect(_restart_practice)
+	ui.practice_new_seed_requested.connect(_new_practice_seed)
+	ui.practice_next_requested.connect(_next_practice)
+	ui.practice_catalog_requested.connect(_show_practice_catalog)
+	ui.guide_requested.connect(_open_field_manual)
 	_load_settings()
+	practice_records.load_records()
+	practice_journal = practice_records.snapshot()
+	practice_journal["_storage_error"] = practice_records.last_error
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--qa-capture="):
 			qa_capture = arg.get_slice("=",1)
@@ -108,20 +127,32 @@ func _ready() -> void:
 			qa_view = arg.get_slice("=",1)
 		elif arg.begins_with("--contract="):
 			qa_contract = arg.get_slice("=",1)
+		elif arg.begins_with("--trial="):
+			qa_trial = arg.get_slice("=",1)
 		elif arg == "--mute":
 			mute_requested = true
 	if mute_requested:
 		soundscape.set_enabled(false)
-	if qa_view != "menu":
+	if qa_view == "practice":
+		# Startup/capture runs never write the player's notebook.
+		if qa_capture.is_empty():
+			qa_capture = "startup-only"
+			qa_done = true
+		if start_practice(qa_trial,"Veil",271126):
+			print("THE_EYES_QA_READY role=practice contract=practice session_mode=practice trial_id=%s" % qa_trial)
+	elif qa_view == "workshop":
+		_show_practice_catalog()
+	elif qa_view != "menu":
 		start_match(qa_view,"Veil","standard",271126,qa_contract)
 		print("THE_EYES_QA_READY role=%s contract=%s session_mode=%s" % [session_mode,contract,session_mode])
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if mode == "menu" else Input.MOUSE_MODE_CAPTURED
 
 func _register_input() -> void:
-	var keys: Dictionary = {"move_forward":[KEY_W,KEY_UP],"move_back":[KEY_S,KEY_DOWN],"move_left":[KEY_A,KEY_LEFT],"move_right":[KEY_D,KEY_RIGHT],"sprint":[KEY_SHIFT],"crouch":[KEY_CTRL,KEY_C],"jump":[KEY_SPACE],"interact":[KEY_E],"ability":[KEY_Q],"map":[KEY_TAB],"pause":[KEY_ESCAPE],"drop":[KEY_G],"reverse":[KEY_R],"reset_trial":[KEY_X],"squad_work":[KEY_B],"squad_follow":[KEY_F],"squad_hold":[KEY_V]}
+	var keys: Dictionary = {"move_forward":[KEY_W,KEY_UP],"move_back":[KEY_S,KEY_DOWN],"move_left":[KEY_A,KEY_LEFT],"move_right":[KEY_D,KEY_RIGHT],"sprint":[KEY_SHIFT],"crouch":[KEY_CTRL,KEY_C],"jump":[KEY_SPACE],"interact":[KEY_E],"ability":[KEY_Q],"map":[KEY_TAB],"pause":[KEY_ESCAPE],"drop":[KEY_G],"reverse":[KEY_R],"reset_trial":[KEY_X],"squad_work":[KEY_B],"squad_follow":[KEY_F],"squad_hold":[KEY_V],"field_manual":[KEY_F1]}
 	for action in keys:
 		if not InputMap.has_action(action):
 			InputMap.add_action(action)
+		InputMap.action_erase_events(action)
 		for key in keys[action]:
 			var event = InputEventKey.new()
 			event.physical_keycode = key
@@ -151,11 +182,13 @@ func _block_rect(center: Vector2, size_value: Vector2) -> void:
 			if navigation.is_in_boundsv(Vector2i(x,z)):
 				navigation.set_point_solid(Vector2i(x,z))
 
-func start_match(requested_mode: String, archetype: String, difficulty: String, match_seed: int, selected_contract: String = "first") -> void:
+func start_match(requested_mode: String, archetype: String, difficulty: String, match_seed: int, selected_contract: String = "first", practice_trial: String = "") -> void:
+	if not practice_trial.is_empty() and (PracticeState.entry(practice_trial).is_empty() or archetype not in PracticeRecords.ARCHETYPES or not TrialSet.valid_practice_seed(match_seed)):
+		return
 	get_tree().paused = false
 	_cleanup_match()
-	session_mode = requested_mode if requested_mode in ["survivor","eye","squad"] else "survivor"
-	mode = "survivor" if session_mode == "squad" else session_mode
+	session_mode = "practice" if not practice_trial.is_empty() else (requested_mode if requested_mode in ["survivor","eye","squad"] else "survivor")
+	mode = "survivor" if session_mode in ["squad","practice"] else session_mode
 	seed_value = match_seed
 	elapsed = 0.0
 	metrics = {"wounds":0,"traps_triggered":0,"shadows_called":0,"times_seen":0,"distance":0.0,"punishments_survived":0}
@@ -173,7 +206,10 @@ func start_match(requested_mode: String, archetype: String, difficulty: String, 
 		arena.set_trap(i,"idle")
 	director = TrialDirector.new()
 	director.event_raised.connect(_on_event)
-	director.configure(mode,difficulty,match_seed,5 if session_mode == "squad" else (4 if mode == "eye" else 1),selected_contract)
+	if session_mode == "practice":
+		director.configure_practice(practice_trial,match_seed)
+	else:
+		director.configure(mode,difficulty,match_seed,5 if session_mode == "squad" else (4 if mode == "eye" else 1),selected_contract)
 	contract = director.trial_set.contract
 	arena.configure_trials(director.trial_set.slot_trials,EyesTrialApparatus.TRIAL_NAMES)
 	apparatus.configure(arena,director.trial_set)
@@ -216,14 +252,81 @@ func start_match(requested_mode: String, archetype: String, difficulty: String, 
 		squad_world.configure(self)
 		spectator_index = 0
 	_set_socket(0,true)
+	for eye in arena.eyes:
+		eye.visible = session_mode != "practice"
 	_apply_settings(ui.settings,false)
 	ui.show_game(mode == "eye")
 	ui.set_squad_enabled(session_mode == "squad")
 	ui.set_trial_names(director.trial_set.slot_trials,contract)
-	ui.toast("Eight seconds of grace. Learn the chamber.",6.0)
+	if session_mode == "practice":
+		ui.show_practice_game(EyesPracticeGuide.snapshot(self,practice_journal))
+		ui.toast("One trial, at your own pace. F1 opens the field manual.",6.0)
+	else:
+		ui.toast("Eight seconds of grace. Learn the chamber.",6.0)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+func start_practice(trial_id: String, archetype: String, match_seed: int) -> bool:
+	if PracticeState.entry(trial_id).is_empty() or archetype not in PracticeRecords.ARCHETYPES or not TrialSet.valid_practice_seed(match_seed):
+		return false
+	last_practice_trial = trial_id
+	last_practice_archetype = archetype
+	last_practice_seed = match_seed
+	start_match("survivor",archetype,"standard",match_seed,"first",trial_id)
+	if practice_records.begin_attempt(trial_id,archetype,match_seed):
+		_save_practice_journal()
+	else:
+		practice_journal = practice_records.snapshot()
+		practice_journal["_storage_error"] = practice_records.last_error
+		ui.toast("This drill will not be recorded. " + practice_records.last_error,8.0)
+	return true
+
+func _save_practice_journal() -> void:
+	if qa_capture.is_empty() and not practice_records.save_records():
+		ui.toast("Notebook could not be saved. " + practice_records.last_error,8.0)
+	practice_journal = practice_records.snapshot()
+	practice_journal["_storage_error"] = practice_records.last_error
+
+func _restart_practice() -> void:
+	start_practice(last_practice_trial,last_practice_archetype,last_practice_seed)
+
+func _new_practice_seed() -> void:
+	# A fresh valid seed, guaranteed to differ from the previous drill.
+	var offset: int = randi_range(1,999998)
+	start_practice(last_practice_trial,last_practice_archetype,1+((last_practice_seed-1+offset)%999999))
+
+func _next_practice() -> void:
+	var index: int = PracticeState.TRIAL_IDS.find(last_practice_trial)
+	start_practice(PracticeState.TRIAL_IDS[(index+1)%PracticeState.TRIAL_IDS.size()],last_practice_archetype,last_practice_seed)
+
+func _show_practice_catalog() -> void:
+	_return_to_menu()
+	ui.show_practice_catalog(PracticeState.catalogue(),practice_journal,last_practice_archetype,last_practice_seed)
+	if not practice_records.last_error.is_empty():
+		ui.toast("Notebook unavailable: " + practice_records.last_error,8.0)
+
+func _open_field_manual() -> void:
+	if mode != "menu" and director != null and director.phase != "ended":
+		_pause()
+	ui.open_field_manual()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func _release_gameplay_input() -> void:
+	for action in ["move_forward","move_back","move_left","move_right","sprint","crouch","jump","interact","ability","drop","reverse","reset_trial","squad_work","squad_follow","squad_hold"]:
+		if InputMap.has_action(action):
+			Input.action_release(action)
+
 func _cleanup_match() -> void:
+	_release_gameplay_input()
+	practice_records.abandon_attempt()
+	if director != null:
+		director.trial_set.set_live(false)
+		if director.practice != null:
+			director.practice.active = false
+		director.phase = "ended"
+		if director.event_raised.is_connected(_on_event):
+			director.event_raised.disconnect(_on_event)
+	if trial_world != null:
+		trial_world.cancel_all()
 	if squad_world != null:
 		squad_world.shutdown()
 		squad_world = null
@@ -255,10 +358,20 @@ func _return_to_menu() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _resume() -> void:
+	if ui.help_panel.visible:
+		return
+	_release_gameplay_input()
+	ui.pause_panel.hide()
 	get_tree().paused = false
+	if echo_open:
+		ui.echo_panel.show()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if mode == "menu" or echo_open else Input.MOUSE_MODE_CAPTURED
 
 func _pause() -> void:
+	_release_gameplay_input()
+	# Preserve the sequence but keep the always-processing Echo buttons behind
+	# a real modal boundary until the player explicitly resumes.
+	ui.echo_panel.hide()
 	if trial_world != null:
 		trial_world.cancel_all()
 	if squad_world != null:
@@ -350,11 +463,12 @@ func _physics_process(delta: float) -> void:
 	sight_memory = maxf(0.0,sight_memory-delta)
 	socket_warning_left = maxf(0.0,socket_warning_left-delta)
 	mote_notice_left = maxf(0.0,mote_notice_left-delta)
-	if mode == "survivor":
-		_update_eye_ai(delta)
-	_update_gaze(delta)
-	_update_traps(delta)
-	_update_shadows(delta)
+	if not director.is_practice():
+		if mode == "survivor":
+			_update_eye_ai(delta)
+		_update_gaze(delta)
+		_update_traps(delta)
+		_update_shadows(delta)
 	if director.phase == "ended":
 		return
 	if squad_world != null:
@@ -405,6 +519,8 @@ func _capture() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		_shutdown.call_deferred()
+	elif what == NOTIFICATION_APPLICATION_FOCUS_OUT and is_instance_valid(ui) and mode != "menu" and director != null and director.phase != "ended":
+		_pause()
 
 func _shutdown() -> void:
 	get_tree().paused = false
@@ -750,7 +866,7 @@ func _mote_position(index: int) -> Vector3:
 	return arena.motes[index].get_parent().global_position
 
 func _pickup(actor: EyesSurvivor, index: int) -> bool:
-	if director == null or director.phase not in ["hunt","escape"] or actor not in actors or actor.eliminated or actor.downed or index < 0 or index >= 3 or director.trial_for_slot("silent") != "silent" or trial_world.has_cargo(actor):
+	if director == null or not director.is_live() or actor not in actors or actor.eliminated or actor.downed or index < 0 or index >= 3 or director.trial_for_slot("silent") != "silent" or trial_world.has_cargo(actor):
 		return false
 	if actor.carrying >= 0 or motes_state[index] != 0 or actor.global_position.distance_to(_mote_position(index)) > 2.8:
 		return false
@@ -761,7 +877,7 @@ func _pickup(actor: EyesSurvivor, index: int) -> bool:
 	return true
 
 func _deliver(actor: EyesSurvivor) -> bool:
-	if actor not in actors or actor.eliminated or actor.downed or director.phase not in ["hunt","escape"] or actor.carrying < 0 or actor.global_position.distance_to(EyesArena.STATIONS.silent) > 3.0:
+	if actor not in actors or actor.eliminated or actor.downed or not director.is_live() or actor.carrying < 0 or actor.global_position.distance_to(EyesArena.STATIONS.silent) > 3.0:
 		return false
 	if not director.deliver_mote():
 		return false
@@ -779,7 +895,7 @@ func _drop_mote(actor: EyesSurvivor) -> void:
 	arena.motes[index].show()
 
 func _interact_player() -> void:
-	if player.eliminated or player.downed:
+	if get_tree().paused or director == null or not director.is_live() or player.eliminated or player.downed:
 		return
 	if squad_world != null and squad_world.nearby_downed(player) != null:
 		return
@@ -838,7 +954,7 @@ func _update_player_objectives(delta: float, integrate_relay: bool = true) -> fl
 				else:
 					escape_hold = 0.0
 			else:
-				active_hint = "THE UNSEEN DOOR  /  Three seals keep it closed."
+				active_hint = "TRAINING / Complete your selected trial; no escape is required." if director.is_practice() else "THE UNSEEN DOOR  /  Three seals keep it closed."
 		else:
 			escape_hold = 0.0
 	var extended_hint = trial_world.hint(player)
@@ -854,12 +970,14 @@ func _update_player_objectives(delta: float, integrate_relay: bool = true) -> fl
 	return rate if holding_relay else 0.0
 
 func _replay_echo() -> void:
+	if get_tree().paused or director == null or director.phase == "ended":
+		return
 	if not echo_open or director.seals.echoes:
 		return
 	echo_showing = true
 	echo_play_time = -0.65
 	echo_last_step = -1
-	ui.show_echo_step(-1,"Watch the sequence. The Eye is still watching you.",false)
+	ui.show_echo_step(-1,"Watch the sequence. No Eye or deadline in this exercise." if director.is_practice() else "Watch the sequence. The Eye is still watching you.",false)
 
 func _update_echo(delta: float) -> void:
 	if not echo_showing:
@@ -882,7 +1000,7 @@ func _update_echo(delta: float) -> void:
 		soundscape.play("echo",1.0+director.echo_sequence[index]*0.16,-12)
 
 func _echo_input(symbol: int) -> void:
-	if not echo_open or echo_showing or director.phase == "ended" or player.eliminated or player.downed:
+	if get_tree().paused or not echo_open or echo_showing or director.phase == "ended" or player.eliminated or player.downed:
 		return
 	var correct = director.input_echo(symbol)
 	if director.seals.echoes:
@@ -892,7 +1010,8 @@ func _echo_input(symbol: int) -> void:
 		soundscape.play("echo",1.0+symbol*0.16,-12)
 	else:
 		ui.show_echo_step(-1,"Wrong symbol. Start again, or press R to replay.",true)
-		player.gaze = minf(90.0,player.gaze+18.0)
+		if not director.is_practice():
+			player.gaze = minf(90.0,player.gaze+18.0)
 		soundscape.play("fail",1,-14)
 
 func _close_echo() -> void:
@@ -902,7 +1021,7 @@ func _close_echo() -> void:
 	arena.show_echo(-1)
 	player.controls_locked = false
 	player.active = mode == "survivor" and director.phase != "ended" and not player.eliminated
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if director.phase == "ended" or get_tree().paused or mode == "menu" else Input.MOUSE_MODE_CAPTURED
 
 func _nearest_cell(at: Vector3) -> Vector2i:
 	var center = Vector2i(clampi(roundi(at.x),-25,25),clampi(roundi(at.z),-22,22))
@@ -1241,6 +1360,8 @@ func _on_event(kind: String, payload: Dictionary) -> void:
 		_third_trial_feedback(kind,payload)
 	elif kind == "result":
 		_end_match(payload)
+	elif kind == "practice_completed":
+		_end_practice(payload)
 
 func _third_trial_feedback(kind: String, payload: Dictionary) -> void:
 	# Bells report their actual world location, never a hidden actor's position.
@@ -1274,6 +1395,21 @@ func _third_trial_feedback(kind: String, payload: Dictionary) -> void:
 		"damper":
 			soundscape.play("blink",0.8,-20)
 
+func _end_practice(payload: Dictionary) -> void:
+	for actor in actors:
+		actor.active = false
+		actor.velocity = Vector3.ZERO
+	if echo_open:
+		_close_echo()
+	_release_gameplay_input()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	if practice_records.complete_attempt(float(payload.elapsed)):
+		_save_practice_journal()
+	else:
+		practice_journal = practice_records.snapshot()
+		practice_journal["_storage_error"] = practice_records.last_error
+	ui.show_practice_result(EyesPracticeGuide.snapshot(self,practice_journal))
+
 func _end_match(payload: Dictionary) -> void:
 	if squad_world != null:
 		squad_world.state.set_live(false)
@@ -1290,7 +1426,7 @@ func _end_match(payload: Dictionary) -> void:
 	if qa_capture.is_empty():
 		var file = FileAccess.open("user://last_observance.json",FileAccess.WRITE)
 		if file:
-			file.store_string(JSON.stringify({"schema_version":3,"game_version":"0.4.0","mode":session_mode,"session_mode":session_mode,"contract":contract,"trials":director.trial_set.slot_trials,"seed":seed_value,"difficulty":director.difficulty,"result":payload,"elapsed":elapsed,"metrics":metrics,"squad_summary":squad_world.summary() if squad_world != null else {},"events":event_log},"\t"))
+			file.store_string(JSON.stringify({"schema_version":3,"game_version":"0.5.0","mode":session_mode,"session_mode":session_mode,"contract":contract,"trials":director.trial_set.slot_trials,"seed":seed_value,"difficulty":director.difficulty,"result":payload,"elapsed":elapsed,"metrics":metrics,"squad_summary":squad_world.summary() if squad_world != null else {},"events":event_log},"\t"))
 
 func _update_hud() -> void:
 	var eye_mode = mode == "eye"
@@ -1312,7 +1448,7 @@ func _update_hud() -> void:
 		for ally in actors:
 			if ally != player and not ally.eliminated:
 				bot_positions.append(ally.global_position)
-	var objective = "Three active trials / %s\nUse TAB to read the chamber." % {"first":"FIRST OBSERVANCE","second":"SECOND OBSERVANCE","mix":"SEEDED MIX","third":"THIRD OBSERVANCE"}[contract]
+	var objective = ("One active trial / %s\nF1 opens the manual. ESC lets you retry or choose another." if director.is_practice() else "Three active trials / %s\nUse TAB to read the chamber.") % {"first":"FIRST OBSERVANCE","second":"SECOND OBSERVANCE","mix":"SEEDED MIX","third":"THIRD OBSERVANCE","practice":"TRIAL WORKSHOP"}.get(contract,"THE OBSERVANCE")
 	if player.carrying >= 0:
 		objective = "CARRYING A WHISPER\nCrouch to keep it quiet. Deliver northwest."
 	var carried_relic: int = director.trial_set.carried_relic(player.get_instance_id())
@@ -1359,9 +1495,11 @@ func _update_hud() -> void:
 	var direction = "NORTH  /  THE UNSEEN DOOR"
 	if not eye_mode:
 		var angle = fposmod(hud_actor.rotation_degrees.y+45,360)
-		direction = ["NORTH  /  THE UNSEEN DOOR","WEST  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("silent")],"SOUTH  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("relay")],"EAST  /  "+EyesTrialApparatus.TRIAL_NAMES[director.trial_for_slot("echoes")]][int(angle/90)%4]
+		direction = ["NORTH  /  THE UNSEEN DOOR","WEST  /  "+str(EyesTrialApparatus.TRIAL_NAMES.get(director.trial_for_slot("silent"),"INACTIVE BAY")),"SOUTH  /  "+str(EyesTrialApparatus.TRIAL_NAMES.get(director.trial_for_slot("relay"),"INACTIVE BAY")),"EAST  /  "+str(EyesTrialApparatus.TRIAL_NAMES.get(director.trial_for_slot("echoes"),"INACTIVE BAY"))][int(angle/90)%4]
 	ui.update_hud({"time":display_time,"phase":phase_text,"health_text":"INFLUENCE  %d / 100" % int(director.energy) if eye_mode else "%s  /  VITALITY  %d" % [hud_actor.archetype.to_upper(),int(hud_actor.health)],"health":director.energy if eye_mode else hud_actor.health,"stamina":100 if eye_mode else hud_actor.stamina/hud_actor.params.stamina*100,"gaze":director.terror if eye_mode else hud_actor.gaze,"gaze_text":gaze_text,"ability":ability,"objective":objective,"hint":hint,"socket":director.eye_socket,"compass":direction,"seals":director.seals,"progress":{"silent":director.progress_for_slot("silent"),"echoes":director.progress_for_slot("echoes"),"relay":director.progress_for_slot("relay")},"position":hud_actor.global_position,"bots":bot_positions})
 	ui.flash_label.text = "DOWNED" if player.downed else ("MARKED" if marked_until.has(hud_actor.get_instance_id()) and not eye_mode else "")
+	if director.is_practice():
+		ui.update_practice(EyesPracticeGuide.snapshot(self,practice_journal))
 
 func _apply_settings(values: Dictionary, save: bool = true) -> void:
 	soundscape.set_enabled(values.audio and not mute_requested)
