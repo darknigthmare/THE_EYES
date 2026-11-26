@@ -1,0 +1,5 @@
+Name,EnergyCost,CooldownSeconds,RequiresLineOfSight
+trap,25,4,True
+mark,20,6,True
+summon,45,16,True
+blink,8,2,False

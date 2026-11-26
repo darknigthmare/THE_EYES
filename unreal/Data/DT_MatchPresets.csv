@@ -1,0 +1,4 @@
+Name,PreparationSeconds,HuntSeconds,EscapeSeconds,EnergyMaximum,EnergyRegenPerSecond,MotesRequired,EchoLength,RelayWorkSeconds
+story,8,600,90,100,4,3,4,12
+standard,8,480,65,100,4,3,4,12
+ruthless,8,360,50,100,4,3,4,12
