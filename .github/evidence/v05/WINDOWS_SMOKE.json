@@ -1,0 +1,211 @@
+{
+  "schema_version": 3,
+  "project_version": "0.5.0",
+  "source_commit": "95221003c0b002dbdb1c5e9caadb1eef02a40661",
+  "archive_sha256": "3e4ed36de7b615805149c35d29bec18051a4a1c3adb9283bf0096bfcf99f82c5",
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "platform": "Windows",
+  "operating_system": "Microsoft Windows NT 10.0.26100.0",
+  "mode": "headless",
+  "graphical_hardware_playtest": false,
+  "cases": [
+    {
+      "role": "survivor",
+      "contract": "first",
+      "session_mode": "survivor",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "eye",
+      "contract": "first",
+      "session_mode": "eye",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "squad",
+      "contract": "first",
+      "session_mode": "squad",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "survivor",
+      "contract": "second",
+      "session_mode": "survivor",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "eye",
+      "contract": "second",
+      "session_mode": "eye",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "squad",
+      "contract": "second",
+      "session_mode": "squad",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "survivor",
+      "contract": "mix",
+      "session_mode": "survivor",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "eye",
+      "contract": "mix",
+      "session_mode": "eye",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "squad",
+      "contract": "mix",
+      "session_mode": "squad",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "survivor",
+      "contract": "third",
+      "session_mode": "survivor",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "eye",
+      "contract": "third",
+      "session_mode": "eye",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "squad",
+      "contract": "third",
+      "session_mode": "squad",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "silent"
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "echoes"
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "relay"
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "vault"
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "ritual"
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "clock"
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "light"
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "strings"
+    },
+    {
+      "role": "practice",
+      "contract": "practice",
+      "session_mode": "practice",
+      "exit_code": 0,
+      "frames_requested": 240,
+      "ready_marker_seen": true,
+      "engine_errors_seen": false,
+      "trial_id": "chimes"
+    }
+  ]
+}
